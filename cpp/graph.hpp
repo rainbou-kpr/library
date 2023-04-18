@@ -112,11 +112,11 @@ struct Graph {
      * @brief ある頂点から各頂点への最短路
      *
      * @param s 始点
-     * @param weighted 1以外のコストの辺が存在するか 省略するとfalse
+     * @param weighted 1以外のコストの辺が存在するか 省略するとtrue
      * @param inf コストのminの単位元 省略するとstd::numeric_limits<Cost>::max() pairなどをコストにしている場合は設定する必要があり
      * @return std::pair<std::vector<Cost>, std::vector<Edge>> first:各頂点への最短路長 second:各頂点への最短路上の直前の辺
      */
-    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s, bool weignted = false, Cost inf = std::numeric_limits<Cost>::max()) {
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s, bool weignted = true, Cost inf = std::numeric_limits<Cost>::max()) {
         if(weignted) return shortest_path_dijkstra(s, inf);
         return shortest_path_bfs(s);
     }

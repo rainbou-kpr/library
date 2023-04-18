@@ -112,52 +112,6 @@ struct Graph {
      * @brief ある頂点から各頂点への最短路
      *
      * @param s 始点
-     * @return std::vector<Cost> 各頂点への最短路長
-     */
-    std::vector<Cost> shortest_path(int s) const {
-        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());
-        dist[s] = 0;
-        std::vector<bool> used(n, false);
-        while(true) {
-            int v = -1;
-            for(int u = 0; u < n; u++) {
-                if(!used[u] && (v == -1 || dist[u] < dist[v])) v = u;
-            }
-            if(v == -1) break;
-            used[v] = true;
-            for(auto& e : g[v]) {
-                dist[e.to] = std::min(dist[e.to], dist[v] + e.cost);
-            }
-        }
-        return dist;
-    }
-    /**
-     * @brief ある頂点から各頂点への最短路
-     *
-     * @param s 始点
-     * @return std::vector<Cost> 各頂点への最短路長
-     */
-    std::vector<Cost> shortest_path(int s) {
-        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());
-        dist[s] = 0;
-        std::vector<bool> used(n, false);
-        while(true) {
-            int v = -1;
-            for(int u = 0; u < n; u++) {
-                if(!used[u] && (v == -1 || dist[u] < dist[v])) v = u;
-            }
-            if(v == -1) break;
-            used[v] = true;
-            for(auto& e : g[v]) {
-                dist[e.to] = std::min(dist[e.to], dist[v] + e.cost);
-            }
-        }
-        return dist;
-    }
-    /**
-     * @brief ある頂点から各頂点への最短路
-     *
-     * @param s 始点
      * @param weighted 1以外のコストの辺が存在するか 省略するとfalse
      * @param inf コストのminの単位元 省略するとstd::numeric_limits<Cost>::max() pairなどをコストにしている場合は設定する必要があり
      * @return std::pair<std::vector<Cost>, std::vector<Edge>> first:各頂点への最短路長 second:各頂点への最短路上の直前の辺

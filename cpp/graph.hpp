@@ -1,6 +1,7 @@
 #pragma once
 
 #include <iostream>
+#include <queue>
 #include <vector>
 
 /**
@@ -106,5 +107,130 @@ struct Graph {
             }
         }
         return res;
+    }
+    /**
+     * @brief ある頂点から各頂点への最短路
+     *
+     * @param s 始点
+     * @return std::vector<Cost> 各頂点への最短路長
+     */
+    std::vector<Cost> shortest_path(int s) const {
+        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());
+        dist[s] = 0;
+        std::vector<bool> used(n, false);
+        while(true) {
+            int v = -1;
+            for(int u = 0; u < n; u++) {
+                if(!used[u] && (v == -1 || dist[u] < dist[v])) v = u;
+            }
+            if(v == -1) break;
+            used[v] = true;
+            for(auto& e : g[v]) {
+                dist[e.to] = std::min(dist[e.to], dist[v] + e.cost);
+            }
+        }
+        return dist;
+    }
+    /**
+     * @brief ある頂点から各頂点への最短路
+     *
+     * @param s 始点
+     * @return std::vector<Cost> 各頂点への最短路長
+     */
+    std::vector<Cost> shortest_path(int s) {
+        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());
+        dist[s] = 0;
+        std::vector<bool> used(n, false);
+        while(true) {
+            int v = -1;
+            for(int u = 0; u < n; u++) {
+                if(!used[u] && (v == -1 || dist[u] < dist[v])) v = u;
+            }
+            if(v == -1) break;
+            used[v] = true;
+            for(auto& e : g[v]) {
+                dist[e.to] = std::min(dist[e.to], dist[v] + e.cost);
+            }
+        }
+        return dist;
+    }
+    /**
+     * @brief ある頂点から各頂点への最短路
+     *
+     * @param s 始点
+     * @return std::pair<std::vector<Cost>, std::vector<Edge>> first:各頂点への最短路長 second:各頂点への最短路上の直前の辺
+     */
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_with_prev(int s) const {
+        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());
+        dist[s] = 0;
+        std::vector<Edge> prev(n, {-1, -1, 0, -1});
+        std::vector<bool> used(n, false);
+        while(true) {
+            int v = -1;
+            for(int u = 0; u < n; u++) {
+                if(!used[u] && (v == -1 || dist[u] < dist[v])) v = u;
+            }
+            if(v == -1) break;
+            used[v] = true;
+            for(auto& e : g[v]) {
+                if(dist[e.to] > dist[v] + e.cost) {
+                    dist[e.to] = dist[v] + e.cost;
+                    prev[e.to] = e;
+                }
+            }
+        }
+        return {dist, prev};
+    }
+    /**
+     * @brief ある頂点から各頂点への最短路
+     *
+     * @param s 始点
+     * @param weighted 1以外のコストの辺が存在するか 省略するとfalse
+     * @param inf コストのminの単位元 省略するとstd::numeric_limits<Cost>::max() pairなどをコストにしている場合は設定する必要があり
+     * @return std::pair<std::vector<Cost>, std::vector<Edge>> first:各頂点への最短路長 second:各頂点への最短路上の直前の辺
+     */
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s, bool weignted = false, Cost inf = std::numeric_limits<Cost>::max()) {
+        if(weignted) return shortest_path_dijkstra(s, inf);
+        return shortest_path_bfs(s);
+    }
+
+private:
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_bfs(int s) {
+        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());
+        std::vector<Edge> prev(n);
+        std::queue<int> que;
+        dist[s] = 0;
+        que.push(s);
+        while(!que.empty()) {
+            int u = que.front(); que.pop();
+            for(auto& e : g[u]) {
+                if(dist[e.to] < dist[e.from] + 1) {
+                    dist[e.to] = dist[e.from] + 1;
+                    prev[e.to] = e;
+                    que.push(e.to);
+                }
+            }
+        }
+        return {dist, prev};
+    }
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int s, Cost inf) {
+        std::vector<Cost> dist(n, inf);
+        std::vector<Edge> prev(n);
+        using Node = std::pair<Cost, int>;
+        std::priority_queue<Node, std::vector<Node>, std::greater<Node>> que;
+        dist[s] = 0;
+        que.push(s);
+        while(!que.empty()) {
+            auto [d, u] = que.front(); que.pop();
+            if(d > dist[u]) continue;
+            for(auto& e : g[u]) {
+                if(dist[e.to] < dist[e.from] + e.cost) {
+                    dist[e.to] = dist[e.from] + e.cost;
+                    prev[e.to] = e;
+                    que.push(e.to);
+                }
+            }
+        }
+        return {dist, prev};
     }
 };

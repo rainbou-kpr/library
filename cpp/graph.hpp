@@ -142,15 +142,15 @@ private:
         using Node = std::pair<Cost, int>;
         std::priority_queue<Node, std::vector<Node>, std::greater<Node>> que;
         dist[s] = 0;
-        que.push(s);
+        que.push({0, s});
         while(!que.empty()) {
-            auto [d, u] = que.front(); que.pop();
+            auto [d, u] = que.top(); que.pop();
             if(d > dist[u]) continue;
             for(auto& e : g[u]) {
                 if(dist[e.to] > dist[e.from] + e.cost) {
                     dist[e.to] = dist[e.from] + e.cost;
                     prev[e.to] = e;
-                    que.push(e.to);
+                    que.push({dist[e.to], e.to});
                 }
             }
         }

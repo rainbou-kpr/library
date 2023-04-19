@@ -3,12 +3,12 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: test/yosupo-shortest-path.test.cpp
     title: test/yosupo-shortest-path.test.cpp
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
     links: []
@@ -94,13 +94,13 @@ data:
     \   }\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int\
     \ s, Cost inf) {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
     \ prev(n);\n        using Node = std::pair<Cost, int>;\n        std::priority_queue<Node,\
-    \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push(s);\n\
-    \        while(!que.empty()) {\n            auto [d, u] = que.front(); que.pop();\n\
+    \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push({0,\
+    \ s});\n        while(!que.empty()) {\n            auto [d, u] = que.top(); que.pop();\n\
     \            if(d > dist[u]) continue;\n            for(auto& e : g[u]) {\n  \
     \              if(dist[e.to] > dist[e.from] + e.cost) {\n                    dist[e.to]\
     \ = dist[e.from] + e.cost;\n                    prev[e.to] = e;\n            \
-    \        que.push(e.to);\n                }\n            }\n        }\n      \
-    \  return {dist, prev};\n    }\n};\n"
+    \        que.push({dist[e.to], e.to});\n                }\n            }\n   \
+    \     }\n        return {dist, prev};\n    }\n};\n"
   code: "#pragma once\n\n#include <iostream>\n#include <limits>\n#include <queue>\n\
     #include <vector>\n\n/**\n * @brief \u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\
     \u30E9\u30B9\n *\n * @tparam Cost \u8FBA\u306E\u30B3\u30B9\u30C8\u306E\u578B\n\
@@ -183,19 +183,19 @@ data:
     \   }\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int\
     \ s, Cost inf) {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
     \ prev(n);\n        using Node = std::pair<Cost, int>;\n        std::priority_queue<Node,\
-    \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push(s);\n\
-    \        while(!que.empty()) {\n            auto [d, u] = que.front(); que.pop();\n\
+    \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push({0,\
+    \ s});\n        while(!que.empty()) {\n            auto [d, u] = que.top(); que.pop();\n\
     \            if(d > dist[u]) continue;\n            for(auto& e : g[u]) {\n  \
     \              if(dist[e.to] > dist[e.from] + e.cost) {\n                    dist[e.to]\
     \ = dist[e.from] + e.cost;\n                    prev[e.to] = e;\n            \
-    \        que.push(e.to);\n                }\n            }\n        }\n      \
-    \  return {dist, prev};\n    }\n};\n"
+    \        que.push({dist[e.to], e.to});\n                }\n            }\n   \
+    \     }\n        return {dist, prev};\n    }\n};\n"
   dependsOn: []
   isVerificationFile: false
   path: cpp/graph.hpp
   requiredBy: []
-  timestamp: '2023-04-19 09:01:11+00:00'
-  verificationStatus: LIBRARY_ALL_WA
+  timestamp: '2023-04-19 09:15:38+00:00'
+  verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo-shortest-path.test.cpp
 documentation_of: cpp/graph.hpp

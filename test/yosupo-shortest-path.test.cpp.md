@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':x:'
+  - icon: ':heavy_check_mark:'
     path: cpp/graph.hpp
     title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
-  _isVerificationFailed: true
+  _isVerificationFailed: false
   _pathExtension: cpp
-  _verificationStatusIcon: ':x:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
     PROBLEM: https://judge.yosupo.jp/problem/shortest_path
@@ -98,34 +98,39 @@ data:
     \   }\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int\
     \ s, Cost inf) {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
     \ prev(n);\n        using Node = std::pair<Cost, int>;\n        std::priority_queue<Node,\
-    \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push(s);\n\
-    \        while(!que.empty()) {\n            auto [d, u] = que.front(); que.pop();\n\
+    \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push({0,\
+    \ s});\n        while(!que.empty()) {\n            auto [d, u] = que.top(); que.pop();\n\
     \            if(d > dist[u]) continue;\n            for(auto& e : g[u]) {\n  \
     \              if(dist[e.to] > dist[e.from] + e.cost) {\n                    dist[e.to]\
     \ = dist[e.from] + e.cost;\n                    prev[e.to] = e;\n            \
-    \        que.push(e.to);\n                }\n            }\n        }\n      \
-    \  return {dist, prev};\n    }\n};\n#line 4 \"test/yosupo-shortest-path.test.cpp\"\
+    \        que.push({dist[e.to], e.to});\n                }\n            }\n   \
+    \     }\n        return {dist, prev};\n    }\n};\n#line 4 \"test/yosupo-shortest-path.test.cpp\"\
     \n\nint main() {\n    int n, m, s, t; std::cin >> n >> m >> s >> t;\n    Graph<long\
-    \ long> g(n); g.read(m, 0);\n    auto [dist, prev] = g.shortest_path(s);\n   \
-    \ std::vector<std::pair<int, int>> route;\n    while(t != s) {\n        route.emplace_back(prev[t].from,\
-    \ prev[t].to);\n        t = prev[t];\n    }\n    for(auto it = route.rbegin();\
-    \ it != route.rend(); it++) {\n        std::cout << it->first << ' ' << it->second\
-    \ << '\\n';\n    }\n}\n\n"
+    \ long> g(n); g.read(m, 0, true, true);\n    auto [dist, prev] = g.shortest_path(s);\n\
+    \    if(dist[t] == std::numeric_limits<long long>::max()) {\n        std::cout\
+    \ << -1 << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int, int>>\
+    \ route;\n    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].from,\
+    \ prev[cur].to);\n        cur = prev[cur].from;\n    }\n    std::cout << dist[t]\
+    \ << ' ' << route.size() << '\\n';\n    for(auto it = route.rbegin(); it != route.rend();\
+    \ it++) {\n        std::cout << it->first << ' ' << it->second << '\\n';\n   \
+    \ }\n}\n\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ \"../cpp/graph.hpp\"\n\nint main() {\n    int n, m, s, t; std::cin >> n >> m\
-    \ >> s >> t;\n    Graph<long long> g(n); g.read(m, 0);\n    auto [dist, prev]\
-    \ = g.shortest_path(s);\n    std::vector<std::pair<int, int>> route;\n    while(t\
-    \ != s) {\n        route.emplace_back(prev[t].from, prev[t].to);\n        t =\
-    \ prev[t];\n    }\n    for(auto it = route.rbegin(); it != route.rend(); it++)\
-    \ {\n        std::cout << it->first << ' ' << it->second << '\\n';\n    }\n}\n\
-    \n"
+    \ >> s >> t;\n    Graph<long long> g(n); g.read(m, 0, true, true);\n    auto [dist,\
+    \ prev] = g.shortest_path(s);\n    if(dist[t] == std::numeric_limits<long long>::max())\
+    \ {\n        std::cout << -1 << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int,\
+    \ int>> route;\n    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].from,\
+    \ prev[cur].to);\n        cur = prev[cur].from;\n    }\n    std::cout << dist[t]\
+    \ << ' ' << route.size() << '\\n';\n    for(auto it = route.rbegin(); it != route.rend();\
+    \ it++) {\n        std::cout << it->first << ' ' << it->second << '\\n';\n   \
+    \ }\n}\n\n"
   dependsOn:
   - cpp/graph.hpp
   isVerificationFile: true
   path: test/yosupo-shortest-path.test.cpp
   requiredBy: []
-  timestamp: '2023-04-19 09:01:11+00:00'
-  verificationStatus: TEST_WRONG_ANSWER
+  timestamp: '2023-04-19 18:52:56+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-shortest-path.test.cpp
 layout: document

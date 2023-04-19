@@ -127,7 +127,7 @@ private:
         while(!que.empty()) {
             int u = que.front(); que.pop();
             for(auto& e : g[u]) {
-                if(dist[e.to] < dist[e.from] + 1) {
+                if(dist[e.to] > dist[e.from] + 1) {
                     dist[e.to] = dist[e.from] + 1;
                     prev[e.to] = e;
                     que.push(e.to);
@@ -147,7 +147,7 @@ private:
             auto [d, u] = que.front(); que.pop();
             if(d > dist[u]) continue;
             for(auto& e : g[u]) {
-                if(dist[e.to] < dist[e.from] + e.cost) {
+                if(dist[e.to] > dist[e.from] + e.cost) {
                     dist[e.to] = dist[e.from] + e.cost;
                     prev[e.to] = e;
                     que.push(e.to);

@@ -34,17 +34,14 @@ struct Graph {
     std::vector<std::vector<Edge>> g; //!< グラフの隣接リスト表現
     /**
      * @brief コンストラクタ
-     *
      * @param n 頂点数
      */
     Graph(int n=0) : n(n), m(0), g(n) {}
     /**
      * @brief 無向辺を追加する
-     *
-     * @param from 始点
-     * @param to 終点
-     * @param cost コスト 省略したら1
-     * @return int 追加された辺の番号
+     * @param u 始点
+     * @param v 終点
+     * @param w コスト 省略したら1
      */
     void add_edge(int u, int v, Cost w=1) {
         g[u].push_back({u, v, w, m});
@@ -52,11 +49,9 @@ struct Graph {
     }
     /**
      * @brief 有向辺を追加する
-     *
-     * @param from 始点
-     * @param to 終点
-     * @param cost コスト 省略したら1
-     * @return int 追加された辺の番号
+     * @param u 始点
+     * @param v 終点
+     * @param w コスト 省略したら1
      */
     void add_directed_edge(int u, int v, Cost w=1) {
         g[u].push_back({u, v, w, m++});

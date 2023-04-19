@@ -144,7 +144,7 @@ private:
         dist[s] = 0;
         que.push({0, s});
         while(!que.empty()) {
-            auto [d, u] = que.front(); que.pop();
+            auto [d, u] = que.top(); que.pop();
             if(d > dist[u]) continue;
             for(auto& e : g[u]) {
                 if(dist[e.to] > dist[e.from] + e.cost) {

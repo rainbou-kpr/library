@@ -1,3 +1,8 @@
+/**
+ * @file modint.hpp
+ * @brief 四則演算において自動で mod を取るクラス
+ */
+
 #pragma once
 
 #include <iostream>

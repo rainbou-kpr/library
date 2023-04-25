@@ -15,19 +15,19 @@ struct Graph {
     /**
      * @brief 有向辺の構造体
      *
-     * operator int()を定義しているので、int型にキャストすると勝手にtoになる
+     * operator int()を定義しているので、int型にキャストすると勝手にdstになる
      * 例えば、
      * for (auto& e : g[v]) をすると、vから出る辺が列挙されるが、
-     * for (int to : g[v]) とすると、vから出る辺の行き先が列挙される
+     * for (int dst : g[v]) とすると、vから出る辺の行き先が列挙される
      */
     struct Edge {
-        int from; //!< 始点
-        int to; //!< 終点
+        int src; //!< 始点
+        int dst; //!< 終点
         Cost cost; //!< コスト
         int id; //!< 辺の番号(追加された順、無向辺の場合はidが同じで方向が逆のものが2つ存在する)
         Edge() = default;
-        Edge(int from, int to, Cost cost=1, int id=-1) : from(from), to(to), cost(cost), id(id) {}
-        operator int() const { return to; }
+        Edge(int src, int dst, Cost cost=1, int id=-1) : src(src), dst(dst), cost(cost), id(id) {}
+        operator int() const { return dst; }
     };
 
     int n; //!< 頂点数
@@ -127,10 +127,10 @@ private:
         while(!que.empty()) {
             int u = que.front(); que.pop();
             for(auto& e : g[u]) {
-                if(dist[e.to] > dist[e.from] + 1) {
-                    dist[e.to] = dist[e.from] + 1;
-                    prev[e.to] = e;
-                    que.push(e.to);
+                if(dist[e.dst] > dist[e.src] + 1) {
+                    dist[e.dst] = dist[e.src] + 1;
+                    prev[e.dst] = e;
+                    que.push(e.dst);
                 }
             }
         }
@@ -147,10 +147,10 @@ private:
             auto [d, u] = que.top(); que.pop();
             if(d > dist[u]) continue;
             for(auto& e : g[u]) {
-                if(dist[e.to] > dist[e.from] + e.cost) {
-                    dist[e.to] = dist[e.from] + e.cost;
-                    prev[e.to] = e;
-                    que.push({dist[e.to], e.to});
+                if(dist[e.dst] > dist[e.src] + e.cost) {
+                    dist[e.dst] = dist[e.src] + e.cost;
+                    prev[e.dst] = e;
+                    que.push({dist[e.dst], e.dst});
                 }
             }
         }

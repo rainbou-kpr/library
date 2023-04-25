@@ -13,8 +13,8 @@ int main() {
     std::vector<std::pair<int, int>> route;
     int cur = t;
     while(cur != s) {
-        route.emplace_back(prev[cur].from, prev[cur].to);
-        cur = prev[cur].from;
+        route.emplace_back(prev[cur].src, prev[cur].dst);
+        cur = prev[cur].src;
     }
     std::cout << dist[t] << ' ' << route.size() << '\n';
     for(auto it = route.rbegin(); it != route.rend(); it++) {

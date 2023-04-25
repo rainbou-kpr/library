@@ -109,17 +109,17 @@ struct Graph {
      *
      * @param s 始点
      * @param weighted 1以外のコストの辺が存在するか 省略するとtrue
-     * @param inf コストのminの単位元 省略するとstd::numeric_limits<Cost>::max() pairなどをコストにしている場合は設定する必要があり
+     * @param inf コストのminの単位元 未到達の頂点への距離はinfになる 省略すると-1
      * @return std::pair<std::vector<Cost>, std::vector<Edge>> first:各頂点への最短路長 second:各頂点への最短路上の直前の辺
      */
-    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s, bool weignted = true, Cost inf = std::numeric_limits<Cost>::max()) {
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s, bool weignted = true, Cost inf = -1) {
         if(weignted) return shortest_path_dijkstra(s, inf);
-        return shortest_path_bfs(s);
+        return shortest_path_bfs(s, inf);
     }
 
 private:
-    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_bfs(int s) {
-        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_bfs(int s, Cost inf) {
+        std::vector<Cost> dist(n, inf);
         std::vector<Edge> prev(n);
         std::queue<int> que;
         dist[s] = 0;
@@ -127,7 +127,7 @@ private:
         while(!que.empty()) {
             int u = que.front(); que.pop();
             for(auto& e : g[u]) {
-                if(dist[e.dst] > dist[e.src] + 1) {
+                if(dist[e.dst] == inf) {
                     dist[e.dst] = dist[e.src] + 1;
                     prev[e.dst] = e;
                     que.push(e.dst);
@@ -147,7 +147,7 @@ private:
             auto [d, u] = que.top(); que.pop();
             if(d > dist[u]) continue;
             for(auto& e : g[u]) {
-                if(dist[e.dst] > dist[e.src] + e.cost) {
+                if(dist[e.dst] == inf || dist[e.dst] > dist[e.src] + e.cost) {
                     dist[e.dst] = dist[e.src] + e.cost;
                     prev[e.dst] = e;
                     que.push({dist[e.dst], e.dst});

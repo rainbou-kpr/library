@@ -6,7 +6,7 @@ int main() {
     int n, m, s, t; std::cin >> n >> m >> s >> t;
     Graph<long long> g(n); g.read(m, 0, true, true);
     auto [dist, prev] = g.shortest_path(s);
-    if(dist[t] == std::numeric_limits<long long>::max()) {
+    if(dist[t] == -1) {
         std::cout << -1 << '\n';
         return 0;
     }

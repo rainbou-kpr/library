@@ -4,8 +4,8 @@ from py.graph import Graph
 n, m, s, t = map(int, input().split())
 g = Graph(n)
 g.read(m, 0, True, True)
-dist, prev = g.shortest_path(s, True, 10**18)
-if dist[t] == 10**18:
+dist, prev = g.shortest_path(s, True)
+if dist[t] == -1:
     exit(print(-1))
 route = []
 cur = t

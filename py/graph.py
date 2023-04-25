@@ -74,19 +74,19 @@ class Graph(Generic[Cost]):
         :return: vから出る辺のリスト
         """
         return self.g[v]
-    def shortest_path(self, s: int, weighted: bool = True, inf: Cost=2**31-1):
+    def shortest_path(self, s: int, weighted: bool = True, inf: Cost=-1):
         """
         ある頂点から各頂点への最短路
         :param s: 始点
         :param weighted: 1以外のコストの辺が存在するか 省略するとtrue
-        :param inf: コストのminの単位元 省略すると2**31-1
+        :param inf: コストのminの単位元 未到達の頂点への距離はinfになる 省略すると2**31-1
         :return: (各頂点への最短路長, 各頂点への最短路上の直前の辺)
         """
         if weighted:
             return self.__shortest_path_dijkstra(s, inf)
         else:
-            return self.__shortest_path_bfs(s)
-    def __shortest_path_bfs(self, s: int):
+            return self.__shortest_path_bfs(s, inf)
+    def __shortest_path_bfs(self, s: int, inf: Cost):
         dist = [2**31-1] * self.n
         prev = [None] * self.n
         que = deque()
@@ -95,7 +95,7 @@ class Graph(Generic[Cost]):
         while len(que) > 0:
             u = que.popleft()
             for e in self.g[u]:
-                if dist[e.dst] > dist[e.src] + 1:
+                if dist[e.dst] == inf:
                     dist[e.dst] = dist[e.src] + 1
                     prev[e.dst] = e
                     que.append(e.dst)
@@ -111,7 +111,7 @@ class Graph(Generic[Cost]):
             if dist[u] < d:
                 continue
             for e in self.g[u]:
-                if dist[e.dst] > dist[e.src] + e.cost:
+                if dist[e.dst] == inf or dist[e.dst] > dist[e.src] + e.cost:
                     dist[e.dst] = dist[e.src] + e.cost
                     prev[e.dst] = e
                     heapq.heappush(que, (dist[e.dst], e.dst))

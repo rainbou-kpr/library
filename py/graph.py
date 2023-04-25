@@ -64,9 +64,9 @@ class Graph(Generic[Cost]):
             u += padding
             v += padding
             if directed:
-                self.add_directed_edge(u+padding, v+padding, c)
+                self.add_directed_edge(u, v, c)
             else:
-                self.add_edge(u+padding, v+padding, c)
+                self.add_edge(u, v, c)
     def __getitem__(self, v: int) -> list[Edge]:
         """
         ある頂点から出る辺を列挙する

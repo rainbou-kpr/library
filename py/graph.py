@@ -23,7 +23,8 @@ class Graph(Generic[Cost]):
     def __init__(self, n: int):
         """
         コンストラクタ
-        :param n: 頂点数
+        :param int n: 頂点数
+        :rtype: None
         """
         self.n = n
         self.m = 0
@@ -31,9 +32,10 @@ class Graph(Generic[Cost]):
     def add_edge(self, u: int, v: int, w: Cost=1):
         """
         無向辺を追加する
-        :param u: 始点
-        :param v: 終点
-        :param: w コスト 省略したら1
+        :param int u: 始点
+        :param int v: 終点
+        :param int w: コスト 省略したら1
+        :rtype: None
         """
         self.g[u].append(self.Edge(u, v, w, self.m))
         self.g[v].append(self.Edge(v, u, w, self.m))
@@ -41,19 +43,21 @@ class Graph(Generic[Cost]):
     def add_directed_edge(self, u: int, v: int, w: Cost=1):
         """
         有向辺を追加する
-        :param u: 始点
-        :param v: 終点
-        :param w: コスト 省略したら1
+        :param int u: 始点
+        :param int v: 終点
+        :param Cost w: コスト 省略したら1
+        :rtype: None
         """
         self.g[u].append(self.Edge(u, v, w, self.m))
         self.m += 1
     def read(self, m: int, padding: int=-1, weighted: bool=False, directed: bool=False):
         """
         辺の情報を標準入力から受け取って追加する
-        :param m: 辺の数
-        :param padding: 頂点番号を入力からいくつずらすか 省略したら-1
-        :param weighted: 辺の重みが入力されるか 省略したらfalseとなり、重み1で辺が追加される
-        :param directed: 有向グラフかどうか 省略したらfalse
+        :param int m: 辺の数
+        :param int padding: 頂点番号を入力からいくつずらすか 省略したら-1
+        :param bool weighted: 辺の重みが入力されるか 省略したらfalseとなり、重み1で辺が追加される
+        :param bool directed: 有向グラフかどうか 省略したらfalse
+        :rtype: None
         """
         for _ in range(m):
             if weighted:
@@ -70,17 +74,19 @@ class Graph(Generic[Cost]):
     def __getitem__(self, v: int):
         """
         ある頂点から出る辺を列挙する
-        :param v: 頂点番号
+        :param int v: 頂点番号
         :return: vから出る辺のリスト
+        :rtype: list[Edge]
         """
         return self.g[v]
     def shortest_path(self, s: int, weighted: bool = True, inf: Cost=-1):
         """
         ある頂点から各頂点への最短路
-        :param s: 始点
-        :param weighted: 1以外のコストの辺が存在するか 省略するとtrue
-        :param inf: コストのminの単位元 未到達の頂点への距離はinfになる 省略すると2**31-1
+        :param int s: 始点
+        :param int weighted: 1以外のコストの辺が存在するか 省略するとtrue
+        :param Cost inf: コストのminの単位元 未到達の頂点への距離はinfになる 省略すると2**31-1
         :return: (各頂点への最短路長, 各頂点への最短路上の直前の辺)
+        :rtype: tuple[list[Cost], list[Edge]]
         """
         if weighted:
             return self.__shortest_path_dijkstra(s, inf)

@@ -22,19 +22,19 @@ data:
     \ Cost=int>\nstruct Graph {\n    /**\n     * @brief \u6709\u5411\u8FBA\u306E\u69CB\
     \u9020\u4F53\n     *\n     * operator int()\u3092\u5B9A\u7FA9\u3057\u3066\u3044\
     \u308B\u306E\u3067\u3001int\u578B\u306B\u30AD\u30E3\u30B9\u30C8\u3059\u308B\u3068\
-    \u52DD\u624B\u306Bto\u306B\u306A\u308B\n     * \u4F8B\u3048\u3070\u3001\n    \
-    \ * for (auto& e : g[v]) \u3092\u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\
-    \u8FBA\u304C\u5217\u6319\u3055\u308C\u308B\u304C\u3001\n     * for (int to : g[v])\
-    \ \u3068\u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\u8FBA\u306E\u884C\u304D\
-    \u5148\u304C\u5217\u6319\u3055\u308C\u308B\n     */\n    struct Edge {\n     \
-    \   int from; //!< \u59CB\u70B9\n        int to; //!< \u7D42\u70B9\n        Cost\
-    \ cost; //!< \u30B3\u30B9\u30C8\n        int id; //!< \u8FBA\u306E\u756A\u53F7\
-    (\u8FFD\u52A0\u3055\u308C\u305F\u9806\u3001\u7121\u5411\u8FBA\u306E\u5834\u5408\
-    \u306Fid\u304C\u540C\u3058\u3067\u65B9\u5411\u304C\u9006\u306E\u3082\u306E\u304C\
-    2\u3064\u5B58\u5728\u3059\u308B)\n        Edge() = default;\n        Edge(int\
-    \ from, int to, Cost cost=1, int id=-1) : from(from), to(to), cost(cost), id(id)\
-    \ {}\n        operator int() const { return to; }\n    };\n\n    int n; //!< \u9802\
-    \u70B9\u6570\n    int m; //!< \u8FBA\u6570\n    std::vector<std::vector<Edge>>\
+    \u52DD\u624B\u306Bdst\u306B\u306A\u308B\n     * \u4F8B\u3048\u3070\u3001\n   \
+    \  * for (auto& e : g[v]) \u3092\u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\
+    \u8FBA\u304C\u5217\u6319\u3055\u308C\u308B\u304C\u3001\n     * for (int dst :\
+    \ g[v]) \u3068\u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\u8FBA\u306E\u884C\
+    \u304D\u5148\u304C\u5217\u6319\u3055\u308C\u308B\n     */\n    struct Edge {\n\
+    \        int src; //!< \u59CB\u70B9\n        int dst; //!< \u7D42\u70B9\n    \
+    \    Cost cost; //!< \u30B3\u30B9\u30C8\n        int id; //!< \u8FBA\u306E\u756A\
+    \u53F7(\u8FFD\u52A0\u3055\u308C\u305F\u9806\u3001\u7121\u5411\u8FBA\u306E\u5834\
+    \u5408\u306Fid\u304C\u540C\u3058\u3067\u65B9\u5411\u304C\u9006\u306E\u3082\u306E\
+    \u304C2\u3064\u5B58\u5728\u3059\u308B)\n        Edge() = default;\n        Edge(int\
+    \ src, int dst, Cost cost=1, int id=-1) : src(src), dst(dst), cost(cost), id(id)\
+    \ {}\n        operator int() const { return dst; }\n    };\n\n    int n; //!<\
+    \ \u9802\u70B9\u6570\n    int m; //!< \u8FBA\u6570\n    std::vector<std::vector<Edge>>\
     \ g; //!< \u30B0\u30E9\u30D5\u306E\u96A3\u63A5\u30EA\u30B9\u30C8\u8868\u73FE\n\
     \    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * @param\
     \ n \u9802\u70B9\u6570\n     */\n    Graph(int n=0) : n(n), m(0), g(n) {}\n  \
@@ -78,22 +78,20 @@ data:
     \u70B9\u3078\u306E\u6700\u77ED\u8DEF\n     *\n     * @param s \u59CB\u70B9\n \
     \    * @param weighted 1\u4EE5\u5916\u306E\u30B3\u30B9\u30C8\u306E\u8FBA\u304C\
     \u5B58\u5728\u3059\u308B\u304B \u7701\u7565\u3059\u308B\u3068true\n     * @param\
-    \ inf \u30B3\u30B9\u30C8\u306Emin\u306E\u5358\u4F4D\u5143 \u7701\u7565\u3059\u308B\
-    \u3068std::numeric_limits<Cost>::max() pair\u306A\u3069\u3092\u30B3\u30B9\u30C8\
-    \u306B\u3057\u3066\u3044\u308B\u5834\u5408\u306F\u8A2D\u5B9A\u3059\u308B\u5FC5\
-    \u8981\u304C\u3042\u308A\n     * @return std::pair<std::vector<Cost>, std::vector<Edge>>\
+    \ inf \u30B3\u30B9\u30C8\u306Emin\u306E\u5358\u4F4D\u5143 \u672A\u5230\u9054\u306E\
+    \u9802\u70B9\u3078\u306E\u8DDD\u96E2\u306Finf\u306B\u306A\u308B \u7701\u7565\u3059\
+    \u308B\u3068-1\n     * @return std::pair<std::vector<Cost>, std::vector<Edge>>\
     \ first:\u5404\u9802\u70B9\u3078\u306E\u6700\u77ED\u8DEF\u9577 second:\u5404\u9802\
     \u70B9\u3078\u306E\u6700\u77ED\u8DEF\u4E0A\u306E\u76F4\u524D\u306E\u8FBA\n   \
     \  */\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s,\
-    \ bool weignted = true, Cost inf = std::numeric_limits<Cost>::max()) {\n     \
-    \   if(weignted) return shortest_path_dijkstra(s, inf);\n        return shortest_path_bfs(s);\n\
-    \    }\n\nprivate:\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_bfs(int\
-    \ s) {\n        std::vector<Cost> dist(n, std::numeric_limits<Cost>::max());\n\
-    \        std::vector<Edge> prev(n);\n        std::queue<int> que;\n        dist[s]\
-    \ = 0;\n        que.push(s);\n        while(!que.empty()) {\n            int u\
-    \ = que.front(); que.pop();\n            for(auto& e : g[u]) {\n             \
-    \   if(dist[e.to] > dist[e.from] + 1) {\n                    dist[e.to] = dist[e.from]\
-    \ + 1;\n                    prev[e.to] = e;\n                    que.push(e.to);\n\
+    \ bool weignted = true, Cost inf = -1) {\n        if(weignted) return shortest_path_dijkstra(s,\
+    \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
+    \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) {\n        std::vector<Cost>\
+    \ dist(n, inf);\n        std::vector<Edge> prev(n);\n        std::queue<int> que;\n\
+    \        dist[s] = 0;\n        que.push(s);\n        while(!que.empty()) {\n \
+    \           int u = que.front(); que.pop();\n            for(auto& e : g[u]) {\n\
+    \                if(dist[e.dst] == inf) {\n                    dist[e.dst] = dist[e.src]\
+    \ + 1;\n                    prev[e.dst] = e;\n                    que.push(e.dst);\n\
     \                }\n            }\n        }\n        return {dist, prev};\n \
     \   }\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int\
     \ s, Cost inf) {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
@@ -101,26 +99,26 @@ data:
     \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push({0,\
     \ s});\n        while(!que.empty()) {\n            auto [d, u] = que.top(); que.pop();\n\
     \            if(d > dist[u]) continue;\n            for(auto& e : g[u]) {\n  \
-    \              if(dist[e.to] > dist[e.from] + e.cost) {\n                    dist[e.to]\
-    \ = dist[e.from] + e.cost;\n                    prev[e.to] = e;\n            \
-    \        que.push({dist[e.to], e.to});\n                }\n            }\n   \
-    \     }\n        return {dist, prev};\n    }\n};\n#line 4 \"test/yosupo-shortest-path.test.cpp\"\
-    \n\nint main() {\n    int n, m, s, t; std::cin >> n >> m >> s >> t;\n    Graph<long\
-    \ long> g(n); g.read(m, 0, true, true);\n    auto [dist, prev] = g.shortest_path(s);\n\
-    \    if(dist[t] == std::numeric_limits<long long>::max()) {\n        std::cout\
-    \ << -1 << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int, int>>\
-    \ route;\n    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].from,\
-    \ prev[cur].to);\n        cur = prev[cur].from;\n    }\n    std::cout << dist[t]\
+    \              if(dist[e.dst] == inf || dist[e.dst] > dist[e.src] + e.cost) {\n\
+    \                    dist[e.dst] = dist[e.src] + e.cost;\n                   \
+    \ prev[e.dst] = e;\n                    que.push({dist[e.dst], e.dst});\n    \
+    \            }\n            }\n        }\n        return {dist, prev};\n    }\n\
+    };\n#line 4 \"test/yosupo-shortest-path.test.cpp\"\n\nint main() {\n    int n,\
+    \ m, s, t; std::cin >> n >> m >> s >> t;\n    Graph<long long> g(n); g.read(m,\
+    \ 0, true, true);\n    auto [dist, prev] = g.shortest_path(s);\n    if(dist[t]\
+    \ == -1) {\n        std::cout << -1 << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int,\
+    \ int>> route;\n    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].src,\
+    \ prev[cur].dst);\n        cur = prev[cur].src;\n    }\n    std::cout << dist[t]\
     \ << ' ' << route.size() << '\\n';\n    for(auto it = route.rbegin(); it != route.rend();\
     \ it++) {\n        std::cout << it->first << ' ' << it->second << '\\n';\n   \
     \ }\n}\n\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
     \ \"../cpp/graph.hpp\"\n\nint main() {\n    int n, m, s, t; std::cin >> n >> m\
     \ >> s >> t;\n    Graph<long long> g(n); g.read(m, 0, true, true);\n    auto [dist,\
-    \ prev] = g.shortest_path(s);\n    if(dist[t] == std::numeric_limits<long long>::max())\
-    \ {\n        std::cout << -1 << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int,\
-    \ int>> route;\n    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].from,\
-    \ prev[cur].to);\n        cur = prev[cur].from;\n    }\n    std::cout << dist[t]\
+    \ prev] = g.shortest_path(s);\n    if(dist[t] == -1) {\n        std::cout << -1\
+    \ << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int, int>> route;\n\
+    \    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].src,\
+    \ prev[cur].dst);\n        cur = prev[cur].src;\n    }\n    std::cout << dist[t]\
     \ << ' ' << route.size() << '\\n';\n    for(auto it = route.rbegin(); it != route.rend();\
     \ it++) {\n        std::cout << it->first << ' ' << it->second << '\\n';\n   \
     \ }\n}\n\n"
@@ -129,7 +127,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-shortest-path.test.cpp
   requiredBy: []
-  timestamp: '2023-04-19 18:52:56+09:00'
+  timestamp: '2023-04-25 02:28:47+00:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-shortest-path.test.cpp

@@ -1,4 +1,4 @@
-from typing import Generic, TypeVar
+from typing import List, Tuple, Generic, TypeVar
 from collections import deque
 import heapq
 
@@ -71,28 +71,28 @@ class Graph(Generic[Cost]):
                 self.add_directed_edge(u, v, c)
             else:
                 self.add_edge(u, v, c)
-    def __getitem__(self, v: int) -> list[Edge]:
+    def __getitem__(self, v: int) -> List[Edge]:
         """
         ある頂点から出る辺を列挙する
         :param int v: 頂点番号
         :return: vから出る辺のリスト
-        :rtype: list[Edge]
+        :rtype: List[Edge]
         """
         return self.g[v]
-    def shortest_path(self, s: int, weighted: bool = True, inf: Cost=-1) -> tuple[list[Cost], list[Edge]]:
+    def shortest_path(self, s: int, weighted: bool = True, inf: Cost=-1) -> Tuple[List[Cost], List[Edge]]:
         """
         ある頂点から各頂点への最短路
         :param int s: 始点
         :param int weighted: 1以外のコストの辺が存在するか 省略するとtrue
         :param Cost inf: コストのminの単位元 未到達の頂点への距離はinfになる 省略すると2**31-1
         :return: (各頂点への最短路長, 各頂点への最短路上の直前の辺)
-        :rtype: tuple[list[Cost], list[Edge]]
+        :rtype: Tuple[List[Cost], List[Edge]]
         """
         if weighted:
             return self.__shortest_path_dijkstra(s, inf)
         else:
             return self.__shortest_path_bfs(s, inf)
-    def __shortest_path_bfs(self, s: int, inf: Cost) -> tuple[list[int], list[Edge]]:
+    def __shortest_path_bfs(self, s: int, inf: Cost) -> Tuple[List[int], List[Edge]]:
         dist = [inf] * self.n
         prev = [None] * self.n
         que = deque()
@@ -106,7 +106,7 @@ class Graph(Generic[Cost]):
                     prev[e.dst] = e
                     que.append(e.dst)
         return dist, prev
-    def __shortest_path_dijkstra(self, s: int, inf: Cost) -> tuple[list[Cost], list[Edge]]:
+    def __shortest_path_dijkstra(self, s: int, inf: Cost) -> Tuple[List[Cost], List[Edge]]:
         dist = [inf] * self.n
         prev = [None] * self.n
         que = []

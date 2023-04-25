@@ -67,14 +67,14 @@ class Graph(Generic[Cost]):
                 self.add_directed_edge(u+padding, v+padding, c)
             else:
                 self.add_edge(u+padding, v+padding, c)
-    def __getitem__(self, v: int) -> list[Edge]:
+    def __getitem__(self, v: int):
         """
         ある頂点から出る辺を列挙する
         :param v: 頂点番号
         :return: vから出る辺のリスト
         """
         return self.g[v]
-    def shortest_path(self, s: int, weighted: bool = True, inf: Cost=2**31-1) -> tuple[list[Cost], list[Edge]]:
+    def shortest_path(self, s: int, weighted: bool = True, inf: Cost=2**31-1):
         """
         ある頂点から各頂点への最短路
         :param s: 始点
@@ -86,7 +86,7 @@ class Graph(Generic[Cost]):
             return self.__shortest_path_dijkstra(s, inf)
         else:
             return self.__shortest_path_bfs(s)
-    def __shortest_path_bfs(self, s: int) -> tuple[list[int], list[Edge]]:
+    def __shortest_path_bfs(self, s: int):
         dist = [2**31-1] * self.n
         prev = [None] * self.n
         que = deque()
@@ -100,7 +100,7 @@ class Graph(Generic[Cost]):
                     prev[e.dst] = e
                     que.append(e.dst)
         return dist, prev
-    def __shortest_path_dijkstra(self, s: int, inf: Cost) -> tuple[list[Cost], list[Edge]]:
+    def __shortest_path_dijkstra(self, s: int, inf: Cost):
         dist = [inf] * self.n
         prev = [None] * self.n
         que = []

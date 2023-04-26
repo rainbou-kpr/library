@@ -34,7 +34,7 @@ struct Vector {
      * @brief i番目の成分を返す
      * 
      * @param i
-     * @return constexpr T& 
+     * @return T& 
      */
     constexpr T& operator[](int i) noexcept {
         return v[i];
@@ -43,7 +43,7 @@ struct Vector {
      * @brief i番目の成分を返す
      * 
      * @param i
-     * @return constexpr T& 
+     * @return T& 
      */
     constexpr const T& operator[](int i) const noexcept {
         return v[i];
@@ -53,7 +53,7 @@ struct Vector {
      * @brief 加算代入演算子
      * 
      * @param rhs 
-     * @return constexpr Vector<T, Dim>& 
+     * @return Vector<T, Dim>& 
      */
     constexpr Vector<T, Dim>& operator+=(const Vector<T, Dim>& rhs) noexcept {
         for(int i = 0; i < Dim; i++) v[i] += rhs[i];
@@ -63,7 +63,7 @@ struct Vector {
      * @brief 減算代入演算子
      * 
      * @param rhs 
-     * @return constexpr Vector<T, Dim>& 
+     * @return Vector<T, Dim>& 
      */
     constexpr Vector<T, Dim>& operator-=(const Vector<T, Dim>& rhs) noexcept {
         for(int i = 0; i < Dim; i++) v[i] -= rhs.v[i];
@@ -73,7 +73,7 @@ struct Vector {
      * @brief スカラー倍代入演算子
      * 
      * @param coef 
-     * @return constexpr Vector<T, Dim>& 
+     * @return Vector<T, Dim>& 
      */
     constexpr Vector<T, Dim>& operator*=(const T& coef) noexcept {
         for(int i = 0; i < Dim; i++) v[i] *= coef;
@@ -83,7 +83,7 @@ struct Vector {
      * @brief スカラーの逆数倍代入演算子
      * 
      * @param coef 
-     * @return constexpr Vector<T, Dim>& 
+     * @return Vector<T, Dim>& 
      */
     Vector<T, Dim>& operator/=(const T& coef) {
         for(int i = 0; i < Dim; i++) {
@@ -98,7 +98,7 @@ struct Vector {
     /**
      * @brief 単項プラス演算子
      * 
-     * @return constexpr Vector<T, Dim> 
+     * @return Vector<T, Dim> 
      */
     [[nodiscard]]
     constexpr Vector<T, Dim> operator+() const noexcept {
@@ -107,7 +107,7 @@ struct Vector {
     /**
      * @brief 単項マイナス演算子
      * 
-     * @return constexpr Vector<T, Dim> 
+     * @return Vector<T, Dim> 
      */
     [[nodiscard]]
     constexpr Vector<T, Dim> operator-() const noexcept {
@@ -119,7 +119,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr Vector<T, Dim> 
+     * @return Vector<T, Dim> 
      */
     [[nodiscard]]
     friend constexpr Vector<T, Dim> operator+(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -131,7 +131,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr Vector<T, Dim> 
+     * @return Vector<T, Dim> 
      */
     [[nodiscard]]
     friend constexpr Vector<T, Dim> operator-(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -143,7 +143,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param coef 
-     * @return constexpr Vector<T, Dim> 
+     * @return Vector<T, Dim> 
      */
     [[nodiscard]]
     friend constexpr Vector<T, Dim> operator*(const Vector<T, Dim>& lhs, const T& coef) noexcept {
@@ -155,7 +155,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param coef 
-     * @return constexpr Vector<T, Dim> 
+     * @return Vector<T, Dim> 
      */
     [[nodiscard]]
     friend Vector<T, Dim> operator/(const Vector<T, Dim>& lhs, const T& coef) {
@@ -167,7 +167,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr bool
+     * @return bool
      */
     [[nodiscard]]
     friend constexpr bool operator==(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -179,7 +179,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr bool 
+     * @return bool 
      */
     [[nodiscard]]
     friend constexpr bool operator!=(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -191,7 +191,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr bool 
+     * @return bool 
      */ 
     [[nodiscard]]
     friend constexpr bool operator<(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -202,7 +202,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr bool
+     * @return bool
      */
     [[nodiscard]]
     friend constexpr bool operator>(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -213,7 +213,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr bool 
+     * @return bool 
      */
     [[nodiscard]]
     friend constexpr bool operator<=(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -224,7 +224,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr bool
+     * @return bool
      */
     [[nodiscard]]
     friend constexpr bool operator>=(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
@@ -283,7 +283,7 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return constexpr T 
+     * @return T 
      */
     friend constexpr T dot(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
         T ret = 0;
@@ -294,7 +294,7 @@ struct Vector {
     /**
      * @brief ノルム
      * 
-     * @return constexpr T 
+     * @return T 
      */
     constexpr T norm() const noexcept {
         return dot(*this, *this);
@@ -302,7 +302,7 @@ struct Vector {
     /**
      * @brief 絶対値
      * 
-     * @return constexpr double 
+     * @return double 
      */
     constexpr double abs() const noexcept {
         return std::sqrt(norm());
@@ -315,7 +315,8 @@ struct Vector {
  * 
  * @param lhs 
  * @param rhs 
- * @return constexpr T 
+ * @tparam T 座標の型
+ * @return T 
  */
 template <typename T>
 constexpr T cross(const Vector<T, 2>& lhs, const Vector<T, 2>& rhs) noexcept {
@@ -326,7 +327,8 @@ constexpr T cross(const Vector<T, 2>& lhs, const Vector<T, 2>& rhs) noexcept {
  * 
  * @param lhs 
  * @param rhs 
- * @return constexpr Vector<T, 3> 
+ * @tparam T 座標の型
+ * @return Vector<T, 3> 
  */
 template <typename T>
 constexpr Vector<T, 3> cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs) noexcept {
@@ -337,6 +339,16 @@ constexpr Vector<T, 3> cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs) n
     return std::move(ret);
 }
 
+/**
+ * @brief 線分の交差判定
+ * 
+ * @param p1 1本目の線分の端点1
+ * @param p2 1本目の線分の端点2
+ * @param q1 2本目の線分の端点1
+ * @param q2 2本目の線分の端点2
+ * @tparam T 座標の型
+ * @return std::pair<bool, Vector<T, 2>> firstは共有点の有無、secondは共有点の1例
+*/
 template <typename T>
 constexpr std::pair<bool, Vector<T, 2>> segment_intersect(const Vector<T, 2>& p1, const Vector<T, 2>& p2, const Vector<T, 2>& q1, const Vector<T, 2>& q2) {
     assert(p1 != p2 && q1 != q2 && "segment_intersect: degenerate segment");

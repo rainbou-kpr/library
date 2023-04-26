@@ -1,11 +1,20 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: cpp/convolution.hpp
+    title: cpp/convolution.hpp
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-convolution-mod-1000000007.test.cpp
+    title: test/yosupo-convolution-mod-1000000007.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-convolution-mod.test.cpp
+    title: test/yosupo-convolution-mod.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067\
       \ mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
@@ -242,10 +251,13 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: cpp/modint.hpp
-  requiredBy: []
+  requiredBy:
+  - cpp/convolution.hpp
   timestamp: '2023-04-20 23:33:30+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo-convolution-mod.test.cpp
+  - test/yosupo-convolution-mod-1000000007.test.cpp
 documentation_of: cpp/modint.hpp
 layout: document
 redirect_from:

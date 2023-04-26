@@ -294,11 +294,11 @@ struct Vector {
     }
     
     /**
-     * @brief ノルム
+     * @brief 絶対値の2乗
      * 
      * @return T 
      */
-    constexpr T norm() const noexcept {
+    constexpr T squared_norm() const noexcept {
         return dot(*this, *this);
     }
     /**
@@ -307,9 +307,8 @@ struct Vector {
      * @return double 
      */
     constexpr double abs() const noexcept {
-        return std::sqrt(norm());
+        return std::sqrt(squared_norm());
     }
-    
 };
 
 /**

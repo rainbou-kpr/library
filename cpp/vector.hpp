@@ -27,7 +27,7 @@ struct Vector {
      * 
      * @tparam Args 
      */
-    template <typename... Args, std::enable_if_t<(sizeof...(Args) == Dim)>* = nullptr>
+    template <typename... Args>
     constexpr Vector(Args... args) noexcept : v{args...} {}
     
     /**

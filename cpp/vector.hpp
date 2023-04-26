@@ -4,7 +4,9 @@
 #include <cassert>
 #include <cmath>
 #include <initializer_list>
+#include <istream>
 #include <numeric>
+#include <ostream>
 #include <type_traits>
 
 /**
@@ -27,7 +29,7 @@ struct Vector {
      * 
      * @tparam Args 
      */
-    template <typename... Args, std::enable_if_t<(sizeof...(Args) == Dim)>* = nullptr>
+    template <typename... Args>
     constexpr Vector(Args... args) noexcept : v{args...} {}
     
     /**
@@ -53,9 +55,9 @@ struct Vector {
      * @brief 加算代入演算子
      * 
      * @param rhs 
-     * @return Vector<T, Dim>& 
+     * @return Vector& 
      */
-    constexpr Vector<T, Dim>& operator+=(const Vector<T, Dim>& rhs) noexcept {
+    constexpr Vector& operator+=(const Vector& rhs) noexcept {
         for(int i = 0; i < Dim; i++) v[i] += rhs[i];
         return *this;
     }
@@ -63,9 +65,9 @@ struct Vector {
      * @brief 減算代入演算子
      * 
      * @param rhs 
-     * @return Vector<T, Dim>& 
+     * @return Vector& 
      */
-    constexpr Vector<T, Dim>& operator-=(const Vector<T, Dim>& rhs) noexcept {
+    constexpr Vector& operator-=(const Vector& rhs) noexcept {
         for(int i = 0; i < Dim; i++) v[i] -= rhs.v[i];
         return *this;
     }
@@ -73,9 +75,9 @@ struct Vector {
      * @brief スカラー倍代入演算子
      * 
      * @param coef 
-     * @return Vector<T, Dim>& 
+     * @return Vector& 
      */
-    constexpr Vector<T, Dim>& operator*=(const T& coef) noexcept {
+    constexpr Vector& operator*=(const T& coef) noexcept {
         for(int i = 0; i < Dim; i++) v[i] *= coef;
         return *this;
     }
@@ -83,12 +85,12 @@ struct Vector {
      * @brief スカラーの逆数倍代入演算子
      * 
      * @param coef 
-     * @return Vector<T, Dim>& 
+     * @return Vector& 
      */
-    Vector<T, Dim>& operator/=(const T& coef) {
+    Vector& operator/=(const T& coef) {
         for(int i = 0; i < Dim; i++) {
             if constexpr(std::is_integral_v<T>) {
-                assert(v[i] % coef == 0 && "Vector<T, Dim>::operator/= : coef must be a divisor of all elements");
+                assert(v[i] % coef == 0 && "Vector::operator/= : coef must be a divisor of all elements");
             }
             v[i] /= coef;
         }
@@ -98,19 +100,19 @@ struct Vector {
     /**
      * @brief 単項プラス演算子
      * 
-     * @return Vector<T, Dim> 
+     * @return Vector 
      */
     [[nodiscard]]
-    constexpr Vector<T, Dim> operator+() const noexcept {
+    constexpr Vector operator+() const noexcept {
         return *this;
     }
     /**
      * @brief 単項マイナス演算子
      * 
-     * @return Vector<T, Dim> 
+     * @return Vector 
      */
     [[nodiscard]]
-    constexpr Vector<T, Dim> operator-() const noexcept {
+    constexpr Vector operator-() const noexcept {
         return *this * (-1);
     }
     
@@ -119,11 +121,11 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return Vector<T, Dim> 
+     * @return Vector 
      */
     [[nodiscard]]
-    friend constexpr Vector<T, Dim> operator+(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
-        return std::move(Vector<T, Dim>(lhs) += rhs);
+    friend constexpr Vector operator+(const Vector& lhs, const Vector& rhs) noexcept {
+        return std::move(Vector(lhs) += rhs);
     }
     
     /**
@@ -131,11 +133,11 @@ struct Vector {
      * 
      * @param lhs 
      * @param rhs 
-     * @return Vector<T, Dim> 
+     * @return Vector 
      */
     [[nodiscard]]
-    friend constexpr Vector<T, Dim> operator-(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
-        return std::move(Vector<T, Dim>(lhs) -= rhs);
+    friend constexpr Vector operator-(const Vector& lhs, const Vector& rhs) noexcept {
+        return std::move(Vector(lhs) -= rhs);
     }
     
     /**
@@ -143,11 +145,11 @@ struct Vector {
      * 
      * @param lhs 
      * @param coef 
-     * @return Vector<T, Dim> 
+     * @return Vector 
      */
     [[nodiscard]]
-    friend constexpr Vector<T, Dim> operator*(const Vector<T, Dim>& lhs, const T& coef) noexcept {
-        return std::move(Vector<T, Dim>(lhs) *= coef);
+    friend constexpr Vector operator*(const Vector& lhs, const T& coef) noexcept {
+        return std::move(Vector(lhs) *= coef);
     }
     
     /**
@@ -155,11 +157,11 @@ struct Vector {
      * 
      * @param lhs 
      * @param coef 
-     * @return Vector<T, Dim> 
+     * @return Vector 
      */
     [[nodiscard]]
-    friend Vector<T, Dim> operator/(const Vector<T, Dim>& lhs, const T& coef) {
-        return std::move(Vector<T, Dim>(lhs) /= coef);
+    friend Vector operator/(const Vector& lhs, const T& coef) {
+        return std::move(Vector(lhs) /= coef);
     }
     
     /**
@@ -170,7 +172,7 @@ struct Vector {
      * @return bool
      */
     [[nodiscard]]
-    friend constexpr bool operator==(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
+    friend constexpr bool operator==(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v == rhs.v;
     }
     
@@ -182,7 +184,7 @@ struct Vector {
      * @return bool 
      */
     [[nodiscard]]
-    friend constexpr bool operator!=(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
+    friend constexpr bool operator!=(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v != rhs.v;
     }
     
@@ -194,7 +196,7 @@ struct Vector {
      * @return bool 
      */ 
     [[nodiscard]]
-    friend constexpr bool operator<(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
+    friend constexpr bool operator<(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v < rhs.v;
     }
     /**
@@ -205,7 +207,7 @@ struct Vector {
      * @return bool
      */
     [[nodiscard]]
-    friend constexpr bool operator>(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
+    friend constexpr bool operator>(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v > rhs.v;
     }
     /**
@@ -216,7 +218,7 @@ struct Vector {
      * @return bool 
      */
     [[nodiscard]]
-    friend constexpr bool operator<=(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
+    friend constexpr bool operator<=(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v <= rhs.v;
     }
     /**
@@ -227,7 +229,7 @@ struct Vector {
      * @return bool
      */
     [[nodiscard]]
-    friend constexpr bool operator>=(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
+    friend constexpr bool operator>=(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v >= rhs.v;
     }
     
@@ -238,7 +240,7 @@ struct Vector {
      */
     struct ArgSortComp {
         template <std::enable_if_t<Dim == 2>* = nullptr>
-        bool operator()(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) {
+        bool operator()(const Vector& lhs, const Vector& rhs) {
             int l_half = lhs[1] < 0 || (lhs[1] == 0 && lhs[0] < 0);
             int r_half = rhs[1] < 0 || (rhs[1] == 0 && rhs[0] < 0);
             if(l_half != r_half) return l_half < r_half;
@@ -256,7 +258,7 @@ struct Vector {
      * @return std::basic_istream<CharT, Traits>& 
      */
     template <class CharT, class Traits>
-    friend std::basic_istream<CharT, Traits>& operator>>(std::basic_istream<CharT, Traits>& is, Vector<T, Dim>& rhs) {
+    friend std::basic_istream<CharT, Traits>& operator>>(std::basic_istream<CharT, Traits>& is, Vector& rhs) {
         for(int i = 0; i < Dim; i++) is >> rhs.v[i];
         return is;
     }
@@ -270,7 +272,7 @@ struct Vector {
      * @return std::basic_ostream<CharT, Traits>& 
      */
     template <class CharT, class Traits>
-    friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const Vector<T, Dim>& rhs) {
+    friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const Vector& rhs) {
         for(int i = 0; i < Dim; i++) {
             if(i != 0) os << ' ';
             os << rhs.v[i];
@@ -285,7 +287,7 @@ struct Vector {
      * @param rhs 
      * @return T 
      */
-    friend constexpr T dot(const Vector<T, Dim>& lhs, const Vector<T, Dim>& rhs) noexcept {
+    friend constexpr T dot(const Vector& lhs, const Vector& rhs) noexcept {
         T ret = 0;
         for(int i = 0; i < Dim; i++) ret += lhs[i] * rhs[i];
         return ret;

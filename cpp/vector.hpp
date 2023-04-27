@@ -153,6 +153,18 @@ struct Vector {
     }
     
     /**
+     * @brief スカラー倍演算子
+     * 
+     * @param coef 
+     * @param rhs 
+     * @return Vector 
+     */
+    [[nodiscard]]
+    friend constexpr Vector operator*(const T& coef, const Vector& rhs) noexcept {
+        return std::move(Vector(rhs) *= coef);
+    }
+    
+    /**
      * @brief スカラーの逆数倍演算子
      * 
      * @param lhs 

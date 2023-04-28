@@ -201,14 +201,15 @@ public:
  * 
  * @tparam S モノイドの型
  * @tparam Op 積のファクタ
- * @tparam E 積の単位元
+ * @tparam E 積の単位元を返すファンクタ
  */
-template <typename S, typename Op, S E>
+template <typename S, typename Op, typename E>
 class StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {
     inline static Op operator_object;
+    inline static E identity_object;
 public:
     static S op(const S& a, const S& b) { return operator_object(a, b); }
-    static S e() { return E; }
+    static S e() { return identity_object(); }
 
     /**
      * @brief デフォルトコンストラクタ
@@ -238,8 +239,8 @@ public:
  */
 template <typename S, int ID=-1>
 class SegTree : public SegTreeBase<S, SegTree<S, ID>> {
-    static std::function<S(S, S)> operator_object;
-    static std::function<S()> identity_object;
+    inline static std::function<S(const S&, const S&)> operator_object;
+    inline static std::function<S()> identity_object;
 
 public:
     /**
@@ -248,7 +249,7 @@ public:
      * @param op 積の関数オブジェクト
      * @param id 単位元を返す関数オブジェクト
      */
-    static void set_operator(const std::function<S(S, S)>& op, const std::function<S()>& id) {
+    static void set_operator(const std::function<S(const S&, const S&)>& op, const std::function<S()>& id) {
         operator_object = op;
         identity_object = id;
     }
@@ -287,11 +288,23 @@ public:
 namespace segtree {
     template <typename S>
     struct Max {
-        const S& operator() (const S& a, const S& b) const { return std::max(a, b); }
+        const S operator() (const S& a, const S& b) const { return std::max(a, b); }
     };
     template <typename S>
     struct Min {
-        const S& operator() (const S& a, const S& b) const { return std::min(a, b); }
+        const S operator() (const S& a, const S& b) const { return std::min(a, b); }
+    };
+    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
+    struct MaxLimit {
+        constexpr S operator() () const { return std::numeric_limits<S>::max(); }
+    };
+    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
+    struct MinLimit {
+        constexpr S operator() () const { return std::numeric_limits<S>::min(); }
+    };
+    template <typename S>
+    struct Zero {
+        S operator() () const { return S(0); }
     };
 }
 /**
@@ -299,19 +312,19 @@ namespace segtree {
  * 
  * @tparam S 型
  */
-template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-using RMaxQ = StaticSegTree<S, segtree::Max<S>, std::numeric_limits<S>::min()>;
+template <typename S>
+using RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;
 /**
  * @brief RangeMinQuery
  * 
  * @tparam S 型
  */
 template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-using RMinQ = StaticSegTree<S, segtree::Min<S>, std::numeric_limits<S>::max()>;
+using RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;
 /**
  * @brief RangeSumQuery
  * 
  * @tparam S 型
  */
 template <typename S>
-using RSumQ = StaticSegTree<S, std::plus<S>, S(0)>;
+using RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;

@@ -1,10 +1,21 @@
 #pragma once
 
+/**
+ * @file segtree.hpp
+ * @brief セグメント木
+ */
+
 #include <functional>
 #include <limits>
 #include <ostream>
 #include <vector>
 
+/**
+ * @brief セグメント木のCRTP基底クラス
+ * 
+ * @tparam S モノイドの型
+ * @tparam ActualSegTree 派生クラス
+ */
 template <typename S, typename ActualSegTree>
 class SegTreeBase {
     int n, sz, height;
@@ -38,10 +49,37 @@ public:
         for (int i = sz - 1; i > 0; i--) update(i);
     }
     
+    /**
+     * @brief 指定された要素の値を返す
+     * 
+     * @param k インデックス
+     * @return S 値
+     */
     S get(int k) const { return data[sz + k]; }
+    /**
+     * @brief 指定された要素の値を返す
+     * 
+     * @param k インデックス
+     * @return S 値
+     */
     S operator[] (int k) const { return get(k); }
+    /**
+     * @brief 指定された要素への参照を返す
+     * 
+     * @param k 
+     * @return SegTreeReference 要素への参照 代入されるとset()が呼ばれる
+     */
     SegTreeReference operator[] (int k) { return SegTreeReference(*this, k); }
 
+    /**
+     * @brief 内容を出力する
+     * 
+     * @tparam CharT 出力ストリームの文字型
+     * @tparam Traits 出力ストリームの文字型特性
+     * @param os 出力ストリーム
+     * @param rhs セグメント木
+     * @return std::basic_ostream<CharT, Traits>& 出力ストリーム 
+     */
     template <class CharT, class Traits>
     friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const SegTreeBase& rhs) {
         for(int i = 0; i < rhs.n; i++) {
@@ -51,19 +89,50 @@ public:
         return os;
     }
     
+    /**
+     * @brief 指定された要素の値をxに更新する
+     * 
+     * @param k インデックス
+     * @param x 新しい値
+     */
     void set(int k, const S& x) {
         k += sz;
         data[k] = x;
         for (int i = 1; i <= height; i++) update(k >> i);
     }
+    /**
+     * @brief 指定された要素の値をxに更新する
+     * 
+     * @param k インデックス
+     * @param x 新しい値
+     */
     void set(int k, S& x) {
         k += sz;
         data[k] = x;
         for (int i = 1; i <= height; i++) update(k >> i);
     }
+    /**
+     * @brief 指定された要素の値にxを作用させる
+     * 
+     * @param k インデックス
+     * @param x 作用素
+     */
     void apply(int k, const S& x) { set(k, ActualSegTree::op(get(k), x)); }
+    /**
+     * @brief 指定された要素の値にxを作用させる
+     * 
+     * @param k インデックス
+     * @param x 作用素
+     */
     void apply(int k, S& x) { set(k, ActualSegTree::op(get(k), x)); }
     
+    /**
+     * @brief [l, r)の区間の総積を返す
+     * 
+     * @param l 半開区間の開始
+     * @param r 半開区間の終端
+     * @return S 総積
+     */
     S prod(int l, int r) const {
         S left_prod = ActualSegTree::e(), right_prod = ActualSegTree::e();
         l += sz;
@@ -76,8 +145,21 @@ public:
         }
         return ActualSegTree::op(left_prod, right_prod);
     }
+    /**
+     * @brief すべての要素の総積を返す
+     * 
+     * @return S 総積
+     */
     S all_prod() const { return data[1]; }
 
+    /**
+     * @brief f(prod([l, r))) = trueとなる最大のrを返す
+     * 
+     * @tparam F
+     * @param l 半開区間の開始
+     * @param f 判定関数
+     * @return int 最大のr
+     */
     template <typename F>
     int max_right(int l, F f) const {
         assert(f(ActualSegTree::e()));
@@ -100,6 +182,14 @@ public:
         }
         return l - sz;
     }
+    /**
+     * @brief f(prod([l, r))) = trueとなる最小のlを返す
+     * 
+     * @tparam F
+     * @param r 半開区間の終端
+     * @param f 判定関数
+     * @return int 最小のl
+     */
     template <typename F>
     int min_left(int r, F f) const {
         assert(f(ActualSegTree::e()));
@@ -124,6 +214,13 @@ public:
     }
 };
 
+/**
+ * @brief 積のファンクタが静的な場合のセグメント木の実装
+ * 
+ * @tparam S モノイドの型
+ * @tparam Op 積のファクタ
+ * @tparam E 積の単位元
+ */
 template <typename S, typename Op, S E>
 class StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {
     static Op operator_object;
@@ -132,20 +229,49 @@ public:
     static S op(S& a, S& b) { return operator_object(a, b); }
     static S e() { return E; }
     
+    /**
+     * @brief コンストラクタ
+     * 
+     * @param n 要素数
+     */
     StaticSegTree(int n = 0) : SegTreeBase<S, StaticSegTree<S, Op, E>>(n) {}
+    /**
+     * @brief コンストラクタ
+     * 
+     * @param v 初期の要素
+     */
     StaticSegTree(const std::vector<S>& v) : SegTreeBase<S, StaticSegTree<S, Op, E>>(v) {}
 };
 
+/**
+ * @brief 関数オブジェクトを与えることで積を定義するセグメント木の実装
+ * ラムダ式が使えるが、std::functionにバインドするため遅い
+ * 
+ * @tparam S モノイドの型
+ * @tparam ID 複数種類の積を使う場合に型を分けるためのID 1種類のみ使う場合は指定不要
+ */
 template <typename S, int ID=-1>
 class SegTree : public SegTreeBase<S, SegTree<S, ID>> {
     static std::function<S(S, S)> operator_object;
     static std::function<S()> identity_object;
     
 public:
+    /**
+     * @brief 積の関数オブジェクトをセットする
+     * 
+     * @param op 積の関数オブジェクト
+     * @param id 単位元を返す関数オブジェクト
+     */
     static void set_operator(const std::function<S(S, S)>& op, const std::function<S()>& id) {
         operator_object = op;
         identity_object = id;
     }
+    /**
+     * @brief 積の関数オブジェクトをセットする
+     * 
+     * @param op 積の関数オブジェクト
+     * @param e 単位元の値
+     */
     static void set_operator(const std::function<S(S, S)>& op, const S& e) {
         operator_object = op;
         identity_object = [&e](){ return e; };
@@ -153,7 +279,17 @@ public:
     static S op(S a, S b) { return operator_object(a, b); }
     static S e() { return identity_object(); }
     
+    /**
+     * @brief コンストラクタ
+     * 
+     * @param n 要素数
+     */
     SegTree(int n = 0) : SegTreeBase<S, SegTree<S, ID>>(n) {}
+    /**
+     * @brief コンストラクタ
+     * 
+     * @param v 初期の要素
+     */
     SegTree(const std::vector<S>& v) : SegTreeBase<S, SegTree<S, ID>>(v) {}
 };
 
@@ -167,9 +303,24 @@ namespace segtree {
         const S& operator() (const S& a, const S& b) const { return std::min(a, b); }
     };
 }
+/**
+ * @brief RangeMaxQuery
+ * 
+ * @tparam S 型
+ */
 template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
 using RMaxQ = StaticSegTree<S, segtree::Max<S>, std::numeric_limits<S>::min()>;
+/**
+ * @brief RangeMinQuery
+ * 
+ * @tparam S 型
+ */
 template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
 using RMinQ = StaticSegTree<S, segtree::Min<S>, std::numeric_limits<S>::max()>;
+/**
+ * @brief RangeSumQuery
+ * 
+ * @tparam S 型
+ */
 template <typename S>
 using RSumQ = StaticSegTree<S, std::plus<S>, S(0)>;

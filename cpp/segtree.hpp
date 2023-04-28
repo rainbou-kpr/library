@@ -230,17 +230,22 @@ public:
     static S e() { return E; }
     
     /**
+     * @brief デフォルトコンストラクタ
+     * 
+    */
+    StaticSegTree() : SegTreeBase<S, StaticSegTree<S, Op, E>>(0) {}
+    /**
      * @brief コンストラクタ
      * 
      * @param n 要素数
      */
-    StaticSegTree(int n = 0) : SegTreeBase<S, StaticSegTree<S, Op, E>>(n) {}
+    explicit StaticSegTree(int n) : SegTreeBase<S, StaticSegTree<S, Op, E>>(n) {}
     /**
      * @brief コンストラクタ
      * 
      * @param v 初期の要素
      */
-    StaticSegTree(const std::vector<S>& v) : SegTreeBase<S, StaticSegTree<S, Op, E>>(v) {}
+    explicit StaticSegTree(const std::vector<S>& v) : SegTreeBase<S, StaticSegTree<S, Op, E>>(v) {}
 };
 
 /**
@@ -280,17 +285,22 @@ public:
     static S e() { return identity_object(); }
     
     /**
+     * @brief デフォルトコンストラクタ
+     * 
+    */
+    SegTree() : SegTreeBase<S, SegTree<S, ID>>(0) {}
+    /**
      * @brief コンストラクタ
      * 
      * @param n 要素数
      */
-    SegTree(int n = 0) : SegTreeBase<S, SegTree<S, ID>>(n) {}
+    explicit SegTree(int n) : SegTreeBase<S, SegTree<S, ID>>(n) {}
     /**
      * @brief コンストラクタ
      * 
      * @param v 初期の要素
      */
-    SegTree(const std::vector<S>& v) : SegTreeBase<S, SegTree<S, ID>>(v) {}
+    explicit SegTree(const std::vector<S>& v) : SegTreeBase<S, SegTree<S, ID>>(v) {}
 };
 
 namespace segtree {

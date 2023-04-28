@@ -261,7 +261,7 @@ public:
      */
     static void set_operator(const std::function<S(S, S)>& op, const S& e) {
         operator_object = op;
-        identity_object = [&e](){ return e; };
+        identity_object = [e](){ return e; };
     }
     static S op(const S& a, const S& b) { return operator_object(a, b); }
     static S e() { return identity_object(); }

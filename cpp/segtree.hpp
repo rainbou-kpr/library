@@ -83,7 +83,7 @@ public:
     template <class CharT, class Traits>
     friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const SegTreeBase& rhs) {
         for(int i = 0; i < rhs.n; i++) {
-            if(i != 0) os << ' ';
+            if(i != 0) os << CharT(' ');
             os << rhs[i];
         }
         return os;

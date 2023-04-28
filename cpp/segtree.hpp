@@ -21,7 +21,7 @@ class SegTreeBase {
     int n, sz, height;
     std::vector<S> data;
     void update(int k) { data[k] = ActualSegTree::op(data[2 * k], data[2 * k + 1]); }
-    
+
     class SegTreeReference {
         SegTreeBase& segtree;
         int k;
@@ -33,7 +33,7 @@ class SegTreeBase {
         }
         operator S() const { return segtree.get(k); }
     };
-    
+
 public:
     SegTreeBase(int n) : n(n) {
         sz = 1;
@@ -48,7 +48,7 @@ public:
         for (int i = 0; i < n; i++) data[sz + i] = v[i];
         for (int i = sz - 1; i > 0; i--) update(i);
     }
-    
+
     /**
      * @brief 指定された要素の値を返す
      * 
@@ -88,7 +88,7 @@ public:
         }
         return os;
     }
-    
+
     /**
      * @brief 指定された要素の値をxに更新する
      * 
@@ -107,7 +107,7 @@ public:
      * @param x 作用素
      */
     void apply(int k, const S& x) { set(k, ActualSegTree::op(get(k), x)); }
-    
+
     /**
      * @brief [l, r)の区間の総積を返す
      * 
@@ -209,7 +209,7 @@ class StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {
 public:
     static S op(const S& a, const S& b) { return operator_object(a, b); }
     static S e() { return E; }
-    
+
     /**
      * @brief デフォルトコンストラクタ
      * 
@@ -240,7 +240,7 @@ template <typename S, int ID=-1>
 class SegTree : public SegTreeBase<S, SegTree<S, ID>> {
     static std::function<S(S, S)> operator_object;
     static std::function<S()> identity_object;
-    
+
 public:
     /**
      * @brief 積の関数オブジェクトをセットする
@@ -264,7 +264,7 @@ public:
     }
     static S op(const S& a, const S& b) { return operator_object(a, b); }
     static S e() { return identity_object(); }
-    
+
     /**
      * @brief デフォルトコンストラクタ
      * 

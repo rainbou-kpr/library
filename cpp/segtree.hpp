@@ -18,9 +18,12 @@
  */
 template <typename S, typename ActualSegTree>
 class SegTreeBase {
+    S op(const S& a, const S& b) const { return static_cast<const ActualSegTree&>(*this).op(a, b); }
+    S e() const { return static_cast<const ActualSegTree&>(*this).e(); }
+
     int n, sz, height;
     std::vector<S> data;
-    void update(int k) { data[k] = ActualSegTree::op(data[2 * k], data[2 * k + 1]); }
+    void update(int k) { data[k] = op(data[2 * k], data[2 * k + 1]); }
 
     class SegTreeReference {
         SegTreeBase& segtree;
@@ -42,7 +45,7 @@ public:
             sz <<= 1;
             height++;
         }
-        data.assign(sz * 2, ActualSegTree::e());
+        data.assign(sz * 2, e());
     }
     SegTreeBase(const std::vector<S>& v) : SegTreeBase(v.size()) {
         for (int i = 0; i < n; i++) data[sz + i] = v[i];
@@ -106,7 +109,7 @@ public:
      * @param k インデックス
      * @param x 作用素
      */
-    void apply(int k, const S& x) { set(k, ActualSegTree::op(get(k), x)); }
+    void apply(int k, const S& x) { set(k, op(get(k), x)); }
 
     /**
      * @brief [l, r)の区間の総積を返す
@@ -116,16 +119,16 @@ public:
      * @return S 総積
      */
     S prod(int l, int r) const {
-        S left_prod = ActualSegTree::e(), right_prod = ActualSegTree::e();
+        S left_prod = e(), right_prod = e();
         l += sz;
         r += sz;
         while (l < r) {
-            if (l & 1) left_prod = ActualSegTree::op(left_prod, data[l++]);
-            if (r & 1) right_prod = ActualSegTree::op(data[--r], right_prod);
+            if (l & 1) left_prod = op(left_prod, data[l++]);
+            if (r & 1) right_prod = op(data[--r], right_prod);
             l >>= 1;
             r >>= 1;
         }
-        return ActualSegTree::op(left_prod, right_prod);
+        return op(left_prod, right_prod);
     }
     /**
      * @brief すべての要素の総積を返す
@@ -144,21 +147,21 @@ public:
      */
     template <typename F>
     int max_right(int l, F f) const {
-        assert(f(ActualSegTree::e()));
+        assert(f(e()));
         if (l == n) return n;
         l += sz;
         while (l % 2 == 0) l >>= 1;
-        S sum = ActualSegTree::e();
-        while(f(ActualSegTree::op(sum, data[l]))) {
+        S sum = e();
+        while(f(op(sum, data[l]))) {
             if (__builtin_clz(l) != __builtin_clz(l+1)) return n;
-            sum = ActualSegTree::op(sum, data[l]);
+            sum = op(sum, data[l]);
             l++;
             while (l % 2 == 0) l >>= 1;
         }
         while (l < sz) {
-            if (!f(ActualSegTree::op(sum, data[l * 2]))) l *= 2;
+            if (!f(op(sum, data[l * 2]))) l *= 2;
             else {
-                sum = ActualSegTree::op(sum, data[l * 2]);
+                sum = op(sum, data[l * 2]);
                 l = l * 2 + 1;
             }
         }
@@ -174,21 +177,21 @@ public:
      */
     template <typename F>
     int min_left(int r, F f) const {
-        assert(f(ActualSegTree::e()));
+        assert(f(e()));
         if (r == 0) return 0;
         r += sz - 1;
         while (r % 2 == 1) r >>= 1;
-        S sum = ActualSegTree::e();
-        while(f(ActualSegTree::op(sum, data[r]))) {
+        S sum = e();
+        while(f(op(sum, data[r]))) {
             if (__builtin_clz(r) != __builtin_clz(r-1)) return 0;
-            sum = ActualSegTree::op(sum, data[r]);
+            sum = op(sum, data[r]);
             r--;
             while (r % 2 == 1) r >>= 1;
         }
         while (r < sz) {
-            if (!f(ActualSegTree::op(data[r * 2 + 1], sum))) r = r * 2 + 1;
+            if (!f(op(data[r * 2 + 1], sum))) r = r * 2 + 1;
             else {
-                sum = ActualSegTree::op(data[r * 2 + 1], sum);
+                sum = op(data[r * 2 + 1], sum);
                 r *= 2;
             }
         }
@@ -208,8 +211,8 @@ class StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {
     inline static Op operator_object;
     inline static E identity_object;
 public:
-    static S op(const S& a, const S& b) { return operator_object(a, b); }
-    static S e() { return identity_object(); }
+    S op(const S& a, const S& b) const { return operator_object(a, b); }
+    S e() const { return identity_object(); }
 
     /**
      * @brief デフォルトコンストラクタ
@@ -231,59 +234,58 @@ public:
 };
 
 /**
- * @brief 関数オブジェクトを与えることで積を定義するセグメント木の実装
- * ラムダ式が使えるが、std::functionにバインドするため遅い
+ * @brief コンストラクタで関数オブジェクトを与えることで積を定義するセグメント木の実装
+ * テンプレート引数を省略することができ、ラムダ式が使える
  * 
  * @tparam S モノイドの型
- * @tparam ID 複数種類の積を使う場合に型を分けるためのID 1種類のみ使う場合は指定不要
+ * @tparam Op 積の関数オブジェクトの型
  */
-template <typename S, int ID=-1>
-class SegTree : public SegTreeBase<S, SegTree<S, ID>> {
-    inline static std::function<S(const S&, const S&)> operator_object;
-    inline static std::function<S()> identity_object;
+template <typename S, typename Op>
+class SegTree : public SegTreeBase<S, SegTree<S, Op>> {
+    using BaseType = SegTreeBase<S, SegTree<S, Op>>;
+
+    Op operator_object;
+    S identity;
 
 public:
-    /**
-     * @brief 積の関数オブジェクトをセットする
-     * 
-     * @param op 積の関数オブジェクト
-     * @param id 単位元を返す関数オブジェクト
-     */
-    static void set_operator(const std::function<S(const S&, const S&)>& op, const std::function<S()>& id) {
-        operator_object = op;
-        identity_object = id;
-    }
-    /**
-     * @brief 積の関数オブジェクトをセットする
-     * 
-     * @param op 積の関数オブジェクト
-     * @param e 単位元の値
-     */
-    static void set_operator(const std::function<S(S, S)>& op, const S& e) {
-        operator_object = op;
-        identity_object = [e](){ return e; };
-    }
-    static S op(const S& a, const S& b) { return operator_object(a, b); }
-    static S e() { return identity_object(); }
+    S op(const S& a, const S& b) const { return operator_object(a, b); }
+    S e() const { return identity; }
 
     /**
-     * @brief デフォルトコンストラクタ
+     * @brief コンストラクタ
      * 
+     * @param op 積の関数オブジェクト
+     * @param identity 単位元
     */
-    SegTree() : SegTreeBase<S, SegTree<S, ID>>(0) {}
+    explicit SegTree(Op op, const S& identity) : BaseType(0), identity(identity) {
+        operator_object = std::move(op);
+    }
     /**
      * @brief コンストラクタ
      * 
      * @param n 要素数
+     * @param op 積の関数オブジェクト
+     * @param identity 単位元
      */
-    explicit SegTree(int n) : SegTreeBase<S, SegTree<S, ID>>(n) {}
+    explicit SegTree(int n, Op op, const S& identity) : BaseType(n), identity(identity) {
+        operator_object = std::move(op);
+    }
     /**
      * @brief コンストラクタ
      * 
      * @param v 初期の要素
+     * @param op 積の関数オブジェクト
+     * @param identity 単位元
      */
-    explicit SegTree(const std::vector<S>& v) : SegTreeBase<S, SegTree<S, ID>>(v) {}
+    explicit SegTree(const std::vector<S>& v, Op op, const S& identity) : BaseType(v), operator_object(std::move(op)), identity(identity) {}
 };
+
+template <typename S, typename Op>
+SegTree(Op op, const S&) -> SegTree<std::decay_t<S>, Op>;
+template <typename S, typename Op>
+SegTree(int, Op op, const S&) -> SegTree<std::decay_t<S>, Op>;
+template <typename S, typename Op>
+SegTree(const std::vector<S>&, Op op, const S&) -> SegTree<std::decay_t<S>, Op>;
 
 namespace segtree {
     template <typename S>

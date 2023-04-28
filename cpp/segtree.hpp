@@ -101,30 +101,12 @@ public:
         for (int i = 1; i <= height; i++) update(k >> i);
     }
     /**
-     * @brief 指定された要素の値をxに更新する
-     * 
-     * @param k インデックス
-     * @param x 新しい値
-     */
-    void set(int k, S& x) {
-        k += sz;
-        data[k] = x;
-        for (int i = 1; i <= height; i++) update(k >> i);
-    }
-    /**
      * @brief 指定された要素の値にxを作用させる
      * 
      * @param k インデックス
      * @param x 作用素
      */
     void apply(int k, const S& x) { set(k, ActualSegTree::op(get(k), x)); }
-    /**
-     * @brief 指定された要素の値にxを作用させる
-     * 
-     * @param k インデックス
-     * @param x 作用素
-     */
-    void apply(int k, S& x) { set(k, ActualSegTree::op(get(k), x)); }
     
     /**
      * @brief [l, r)の区間の総積を返す
@@ -226,7 +208,6 @@ class StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {
     static Op operator_object;
 public:
     static S op(const S& a, const S& b) { return operator_object(a, b); }
-    static S op(S& a, S& b) { return operator_object(a, b); }
     static S e() { return E; }
     
     /**
@@ -281,7 +262,7 @@ public:
         operator_object = op;
         identity_object = [&e](){ return e; };
     }
-    static S op(S a, S b) { return operator_object(a, b); }
+    static S op(const S& a, const S& b) { return operator_object(a, b); }
     static S e() { return identity_object(); }
     
     /**

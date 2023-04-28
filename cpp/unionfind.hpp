@@ -1,5 +1,10 @@
 #pragma once
 
+/**
+ * @file unionfind.hpp
+ * @brief UnionFind
+ */
+
 #include <algorithm>
 #include <cassert>
 #include <iostream>

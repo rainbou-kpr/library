@@ -223,7 +223,7 @@ public:
  */
 template <typename S, typename Op, S E>
 class StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {
-    static Op operator_object;
+    inline static Op operator_object;
 public:
     static S op(const S& a, const S& b) { return operator_object(a, b); }
     static S op(S& a, S& b) { return operator_object(a, b); }

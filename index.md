@@ -17,6 +17,9 @@ data:
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
         \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
+      path: cpp/unionfind.hpp
+      title: UnionFind
+    - icon: ':heavy_check_mark:'
       path: cpp/vector.hpp
       title: "\u5E7E\u4F55\u5B66\u3068\u3057\u3066\u306E\u30D9\u30AF\u30C8\u30EB"
   - name: py
@@ -24,6 +27,9 @@ data:
     - icon: ':warning:'
       path: py/graph.py
       title: py/graph.py
+    - icon: ':warning:'
+      path: py/unionfind.py
+      title: py/unionfind.py
   verificationCategories:
   - name: test
     pages:
@@ -45,6 +51,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-shortest-path.test.py
       title: test/yosupo-shortest-path.test.py
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-unionfind.test.cpp
+      title: test/yosupo-unionfind.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-unionfind.test.py
+      title: test/yosupo-unionfind.test.py
     - icon: ':heavy_check_mark:'
       path: test/yukicoder-rotate-enlarge_1.test.cpp
       title: test/yukicoder-rotate-enlarge_1.test.cpp

@@ -28,10 +28,10 @@ data:
     \u30EB\n     */\n    constexpr Vector() noexcept : v() {}\n    /**\n     * @brief\
     \ \u53EF\u5909\u9577\u5F15\u6570\u306B\u3088\u308B\u30B3\u30F3\u30B9\u30C8\u30E9\
     \u30AF\u30BF\n     * \n     * @tparam Args \n     */\n    template <typename...\
-    \ Args>\n    constexpr Vector(Args... args) noexcept : v{args...} {}\n    \n \
-    \   /**\n     * @brief i\u756A\u76EE\u306E\u6210\u5206\u3092\u8FD4\u3059\n   \
-    \  * \n     * @param i\n     * @return T& \n     */\n    constexpr T& operator[](int\
-    \ i) noexcept {\n        return v[i];\n    }\n    /**\n     * @brief i\u756A\u76EE\
+    \ Args>\n    constexpr Vector(Args... args) noexcept : v{args...} {}\n\n    /**\n\
+    \     * @brief i\u756A\u76EE\u306E\u6210\u5206\u3092\u8FD4\u3059\n     * \n  \
+    \   * @param i\n     * @return T& \n     */\n    constexpr T& operator[](int i)\
+    \ noexcept {\n        return v[i];\n    }\n    /**\n     * @brief i\u756A\u76EE\
     \u306E\u6210\u5206\u3092\u8FD4\u3059\n     * \n     * @param i\n     * @return\
     \ T& \n     */\n    constexpr const T& operator[](int i) const noexcept {\n  \
     \      return v[i];\n    }\n\n    /**\n     * @brief \u52A0\u7B97\u4EE3\u5165\u6F14\
@@ -51,45 +51,44 @@ data:
     \ < Dim; i++) {\n            if constexpr(std::is_integral_v<T>) {\n         \
     \       assert(v[i] % coef == 0 && \"Vector::operator/= : coef must be a divisor\
     \ of all elements\");\n            }\n            v[i] /= coef;\n        }\n \
-    \       return *this;\n    }\n    \n    /**\n     * @brief \u5358\u9805\u30D7\u30E9\
+    \       return *this;\n    }\n\n    /**\n     * @brief \u5358\u9805\u30D7\u30E9\
     \u30B9\u6F14\u7B97\u5B50\n     * \n     * @return Vector \n     */\n    [[nodiscard]]\n\
     \    constexpr Vector operator+() const noexcept {\n        return *this;\n  \
     \  }\n    /**\n     * @brief \u5358\u9805\u30DE\u30A4\u30CA\u30B9\u6F14\u7B97\u5B50\
     \n     * \n     * @return Vector \n     */\n    [[nodiscard]]\n    constexpr Vector\
-    \ operator-() const noexcept {\n        return *this * (-1);\n    }\n    \n  \
-    \  /**\n     * @brief \u52A0\u7B97\u6F14\u7B97\u5B50\n     * \n     * @param lhs\
-    \ \n     * @param rhs \n     * @return Vector \n     */\n    [[nodiscard]]\n \
-    \   friend constexpr Vector operator+(const Vector& lhs, const Vector& rhs) noexcept\
-    \ {\n        return std::move(Vector(lhs) += rhs);\n    }\n    \n    /**\n   \
-    \  * @brief \u6E1B\u7B97\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n    \
-    \ * @param rhs \n     * @return Vector \n     */\n    [[nodiscard]]\n    friend\
-    \ constexpr Vector operator-(const Vector& lhs, const Vector& rhs) noexcept {\n\
-    \        return std::move(Vector(lhs) -= rhs);\n    }\n    \n    /**\n     * @brief\
-    \ \u30B9\u30AB\u30E9\u30FC\u500D\u6F14\u7B97\u5B50\n     * \n     * @param lhs\
-    \ \n     * @param coef \n     * @return Vector \n     */\n    [[nodiscard]]\n\
-    \    friend constexpr Vector operator*(const Vector& lhs, const T& coef) noexcept\
-    \ {\n        return std::move(Vector(lhs) *= coef);\n    }\n    \n    /**\n  \
-    \   * @brief \u30B9\u30AB\u30E9\u30FC\u500D\u6F14\u7B97\u5B50\n     * \n     *\
-    \ @param coef \n     * @param rhs \n     * @return Vector \n     */\n    [[nodiscard]]\n\
-    \    friend constexpr Vector operator*(const T& coef, const Vector& rhs) noexcept\
-    \ {\n        return std::move(Vector(rhs) *= coef);\n    }\n    \n    /**\n  \
-    \   * @brief \u30B9\u30AB\u30E9\u30FC\u306E\u9006\u6570\u500D\u6F14\u7B97\u5B50\
-    \n     * \n     * @param lhs \n     * @param coef \n     * @return Vector \n \
-    \    */\n    [[nodiscard]]\n    friend Vector operator/(const Vector& lhs, const\
-    \ T& coef) {\n        return std::move(Vector(lhs) /= coef);\n    }\n    \n  \
-    \  /**\n     * @brief \u7B49\u4FA1\u6F14\u7B97\u5B50\n     * \n     * @param lhs\
-    \ \n     * @param rhs \n     * @return bool\n     */\n    [[nodiscard]]\n    friend\
-    \ constexpr bool operator==(const Vector& lhs, const Vector& rhs) noexcept {\n\
-    \        return lhs.v == rhs.v;\n    }\n    \n    /**\n     * @brief \u975E\u7B49\
+    \ operator-() const noexcept {\n        return *this * (-1);\n    }\n\n    /**\n\
+    \     * @brief \u52A0\u7B97\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n \
+    \    * @param rhs \n     * @return Vector \n     */\n    [[nodiscard]]\n    friend\
+    \ constexpr Vector operator+(const Vector& lhs, const Vector& rhs) noexcept {\n\
+    \        return std::move(Vector(lhs) += rhs);\n    }\n\n    /**\n     * @brief\
+    \ \u6E1B\u7B97\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n     * @param rhs\
+    \ \n     * @return Vector \n     */\n    [[nodiscard]]\n    friend constexpr Vector\
+    \ operator-(const Vector& lhs, const Vector& rhs) noexcept {\n        return std::move(Vector(lhs)\
+    \ -= rhs);\n    }\n\n    /**\n     * @brief \u30B9\u30AB\u30E9\u30FC\u500D\u6F14\
+    \u7B97\u5B50\n     * \n     * @param lhs \n     * @param coef \n     * @return\
+    \ Vector \n     */\n    [[nodiscard]]\n    friend constexpr Vector operator*(const\
+    \ Vector& lhs, const T& coef) noexcept {\n        return std::move(Vector(lhs)\
+    \ *= coef);\n    }\n\n    /**\n     * @brief \u30B9\u30AB\u30E9\u30FC\u500D\u6F14\
+    \u7B97\u5B50\n     * \n     * @param coef \n     * @param rhs \n     * @return\
+    \ Vector \n     */\n    [[nodiscard]]\n    friend constexpr Vector operator*(const\
+    \ T& coef, const Vector& rhs) noexcept {\n        return std::move(Vector(rhs)\
+    \ *= coef);\n    }\n\n    /**\n     * @brief \u30B9\u30AB\u30E9\u30FC\u306E\u9006\
+    \u6570\u500D\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n     * @param coef\
+    \ \n     * @return Vector \n     */\n    [[nodiscard]]\n    friend Vector operator/(const\
+    \ Vector& lhs, const T& coef) {\n        return std::move(Vector(lhs) /= coef);\n\
+    \    }\n\n    /**\n     * @brief \u7B49\u4FA1\u6F14\u7B97\u5B50\n     * \n   \
+    \  * @param lhs \n     * @param rhs \n     * @return bool\n     */\n    [[nodiscard]]\n\
+    \    friend constexpr bool operator==(const Vector& lhs, const Vector& rhs) noexcept\
+    \ {\n        return lhs.v == rhs.v;\n    }\n\n    /**\n     * @brief \u975E\u7B49\
     \u4FA1\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n     * @param rhs \n  \
     \   * @return bool \n     */\n    [[nodiscard]]\n    friend constexpr bool operator!=(const\
     \ Vector& lhs, const Vector& rhs) noexcept {\n        return lhs.v != rhs.v;\n\
-    \    }\n    \n    /**\n     * @brief \u5C0F\u306A\u308A\u6F14\u7B97\u5B50\n  \
-    \   * \n     * @param lhs \n     * @param rhs \n     * @return bool \n     */\
-    \ \n    [[nodiscard]]\n    friend constexpr bool operator<(const Vector& lhs,\
-    \ const Vector& rhs) noexcept {\n        return lhs.v < rhs.v;\n    }\n    /**\n\
-    \     * @brief \u5927\u306A\u308A\u6F14\u7B97\u5B50\n     * \n     * @param lhs\
-    \ \n     * @param rhs \n     * @return bool\n     */\n    [[nodiscard]]\n    friend\
+    \    }\n\n    /**\n     * @brief \u5C0F\u306A\u308A\u6F14\u7B97\u5B50\n     *\
+    \ \n     * @param lhs \n     * @param rhs \n     * @return bool \n     */ \n \
+    \   [[nodiscard]]\n    friend constexpr bool operator<(const Vector& lhs, const\
+    \ Vector& rhs) noexcept {\n        return lhs.v < rhs.v;\n    }\n    /**\n   \
+    \  * @brief \u5927\u306A\u308A\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n\
+    \     * @param rhs \n     * @return bool\n     */\n    [[nodiscard]]\n    friend\
     \ constexpr bool operator>(const Vector& lhs, const Vector& rhs) noexcept {\n\
     \        return lhs.v > rhs.v;\n    }\n    /**\n     * @brief \u5C0F\u306A\u308A\
     \u30A4\u30B3\u30FC\u30EB\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n    \
@@ -99,20 +98,20 @@ data:
     \u30A4\u30B3\u30FC\u30EB\u6F14\u7B97\u5B50\n     * \n     * @param lhs \n    \
     \ * @param rhs \n     * @return bool\n     */\n    [[nodiscard]]\n    friend constexpr\
     \ bool operator>=(const Vector& lhs, const Vector& rhs) noexcept {\n        return\
-    \ lhs.v >= rhs.v;\n    }\n    \n    /**\n     * @brief \u504F\u89D2\u30BD\u30FC\
-    \u30C8\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n     * \n     * \u4E8C\u6B21\u5143\
-    \u9650\u5B9A\u3001\u53CD\u6642\u8A08\u56DE\u308A\n     */\n    struct ArgSortComp\
-    \ {\n        template <std::enable_if_t<Dim == 2>* = nullptr>\n        bool operator()(const\
+    \ lhs.v >= rhs.v;\n    }\n\n    /**\n     * @brief \u504F\u89D2\u30BD\u30FC\u30C8\
+    \u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n     * \n     * \u4E8C\u6B21\u5143\u9650\
+    \u5B9A\u3001\u53CD\u6642\u8A08\u56DE\u308A\n     */\n    struct ArgSortComp {\n\
+    \        template <std::enable_if_t<Dim == 2>* = nullptr>\n        bool operator()(const\
     \ Vector& lhs, const Vector& rhs) {\n            int l_half = lhs[1] < 0 || (lhs[1]\
     \ == 0 && lhs[0] < 0);\n            int r_half = rhs[1] < 0 || (rhs[1] == 0 &&\
     \ rhs[0] < 0);\n            if(l_half != r_half) return l_half < r_half;\n   \
-    \         return rhs[0] * lhs[1] < lhs[0] * rhs[1];\n        }\n    };\n    \n\
-    \    /**\n     * @brief \u5165\u529B\u30B9\u30C8\u30EA\u30FC\u30E0\u304B\u3089\
-    \u306E\u8AAD\u307F\u8FBC\u307F\n     * \n     * @tparam CharT \u5165\u529B\u30B9\
-    \u30C8\u30EA\u30FC\u30E0\u306E\u6587\u5B57\u578B\n     * @tparam Traits \u5165\
-    \u529B\u30B9\u30C8\u30EA\u30FC\u30E0\u306E\u6587\u5B57\u578B\u7279\u6027\n   \
-    \  * @param is \n     * @param rhs \n     * @return std::basic_istream<CharT,\
-    \ Traits>& \n     */\n    template <class CharT, class Traits>\n    friend std::basic_istream<CharT,\
+    \         return rhs[0] * lhs[1] < lhs[0] * rhs[1];\n        }\n    };\n\n   \
+    \ /**\n     * @brief \u5165\u529B\u30B9\u30C8\u30EA\u30FC\u30E0\u304B\u3089\u306E\
+    \u8AAD\u307F\u8FBC\u307F\n     * \n     * @tparam CharT \u5165\u529B\u30B9\u30C8\
+    \u30EA\u30FC\u30E0\u306E\u6587\u5B57\u578B\n     * @tparam Traits \u5165\u529B\
+    \u30B9\u30C8\u30EA\u30FC\u30E0\u306E\u6587\u5B57\u578B\u7279\u6027\n     * @param\
+    \ is \n     * @param rhs \n     * @return std::basic_istream<CharT, Traits>& \n\
+    \     */\n    template <class CharT, class Traits>\n    friend std::basic_istream<CharT,\
     \ Traits>& operator>>(std::basic_istream<CharT, Traits>& is, Vector& rhs) {\n\
     \        for(int i = 0; i < Dim; i++) is >> rhs.v[i];\n        return is;\n  \
     \  }\n    /**\n     * @brief \u51FA\u529B\u30B9\u30C8\u30EA\u30FC\u30E0\u3078\u306E\
@@ -122,12 +121,12 @@ data:
     \ is \n     * @param rhs \n     * @return std::basic_ostream<CharT, Traits>& \n\
     \     */\n    template <class CharT, class Traits>\n    friend std::basic_ostream<CharT,\
     \ Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const Vector& rhs)\
-    \ {\n        for(int i = 0; i < Dim; i++) {\n            if(i != 0) os << ' ';\n\
-    \            os << rhs.v[i];\n        }\n        return os;\n    }\n    \n   \
-    \ /**\n     * @brief \u5185\u7A4D\n     * \n     * @param lhs \n     * @param\
+    \ {\n        for(int i = 0; i < Dim; i++) {\n            if(i != 0) os << CharT('\
+    \ ');\n            os << rhs.v[i];\n        }\n        return os;\n    }\n\n \
+    \   /**\n     * @brief \u5185\u7A4D\n     * \n     * @param lhs \n     * @param\
     \ rhs \n     * @return T \n     */\n    friend constexpr T dot(const Vector& lhs,\
     \ const Vector& rhs) noexcept {\n        T ret = 0;\n        for(int i = 0; i\
-    \ < Dim; i++) ret += lhs[i] * rhs[i];\n        return ret;\n    }\n    \n    /**\n\
+    \ < Dim; i++) ret += lhs[i] * rhs[i];\n        return ret;\n    }\n\n    /**\n\
     \     * @brief \u7D76\u5BFE\u5024\u306E2\u4E57\n     * \n     * @return T \n \
     \    */\n    constexpr T squared_norm() const noexcept {\n        return dot(*this,\
     \ *this);\n    }\n    /**\n     * @brief \u7D76\u5BFE\u5024\n     * \n     * @return\
@@ -137,7 +136,7 @@ data:
     \u5F62\u306E\u7B26\u53F7\u4ED8\u304D\u9762\u7A4D)\n * \n * @param lhs \n * @param\
     \ rhs \n * @tparam T \u5EA7\u6A19\u306E\u578B\n * @return T \n */\ntemplate <typename\
     \ T>\nconstexpr T cross(const Vector<T, 2>& lhs, const Vector<T, 2>& rhs) noexcept\
-    \ {\n    return lhs[0] * rhs[1] - lhs[1] * rhs[0];\n}\n/**\n * @brief \u4E09\u6B21\
+    \ {\n    return lhs[0] * rhs[1] - lhs[1] * rhs[0];\n}\n/**\n* @brief \u4E09\u6B21\
     \u5143\u30D9\u30AF\u30C8\u30EB\u3069\u3046\u3057\u306E\u5916\u7A4D\n * \n * @param\
     \ lhs \n * @param rhs \n * @tparam T \u5EA7\u6A19\u306E\u578B\n * @return Vector<T,\
     \ 3> \n */\ntemplate <typename T>\nconstexpr Vector<T, 3> cross(const Vector<T,\
@@ -150,7 +149,7 @@ data:
     \u306E\u7AEF\u70B91\n * @param q2 2\u672C\u76EE\u306E\u7DDA\u5206\u306E\u7AEF\u70B9\
     2\n * @tparam T \u5EA7\u6A19\u306E\u578B\n * @return std::pair<bool, Vector<T,\
     \ 2>> first\u306F\u5171\u6709\u70B9\u306E\u6709\u7121\u3001second\u306F\u5171\u6709\
-    \u70B9\u306E1\u4F8B\n*/\ntemplate <typename T>\nconstexpr std::pair<bool, Vector<T,\
+    \u70B9\u306E1\u4F8B\n */\ntemplate <typename T>\nconstexpr std::pair<bool, Vector<T,\
     \ 2>> segment_intersect(const Vector<T, 2>& p1, const Vector<T, 2>& p2, const\
     \ Vector<T, 2>& q1, const Vector<T, 2>& q2) {\n    assert(p1 != p2 && q1 != q2\
     \ && \"segment_intersect: degenerate segment\");\n    T q1_cross = cross(p2 -\
@@ -192,7 +191,7 @@ data:
   isVerificationFile: true
   path: test/aoj-cgl-2-c.test.cpp
   requiredBy: []
-  timestamp: '2023-04-27 14:59:46+09:00'
+  timestamp: '2023-04-28 19:03:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj-cgl-2-c.test.cpp

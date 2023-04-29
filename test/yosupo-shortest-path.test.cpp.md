@@ -36,13 +36,15 @@ data:
     \ {}\n        operator int() const { return dst; }\n    };\n\n    int n; //!<\
     \ \u9802\u70B9\u6570\n    int m; //!< \u8FBA\u6570\n    std::vector<std::vector<Edge>>\
     \ g; //!< \u30B0\u30E9\u30D5\u306E\u96A3\u63A5\u30EA\u30B9\u30C8\u8868\u73FE\n\
-    \    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * @param\
-    \ n \u9802\u70B9\u6570\n     */\n    Graph(int n=0) : n(n), m(0), g(n) {}\n  \
-    \  /**\n     * @brief \u7121\u5411\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\n     *\
-    \ @param u \u59CB\u70B9\n     * @param v \u7D42\u70B9\n     * @param w \u30B3\u30B9\
-    \u30C8 \u7701\u7565\u3057\u305F\u30891\n     */\n    void add_edge(int u, int\
-    \ v, Cost w=1) {\n        g[u].push_back({u, v, w, m});\n        g[v].push_back({v,\
-    \ u, w, m++});\n    }\n    /**\n     * @brief \u6709\u5411\u8FBA\u3092\u8FFD\u52A0\
+    \n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\u30C8\
+    \u30E9\u30AF\u30BF\n     */\n    Graph() : n(0), m(0), g(0) {}\n    /**\n    \
+    \ * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * @param n \u9802\u70B9\
+    \u6570\n     */\n    explicit Graph(int n) : n(n), m(0), g(n) {}\n    /**\n  \
+    \   * @brief \u7121\u5411\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\n     * @param u\
+    \ \u59CB\u70B9\n     * @param v \u7D42\u70B9\n     * @param w \u30B3\u30B9\u30C8\
+    \ \u7701\u7565\u3057\u305F\u30891\n     */\n    void add_edge(int u, int v, Cost\
+    \ w=1) {\n        g[u].push_back({u, v, w, m});\n        g[v].push_back({v, u,\
+    \ w, m++});\n    }\n    /**\n     * @brief \u6709\u5411\u8FBA\u3092\u8FFD\u52A0\
     \u3059\u308B\n     * @param u \u59CB\u70B9\n     * @param v \u7D42\u70B9\n   \
     \  * @param w \u30B3\u30B9\u30C8 \u7701\u7565\u3057\u305F\u30891\n     */\n  \
     \  void add_directed_edge(int u, int v, Cost w=1) {\n        g[u].push_back({u,\
@@ -127,7 +129,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-shortest-path.test.cpp
   requiredBy: []
-  timestamp: '2023-04-25 02:28:47+00:00'
+  timestamp: '2023-04-28 19:03:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-shortest-path.test.cpp

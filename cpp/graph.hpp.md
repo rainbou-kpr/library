@@ -32,28 +32,30 @@ data:
     \ : src(src), dst(dst), cost(cost), id(id) {}\n        operator int() const {\
     \ return dst; }\n    };\n\n    int n; //!< \u9802\u70B9\u6570\n    int m; //!<\
     \ \u8FBA\u6570\n    std::vector<std::vector<Edge>> g; //!< \u30B0\u30E9\u30D5\u306E\
-    \u96A3\u63A5\u30EA\u30B9\u30C8\u8868\u73FE\n    /**\n     * @brief \u30B3\u30F3\
-    \u30B9\u30C8\u30E9\u30AF\u30BF\n     * @param n \u9802\u70B9\u6570\n     */\n\
-    \    Graph(int n=0) : n(n), m(0), g(n) {}\n    /**\n     * @brief \u7121\u5411\
-    \u8FBA\u3092\u8FFD\u52A0\u3059\u308B\n     * @param u \u59CB\u70B9\n     * @param\
-    \ v \u7D42\u70B9\n     * @param w \u30B3\u30B9\u30C8 \u7701\u7565\u3057\u305F\u3089\
-    1\n     */\n    void add_edge(int u, int v, Cost w=1) {\n        g[u].push_back({u,\
-    \ v, w, m});\n        g[v].push_back({v, u, w, m++});\n    }\n    /**\n     *\
-    \ @brief \u6709\u5411\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\n     * @param u \u59CB\
-    \u70B9\n     * @param v \u7D42\u70B9\n     * @param w \u30B3\u30B9\u30C8 \u7701\
-    \u7565\u3057\u305F\u30891\n     */\n    void add_directed_edge(int u, int v, Cost\
-    \ w=1) {\n        g[u].push_back({u, v, w, m++});\n    }\n    /**\n     * @brief\
-    \ \u8FBA\u306E\u60C5\u5831\u3092\u6A19\u6E96\u5165\u529B\u304B\u3089\u53D7\u3051\
-    \u53D6\u3063\u3066\u8FFD\u52A0\u3059\u308B\n     * @param m \u8FBA\u306E\u6570\
-    \n     * @param padding \u9802\u70B9\u756A\u53F7\u3092\u5165\u529B\u304B\u3089\
-    \u3044\u304F\u3064\u305A\u3089\u3059\u304B \u7701\u7565\u3057\u305F\u3089-1\n\
-    \     * @param weighted \u8FBA\u306E\u91CD\u307F\u304C\u5165\u529B\u3055\u308C\
-    \u308B\u304B \u7701\u7565\u3057\u305F\u3089false\u3068\u306A\u308A\u3001\u91CD\
-    \u307F1\u3067\u8FBA\u304C\u8FFD\u52A0\u3055\u308C\u308B\n     * @param directed\
-    \ \u6709\u5411\u30B0\u30E9\u30D5\u304B\u3069\u3046\u304B \u7701\u7565\u3057\u305F\
-    \u3089false\n     */\n    void read(int m, int padding=-1, bool weighted=false,\
-    \ bool directed=false) {\n        for(int i = 0; i < m; i++) {\n            int\
-    \ u, v; std::cin >> u >> v; u += padding, v += padding;\n            Cost c(1);\n\
+    \u96A3\u63A5\u30EA\u30B9\u30C8\u8868\u73FE\n\n    /**\n     * @brief \u30C7\u30D5\
+    \u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     */\n    Graph()\
+    \ : n(0), m(0), g(0) {}\n    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\
+    \u30AF\u30BF\n     * @param n \u9802\u70B9\u6570\n     */\n    explicit Graph(int\
+    \ n) : n(n), m(0), g(n) {}\n    /**\n     * @brief \u7121\u5411\u8FBA\u3092\u8FFD\
+    \u52A0\u3059\u308B\n     * @param u \u59CB\u70B9\n     * @param v \u7D42\u70B9\
+    \n     * @param w \u30B3\u30B9\u30C8 \u7701\u7565\u3057\u305F\u30891\n     */\n\
+    \    void add_edge(int u, int v, Cost w=1) {\n        g[u].push_back({u, v, w,\
+    \ m});\n        g[v].push_back({v, u, w, m++});\n    }\n    /**\n     * @brief\
+    \ \u6709\u5411\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\n     * @param u \u59CB\u70B9\
+    \n     * @param v \u7D42\u70B9\n     * @param w \u30B3\u30B9\u30C8 \u7701\u7565\
+    \u3057\u305F\u30891\n     */\n    void add_directed_edge(int u, int v, Cost w=1)\
+    \ {\n        g[u].push_back({u, v, w, m++});\n    }\n    /**\n     * @brief \u8FBA\
+    \u306E\u60C5\u5831\u3092\u6A19\u6E96\u5165\u529B\u304B\u3089\u53D7\u3051\u53D6\
+    \u3063\u3066\u8FFD\u52A0\u3059\u308B\n     * @param m \u8FBA\u306E\u6570\n   \
+    \  * @param padding \u9802\u70B9\u756A\u53F7\u3092\u5165\u529B\u304B\u3089\u3044\
+    \u304F\u3064\u305A\u3089\u3059\u304B \u7701\u7565\u3057\u305F\u3089-1\n     *\
+    \ @param weighted \u8FBA\u306E\u91CD\u307F\u304C\u5165\u529B\u3055\u308C\u308B\
+    \u304B \u7701\u7565\u3057\u305F\u3089false\u3068\u306A\u308A\u3001\u91CD\u307F\
+    1\u3067\u8FBA\u304C\u8FFD\u52A0\u3055\u308C\u308B\n     * @param directed \u6709\
+    \u5411\u30B0\u30E9\u30D5\u304B\u3069\u3046\u304B \u7701\u7565\u3057\u305F\u3089\
+    false\n     */\n    void read(int m, int padding=-1, bool weighted=false, bool\
+    \ directed=false) {\n        for(int i = 0; i < m; i++) {\n            int u,\
+    \ v; std::cin >> u >> v; u += padding, v += padding;\n            Cost c(1);\n\
     \            if(weighted) std::cin >> c;\n            if(directed) add_directed_edge(u,\
     \ v, c);\n            else add_edge(u, v, c);\n        }\n    }\n    /**\n   \
     \  * @brief \u3042\u308B\u9802\u70B9\u304B\u3089\u51FA\u308B\u8FBA\u3092\u5217\
@@ -120,47 +122,49 @@ data:
     \ dst(dst), cost(cost), id(id) {}\n        operator int() const { return dst;\
     \ }\n    };\n\n    int n; //!< \u9802\u70B9\u6570\n    int m; //!< \u8FBA\u6570\
     \n    std::vector<std::vector<Edge>> g; //!< \u30B0\u30E9\u30D5\u306E\u96A3\u63A5\
-    \u30EA\u30B9\u30C8\u8868\u73FE\n    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\
-    \u30E9\u30AF\u30BF\n     * @param n \u9802\u70B9\u6570\n     */\n    Graph(int\
-    \ n=0) : n(n), m(0), g(n) {}\n    /**\n     * @brief \u7121\u5411\u8FBA\u3092\u8FFD\
-    \u52A0\u3059\u308B\n     * @param u \u59CB\u70B9\n     * @param v \u7D42\u70B9\
-    \n     * @param w \u30B3\u30B9\u30C8 \u7701\u7565\u3057\u305F\u30891\n     */\n\
-    \    void add_edge(int u, int v, Cost w=1) {\n        g[u].push_back({u, v, w,\
-    \ m});\n        g[v].push_back({v, u, w, m++});\n    }\n    /**\n     * @brief\
-    \ \u6709\u5411\u8FBA\u3092\u8FFD\u52A0\u3059\u308B\n     * @param u \u59CB\u70B9\
-    \n     * @param v \u7D42\u70B9\n     * @param w \u30B3\u30B9\u30C8 \u7701\u7565\
-    \u3057\u305F\u30891\n     */\n    void add_directed_edge(int u, int v, Cost w=1)\
-    \ {\n        g[u].push_back({u, v, w, m++});\n    }\n    /**\n     * @brief \u8FBA\
-    \u306E\u60C5\u5831\u3092\u6A19\u6E96\u5165\u529B\u304B\u3089\u53D7\u3051\u53D6\
-    \u3063\u3066\u8FFD\u52A0\u3059\u308B\n     * @param m \u8FBA\u306E\u6570\n   \
-    \  * @param padding \u9802\u70B9\u756A\u53F7\u3092\u5165\u529B\u304B\u3089\u3044\
-    \u304F\u3064\u305A\u3089\u3059\u304B \u7701\u7565\u3057\u305F\u3089-1\n     *\
-    \ @param weighted \u8FBA\u306E\u91CD\u307F\u304C\u5165\u529B\u3055\u308C\u308B\
-    \u304B \u7701\u7565\u3057\u305F\u3089false\u3068\u306A\u308A\u3001\u91CD\u307F\
-    1\u3067\u8FBA\u304C\u8FFD\u52A0\u3055\u308C\u308B\n     * @param directed \u6709\
-    \u5411\u30B0\u30E9\u30D5\u304B\u3069\u3046\u304B \u7701\u7565\u3057\u305F\u3089\
-    false\n     */\n    void read(int m, int padding=-1, bool weighted=false, bool\
-    \ directed=false) {\n        for(int i = 0; i < m; i++) {\n            int u,\
-    \ v; std::cin >> u >> v; u += padding, v += padding;\n            Cost c(1);\n\
-    \            if(weighted) std::cin >> c;\n            if(directed) add_directed_edge(u,\
-    \ v, c);\n            else add_edge(u, v, c);\n        }\n    }\n    /**\n   \
-    \  * @brief \u3042\u308B\u9802\u70B9\u304B\u3089\u51FA\u308B\u8FBA\u3092\u5217\
-    \u6319\u3059\u308B\n     * @param v \u9802\u70B9\u756A\u53F7\n     * @return std::vector<Edge>&\
-    \ v\u304B\u3089\u51FA\u308B\u8FBA\u306E\u30EA\u30B9\u30C8\n     */\n    std::vector<Edge>&\
-    \ operator[](int v) {\n        return g[v];\n    }\n    /**\n     * @brief \u3042\
-    \u308B\u9802\u70B9\u304B\u3089\u51FA\u308B\u8FBA\u3092\u5217\u6319\u3059\u308B\
-    \n     * @param v \u9802\u70B9\u756A\u53F7\n     * @return const std::vector<Edge>&\
-    \ v\u304B\u3089\u51FA\u308B\u8FBA\u306E\u30EA\u30B9\u30C8\n     */\n    const\
-    \ std::vector<Edge>& operator[](int v) const {\n        return g[v];\n    }\n\
-    \    /**\n     * @brief \u8FBA\u306E\u30EA\u30B9\u30C8\n     * @return std::vector<Edge>\
-    \ \u8FBA\u306E\u30EA\u30B9\u30C8(id\u306E\u6607\u9806)\n     *\n     * \u7121\u5411\
-    \u8FBA\u306F\u4EE3\u8868\u3057\u30661\u3064\u3060\u3051\u683C\u7D0D\u3055\u308C\
-    \u308B\n     */\n    std::vector<Edge> edges() const {\n        std::vector<Edge>\
-    \ res(m);\n        for(int i = 0; i < n; i++) {\n            for(auto& e : g[i])\
-    \ {\n                res[e.id] = e;\n            }\n        }\n        return\
-    \ res;\n    }\n    /**\n     * @brief \u3042\u308B\u9802\u70B9\u304B\u3089\u5404\
-    \u9802\u70B9\u3078\u306E\u6700\u77ED\u8DEF\n     *\n     * @param s \u59CB\u70B9\
-    \n     * @param weighted 1\u4EE5\u5916\u306E\u30B3\u30B9\u30C8\u306E\u8FBA\u304C\
+    \u30EA\u30B9\u30C8\u8868\u73FE\n\n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\
+    \u30C8\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     */\n    Graph() : n(0),\
+    \ m(0), g(0) {}\n    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\
+    \n     * @param n \u9802\u70B9\u6570\n     */\n    explicit Graph(int n) : n(n),\
+    \ m(0), g(n) {}\n    /**\n     * @brief \u7121\u5411\u8FBA\u3092\u8FFD\u52A0\u3059\
+    \u308B\n     * @param u \u59CB\u70B9\n     * @param v \u7D42\u70B9\n     * @param\
+    \ w \u30B3\u30B9\u30C8 \u7701\u7565\u3057\u305F\u30891\n     */\n    void add_edge(int\
+    \ u, int v, Cost w=1) {\n        g[u].push_back({u, v, w, m});\n        g[v].push_back({v,\
+    \ u, w, m++});\n    }\n    /**\n     * @brief \u6709\u5411\u8FBA\u3092\u8FFD\u52A0\
+    \u3059\u308B\n     * @param u \u59CB\u70B9\n     * @param v \u7D42\u70B9\n   \
+    \  * @param w \u30B3\u30B9\u30C8 \u7701\u7565\u3057\u305F\u30891\n     */\n  \
+    \  void add_directed_edge(int u, int v, Cost w=1) {\n        g[u].push_back({u,\
+    \ v, w, m++});\n    }\n    /**\n     * @brief \u8FBA\u306E\u60C5\u5831\u3092\u6A19\
+    \u6E96\u5165\u529B\u304B\u3089\u53D7\u3051\u53D6\u3063\u3066\u8FFD\u52A0\u3059\
+    \u308B\n     * @param m \u8FBA\u306E\u6570\n     * @param padding \u9802\u70B9\
+    \u756A\u53F7\u3092\u5165\u529B\u304B\u3089\u3044\u304F\u3064\u305A\u3089\u3059\
+    \u304B \u7701\u7565\u3057\u305F\u3089-1\n     * @param weighted \u8FBA\u306E\u91CD\
+    \u307F\u304C\u5165\u529B\u3055\u308C\u308B\u304B \u7701\u7565\u3057\u305F\u3089\
+    false\u3068\u306A\u308A\u3001\u91CD\u307F1\u3067\u8FBA\u304C\u8FFD\u52A0\u3055\
+    \u308C\u308B\n     * @param directed \u6709\u5411\u30B0\u30E9\u30D5\u304B\u3069\
+    \u3046\u304B \u7701\u7565\u3057\u305F\u3089false\n     */\n    void read(int m,\
+    \ int padding=-1, bool weighted=false, bool directed=false) {\n        for(int\
+    \ i = 0; i < m; i++) {\n            int u, v; std::cin >> u >> v; u += padding,\
+    \ v += padding;\n            Cost c(1);\n            if(weighted) std::cin >>\
+    \ c;\n            if(directed) add_directed_edge(u, v, c);\n            else add_edge(u,\
+    \ v, c);\n        }\n    }\n    /**\n     * @brief \u3042\u308B\u9802\u70B9\u304B\
+    \u3089\u51FA\u308B\u8FBA\u3092\u5217\u6319\u3059\u308B\n     * @param v \u9802\
+    \u70B9\u756A\u53F7\n     * @return std::vector<Edge>& v\u304B\u3089\u51FA\u308B\
+    \u8FBA\u306E\u30EA\u30B9\u30C8\n     */\n    std::vector<Edge>& operator[](int\
+    \ v) {\n        return g[v];\n    }\n    /**\n     * @brief \u3042\u308B\u9802\
+    \u70B9\u304B\u3089\u51FA\u308B\u8FBA\u3092\u5217\u6319\u3059\u308B\n     * @param\
+    \ v \u9802\u70B9\u756A\u53F7\n     * @return const std::vector<Edge>& v\u304B\u3089\
+    \u51FA\u308B\u8FBA\u306E\u30EA\u30B9\u30C8\n     */\n    const std::vector<Edge>&\
+    \ operator[](int v) const {\n        return g[v];\n    }\n    /**\n     * @brief\
+    \ \u8FBA\u306E\u30EA\u30B9\u30C8\n     * @return std::vector<Edge> \u8FBA\u306E\
+    \u30EA\u30B9\u30C8(id\u306E\u6607\u9806)\n     *\n     * \u7121\u5411\u8FBA\u306F\
+    \u4EE3\u8868\u3057\u30661\u3064\u3060\u3051\u683C\u7D0D\u3055\u308C\u308B\n  \
+    \   */\n    std::vector<Edge> edges() const {\n        std::vector<Edge> res(m);\n\
+    \        for(int i = 0; i < n; i++) {\n            for(auto& e : g[i]) {\n   \
+    \             res[e.id] = e;\n            }\n        }\n        return res;\n\
+    \    }\n    /**\n     * @brief \u3042\u308B\u9802\u70B9\u304B\u3089\u5404\u9802\
+    \u70B9\u3078\u306E\u6700\u77ED\u8DEF\n     *\n     * @param s \u59CB\u70B9\n \
+    \    * @param weighted 1\u4EE5\u5916\u306E\u30B3\u30B9\u30C8\u306E\u8FBA\u304C\
     \u5B58\u5728\u3059\u308B\u304B \u7701\u7565\u3059\u308B\u3068true\n     * @param\
     \ inf \u30B3\u30B9\u30C8\u306Emin\u306E\u5358\u4F4D\u5143 \u672A\u5230\u9054\u306E\
     \u9802\u70B9\u3078\u306E\u8DDD\u96E2\u306Finf\u306B\u306A\u308B \u7701\u7565\u3059\
@@ -192,7 +196,7 @@ data:
   isVerificationFile: false
   path: cpp/graph.hpp
   requiredBy: []
-  timestamp: '2023-04-25 02:28:47+00:00'
+  timestamp: '2023-04-28 19:03:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo-shortest-path.test.cpp

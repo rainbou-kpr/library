@@ -5,6 +5,7 @@
  * @brief セグメント木
  */
 
+#include <cassert>
 #include <functional>
 #include <limits>
 #include <ostream>

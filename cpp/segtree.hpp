@@ -303,7 +303,7 @@ namespace segtree {
     };
     template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
     struct MinLimit {
-        constexpr S operator() () const { return std::numeric_limits<S>::min(); }
+        constexpr S operator() () const { return std::numeric_limits<S>::lowest(); }
     };
     template <typename S>
     struct Zero {

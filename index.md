@@ -17,6 +17,9 @@ data:
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
         \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
+      path: cpp/segtree.hpp
+      title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
+    - icon: ':heavy_check_mark:'
       path: cpp/unionfind.hpp
       title: UnionFind
     - icon: ':heavy_check_mark:'
@@ -40,11 +43,23 @@ data:
       path: test/aoj-cgl-2-c.test.cpp
       title: test/aoj-cgl-2-c.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-a.test.cpp
+      title: test/aoj-dsl-2-a.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-b.test.cpp
+      title: test/aoj-dsl-2-b.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod.test.cpp
       title: test/yosupo-convolution-mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-point-set-range-composite.1.test.cpp
+      title: test/yosupo-point-set-range-composite.1.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-point-set-range-composite.2.test.cpp
+      title: test/yosupo-point-set-range-composite.2.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-shortest-path.test.cpp
       title: test/yosupo-shortest-path.test.cpp

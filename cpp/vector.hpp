@@ -31,7 +31,7 @@ struct Vector {
      */
     template <typename... Args>
     constexpr Vector(Args... args) noexcept : v{args...} {}
-    
+
     /**
      * @brief i番目の成分を返す
      * 
@@ -96,7 +96,7 @@ struct Vector {
         }
         return *this;
     }
-    
+
     /**
      * @brief 単項プラス演算子
      * 
@@ -115,7 +115,7 @@ struct Vector {
     constexpr Vector operator-() const noexcept {
         return *this * (-1);
     }
-    
+
     /**
      * @brief 加算演算子
      * 
@@ -127,7 +127,7 @@ struct Vector {
     friend constexpr Vector operator+(const Vector& lhs, const Vector& rhs) noexcept {
         return std::move(Vector(lhs) += rhs);
     }
-    
+
     /**
      * @brief 減算演算子
      * 
@@ -139,7 +139,7 @@ struct Vector {
     friend constexpr Vector operator-(const Vector& lhs, const Vector& rhs) noexcept {
         return std::move(Vector(lhs) -= rhs);
     }
-    
+
     /**
      * @brief スカラー倍演算子
      * 
@@ -151,7 +151,7 @@ struct Vector {
     friend constexpr Vector operator*(const Vector& lhs, const T& coef) noexcept {
         return std::move(Vector(lhs) *= coef);
     }
-    
+
     /**
      * @brief スカラー倍演算子
      * 
@@ -163,7 +163,7 @@ struct Vector {
     friend constexpr Vector operator*(const T& coef, const Vector& rhs) noexcept {
         return std::move(Vector(rhs) *= coef);
     }
-    
+
     /**
      * @brief スカラーの逆数倍演算子
      * 
@@ -175,7 +175,7 @@ struct Vector {
     friend Vector operator/(const Vector& lhs, const T& coef) {
         return std::move(Vector(lhs) /= coef);
     }
-    
+
     /**
      * @brief 等価演算子
      * 
@@ -187,7 +187,7 @@ struct Vector {
     friend constexpr bool operator==(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v == rhs.v;
     }
-    
+
     /**
      * @brief 非等価演算子
      * 
@@ -199,7 +199,7 @@ struct Vector {
     friend constexpr bool operator!=(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v != rhs.v;
     }
-    
+
     /**
      * @brief 小なり演算子
      * 
@@ -244,7 +244,7 @@ struct Vector {
     friend constexpr bool operator>=(const Vector& lhs, const Vector& rhs) noexcept {
         return lhs.v >= rhs.v;
     }
-    
+
     /**
      * @brief 偏角ソートのファンクタ
      * 
@@ -259,7 +259,7 @@ struct Vector {
             return rhs[0] * lhs[1] < lhs[0] * rhs[1];
         }
     };
-    
+
     /**
      * @brief 入力ストリームからの読み込み
      * 
@@ -286,12 +286,12 @@ struct Vector {
     template <class CharT, class Traits>
     friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const Vector& rhs) {
         for(int i = 0; i < Dim; i++) {
-            if(i != 0) os << ' ';
+            if(i != 0) os << CharT(' ');
             os << rhs.v[i];
         }
         return os;
     }
-    
+
     /**
      * @brief 内積
      * 
@@ -304,7 +304,7 @@ struct Vector {
         for(int i = 0; i < Dim; i++) ret += lhs[i] * rhs[i];
         return ret;
     }
-    
+
     /**
      * @brief 絶対値の2乗
      * 
@@ -336,7 +336,7 @@ constexpr T cross(const Vector<T, 2>& lhs, const Vector<T, 2>& rhs) noexcept {
     return lhs[0] * rhs[1] - lhs[1] * rhs[0];
 }
 /**
- * @brief 三次元ベクトルどうしの外積
+* @brief 三次元ベクトルどうしの外積
  * 
  * @param lhs 
  * @param rhs 
@@ -361,7 +361,7 @@ constexpr Vector<T, 3> cross(const Vector<T, 3>& lhs, const Vector<T, 3>& rhs) n
  * @param q2 2本目の線分の端点2
  * @tparam T 座標の型
  * @return std::pair<bool, Vector<T, 2>> firstは共有点の有無、secondは共有点の1例
-*/
+ */
 template <typename T>
 constexpr std::pair<bool, Vector<T, 2>> segment_intersect(const Vector<T, 2>& p1, const Vector<T, 2>& p2, const Vector<T, 2>& q1, const Vector<T, 2>& q2) {
     assert(p1 != p2 && q1 != q2 && "segment_intersect: degenerate segment");

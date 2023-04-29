@@ -37,8 +37,8 @@ class SegTreeBase {
         operator S() const { return segtree.get(k); }
     };
 
-public:
-    SegTreeBase(int n) : n(n) {
+protected:
+    void construct_data() {
         sz = 1;
         height = 0;
         while (sz < n) {
@@ -47,10 +47,14 @@ public:
         }
         data.assign(sz * 2, e());
     }
-    SegTreeBase(const std::vector<S>& v) : SegTreeBase(v.size()) {
+    void initialize(const std::vector<S>& v) {
         for (int i = 0; i < n; i++) data[sz + i] = v[i];
         for (int i = sz - 1; i > 0; i--) update(i);
     }
+
+public:
+    // Warning: 継承先のコンストラクタでconstruct_data()を必ず呼び出す！
+    SegTreeBase(int n) : n(n) {}
 
     /**
      * @brief 指定された要素の値を返す
@@ -208,6 +212,8 @@ public:
  */
 template <typename S, typename Op, typename E>
 class StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {
+    using BaseType = SegTreeBase<S, StaticSegTree<S, Op, E>>;
+
     inline static Op operator_object;
     inline static E identity_object;
 public:
@@ -218,19 +224,23 @@ public:
      * @brief デフォルトコンストラクタ
      * 
     */
-    StaticSegTree() : SegTreeBase<S, StaticSegTree<S, Op, E>>(0) {}
+    StaticSegTree() = default;
     /**
      * @brief コンストラクタ
      * 
      * @param n 要素数
      */
-    explicit StaticSegTree(int n) : SegTreeBase<S, StaticSegTree<S, Op, E>>(n) {}
+    explicit StaticSegTree(int n) : BaseType(n) {
+        this->construct_data();
+    }
     /**
      * @brief コンストラクタ
      * 
      * @param v 初期の要素
      */
-    explicit StaticSegTree(const std::vector<S>& v) : SegTreeBase<S, StaticSegTree<S, Op, E>>(v) {}
+    explicit StaticSegTree(const std::vector<S>& v) : StaticSegTree(v.size()) {
+        this->initialize(v);
+    }
 };
 
 /**
@@ -252,14 +262,9 @@ public:
     S e() const { return identity; }
 
     /**
-     * @brief コンストラクタ
-     * 
-     * @param op 積の関数オブジェクト
-     * @param identity 単位元
+     * @brief デフォルトコンストラクタ
     */
-    explicit SegTree(Op op, const S& identity) : BaseType(0), identity(identity) {
-        operator_object = std::move(op);
-    }
+    SegTree() = default;
     /**
      * @brief コンストラクタ
      * 
@@ -267,8 +272,8 @@ public:
      * @param op 積の関数オブジェクト
      * @param identity 単位元
      */
-    explicit SegTree(int n, Op op, const S& identity) : BaseType(n), identity(identity) {
-        operator_object = std::move(op);
+    explicit SegTree(int n, Op op, const S& identity) : BaseType(n), operator_object(std::move(op)), identity(identity) {
+        this->construct_data();
     }
     /**
      * @brief コンストラクタ
@@ -277,7 +282,9 @@ public:
      * @param op 積の関数オブジェクト
      * @param identity 単位元
      */
-    explicit SegTree(const std::vector<S>& v, Op op, const S& identity) : BaseType(v), operator_object(std::move(op)), identity(identity) {}
+    explicit SegTree(const std::vector<S>& v, Op op, const S& identity) : SegTree(v.size(), op, identity) {
+        this->initialize(v);
+    }
 };
 
 template <typename S, typename Op>

@@ -33,11 +33,16 @@ struct Graph {
     int n; //!< 頂点数
     int m; //!< 辺数
     std::vector<std::vector<Edge>> g; //!< グラフの隣接リスト表現
+
+    /**
+     * @brief デフォルトコンストラクタ
+     */
+    Graph() : n(0), m(0), g(0) {}
     /**
      * @brief コンストラクタ
      * @param n 頂点数
      */
-    Graph(int n=0) : n(n), m(0), g(n) {}
+    explicit Graph(int n) : n(n), m(0), g(n) {}
     /**
      * @brief 無向辺を追加する
      * @param u 始点

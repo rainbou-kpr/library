@@ -54,7 +54,7 @@ protected:
 
 public:
     // Warning: 継承先のコンストラクタでconstruct_data()を必ず呼び出す！
-    SegTreeBase(int n) : n(n) {}
+    SegTreeBase(int n = 0) : n(n) {}
 
     /**
      * @brief 指定された要素の値を返す

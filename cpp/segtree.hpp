@@ -282,7 +282,7 @@ public:
      * @param op 積の関数オブジェクト
      * @param identity 単位元
      */
-    explicit SegTree(const std::vector<S>& v, Op op, const S& identity) : SegTree(v.size(), op, identity) {
+    explicit SegTree(const std::vector<S>& v, Op op, const S& identity) : SegTree(v.size(), std::move(op), identity) {
         this->initialize(v);
     }
 };

@@ -281,11 +281,11 @@ public:
 };
 
 template <typename S, typename Op>
-SegTree(Op op, const S&) -> SegTree<std::decay_t<S>, Op>;
+SegTree(Op op, const S&) -> SegTree<S, Op>;
 template <typename S, typename Op>
-SegTree(int, Op op, const S&) -> SegTree<std::decay_t<S>, Op>;
+SegTree(int, Op op, const S&) -> SegTree<S, Op>;
 template <typename S, typename Op>
-SegTree(const std::vector<S>&, Op op, const S&) -> SegTree<std::decay_t<S>, Op>;
+SegTree(const std::vector<S>&, Op op, const S&) -> SegTree<S, Op>;
 
 namespace segtree {
     template <typename S>

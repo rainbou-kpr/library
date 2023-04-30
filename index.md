@@ -31,6 +31,9 @@ data:
       path: py/graph.py
       title: py/graph.py
     - icon: ':warning:'
+      path: py/modint.py
+      title: py/modint.py
+    - icon: ':warning:'
       path: py/unionfind.py
       title: py/unionfind.py
   verificationCategories:

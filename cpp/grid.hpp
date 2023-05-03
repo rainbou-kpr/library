@@ -45,4 +45,30 @@ template<class T> struct Grid {
         }
         return Grid(ret);
     }
+    constexpr int safe_mod(int x, int mod) noexcept {
+        x %= mod;
+        if (x < 0) x += mod;
+        return x;
+    }
+    constexpr Grid shift(int dy, int dx) noexcept {
+        std::vector<T> ret = v;
+        for(int i = 0; i < n; i ++) {
+            for(int j = 0; j < m; j ++) {
+                ret[safe_mod(i + dy, n)][safe_mod(j + dx, m)] = v[i][j];
+            }
+        }
+        return Grid(ret);
+    }
+    constexpr Grid shift_l(int k) noexcept {
+        return this->shift(0, -k);
+    }
+    constexpr Grid shift_r(int k) noexcept {
+        return this->shift(0, k);
+    }
+    constexpr Grid shift_u(int k) noexcept {
+        return this->shift(-k, 0);
+    }
+    constexpr Grid shift_d(int k) noexcept {
+        return this->shift(k, 0);
+    }
 };

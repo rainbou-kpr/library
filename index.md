@@ -20,6 +20,9 @@ data:
       path: cpp/segtree.hpp
       title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
     - icon: ':heavy_check_mark:'
+      path: cpp/sqrt.hpp
+      title: floor(sqrt(n))
+    - icon: ':heavy_check_mark:'
       path: cpp/unionfind.hpp
       title: UnionFind
     - icon: ':heavy_check_mark:'
@@ -57,6 +60,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod.test.cpp
       title: test/yosupo-convolution-mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-enumerate-quotients.test.cpp
+      title: test/yosupo-enumerate-quotients.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.1.test.cpp
       title: test/yosupo-point-set-range-composite.1.test.cpp

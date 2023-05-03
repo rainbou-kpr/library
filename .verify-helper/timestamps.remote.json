@@ -3,6 +3,7 @@
 "test/aoj-cgl-2-c.test.cpp": "2023-04-28 19:03:28 +0900",
 "test/yosupo-convolution-mod-1000000007.test.cpp": "2023-04-26 23:09:33 +0900",
 "test/yosupo-convolution-mod.test.cpp": "2023-04-26 23:09:33 +0900",
+"test/yosupo-enumerate-quotients.test.cpp": "2023-05-03 09:02:19 +0900",
 "test/yosupo-shortest-path.test.cpp": "2023-04-28 19:03:28 +0900",
 "test/yosupo-shortest-path.test.py": "1970-01-01 00:00:00 +0000",
 "test/yosupo-unionfind.test.cpp": "2023-04-28 12:54:27 +0900",

@@ -4,8 +4,7 @@
 #include <algorithm>
 
 /**
- * @brief 幾何学としてのベクトル
- *
+ * @brief グリッド
  * @tparam T 型 stringまたはvector<N> Nはintやlong longなどの整数型
  */
 template<class T> struct Grid {

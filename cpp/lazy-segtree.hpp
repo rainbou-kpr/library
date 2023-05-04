@@ -22,7 +22,7 @@ template <typename S, typename F, typename ActualLazySegTree>
 class LazySegTreeBase {
     S op(const S& a, const S& b) const { return static_cast<const ActualLazySegTree&>(*this).op(a, b); }
     S e() const { return static_cast<const ActualLazySegTree&>(*this).e(); }
-    F mapping(const F& f, const S& x, int l, int r) const { return static_cast<const ActualLazySegTree&>(*this).mapping(f, x, l, r); }
+    S mapping(const F& f, const S& x, int l, int r) const { return static_cast<const ActualLazySegTree&>(*this).mapping(f, x, l, r); }
     F composition(const F& f, const F& g) const { return static_cast<const ActualLazySegTree&>(*this).composition(f, g); }
     F id() const { return static_cast<const ActualLazySegTree&>(*this).id(); }
 

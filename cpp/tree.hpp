@@ -46,7 +46,7 @@ struct Tree : public Graph<T> {
      * @return RootedTree<T> 根付き木のオブジェクト
      */
     [[nodiscard]]
-    RootedTree<T> set_root(int root) const {
+    RootedTree<T> set_root(int root) const& {
         return RootedTree<T>(*this, root);
     }
     /**
@@ -54,13 +54,9 @@ struct Tree : public Graph<T> {
      * 
      * @param root 根
      * @return RootedTree<T> 根付き木のオブジェクト
-     * 
-     * set_root()に比べてコピーコストがかからないが、
-     * ムーブされるため、このオブジェクトは使用不可になる
-     * 複数種類の根を持った根付き木を得たい場合、set_root()を使う
      */
     [[nodiscard]]
-    RootedTree<T> set_root_move(int root) {
+    RootedTree<T> set_root(int root) && {
         return RootedTree<T>(std::move(*this), root);
     }
 
@@ -71,7 +67,7 @@ struct Tree : public Graph<T> {
      * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
      */
     [[nodiscard]]
-    DoublingClimbTree<T> build_lca(int root) const {
+    DoublingClimbTree<T> build_lca(int root) const& {
         RootedTree rooted_tree(*this, root);
         return DoublingClimbTree<T>(std::move(rooted_tree));
     }
@@ -80,13 +76,9 @@ struct Tree : public Graph<T> {
      * 
      * @param root 根
      * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
-     *
-     * build_lca()に比べてコピーコストがかからないが、
-     * ムーブされるため、このオブジェクトは使用不可になる
-     * 複数種類の根を持った根付き木を得たい場合、build_lca()を使う
      */
     [[nodiscard]]
-    DoublingClimbTree<T> build_lca_move(int root) {
+    DoublingClimbTree<T> build_lca(int root) && {
         RootedTree rooted_tree(std::move(*this), root);        
         return DoublingClimbTree<T>(std::move(rooted_tree));
     }
@@ -140,7 +132,17 @@ struct RootedTree : public Tree<T> {
      * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
      */
     [[nodiscard]]
-    DoublingClimbTree<T> build_lca() {
+    DoublingClimbTree<T> build_lca() const& {
+        return DoublingClimbTree<T>(*this);
+    }
+
+    /**
+     * @brief ダブリングLCAが使える根付き木を得る
+     * 
+     * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
+     */
+    [[nodiscard]]
+    DoublingClimbTree<T> build_lca() && {
         return DoublingClimbTree<T>(std::move(*this));
     }
 

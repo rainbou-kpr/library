@@ -10,8 +10,7 @@ int main(void) {
     int n, q; std::cin >> n >> q;
     std::vector<int> par(n-1);
     for(int i = 0; i < n-1; i++) std::cin >> par[i];
-    RootedTree tmp_tree(par, 0);
-    auto tree = tmp_tree.build_lca();
+    DoublingClimbTree tree = RootedTree(par, 0).build_lca();
     while(q--) {
         int u, v; std::cin >> u >> v;
         std::cout << tree.lca(u, v) << '\n';

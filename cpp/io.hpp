@@ -77,9 +77,26 @@ std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT, Traits>&
     return os;
 }
 
+/**
+ * @brief 空行出力
+ */
 void print() { std::cout << '\n'; }
+/**
+ * @brief 出力して改行
+ * 
+ * @tparam T 型
+ * @param x 出力する値
+ */
 template <typename T>
 void print(const T& x) { std::cout << x << '\n'; }
+/**
+ * @brief 空白区切りで出力して改行
+ * 
+ * @tparam T 1つ目の要素の型
+ * @tparam Tail 2つ目以降の要素の型
+ * @param x 1つ目の要素
+ * @param tail 2つ目以降の要素
+ */
 template <typename T, typename... Tail>
 void print(const T& x, const Tail&... tail) {
     std::cout << x << ' ';

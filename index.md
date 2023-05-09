@@ -13,6 +13,9 @@ data:
       path: cpp/grid.hpp
       title: cpp/grid.hpp
     - icon: ':heavy_check_mark:'
+      path: cpp/lazy-segtree.hpp
+      title: "\u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
+    - icon: ':heavy_check_mark:'
       path: cpp/modint.hpp
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
         \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
@@ -55,6 +58,24 @@ data:
       path: test/aoj-dsl-2-b.test.cpp
       title: test/aoj-dsl-2-b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-f.test.cpp
+      title: test/aoj-dsl-2-f.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-g.test.cpp
+      title: test/aoj-dsl-2-g.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-h.test.cpp
+      title: test/aoj-dsl-2-h.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-i.test.cpp
+      title: test/aoj-dsl-2-i.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/atcoder-abc177-f.1.test.cpp
+      title: test/atcoder-abc177-f.1.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/atcoder-abc177-f.2.test.cpp
+      title: test/atcoder-abc177-f.2.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
     - icon: ':heavy_check_mark:'
@@ -69,6 +90,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.2.test.cpp
       title: test/yosupo-point-set-range-composite.2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-range-affine-range-sum.1.test.cpp
+      title: test/yosupo-range-affine-range-sum.1.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-range-affine-range-sum.2.test.cpp
+      title: test/yosupo-range-affine-range-sum.2.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-shortest-path.test.cpp
       title: test/yosupo-shortest-path.test.cpp

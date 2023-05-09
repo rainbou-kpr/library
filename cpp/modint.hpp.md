@@ -18,6 +18,12 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo-point-set-range-composite.2.test.cpp
     title: test/yosupo-point-set-range-composite.2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-range-affine-range-sum.1.test.cpp
+    title: test/yosupo-range-affine-range-sum.1.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-range-affine-range-sum.2.test.cpp
+    title: test/yosupo-range-affine-range-sum.2.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -477,7 +483,9 @@ data:
   timestamp: '2023-04-26 23:09:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo-range-affine-range-sum.1.test.cpp
   - test/yosupo-convolution-mod.test.cpp
+  - test/yosupo-range-affine-range-sum.2.test.cpp
   - test/yosupo-convolution-mod-1000000007.test.cpp
   - test/yosupo-point-set-range-composite.2.test.cpp
   - test/yosupo-point-set-range-composite.1.test.cpp

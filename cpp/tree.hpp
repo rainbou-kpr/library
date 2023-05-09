@@ -117,7 +117,7 @@ struct RootedTree : public Tree<T> {
      * @param par_ 頂点0以外の親の頂点のリスト
      * @param padding = -1 parの頂点番号をいくつずらすか
      */
-    RootedTree(std::vector<int>& par_, int padding = -1) : Tree<T>(par_.size() + 1), root(0) {
+    RootedTree(const std::vector<int>& par_, int padding = -1) : Tree<T>(par_.size() + 1), root(0) {
         for(int i = 0; i < (int)par_.size(); i++) {
             this->add_edge(i + 1, par_[i] + padding);
         }

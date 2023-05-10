@@ -17,32 +17,32 @@ struct DoublingClimbTree;
 /**
  * @brief 根なし木
  * 
- * @tparam T = int 辺の重み
+ * @tparam Cost = int 辺の重み
  * 
- * Graph<T>を継承し、すべて無向辺で表す
+ * Graph<Cost>を継承し、すべて無向辺で表す
 */
-template <typename T = int>
-struct Tree : private Graph<T> {
-    // Graph<T>* g = new Tree<T>(); ができてしまうと、delete時にメモリリークが発生
+template <typename Cost = int>
+struct Tree : private Graph<Cost> {
+    // Graph<Cost>* g = new Tree<Cost>(); ができてしまうと、delete時にメモリリークが発生
     // 回避するためprivate継承にして、メンバをすべてusing宣言
-    using Graph<T>::Edge;
-    using Graph<T>::n;
-    using Graph<T>::m;
-    using Graph<T>::g;
-    using Graph<T>::Graph;
-    using Graph<T>::add_edge;
-    using Graph<T>::add_directed_edge;
-    using Graph<T>::read;
-    using Graph<T>::operator[];
-    using Graph<T>::edges;
-    using Graph<T>::shortest_path;
+    using Edge = typename Graph<Cost>::Edge;
+    using Graph<Cost>::n;
+    using Graph<Cost>::m;
+    using Graph<Cost>::g;
+    using Graph<Cost>::Graph;
+    using Graph<Cost>::add_edge;
+    using Graph<Cost>::add_directed_edge;
+    using Graph<Cost>::read;
+    using Graph<Cost>::operator[];
+    using Graph<Cost>::edges;
+    using Graph<Cost>::shortest_path;
 
     /**
      * @brief コンストラクタ
      * 
      * @param n ノード数
      */
-    Tree(int n = 0) : Graph<T>(n) {}
+    Tree(int n = 0) : Graph<Cost>(n) {}
 
     /**
      * @brief 辺の情報を標準入力から受け取って追加する
@@ -50,81 +50,101 @@ struct Tree : private Graph<T> {
      * @param weighted = false 辺の重みが入力されるか
      */
     void read(int padding = -1, bool weighted = false) {
-        Graph<T>::read(this->n - 1, padding, weighted, false);
+        Graph<Cost>::read(this->n - 1, padding, weighted, false);
+    }
+    
+    /**
+     * @brief 木の直径
+     * 
+     * @param weighted = true 重み付きか
+     * @return std::vector<Edge> 直径を構成する辺のリスト
+     */
+    std::vector<Edge> diameter(bool weighted = true) const {
+        std::vector<Cost> dist = shortest_path(0, weighted).first;
+        int u = std::max_element(dist.begin(), dist.end()) - dist.begin();
+        std::vector<Edge> prev;
+        tie(dist, prev) = shortest_path(u, weighted);
+        int v = std::max_element(dist.begin(), dist.end()) - dist.begin();
+        std::vector<Edge> path;
+        while(v != u) {
+            path.push_back(prev[v]);
+            v = prev[v].from;
+        }
+        reverse(path.begin(), path.end());
+        return path;
     }
 
     /**
      * @brief 根付き木にする
      * 
      * @param root 根
-     * @return RootedTree<T> 根付き木のオブジェクト
+     * @return RootedTree<Cost> 根付き木のオブジェクト
      */
     [[nodiscard]]
-    RootedTree<T> set_root(int root) const& {
-        return RootedTree<T>(*this, root);
+    RootedTree<Cost> set_root(int root) const& {
+        return RootedTree<Cost>(*this, root);
     }
     /**
      * @brief 根付き木にして返す
      * 
      * @param root 根
-     * @return RootedTree<T> 根付き木のオブジェクト
+     * @return RootedTree<Cost> 根付き木のオブジェクト
      */
     [[nodiscard]]
-    RootedTree<T> set_root(int root) && {
-        return RootedTree<T>(std::move(*this), root);
+    RootedTree<Cost> set_root(int root) && {
+        return RootedTree<Cost>(std::move(*this), root);
     }
 
     /**
      * @brief ダブリングLCAが使える根付き木を返す
      * 
      * @param root 根
-     * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
+     * @return DoublingClimbTree<Cost> ダブリング済み根付き木のオブジェクト
      */
     [[nodiscard]]
-    DoublingClimbTree<T> build_lca(int root) const& {
+    DoublingClimbTree<Cost> build_lca(int root) const& {
         RootedTree rooted_tree(*this, root);
-        return DoublingClimbTree<T>(std::move(rooted_tree));
+        return DoublingClimbTree<Cost>(std::move(rooted_tree));
     }
     /**
      * @brief ダブリングLCAが使える根付き木を返す
      * 
      * @param root 根
-     * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
+     * @return DoublingClimbTree<Cost> ダブリング済み根付き木のオブジェクト
      */
     [[nodiscard]]
-    DoublingClimbTree<T> build_lca(int root) && {
+    DoublingClimbTree<Cost> build_lca(int root) && {
         RootedTree rooted_tree(std::move(*this), root);        
-        return DoublingClimbTree<T>(std::move(rooted_tree));
+        return DoublingClimbTree<Cost>(std::move(rooted_tree));
     }
 };
 
 /**
  * @brief 根付き木
  * 
- * @tparam T = int 辺のコスト
+ * @tparam Cost = int 辺のコスト
  */
-template <typename T = int>
-struct RootedTree : private Tree<T> {
-    using Tree<T>::n;
-    using Tree<T>::m;
-    using Tree<T>::g;
-    using Tree<T>::add_edge;
-    using Tree<T>::add_directed_edge;
-    using Tree<T>::read;
-    using Tree<T>::operator[];
-    using Tree<T>::edges;
-    using Tree<T>::shortest_path;
-    using Tree<T>::Tree;
-    using Tree<T>::set_root;
-    using Tree<T>::build_lca;
-    
-    using Edge = typename Tree<T>::Edge;
+template <typename Cost = int>
+struct RootedTree : private Tree<Cost> {
+    using Edge = typename Tree<Cost>::Edge;
+    using Tree<Cost>::n;
+    using Tree<Cost>::m;
+    using Tree<Cost>::g;
+    using Tree<Cost>::add_edge;
+    using Tree<Cost>::add_directed_edge;
+    using Tree<Cost>::read;
+    using Tree<Cost>::operator[];
+    using Tree<Cost>::edges;
+    using Tree<Cost>::shortest_path;
+    using Tree<Cost>::Tree;
+    using Tree<Cost>::set_root;
+    using Tree<Cost>::build_lca;
 
     int root; //!< 根
     std::vector<Edge> par; //!< 親へ向かう辺
     std::vector<std::vector<Edge>> child; //!< 子へ向かう辺のリスト
-    std::vector<T> depth; //!< 深さのリスト
-    std::vector<T> height; //!< 部分木の高さのリスト
+    std::vector<Cost> depth; //!< 深さのリスト
+    std::vector<Cost> height; //!< 部分木の高さのリスト
     std::vector<int> sz; //!< 部分期の頂点数のリスト
     std::vector<int> preorder; //!< 先行順巡回
     std::vector<int> postorder; //!< 後行順巡回
@@ -136,7 +156,7 @@ struct RootedTree : private Tree<T> {
      * @param par_ 頂点0以外の親の頂点のリスト
      * @param padding = -1 parの頂点番号をいくつずらすか
      */
-    RootedTree(const std::vector<int>& par_, int padding = -1) : Tree<T>(par_.size() + 1), root(0) {
+    RootedTree(const std::vector<int>& par_, int padding = -1) : Tree<Cost>(par_.size() + 1), root(0) {
         for(int i = 0; i < (int)par_.size(); i++) {
             this->add_edge(i + 1, par_[i] + padding);
         }
@@ -144,33 +164,33 @@ struct RootedTree : private Tree<T> {
     }
     // Tree::set_root()から呼ばれる
     // 直接は呼ばない
-    RootedTree(const Tree<T>& tree, int root) : Tree<T>(tree), root(root) {
+    RootedTree(const Tree<Cost>& tree, int root) : Tree<Cost>(tree), root(root) {
         build();
     }
     // Tree::set_root_move()から呼ばれる
     // 直接は呼ばない
-    RootedTree(Tree<T>&& tree, int root) : Tree<T>(std::move(tree)), root(root) {
+    RootedTree(Tree<Cost>&& tree, int root) : Tree<Cost>(std::move(tree)), root(root) {
         build();
     }
     
     /**
      * @brief ダブリングLCAが使える根付き木を得る
      * 
-     * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
+     * @return DoublingClimbTree<Cost> ダブリング済み根付き木のオブジェクト
      */
     [[nodiscard]]
-    DoublingClimbTree<T> build_lca() const& {
-        return DoublingClimbTree<T>(*this);
+    DoublingClimbTree<Cost> build_lca() const& {
+        return DoublingClimbTree<Cost>(*this);
     }
 
     /**
      * @brief ダブリングLCAが使える根付き木を得る
      * 
-     * @return DoublingClimbTree<T> ダブリング済み根付き木のオブジェクト
+     * @return DoublingClimbTree<Cost> ダブリング済み根付き木のオブジェクト
      */
     [[nodiscard]]
-    DoublingClimbTree<T> build_lca() && {
-        return DoublingClimbTree<T>(std::move(*this));
+    DoublingClimbTree<Cost> build_lca() && {
+        return DoublingClimbTree<Cost>(std::move(*this));
     }
 
 private:
@@ -215,39 +235,39 @@ private:
 /**
  * @brief 親頂点ダブリング済み根付き木
  * 
- * @tparam T = int 辺の重み(注: climbでは根の重みは考えない)
+ * @tparam Cost = int 辺の重み(注: climbでは根の重みは考えない)
  */
-template <typename T = int>
-struct DoublingClimbTree : public RootedTree<T> {
-    using RootedTree<T>::Edge;
-    using RootedTree<T>::n;
-    using RootedTree<T>::m;
-    using RootedTree<T>::g;
-    using RootedTree<T>::add_edge;
-    using RootedTree<T>::add_directed_edge;
-    using RootedTree<T>::read;
-    using RootedTree<T>::operator[];
-    using RootedTree<T>::edges;
-    using RootedTree<T>::shortest_path;
-    using RootedTree<T>::set_root;
-    using RootedTree<T>::build_lca;
-    using RootedTree<T>::RootedTree;
-    using RootedTree<T>::root;
-    using RootedTree<T>::par;
-    using RootedTree<T>::child;
-    using RootedTree<T>::depth;
-    using RootedTree<T>::height;
-    using RootedTree<T>::sz;
-    using RootedTree<T>::preorder;
-    using RootedTree<T>::postorder;
-    using RootedTree<T>::euler_tour;
+template <typename Cost = int>
+struct DoublingClimbTree : public RootedTree<Cost> {
+    using Edge = typename RootedTree<Cost>::Edge;
+    using RootedTree<Cost>::n;
+    using RootedTree<Cost>::m;
+    using RootedTree<Cost>::g;
+    using RootedTree<Cost>::add_edge;
+    using RootedTree<Cost>::add_directed_edge;
+    using RootedTree<Cost>::read;
+    using RootedTree<Cost>::operator[];
+    using RootedTree<Cost>::edges;
+    using RootedTree<Cost>::shortest_path;
+    using RootedTree<Cost>::set_root;
+    using RootedTree<Cost>::build_lca;
+    using RootedTree<Cost>::RootedTree;
+    using RootedTree<Cost>::root;
+    using RootedTree<Cost>::par;
+    using RootedTree<Cost>::child;
+    using RootedTree<Cost>::depth;
+    using RootedTree<Cost>::height;
+    using RootedTree<Cost>::sz;
+    using RootedTree<Cost>::preorder;
+    using RootedTree<Cost>::postorder;
+    using RootedTree<Cost>::euler_tour;
 
     int h; //!< ダブリングの回数
     std::vector<std::vector<int>> doubling_par; //!< jから(1<<i)頂点登った頂点(存在しない場合は-1)
     
     // Tree::build_lca()やRootedTree::build_lca()から呼ばれる
     // 直接は呼ばない
-    DoublingClimbTree(RootedTree<T>&& tree) : RootedTree<T>(std::move(tree)) {
+    DoublingClimbTree(RootedTree<Cost>&& tree) : RootedTree<Cost>(std::move(tree)) {
         int n = this->n;
         h = 0;
         while((1 << h) < n) h++;

@@ -214,10 +214,10 @@ private:
                 postorder.push_back(u);
                 sz[u] = 1;
                 height[u] = 0;
-                for(int v : child[u]) {
-                    sz[u] += sz[v];
-                    if(height[u] < height[v] + 1) {
-                        height[u] = height[v] + 1;
+                for(auto& e : child[u]) {
+                    sz[u] += sz[e.dst];
+                    if(height[u] < height[e.dst] + e.cost) {
+                        height[u] = height[e.dst] + e.cost;
                     }
                 }
             } else {

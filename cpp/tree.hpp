@@ -5,7 +5,9 @@
  * @brief 木の汎用テンプレート
 */
 
+#include <algorithm>
 #include <stack>
+#include <tuple>
 
 #include "graph.hpp"
 
@@ -63,12 +65,12 @@ struct Tree : private Graph<Cost> {
         std::vector<Cost> dist = shortest_path(0, weighted).first;
         int u = std::max_element(dist.begin(), dist.end()) - dist.begin();
         std::vector<Edge> prev;
-        tie(dist, prev) = shortest_path(u, weighted);
+        std::tie(dist, prev) = shortest_path(u, weighted);
         int v = std::max_element(dist.begin(), dist.end()) - dist.begin();
         std::vector<Edge> path;
         while(v != u) {
             path.push_back(prev[v]);
-            v = prev[v].from;
+            v = prev[v].src;
         }
         reverse(path.begin(), path.end());
         return path;

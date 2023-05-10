@@ -137,8 +137,6 @@ struct RootedTree : private Tree<Cost> {
     using Tree<Cost>::edges;
     using Tree<Cost>::shortest_path;
     using Tree<Cost>::Tree;
-    using Tree<Cost>::set_root;
-    using Tree<Cost>::build_lca;
 
     int root; //!< 根
     std::vector<Edge> par; //!< 親へ向かう辺
@@ -167,7 +165,7 @@ struct RootedTree : private Tree<Cost> {
     RootedTree(const Tree<Cost>& tree, int root) : Tree<Cost>(tree), root(root) {
         build();
     }
-    // Tree::set_root_move()から呼ばれる
+    // Tree::set_rootから呼ばれる
     // 直接は呼ばない
     RootedTree(Tree<Cost>&& tree, int root) : Tree<Cost>(std::move(tree)), root(root) {
         build();
@@ -249,8 +247,6 @@ struct DoublingClimbTree : public RootedTree<Cost> {
     using RootedTree<Cost>::operator[];
     using RootedTree<Cost>::edges;
     using RootedTree<Cost>::shortest_path;
-    using RootedTree<Cost>::set_root;
-    using RootedTree<Cost>::build_lca;
     using RootedTree<Cost>::RootedTree;
     using RootedTree<Cost>::root;
     using RootedTree<Cost>::par;
@@ -267,19 +263,13 @@ struct DoublingClimbTree : public RootedTree<Cost> {
     
     // Tree::build_lca()やRootedTree::build_lca()から呼ばれる
     // 直接は呼ばない
+    DoublingClimbTree(const RootedTree<Cost>& tree) : RootedTree<Cost>(tree) {
+        build();
+    }
+    // Tree::build_lca()やRootedTree::build_lca()から呼ばれる
+    // 直接は呼ばない
     DoublingClimbTree(RootedTree<Cost>&& tree) : RootedTree<Cost>(std::move(tree)) {
-        int n = this->n;
-        h = 0;
-        while((1 << h) < n) h++;
-        doubling_par.assign(h, std::vector<int>(n, -1));
-        for(int i = 0; i < n; i++) doubling_par[0][i] = this->par[i];
-        for(int i = 0; i < h - 1; i++) {
-            for(int j = 0; j < n; j++) {
-                if(doubling_par[i][j] != -1) {
-                    doubling_par[i+1][j] = doubling_par[i][doubling_par[i][j]];
-                }
-            }
-        }
+        build();
     }
     
     /**
@@ -330,5 +320,21 @@ struct DoublingClimbTree : public RootedTree<Cost> {
      */
     int dist(int u, int v) const {
         return this->depth[u] + this->depth[v] - this->depth[lca(u, v)] * 2;
+    }
+    
+private:
+    void build() {
+        int n = this->n;
+        h = 0;
+        while((1 << h) < n) h++;
+        doubling_par.assign(h, std::vector<int>(n, -1));
+        for(int i = 0; i < n; i++) doubling_par[0][i] = this->par[i];
+        for(int i = 0; i < h - 1; i++) {
+            for(int j = 0; j < n; j++) {
+                if(doubling_par[i][j] != -1) {
+                    doubling_par[i+1][j] = doubling_par[i][doubling_par[i][j]];
+                }
+            }
+        }
     }
 };

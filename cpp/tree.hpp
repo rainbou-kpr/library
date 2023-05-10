@@ -22,7 +22,21 @@ struct DoublingClimbTree;
  * Graph<T>を継承し、すべて無向辺で表す
 */
 template <typename T = int>
-struct Tree : public Graph<T> {
+struct Tree : private Graph<T> {
+    // Graph<T>* g = new Tree<T>(); ができてしまうと、delete時にメモリリークが発生
+    // 回避するためprivate継承にして、メンバをすべてusing宣言
+    using Graph<T>::Edge;
+    using Graph<T>::n;
+    using Graph<T>::m;
+    using Graph<T>::g;
+    using Graph<T>::Graph;
+    using Graph<T>::add_edge;
+    using Graph<T>::add_directed_edge;
+    using Graph<T>::read;
+    using Graph<T>::operator[];
+    using Graph<T>::edges;
+    using Graph<T>::shortest_path;
+
     /**
      * @brief コンストラクタ
      * 
@@ -90,8 +104,21 @@ struct Tree : public Graph<T> {
  * @tparam T = int 辺のコスト
  */
 template <typename T = int>
-struct RootedTree : public Tree<T> {
-    using Edge = typename Graph<T>::Edge;
+struct RootedTree : private Tree<T> {
+    using Tree<T>::n;
+    using Tree<T>::m;
+    using Tree<T>::g;
+    using Tree<T>::add_edge;
+    using Tree<T>::add_directed_edge;
+    using Tree<T>::read;
+    using Tree<T>::operator[];
+    using Tree<T>::edges;
+    using Tree<T>::shortest_path;
+    using Tree<T>::Tree;
+    using Tree<T>::set_root;
+    using Tree<T>::build_lca;
+    
+    using Edge = typename Tree<T>::Edge;
 
     int root; //!< 根
     std::vector<Edge> par; //!< 親へ向かう辺
@@ -192,18 +219,41 @@ private:
  */
 template <typename T = int>
 struct DoublingClimbTree : public RootedTree<T> {
-    int height; //!< ダブリングの回数
+    using RootedTree<T>::Edge;
+    using RootedTree<T>::n;
+    using RootedTree<T>::m;
+    using RootedTree<T>::g;
+    using RootedTree<T>::add_edge;
+    using RootedTree<T>::add_directed_edge;
+    using RootedTree<T>::read;
+    using RootedTree<T>::operator[];
+    using RootedTree<T>::edges;
+    using RootedTree<T>::shortest_path;
+    using RootedTree<T>::set_root;
+    using RootedTree<T>::build_lca;
+    using RootedTree<T>::RootedTree;
+    using RootedTree<T>::root;
+    using RootedTree<T>::par;
+    using RootedTree<T>::child;
+    using RootedTree<T>::depth;
+    using RootedTree<T>::height;
+    using RootedTree<T>::sz;
+    using RootedTree<T>::preorder;
+    using RootedTree<T>::postorder;
+    using RootedTree<T>::euler_tour;
+
+    int h; //!< ダブリングの回数
     std::vector<std::vector<int>> doubling_par; //!< jから(1<<i)頂点登った頂点(存在しない場合は-1)
     
     // Tree::build_lca()やRootedTree::build_lca()から呼ばれる
     // 直接は呼ばない
     DoublingClimbTree(RootedTree<T>&& tree) : RootedTree<T>(std::move(tree)) {
         int n = this->n;
-        height = 0;
-        while((1 << height) < n) height++;
-        doubling_par.assign(height, std::vector<int>(n, -1));
+        h = 0;
+        while((1 << h) < n) h++;
+        doubling_par.assign(h, std::vector<int>(n, -1));
         for(int i = 0; i < n; i++) doubling_par[0][i] = this->par[i];
-        for(int i = 0; i < height - 1; i++) {
+        for(int i = 0; i < h - 1; i++) {
             for(int j = 0; j < n; j++) {
                 if(doubling_par[i][j] != -1) {
                     doubling_par[i+1][j] = doubling_par[i][doubling_par[i][j]];
@@ -220,7 +270,7 @@ struct DoublingClimbTree : public RootedTree<T> {
      * @return int k回登った頂点
      */
     int climb(int u, int k) const {
-        for(int i = 0; i < height; i++) {
+        for(int i = 0; i < h; i++) {
             if(k >> i & 1) u = doubling_par[i][u];
             if(u == -1) return -1;
         }
@@ -239,7 +289,7 @@ struct DoublingClimbTree : public RootedTree<T> {
         v = climb(v, this->depth[v] - this->depth[u]);
         if(this->depth[u] > this->depth[v]) u = climb(u, this->depth[u] - this->depth[v]);
         if(u == v) return u;
-        for(int i = height - 1; i >= 0; i--) {
+        for(int i = h - 1; i >= 0; i--) {
             int nu = doubling_par[i][u];
             int nv = doubling_par[i][v];
             if(nu == -1) continue;

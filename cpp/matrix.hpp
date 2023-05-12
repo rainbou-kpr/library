@@ -32,7 +32,7 @@ template<class T> struct Matrix {
      * @param _val 行列(グリッド)の要素の初期値
      * @return Matrix
      */
-    constexpr Matrix(int _n, int _m, T _val) : v(n, std::vector<T>(m, _val)) {}
+    constexpr Matrix(int _n, int _m, T _val = T()) : v(n, std::vector<T>(m, _val)) {}
     
     constexpr auto begin() noexcept {return v.begin();}
     constexpr auto end() noexcept {return v.end();}
@@ -43,6 +43,7 @@ template<class T> struct Matrix {
      */
     constexpr size_t size() const {return v.size();}
     std::vector<T>& operator [] (int i) {return v[i];}
+    const std::vector<T>& operator [] (int i) const {return v[i];}
 
     /**
      * @brief 転置

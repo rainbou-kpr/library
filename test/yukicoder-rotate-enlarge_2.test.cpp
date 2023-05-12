@@ -16,7 +16,7 @@ int main() {
     std::vector<std::string> c(h);
     for(int i = 0; i < h; i ++) std::cin >> c[i];
 
-    for(auto s : Matrix(c).rotate(r / 90).vstr()) {
+    for(auto s : Matrix<char>(c).rotate(r / 90).vstr()) {
         std::string t = extend(s, k);
         for(int i = 0; i < k; i ++) std::cout << t << std::endl;
     }

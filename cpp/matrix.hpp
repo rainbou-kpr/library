@@ -33,10 +33,7 @@ template<class T> struct Matrix {
      * @return Matrix
      */
     constexpr Matrix(int _n, int _m, T _val) : v(n, std::vector<T>(m, _val)) {}
-
-    Matrix<T>& operator = (const Matrix<T> &A) {
-        v = A.v; return *this;
-    }
+    
     constexpr auto begin() noexcept {return v.begin();}
     constexpr auto end() noexcept {return v.end();}
 

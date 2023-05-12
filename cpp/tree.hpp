@@ -238,7 +238,7 @@ private:
  * @tparam Cost = int 辺の重み(注: climbでは根の重みは考えない)
  */
 template <typename Cost = int>
-struct DoublingClimbTree : public RootedTree<Cost> {
+struct DoublingClimbTree : private RootedTree<Cost> {
     using Edge = typename RootedTree<Cost>::Edge;
     using RootedTree<Cost>::n;
     using RootedTree<Cost>::m;

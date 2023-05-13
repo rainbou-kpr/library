@@ -311,8 +311,8 @@ data:
   timestamp: '2023-04-29 18:34:55+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj-dsl-2-a.test.cpp
   - test/aoj-dsl-2-b.test.cpp
+  - test/aoj-dsl-2-a.test.cpp
   - test/yosupo-point-set-range-composite.2.test.cpp
   - test/yosupo-point-set-range-composite.1.test.cpp
 documentation_of: cpp/segtree.hpp

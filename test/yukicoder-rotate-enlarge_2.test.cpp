@@ -1,6 +1,6 @@
 #define PROBLEM "https://yukicoder.me/problems/no/565"
 
-#include "../cpp/grid.hpp"
+#include "../cpp/matrix.hpp"
 #include <iostream>
 #include <string>
 
@@ -16,7 +16,7 @@ int main() {
     std::vector<std::string> c(h);
     for(int i = 0; i < h; i ++) std::cin >> c[i];
 
-    for(auto s : rotate(c, r / 90)) {
+    for(auto s : Matrix<char>(c).rotate(r / 90).vstr()) {
         std::string t = extend(s, k);
         for(int i = 0; i < k; i ++) std::cout << t << std::endl;
     }

@@ -3,19 +3,36 @@
 #include <vector>
 #include "modint.hpp"
 
+/**
+ * @brief 畳み込み
+ */
+
 namespace NTT {
-    long long modinv(long long a, long long m) {
-        long long b = m, u = 1, v = 0;
+    /**
+     * @brief a^(-1) mod MODを返す
+     * @tparam a long long
+     * @tparam MOD long long
+     * @return long long
+     */
+    long long modinv(long long a, long long MOD) {
+        long long b = MOD, u = 1, v = 0;
         while (b) {
             long long t = a / b;
             a -= t * b; std::swap(a, b);
             u -= t * v; std::swap(u, v);
         }
-        u %= m; 
-        if (u < 0) u += m;
+        u %= MOD; 
+        if (u < 0) u += MOD;
         return u;
     }
 
+    /**
+     * @brief a^n mod MODを返す
+     * @tparam a long long
+     * @tparam n long long
+     * @tparam MOD long long
+     * @return long long
+     */
     long long modpow(long long a, long long n, long long MOD) {
         long long res = 1;
         a %= MOD;
@@ -27,6 +44,11 @@ namespace NTT {
         return res;
     }
 
+    /**
+     * @brief 原子根
+     * @tparam MOD int
+     * @return int
+     */
     int calc_primitive_root(int MOD) {
         if (MOD == 2) return 1;
         if (MOD == 167772161) return 3;
@@ -57,6 +79,9 @@ namespace NTT {
         }
     }
 
+    /**
+     * @brief 畳み込みのサイズを2のべき乗にする
+     */
     int get_fft_size(int N, int M) {
         int size_a = 1, size_b = 1;
         while (size_a < N) size_a <<= 1;
@@ -64,6 +89,9 @@ namespace NTT {
         return std::max(size_a, size_b) << 1;
     }
 
+    /**
+     * @brief NTT
+     */
     template<class mint> void trans(std::vector<mint>& v, bool inv = false) {
         if (v.empty()) return;
         int N = (int) v.size();
@@ -112,7 +140,13 @@ namespace NTT {
     static const mint2 imod1 = 104391568; // modinv(MOD1, MOD2);
     static const mint2 imod01 = 187290749; // imod1 / MOD0;
 
-    // small case (T = mint, long long)
+    /**
+     * @brief 配列のサイズが小さいときの畳み込み
+     * @tparam T mint, long long
+     * @tparam A vector<T>
+     * @tparam B vector<T>
+     * @return vector<T>
+     */
     template<class T> std::vector<T> naive_mul 
     (const std::vector<T>& A, const std::vector<T>& B) {
         if (A.empty() || B.empty()) return {};
@@ -125,7 +159,12 @@ namespace NTT {
     }
 };
 
-// mint
+/**
+ * @brief modintの畳み込み
+ * @tparam A vector<mint>
+ * @tparam B vector<mint>
+ * @return vector<mint>
+ */
 template<class mint> std::vector<mint> convolution
 (const std::vector<mint>& A, const std::vector<mint>& B) {
     if (A.empty() || B.empty()) return {};
@@ -176,7 +215,12 @@ template<class mint> std::vector<mint> convolution
     return res;
 }
 
-// long long
+/**
+ * @brief long longの畳み込み
+ * @tparam A vector<long long>
+ * @tparam B vector<long long>
+ * @return vector<long long>
+ */
 std::vector<long long> convolution_ll
 (const std::vector<long long>& A, const std::vector<long long>& B) {
     if (A.empty() || B.empty()) return {};

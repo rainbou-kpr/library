@@ -9,6 +9,10 @@ data:
     - icon: ':heavy_check_mark:'
       path: cpp/graph.hpp
       title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
+    - icon: ':warning:'
+      path: cpp/io.hpp
+      title: "\u7A7A\u767D\u533A\u5207\u308A\u51FA\u529B\u3001iostream\u306E\u30AA\
+        \u30FC\u30D0\u30FC\u30ED\u30FC\u30C9"
     - icon: ':heavy_check_mark:'
       path: cpp/lazy-segtree.hpp
       title: "\u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
@@ -25,6 +29,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: cpp/sqrt.hpp
       title: floor(sqrt(n))
+    - icon: ':heavy_check_mark:'
+      path: cpp/tree.hpp
+      title: "\u6728\u306E\u6C4E\u7528\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
     - icon: ':heavy_check_mark:'
       path: cpp/unionfind.hpp
       title: UnionFind
@@ -70,6 +77,12 @@ data:
       path: test/aoj-dsl-2-i.test.cpp
       title: test/aoj-dsl-2-i.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj-grl-5-a.test.cpp
+      title: test/aoj-grl-5-a.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-grl-5-b.test.cpp
+      title: test/aoj-grl-5-b.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/atcoder-abc177-f.1.test.cpp
       title: test/atcoder-abc177-f.1.test.cpp
     - icon: ':heavy_check_mark:'
@@ -84,6 +97,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-enumerate-quotients.test.cpp
       title: test/yosupo-enumerate-quotients.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-lca.1.test.cpp
+      title: test/yosupo-lca.1.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-lca.2.test.cpp
+      title: test/yosupo-lca.2.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.1.test.cpp
       title: test/yosupo-point-set-range-composite.1.test.cpp

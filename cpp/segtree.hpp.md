@@ -10,6 +10,9 @@ data:
     path: test/aoj-dsl-2-b.test.cpp
     title: test/aoj-dsl-2-b.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo-lca.2.test.cpp
+    title: test/yosupo-lca.2.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo-point-set-range-composite.1.test.cpp
     title: test/yosupo-point-set-range-composite.1.test.cpp
   - icon: ':heavy_check_mark:'
@@ -312,6 +315,7 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj-dsl-2-b.test.cpp
+  - test/yosupo-lca.2.test.cpp
   - test/aoj-dsl-2-a.test.cpp
   - test/yosupo-point-set-range-composite.2.test.cpp
   - test/yosupo-point-set-range-composite.1.test.cpp

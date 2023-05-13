@@ -1,8 +1,23 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy: []
+  _extendedRequiredBy:
+  - icon: ':heavy_check_mark:'
+    path: cpp/tree.hpp
+    title: "\u6728\u306E\u6C4E\u7528\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj-grl-5-a.test.cpp
+    title: test/aoj-grl-5-a.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/aoj-grl-5-b.test.cpp
+    title: test/aoj-grl-5-b.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-lca.1.test.cpp
+    title: test/yosupo-lca.1.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-lca.2.test.cpp
+    title: test/yosupo-lca.2.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo-shortest-path.test.cpp
     title: test/yosupo-shortest-path.test.cpp
@@ -82,9 +97,9 @@ data:
     \ first:\u5404\u9802\u70B9\u3078\u306E\u6700\u77ED\u8DEF\u9577 second:\u5404\u9802\
     \u70B9\u3078\u306E\u6700\u77ED\u8DEF\u4E0A\u306E\u76F4\u524D\u306E\u8FBA\n   \
     \  */\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s,\
-    \ bool weignted = true, Cost inf = -1) {\n        if(weignted) return shortest_path_dijkstra(s,\
+    \ bool weignted = true, Cost inf = -1) const {\n        if(weignted) return shortest_path_dijkstra(s,\
     \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
-    \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) {\n        std::vector<Cost>\
+    \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) const {\n        std::vector<Cost>\
     \ dist(n, inf);\n        std::vector<Edge> prev(n);\n        std::queue<int> que;\n\
     \        dist[s] = 0;\n        que.push(s);\n        while(!que.empty()) {\n \
     \           int u = que.front(); que.pop();\n            for(auto& e : g[u]) {\n\
@@ -92,7 +107,7 @@ data:
     \ + 1;\n                    prev[e.dst] = e;\n                    que.push(e.dst);\n\
     \                }\n            }\n        }\n        return {dist, prev};\n \
     \   }\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int\
-    \ s, Cost inf) {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
+    \ s, Cost inf) const {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
     \ prev(n);\n        using Node = std::pair<Cost, int>;\n        std::priority_queue<Node,\
     \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push({0,\
     \ s});\n        while(!que.empty()) {\n            auto [d, u] = que.top(); que.pop();\n\
@@ -172,9 +187,9 @@ data:
     \ first:\u5404\u9802\u70B9\u3078\u306E\u6700\u77ED\u8DEF\u9577 second:\u5404\u9802\
     \u70B9\u3078\u306E\u6700\u77ED\u8DEF\u4E0A\u306E\u76F4\u524D\u306E\u8FBA\n   \
     \  */\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s,\
-    \ bool weignted = true, Cost inf = -1) {\n        if(weignted) return shortest_path_dijkstra(s,\
+    \ bool weignted = true, Cost inf = -1) const {\n        if(weignted) return shortest_path_dijkstra(s,\
     \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
-    \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) {\n        std::vector<Cost>\
+    \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) const {\n        std::vector<Cost>\
     \ dist(n, inf);\n        std::vector<Edge> prev(n);\n        std::queue<int> que;\n\
     \        dist[s] = 0;\n        que.push(s);\n        while(!que.empty()) {\n \
     \           int u = que.front(); que.pop();\n            for(auto& e : g[u]) {\n\
@@ -182,7 +197,7 @@ data:
     \ + 1;\n                    prev[e.dst] = e;\n                    que.push(e.dst);\n\
     \                }\n            }\n        }\n        return {dist, prev};\n \
     \   }\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int\
-    \ s, Cost inf) {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
+    \ s, Cost inf) const {\n        std::vector<Cost> dist(n, inf);\n        std::vector<Edge>\
     \ prev(n);\n        using Node = std::pair<Cost, int>;\n        std::priority_queue<Node,\
     \ std::vector<Node>, std::greater<Node>> que;\n        dist[s] = 0;\n        que.push({0,\
     \ s});\n        while(!que.empty()) {\n            auto [d, u] = que.top(); que.pop();\n\
@@ -195,11 +210,16 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: cpp/graph.hpp
-  requiredBy: []
-  timestamp: '2023-04-28 19:03:28+09:00'
+  requiredBy:
+  - cpp/tree.hpp
+  timestamp: '2023-05-10 16:54:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/aoj-grl-5-a.test.cpp
+  - test/yosupo-lca.2.test.cpp
+  - test/yosupo-lca.1.test.cpp
   - test/yosupo-shortest-path.test.cpp
+  - test/aoj-grl-5-b.test.cpp
 documentation_of: cpp/graph.hpp
 layout: document
 redirect_from:

@@ -10,8 +10,8 @@
 namespace NTT {
     /**
      * @brief a^(-1) mod MODを返す
-     * @tparam a long long
-     * @tparam MOD long long
+     * @param a long long
+     * @param MOD long long
      * @return long long
      */
     long long modinv(long long a, long long MOD) {
@@ -28,9 +28,9 @@ namespace NTT {
 
     /**
      * @brief a^n mod MODを返す
-     * @tparam a long long
-     * @tparam n long long
-     * @tparam MOD long long
+     * @param a long long
+     * @param n long long
+     * @param MOD long long
      * @return long long
      */
     long long modpow(long long a, long long n, long long MOD) {
@@ -46,7 +46,7 @@ namespace NTT {
 
     /**
      * @brief 原子根
-     * @tparam MOD int
+     * @param MOD int
      * @return int
      */
     int calc_primitive_root(int MOD) {
@@ -142,9 +142,9 @@ namespace NTT {
 
     /**
      * @brief 配列のサイズが小さいときの畳み込み
-     * @tparam T mint, long long
-     * @tparam A vector<T>
-     * @tparam B vector<T>
+     * @param T mint, long long
+     * @param A vector<T>
+     * @param B vector<T>
      * @return vector<T>
      */
     template<class T> std::vector<T> naive_mul 
@@ -161,8 +161,8 @@ namespace NTT {
 
 /**
  * @brief modintの畳み込み
- * @tparam A vector<mint>
- * @tparam B vector<mint>
+ * @param A vector<mint>
+ * @param B vector<mint>
  * @return vector<mint>
  */
 template<class mint> std::vector<mint> convolution
@@ -217,8 +217,8 @@ template<class mint> std::vector<mint> convolution
 
 /**
  * @brief long longの畳み込み
- * @tparam A vector<long long>
- * @tparam B vector<long long>
+ * @param A vector<long long>
+ * @param B vector<long long>
  * @return vector<long long>
  */
 std::vector<long long> convolution_ll

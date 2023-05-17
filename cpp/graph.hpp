@@ -117,13 +117,13 @@ struct Graph {
      * @param inf コストのminの単位元 未到達の頂点への距離はinfになる 省略すると-1
      * @return std::pair<std::vector<Cost>, std::vector<Edge>> first:各頂点への最短路長 second:各頂点への最短路上の直前の辺
      */
-    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s, bool weignted = true, Cost inf = -1) {
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s, bool weignted = true, Cost inf = -1) const {
         if(weignted) return shortest_path_dijkstra(s, inf);
         return shortest_path_bfs(s, inf);
     }
 
 private:
-    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_bfs(int s, Cost inf) {
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_bfs(int s, Cost inf) const {
         std::vector<Cost> dist(n, inf);
         std::vector<Edge> prev(n);
         std::queue<int> que;
@@ -141,7 +141,7 @@ private:
         }
         return {dist, prev};
     }
-    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int s, Cost inf) {
+    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_dijkstra(int s, Cost inf) const {
         std::vector<Cost> dist(n, inf);
         std::vector<Edge> prev(n);
         using Node = std::pair<Cost, int>;

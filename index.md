@@ -24,6 +24,9 @@ data:
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
         \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
+      path: cpp/segtree-beats.hpp
+      title: Segment Tree Beats
+    - icon: ':heavy_check_mark:'
       path: cpp/segtree.hpp
       title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
     - icon: ':heavy_check_mark:'
@@ -115,6 +118,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-range-affine-range-sum.2.test.cpp
       title: test/yosupo-range-affine-range-sum.2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-range-chmin-chmax-add-range-sum.1.test.cpp
+      title: test/yosupo-range-chmin-chmax-add-range-sum.1.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
+      title: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-shortest-path.test.cpp
       title: test/yosupo-shortest-path.test.cpp

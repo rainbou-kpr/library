@@ -9,8 +9,8 @@
  * @tparam T 型 行列(グリッド)の要素となるintやchar
  */
 template<class T> struct Matrix {
-    std::vector<std::vector<T>> v;
     int n, m;
+    std::vector<std::vector<T>> v;
 
     /**
      * @brief コンストラクタ
@@ -32,7 +32,7 @@ template<class T> struct Matrix {
      * @param _val 行列(グリッド)の要素の初期値
      * @return Matrix
      */
-    constexpr Matrix(int _n, int _m, T _val = T()) : v(n, std::vector<T>(m, _val)) {}
+    constexpr Matrix(int _n, int _m, T _val = T()) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}
     
     constexpr auto begin() noexcept {return v.begin();}
     constexpr auto end() noexcept {return v.end();}
@@ -41,9 +41,14 @@ template<class T> struct Matrix {
      * @brief 行列(グリッド)の行数
      * @return size_t
      */
+    [[nodiscard]]
     constexpr size_t size() const {return v.size();}
+
     std::vector<T>& operator [] (int i) {return v[i];}
     const std::vector<T>& operator [] (int i) const {return v[i];}
+    constexpr Matrix<T>& operator = (const std::vector<std::vector<T>> &A) noexcept {
+        v = A; return *this;
+    }
 
     /**
      * @brief 転置
@@ -197,6 +202,75 @@ template<class T> struct Matrix {
     constexpr std::string str(int i) noexcept {
         std::string ret;
         ret.assign(v[i].begin(), v[i].end());
+        return ret;
+    }
+
+    constexpr Matrix &operator+=(const Matrix &B) {
+        if(n == 0) return (*this);
+        assert(n == B.size() && m == B[0].length());
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++) (*this)[i][j] += B[i][j];
+        return (*this);
+    }
+
+    constexpr Matrix &operator-=(const Matrix &B) {
+        if(n == 0) return (*this);
+        assert(n == B.size() && m == B[0].length());
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++) (*this)[i][j] -= B[i][j];
+        return (*this);
+    }
+
+    constexpr Matrix &operator*=(const Matrix &B) {
+        int p = B[0].size();
+        Matrix<T> C(n, p);
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < m; j++)
+                for(int k = 0; k < p; k++) C[i][j] += (*this)[i][k] * B[k][j];
+        v = C.v;
+        m = p;
+        return (*this);
+    }
+
+    [[nodiscard]]
+    constexpr Matrix pow(long long k) {
+        Matrix<T> B(n, n);
+        for(int i = 0; i < n; i ++) B[i][i] = 1;
+        while(k > 0) {
+            if(k & 1) B *= *this;
+            *this *= *this;
+            k >>= 1;
+        }
+        v = B.v;
+        return (*this);
+    }
+
+    [[nodiscard]]
+    constexpr Matrix operator+(const Matrix &B) const { return (Matrix(*this) += B); }
+    [[nodiscard]]
+    constexpr Matrix operator-(const Matrix &B) const { return (Matrix(*this) -= B); }
+    [[nodiscard]]
+    constexpr Matrix operator*(const Matrix &B) const { return (Matrix(*this) *= B); }
+
+    [[nodiscard]]
+    constexpr friend std::vector<T> operator*(const Matrix &A, const std::vector<T> &B) {
+        std::vector<T> ret(A.n, 0);
+        for(int i = 0; i < A.n; i ++) {
+            for(int j = 0; j < A.m; j ++) {
+                ret[i] += A[i][j] * B[j];
+            }
+        }
+        return ret;
+    }
+
+    [[nodiscard]]
+    constexpr friend std::vector<T> operator*(const std::vector<T> &A, const Matrix &B) {
+        std::vector<T> ret(B.m, 0);
+        for(int i = 0; i < B.n; i ++) {
+            for(int j = 0; j < B.m; j ++) {
+                ret[j] += A[i] * B[i][j];
+            }
+        }
         return ret;
     }
 };

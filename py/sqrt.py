@@ -7,9 +7,9 @@ def isqrt(n: int) -> int:
     # python3.8以上ではmath.isqrtを推奨
     le = 0
     ri = 1
-    while not le*le <= n < ri*ri:
-        le <<= 1
+    while n >= ri*ri:
         ri <<= 1
+    le = ri // 2
     while ri-le > 1:
         mid = (le+ri)//2
         if mid*mid <= n:

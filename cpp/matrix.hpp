@@ -204,7 +204,11 @@ template<class T> struct Matrix {
         ret.assign(v[i].begin(), v[i].end());
         return ret;
     }
-
+    /**
+     * @brief 保持している行列に行列Bを足す
+     * @param B 足す行列
+     * @return @c *this
+    */
     constexpr Matrix &operator+=(const Matrix &B) {
         if(n == 0) return (*this);
         assert(n == B.size() && m == B[0].length());
@@ -212,7 +216,11 @@ template<class T> struct Matrix {
             for(int j = 0; j < m; j++) (*this)[i][j] += B[i][j];
         return (*this);
     }
-
+    /**
+     * @brief 保持している行列から行列Bを引く
+     * @param B 引く行列
+     * @return @c *this
+    */
     constexpr Matrix &operator-=(const Matrix &B) {
         if(n == 0) return (*this);
         assert(n == B.size() && m == B[0].length());
@@ -221,6 +229,11 @@ template<class T> struct Matrix {
         return (*this);
     }
 
+    /**
+     * @brief 保持している行列に行列Bを掛ける
+     * @param B 掛ける行列
+     * @return @c *this
+    */
     constexpr Matrix &operator*=(const Matrix &B) {
         int p = B[0].size();
         Matrix<T> C(n, p);
@@ -232,17 +245,21 @@ template<class T> struct Matrix {
         return (*this);
     }
 
+    /**
+     * @brief 保持している行列のk乗を求める
+     * @param k 指数
+     * @return Matrix
+    */
     [[nodiscard]]
     constexpr Matrix pow(long long k) {
-        Matrix<T> B(n, n);
+        Matrix<T> A = *this, B(n, n);
         for(int i = 0; i < n; i ++) B[i][i] = 1;
         while(k > 0) {
-            if(k & 1) B *= *this;
-            *this *= *this;
+            if(k & 1) B *= A;
+            A *= A;
             k >>= 1;
         }
-        v = B.v;
-        return (*this);
+        return B;
     }
 
     [[nodiscard]]
@@ -252,6 +269,12 @@ template<class T> struct Matrix {
     [[nodiscard]]
     constexpr Matrix operator*(const Matrix &B) const { return (Matrix(*this) *= B); }
 
+    /**
+     * @brief 行列Aと列ベクトルBの積
+     * @param A Matrix<T>
+     * @param B vector<T>
+     * @return vector<T> 列ベクトル
+    */
     [[nodiscard]]
     constexpr friend std::vector<T> operator*(const Matrix &A, const std::vector<T> &B) {
         std::vector<T> ret(A.n, 0);
@@ -263,6 +286,12 @@ template<class T> struct Matrix {
         return ret;
     }
 
+    /**
+     * @brief 行ベクトルAと行列Bの積
+     * @param A vector<T>
+     * @param B Matrix<T>
+     * @return vector<T> 行ベクトル
+    */
     [[nodiscard]]
     constexpr friend std::vector<T> operator*(const std::vector<T> &A, const Matrix &B) {
         std::vector<T> ret(B.m, 0);

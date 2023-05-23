@@ -143,12 +143,13 @@ public:
     S all_prod() const { return data[1]; }
 
     /**
-     * @brief f(prod([l, r))) = trueとなる最大のrを返す
+     * @brief (r = l or f(prod([l, r))) = true) and (r = n or f(prod([l, r+1))) = false)となるrを返す
+     * fが単調なら、f(prod([l, r))) = trueとなる最大のr
      * 
      * @tparam F
      * @param l 半開区間の開始
-     * @param f 判定関数
-     * @return int 最大のr
+     * @param f 判定関数 f(e) = true
+     * @return int
      */
     template <typename F>
     int max_right(int l, F f) const {
@@ -173,12 +174,13 @@ public:
         return l - sz;
     }
     /**
-     * @brief f(prod([l, r))) = trueとなる最小のlを返す
+     * @brief (l = 0 or f(prod([l, r))) = true) and (l = r or f(prod([l-1, r))) = false)となる最小のlを返す
+     * fが単調なら、f(prod([l, r))) = trueとなる最小のl
      * 
      * @tparam F
      * @param r 半開区間の終端
-     * @param f 判定関数
-     * @return int 最小のl
+     * @param f 判定関数 f(e) = true
+     * @return int
      */
     template <typename F>
     int min_left(int r, F f) const {
@@ -208,7 +210,7 @@ public:
  * @brief 積のファンクタが静的な場合のセグメント木の実装
  * 
  * @tparam S モノイドの型
- * @tparam Op 積のファクタ
+ * @tparam Op 積のファンクタ
  * @tparam E 積の単位元を返すファンクタ
  */
 template <typename S, typename Op, typename E>

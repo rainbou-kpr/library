@@ -215,12 +215,13 @@ public:
     }
 
     /**
-     * @brief g(prod([l, r))) = trueとなる最大のrを返す
+     * @brief (r = l or g(prod([l, r))) = true) and (r = n or g(prod([l, r+1))) = false)となるrを返す
+     * gが単調なら、g(prod([l, r))) = trueとなる最大のr
      * 
      * @tparam G
      * @param l 半開区間の開始
-     * @param g 判定関数
-     * @return int 最大のr
+     * @param g 判定関数 g(e) = true
+     * @return int
      */
     template <typename G>
     int max_right(int l, G g) const {
@@ -254,12 +255,13 @@ public:
         return l - sz;
     }
     /**
-     * @brief f(prod([l, r))) = trueとなる最小のlを返す
+     * @brief (l = 0 or g(prod([l, r))) = true) and (l = r or g(prod([l-1, r))) = false)となる最小のlを返す
+     * gが単調なら、g(prod([l, r))) = trueとなる最小のl
      * 
      * @tparam G
      * @param r 半開区間の終端
-     * @param f 判定関数
-     * @return int 最小のl
+     * @param g 判定関数 g(e) = true
+     * @return int
      */
     template <typename G>
     int min_left(int r, G g) const {

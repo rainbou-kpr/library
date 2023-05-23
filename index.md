@@ -50,8 +50,16 @@ data:
       path: py/modint.py
       title: py/modint.py
     - icon: ':warning:'
+      path: py/sqrt.py
+      title: py/sqrt.py
+    - icon: ':warning:'
       path: py/unionfind.py
       title: py/unionfind.py
+  - name: test
+    pages:
+    - icon: ':warning:'
+      path: test/yosupo-enumerate-quotients.test..py
+      title: test/yosupo-enumerate-quotients.test..py
   verificationCategories:
   - name: test
     pages:

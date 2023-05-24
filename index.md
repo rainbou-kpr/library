@@ -49,17 +49,12 @@ data:
     - icon: ':warning:'
       path: py/modint.py
       title: py/modint.py
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: py/sqrt.py
       title: py/sqrt.py
     - icon: ':warning:'
       path: py/unionfind.py
       title: py/unionfind.py
-  - name: test
-    pages:
-    - icon: ':warning:'
-      path: test/yosupo-enumerate-quotients.test..py
-      title: test/yosupo-enumerate-quotients.test..py
   verificationCategories:
   - name: test
     pages:
@@ -108,6 +103,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-enumerate-quotients.test.cpp
       title: test/yosupo-enumerate-quotients.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-enumerate-quotients.test.py
+      title: test/yosupo-enumerate-quotients.test.py
     - icon: ':heavy_check_mark:'
       path: test/yosupo-lca.1.test.cpp
       title: test/yosupo-lca.1.test.cpp

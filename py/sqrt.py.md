@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn: []
-  _extendedRequiredBy:
-  - icon: ':warning:'
-    path: test/yosupo-enumerate-quotients.test..py
-    title: test/yosupo-enumerate-quotients.test..py
-  _extendedVerifiedWith: []
+  _extendedRequiredBy: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-enumerate-quotients.test.py
+    title: test/yosupo-enumerate-quotients.test.py
   _isVerificationFailed: false
   _pathExtension: py
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/documentation/build.py\"\
@@ -25,11 +25,11 @@ data:
   dependsOn: []
   isVerificationFile: false
   path: py/sqrt.py
-  requiredBy:
-  - test/yosupo-enumerate-quotients.test..py
+  requiredBy: []
   timestamp: '2023-05-19 22:21:50+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo-enumerate-quotients.test.py
 documentation_of: py/sqrt.py
 layout: document
 redirect_from:

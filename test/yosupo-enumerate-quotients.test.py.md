@@ -1,14 +1,14 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':warning:'
+  - icon: ':heavy_check_mark:'
     path: py/sqrt.py
     title: py/sqrt.py
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
   _pathExtension: py
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     PROBLEM: https://judge.yosupo.jp/problem/enumerate_quotients
     links:
@@ -25,16 +25,16 @@ data:
     \    print(*(v2+v1))\n\n\nif __name__ == \"__main__\":\n    main()\n"
   dependsOn:
   - py/sqrt.py
-  isVerificationFile: false
-  path: test/yosupo-enumerate-quotients.test..py
+  isVerificationFile: true
+  path: test/yosupo-enumerate-quotients.test.py
   requiredBy: []
-  timestamp: '2023-05-19 22:21:50+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
+  timestamp: '2023-05-23 13:25:17+09:00'
+  verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo-enumerate-quotients.test..py
+documentation_of: test/yosupo-enumerate-quotients.test.py
 layout: document
 redirect_from:
-- /library/test/yosupo-enumerate-quotients.test..py
-- /library/test/yosupo-enumerate-quotients.test..py.html
-title: test/yosupo-enumerate-quotients.test..py
+- /verify/test/yosupo-enumerate-quotients.test.py
+- /verify/test/yosupo-enumerate-quotients.test.py.html
+title: test/yosupo-enumerate-quotients.test.py
 ---

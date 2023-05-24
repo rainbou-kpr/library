@@ -174,7 +174,7 @@ public:
         return l - sz;
     }
     /**
-     * @brief (l = 0 or f(prod([l, r))) = true) and (l = r or f(prod([l-1, r))) = false)となる最小のlを返す
+     * @brief (l = 0 or f(prod([l, r))) = true) and (l = r or f(prod([l-1, r))) = false)となるlを返す
      * fが単調なら、f(prod([l, r))) = trueとなる最小のl
      * 
      * @tparam F

@@ -14,6 +14,7 @@
 "test/yosupo-convolution-mod-1000000007.test.cpp": "2023-05-16 22:12:56 +0900",
 "test/yosupo-convolution-mod.test.cpp": "2023-05-16 22:12:56 +0900",
 "test/yosupo-enumerate-quotients.test.cpp": "2023-05-03 12:22:21 +0900",
+"test/yosupo-enumerate-quotients.test.py": "2023-05-23 13:25:17 +0900",
 "test/yosupo-lca.1.test.cpp": "2023-05-12 10:04:03 +0900",
 "test/yosupo-lca.2.test.cpp": "2023-05-12 10:04:03 +0900",
 "test/yosupo-point-set-range-composite.1.test.cpp": "2023-04-29 18:34:55 +0900",

@@ -47,7 +47,10 @@ template<class T> struct Matrix {
     std::vector<T>& operator [] (int i) {return v[i];}
     const std::vector<T>& operator [] (int i) const {return v[i];}
     constexpr Matrix<T>& operator = (const std::vector<std::vector<T>> &A) noexcept {
-        v = A; return *this;
+        n = A.size();
+        m = (n == 0 ? 0 : A[0].size());
+        v = A;
+        return *this;
     }
 
     /**
@@ -211,7 +214,7 @@ template<class T> struct Matrix {
     */
     constexpr Matrix &operator+=(const Matrix &B) {
         if(n == 0) return (*this);
-        assert(n == B.size() && m == B[0].length());
+        assert(n == B.size() && m == B[0].size());
         for(int i = 0; i < n; i++)
             for(int j = 0; j < m; j++) (*this)[i][j] += B[i][j];
         return (*this);
@@ -223,7 +226,7 @@ template<class T> struct Matrix {
     */
     constexpr Matrix &operator-=(const Matrix &B) {
         if(n == 0) return (*this);
-        assert(n == B.size() && m == B[0].length());
+        assert(n == B.size() && m == B[0].size());
         for(int i = 0; i < n; i++)
             for(int j = 0; j < m; j++) (*this)[i][j] -= B[i][j];
         return (*this);
@@ -237,10 +240,14 @@ template<class T> struct Matrix {
     constexpr Matrix &operator*=(const Matrix &B) {
         int p = B[0].size();
         Matrix<T> C(n, p);
-        for(int i = 0; i < n; i++)
-            for(int j = 0; j < m; j++)
-                for(int k = 0; k < p; k++) C[i][j] += (*this)[i][k] * B[k][j];
-        v = C.v;
+        for(int i = 0; i < n; i ++) {
+            for(int k = 0; k < p; k ++) {
+                for(int j = 0; j < m; j ++) {
+                    C[i][j] += (*this)[i][k] * B[k][j];
+                }
+            }
+        }
+        v.swap(C.v);
         m = p;
         return (*this);
     }

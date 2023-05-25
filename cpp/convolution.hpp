@@ -249,12 +249,15 @@ std::vector<long long> convolution_ll
     }
     NTT::trans(c0, true), NTT::trans(c1, true), NTT::trans(c2, true);
     static const long long mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;
+    static const __int128_t mod012 = (__int128_t)mod01 * NTT::MOD2;
     std::vector<long long> res(N + M - 1);
     for (int i = 0; i < N + M - 1; ++ i) {
         int y0 = c0[i].value();
         int y1 = (NTT::imod0 * (c1[i] - y0)).value();
         int y2 = (NTT::imod01 * (c2[i] - y0) - NTT::imod1 * y1).value();
-        res[i] = mod01 * y2 + mod0 * y1 + y0;
+        __int128_t tmp = (__int128_t)mod01 * y2 + (__int128_t)mod0 * y1 + y0;
+        if(tmp < (mod012 >> 1)) res[i] = tmp;
+        else res[i] = tmp - mod012;
     }
     return res;
 }

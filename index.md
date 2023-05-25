@@ -148,5 +148,8 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yukicoder-rotate-enlarge_2.test.cpp
       title: test/yukicoder-rotate-enlarge_2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yukicoder-search-oji.test.cpp
+      title: test/yukicoder-search-oji.test.cpp
 layout: toppage
 ---

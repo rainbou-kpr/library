@@ -594,7 +594,7 @@ std::tuple<T, int, int> closest_point_pair_squred(const std::vector<Vector<T, 2>
  * 
  * @tparam T 座標の型
  * @param points 頂点リスト
- * @return std::tuple<T, int, int> 最近点対の距離、最近点対のインデックス
+ * @return std::tuple<double, int, int> 最近点対の距離、最近点対のインデックス
  */
 template <typename T>
 std::tuple<double, int, int> closest_point_pair(const std::vector<Vector<T, 2>>& points) {

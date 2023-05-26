@@ -2,7 +2,7 @@ class sub:
     def __init__(self, l) -> None:
         t = 0
         for i in l:
-            t += sum(l)
+            t += sum(i)
         self.v = t
 
 

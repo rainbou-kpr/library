@@ -1,12 +1,12 @@
+from collections import defaultdict
+
+
 class Dict:
     def __init__(self) -> None:
-        self.d = {}
+        self.d = defaultdict(int)
 
     def __getitem__(self, x: int) -> int:
-        if str(x) in self.d:
-            return self.d[str(x)]
-        else:
-            return 0
+        return self.d[str(x)]
 
     def __setitem__(self, x: int, y: int) -> None:
         self.d[str(x)] = y

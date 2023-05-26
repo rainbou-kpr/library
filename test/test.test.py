@@ -1,5 +1,5 @@
-# verification-helper: PROBLEM https://judge.yosupo.jp/problem/aplusb
-from py.add import add
+# verification-helper: PROBLEM https://judge.yosupo.jp/problem/associative_array
+from py.test import Main
 
 
-print(add(list(map(int, input().split()))))
+Main()

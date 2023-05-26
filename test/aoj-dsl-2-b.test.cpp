@@ -9,7 +9,7 @@ int main(void) {
     RSumQ<int> seg(n);
     while(q--) {
         int com, x, y; std::cin >> com >> x >> y;
-        if(com == 0) seg.apply(x, y);
-        else std::cout << seg.prod(x, y + 1) << '\n';
+        if(com == 0) seg.apply(x-1, y);
+        else std::cout << seg.prod(x-1, y) << '\n';
     }
 }

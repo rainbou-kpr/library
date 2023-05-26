@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include <array>
 #include <cassert>
 #include <cmath>
@@ -7,7 +8,10 @@
 #include <istream>
 #include <numeric>
 #include <ostream>
+#include <stack>
+#include <tuple>
 #include <type_traits>
+#include <vector>
 
 /**
  * @brief 幾何学としてのベクトル
@@ -389,4 +393,210 @@ constexpr std::pair<bool, Vector<T, 2>> segment_intersect(const Vector<T, 2>& p1
         area /= g; partial_area /= g;
     }
     return std::make_pair(true, p1 + vp12 * partial_area / area);
+}
+
+/**
+ * @brief 多角形の符号付き面積の2倍
+ * 
+ * @tparam T 座標の型
+ * @param polygon 頂点の座標
+ * @return T 面積の2倍(反時計回りなら正、時計回りなら負)
+ */
+template <typename T>
+T polygon_area_doubled(const std::vector<Vector<T, 2>>& polygon) {
+    T ret = 0;
+    for(int i = 0; i < (int)polygon.size(); i++) {
+        int j = i+1; if(j == (int)polygon.size()) j = 0;
+        ret += cross(polygon[i], polygon[j]);
+    }
+    return ret;
+}
+
+/**
+ * @brief 多角形の面積
+ * 
+ * @tparam T 座標の型
+ * @param polygon 頂点の座標(順番、反時計回りか時計回りかは問わない)
+ * @return double 面積
+ */
+template <typename T>
+double polygon_area(const std::vector<Vector<T, 2>>& polygon) {
+    return std::abs(polygon_area_doubled(polygon)) / 2.;
+}
+
+/**
+ * @brief 多角形の凸性判定
+ * 
+ * @tparam T 座標の型
+ * @param polygon 頂点の座標(反時計回り)
+ * @return true 凸
+ * @return false 凹
+ */
+template <typename T>
+bool polygon_is_convex(const std::vector<Vector<T, 2>>& polygon) {
+    int n = polygon.size();
+    for(int i = 0; i < n; i++) {
+        int j = i+1; if(j == n) j = 0;
+        int k = j+1; if(k == n) k = 0;
+        if(cross(polygon[j] - polygon[i], polygon[k] - polygon[j]) < 0) return false;
+    }
+    return true;
+}
+
+/**
+ * @brief 点の多角形内包含判定
+ * 
+ * @tparam T 座標の型
+ * @param polygon 頂点の座標(反時計回り)
+ * @param p 点の座標
+ * @return int 0: 外部, 1: 辺上, 2: 内部
+ */
+template <typename T>
+int polygon_contains(const std::vector<Vector<T, 2>>& polygon, const Vector<T, 2>& p) {
+    bool in = false;
+    for(int i = 0; i < (int)polygon.size(); i++) {
+        int j = i+1; if(j == (int)polygon.size()) j = 0;
+        Vector<T> v1 = polygon[i] - p, v2 = polygon[j] - p;
+        if(v1[1] > v2[1]) std::swap(v1, v2);
+        T c = cross(v1, v2);
+        if(v1[1] <= 0 && v2[1] > 0 && c < 0) in = !in;
+        if(c == 0 && dot(v1, v2) <= 0) return 1;
+    }
+    return in ? 2 : 0;
+}
+
+/**
+ * @brief 多角形の半凸包
+ * 与えられた頂点リストの順番を保って反時計回りに凸包を構成する
+ * xの昇順にソートされていれば下凸包、xの降順にソートされていれば上凸包が得られる
+ * 
+ * @tparam T 座標の型
+ * @param points 頂点リスト
+ * @param include_straight 内角が180度の頂点を含むかどうか
+ * @return std::vector<Vector<T, 2>> 半凸包の頂点の座標(反時計回り)
+ */
+template <typename T>
+std::vector<Vector<T, 2>> select_convex(const std::vector<Vector<T, 2>>& points, bool include_straight = false) {
+    std::vector<Vector<T, 2>> ret;
+    for(auto& p : points) {
+        while((int)ret.size() >= 2) {
+            T c = cross(ret.back() - ret[(int)ret.size()-2], p - ret.back());
+            if(c > 0 || (c == 0 && include_straight)) break;
+            ret.pop_back();
+        }
+        ret.push_back(p);
+    }
+    return ret;
+}
+
+/**
+ * @brief 多角形の凸包
+ * 
+ * @tparam T 座標の型
+ * @param points 頂点リスト
+ * @param include_straight 内角が180度の頂点を含むかどうか
+ * @return std::vector<Vector<T, 2>> 凸包の頂点の座標(反時計回り)
+ */
+template <typename T>
+std::vector<Vector<T, 2>> convex_hull(const std::vector<Vector<T, 2>>& points, bool include_straight = false) {
+    std::sort(points.begin(), points.end());
+    std::vector<Vector<T, 2>> ret = select_convex(points, include_straight);
+    std::reverse(points.begin(), points.end());
+    std::vector<Vector<T, 2>> tmp = select_convex(points, include_straight);
+    for(int i = 1; i < (int)tmp.size()-1; i++) ret.push_back(tmp[i]);
+    return ret;
+}
+
+/**
+ * @brief 最近点対
+ * 
+ * @tparam T 座標の型
+ * @param points 頂点リスト
+ * @return std::tuple<T, int, int> 最近点対の距離の2乗、最近点対のインデックス
+ */
+template <typename T>
+std::tuple<T, int, int> closest_point_pair_squred(const std::vector<Vector<T, 2>>& points) {
+    std::vector<int> sorted_idx(points.size());
+    std::iota(sorted_idx.begin(), sorted_idx.end(), 0);
+    std::sort(sorted_idx.begin(), sorted_idx.end(), [&](int i, int j) {
+        return points[i][0] < points[j][0];
+    });
+    std::vector<int> left(1, 0); // 左端
+    std::vector<int> right(1, points.size()); // 右端
+    std::vector<int> mid(1, points.size()/2); // 中央
+    std::vector<int> par(1, -1); // 親
+    std::vector<T> min_dist_squared(1, std::numeric_limits<T>::max()); // 最小距離の2乗
+    std::vector<std::pair<int, int>> min_dist_pair(1, {-1, -1}); // 最小距離の点対
+    std::stack<int> stk;
+    stk.push(~0);
+    stk.push(0);
+    while(!stk.empty()) {
+        int u = stk.top(); stk.pop();
+        if(u >= 0) {
+            // 行きがけ
+            if(left[u] + 1 < mid[u]) {
+                int v = left.size();
+                left.push_back(left[u]);
+                right.push_back(mid[u]);
+                mid.push_back((left[u] + mid[u]) / 2);
+                par.push_back(u);
+                min_dist_squared.push_back(std::numeric_limits<T>::max());
+                min_dist_pair.push_back({-1, -1});
+                stk.push(~v);
+                stk.push(v);
+            }
+            if(mid[u] + 1 < right[u]) {
+                int v = left.size();
+                left.push_back(mid[u]);
+                right.push_back(right[u]);
+                mid.push_back((mid[u] + right[u]) / 2);
+                par.push_back(u);
+                min_dist_squared.push_back(std::numeric_limits<T>::max());
+                min_dist_pair.push_back({-1, -1});
+                stk.push(~v);
+                stk.push(v);
+            }
+        } else {
+            // 帰りがけ
+            u = ~u;
+            std::vector<int> cand;
+            for(int i = left[u]; i < right[u]; i++) {
+                T dx = points[sorted_idx[i]][0] - points[sorted_idx[mid[u]]][0];
+                if(dx * dx < min_dist_squared[u]) cand.push_back(i);
+            }
+            std::sort(cand.begin(), cand.end(), [&](int i, int j) {
+                return points[sorted_idx[i]][1] < points[sorted_idx[j]][1];
+            });
+            for(int i = 0; i < (int)cand.size(); i++) {
+                for(int j = i+1; j < (int)cand.size(); j++) {
+                    T dx = points[sorted_idx[cand[j]]][0] - points[sorted_idx[cand[i]]][0];
+                    T dy = points[sorted_idx[cand[j]]][1] - points[sorted_idx[cand[i]]][1];
+                    if(dy * dy >= min_dist_squared[u]) break;
+                    T d = dx * dx + dy * dy;
+                    if(d < min_dist_squared[u]) {
+                        min_dist_squared[u] = d;
+                        min_dist_pair[u] = {sorted_idx[cand[i]], sorted_idx[cand[j]]};
+                    }
+                }
+            }
+            if(par[u] != -1 && min_dist_squared[u] < min_dist_squared[par[u]]) {
+                min_dist_squared[par[u]] = min_dist_squared[u];
+                min_dist_pair[par[u]] = min_dist_pair[u];
+            }
+        }
+    }
+    return {min_dist_squared[0], min_dist_pair[0].first, min_dist_pair[0].second};
+}
+
+/**
+ * @brief 最近点対
+ * 
+ * @tparam T 座標の型
+ * @param points 頂点リスト
+ * @return std::tuple<T, int, int> 最近点対の距離、最近点対のインデックス
+ */
+template <typename T>
+std::tuple<double, int, int> closest_point_pair(const std::vector<Vector<T, 2>>& points) {
+    auto [d2, i, j] = closest_point_pair_squred(points);
+    return {std::sqrt(d2), i, j};
 }

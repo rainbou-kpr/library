@@ -1,6 +1,9 @@
 class sub:
-    def __init__(self, x, y) -> None:
-        self.v = x+y
+    def __init__(self, l) -> None:
+        t = 0
+        for i in l:
+            t += sum(l)
+        self.v = t
 
 
 class add(sub):

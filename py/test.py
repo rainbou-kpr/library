@@ -1,12 +1,12 @@
-def Main():
-    Q = int(input())
-    d = {}
-    for i in range(Q):
-        q = tuple(map(int, input().split()))
-        if q[0] == 0:
-            d[q[1]] = q[2]
+class Dict:
+    def __init__(self) -> None:
+        self.d = {}
+
+    def __getitem__(self, x: int) -> int:
+        if str(x) in self.d:
+            return self.d[str(x)]
         else:
-            if q[1] in d:
-                print(d[q[1]])
-            else:
-                print(0)
+            return 0
+
+    def __setitem__(self, x: int, y: int) -> None:
+        self.d[str(x)] = y

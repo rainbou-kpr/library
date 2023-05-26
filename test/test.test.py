@@ -1,16 +1,20 @@
-# verification-helper: PROBLEM https://judge.yosupo.jp/problem/enumerate_quotients
-from py.sqrt import isqrt
+# verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
+import sys
+input = sys.stdin.buffer.readline
+
+from py.unionfind import UnionFind
 
 
-n = int(input())
-v1 = []
-v2 = []
-m = isqrt(n)
-for i in range(1, m+1):
-    v1.append(n//i)
-    v2.append(i)
-if(v1[-1] == v2[-1]):
-    v1.pop()
-v1.reverse()
-print(len(v1)+len(v2))
-print(*(v2+v1))
+def main() -> None:
+    N, Q = map(int, input().split())
+    uft = UnionFind(N)
+    for _ in range(Q):
+        t, u, v = map(int, input().split())
+        if t == 0:
+            uft.unite(u, v)
+        else:
+            print(int(uft.is_same(u, v)))
+
+
+if __name__ == "__main__":
+    main()

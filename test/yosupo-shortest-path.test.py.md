@@ -15,11 +15,13 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/python.py\"\
     , line 96, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "# verification-helper: PROBLEM https://judge.yosupo.jp/problem/shortest_path\n\
-    from py.graph import Graph\n\nn, m, s, t = map(int, input().split())\ng = Graph(n)\n\
-    g.read(m, 0, True, True)\ndist, prev = g.shortest_path(s, True)\nif dist[t] ==\
-    \ -1:\n    exit(print(-1))\nroute = []\ncur = t\nwhile cur != s:\n    route.append((prev[cur].src,\
-    \ prev[cur].dst))\n    cur = prev[cur].src\nprint(dist[t], len(route))\nfor src,\
-    \ dst in route[::-1]:\n    print(src, dst)"
+    from py.graph import Graph\n\n\ndef main():\n    n, m, s, t = map(int, input().split())\n\
+    \    g = Graph(n)\n    g.read(m, 0, True, True)\n    dist, prev = g.shortest_path(s,\
+    \ True)\n    if dist[t] == -1:\n        exit(print(-1))\n    route = []\n    cur\
+    \ = t\n    while cur != s:\n        route.append((prev[cur].src, prev[cur].dst))\n\
+    \        cur = prev[cur].src\n    print(dist[t], len(route))\n    for src, dst\
+    \ in route[::-1]:\n        print(src, dst)\n\n\nif __name__ == \"__main__\":\n\
+    \    main()\n"
   dependsOn: []
   isVerificationFile: true
   path: test/yosupo-shortest-path.test.py

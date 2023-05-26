@@ -15,9 +15,10 @@ data:
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/python.py\"\
     , line 96, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "# verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind\n\
-    from py.unionfind import UnionFind\n\nN, Q = map(int, input().split())\ng = UnionFind(N)\n\
-    for i in range(Q):\n    t, u, v = map(int, input().split())\n    if t == 0:\n\
-    \        g.merge(u, v)\n    else:\n        print(1 if g.same(u, v) else 0)\n"
+    from py.unionfind import UnionFind\n\n\ndef main():\n    N, Q = map(int, input().split())\n\
+    \    g = UnionFind(N)\n    for i in range(Q):\n        t, u, v = map(int, input().split())\n\
+    \        if t == 0:\n            g.merge(u, v)\n        else:\n            print(1\
+    \ if g.same(u, v) else 0)\n\n\nif __name__ == \"__main__\":\n    main()\n"
   dependsOn: []
   isVerificationFile: true
   path: test/yosupo-unionfind.test.py

@@ -11,3 +11,7 @@ def main():
             g.merge(u, v)
         else:
             print(1 if g.same(u, v) else 0)
+
+
+if __name__ == "__main__":
+    main()

@@ -17,3 +17,7 @@ def main():
     print(dist[t], len(route))
     for src, dst in route[::-1]:
         print(src, dst)
+
+
+if __name__ == "__main__":
+    main()

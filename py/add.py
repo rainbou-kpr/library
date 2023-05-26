@@ -1,2 +1,5 @@
-def add(x, y):
-    return x+y
+def add(l):
+    t = 0
+    for i in l:
+        t += i
+    return t

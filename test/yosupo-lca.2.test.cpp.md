@@ -334,77 +334,81 @@ data:
     \ 1;\n            r >>= 1;\n        }\n        return op(left_prod, right_prod);\n\
     \    }\n    /**\n     * @brief \u3059\u3079\u3066\u306E\u8981\u7D20\u306E\u7DCF\
     \u7A4D\u3092\u8FD4\u3059\n     * \n     * @return S \u7DCF\u7A4D\n     */\n  \
-    \  S all_prod() const { return data[1]; }\n\n    /**\n     * @brief f(prod([l,\
-    \ r))) = true\u3068\u306A\u308B\u6700\u5927\u306Er\u3092\u8FD4\u3059\n     * \n\
-    \     * @tparam F\n     * @param l \u534A\u958B\u533A\u9593\u306E\u958B\u59CB\n\
-    \     * @param f \u5224\u5B9A\u95A2\u6570\n     * @return int \u6700\u5927\u306E\
-    r\n     */\n    template <typename F>\n    int max_right(int l, F f) const {\n\
-    \        assert(f(e()));\n        if (l == n) return n;\n        l += sz;\n  \
-    \      while (l % 2 == 0) l >>= 1;\n        S sum = e();\n        while(f(op(sum,\
-    \ data[l]))) {\n            if (__builtin_clz(l) != __builtin_clz(l+1)) return\
-    \ n;\n            sum = op(sum, data[l]);\n            l++;\n            while\
-    \ (l % 2 == 0) l >>= 1;\n        }\n        while (l < sz) {\n            if (!f(op(sum,\
-    \ data[l * 2]))) l *= 2;\n            else {\n                sum = op(sum, data[l\
-    \ * 2]);\n                l = l * 2 + 1;\n            }\n        }\n        return\
-    \ l - sz;\n    }\n    /**\n     * @brief f(prod([l, r))) = true\u3068\u306A\u308B\
-    \u6700\u5C0F\u306El\u3092\u8FD4\u3059\n     * \n     * @tparam F\n     * @param\
-    \ r \u534A\u958B\u533A\u9593\u306E\u7D42\u7AEF\n     * @param f \u5224\u5B9A\u95A2\
-    \u6570\n     * @return int \u6700\u5C0F\u306El\n     */\n    template <typename\
-    \ F>\n    int min_left(int r, F f) const {\n        assert(f(e()));\n        if\
-    \ (r == 0) return 0;\n        r += sz - 1;\n        while (r % 2 == 1) r >>= 1;\n\
-    \        S sum = e();\n        while(f(op(sum, data[r]))) {\n            if (__builtin_clz(r)\
-    \ != __builtin_clz(r-1)) return 0;\n            sum = op(sum, data[r]);\n    \
-    \        r--;\n            while (r % 2 == 1) r >>= 1;\n        }\n        while\
-    \ (r < sz) {\n            if (!f(op(data[r * 2 + 1], sum))) r = r * 2 + 1;\n \
-    \           else {\n                sum = op(data[r * 2 + 1], sum);\n        \
-    \        r *= 2;\n            }\n        }\n        return r + 1 - sz;\n    }\n\
-    };\n\n/**\n * @brief \u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\u304C\u9759\u7684\
-    \u306A\u5834\u5408\u306E\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306E\u5B9F\u88C5\
-    \n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam Op \u7A4D\
-    \u306E\u30D5\u30A1\u30AF\u30BF\n * @tparam E \u7A4D\u306E\u5358\u4F4D\u5143\u3092\
-    \u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\n */\ntemplate <typename S, typename\
-    \ Op, typename E>\nclass StaticSegTree : public SegTreeBase<S, StaticSegTree<S,\
-    \ Op, E>> {\n    using BaseType = SegTreeBase<S, StaticSegTree<S, Op, E>>;\n\n\
-    \    inline static Op operator_object;\n    inline static E identity_object;\n\
-    public:\n    S op(const S& a, const S& b) const { return operator_object(a, b);\
-    \ }\n    S e() const { return identity_object(); }\n\n    /**\n     * @brief \u30C7\
-    \u30D5\u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n\
-    \    */\n    StaticSegTree() = default;\n    /**\n     * @brief \u30B3\u30F3\u30B9\
-    \u30C8\u30E9\u30AF\u30BF\n     * \n     * @param n \u8981\u7D20\u6570\n     */\n\
-    \    explicit StaticSegTree(int n) : BaseType(n) {\n        this->construct_data();\n\
-    \    }\n    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n  \
-    \   * \n     * @param v \u521D\u671F\u306E\u8981\u7D20\n     */\n    explicit\
-    \ StaticSegTree(const std::vector<S>& v) : StaticSegTree(v.size()) {\n       \
-    \ this->initialize(v);\n    }\n};\n\n/**\n * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\
-    \u30AF\u30BF\u3067\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u4E0E\
-    \u3048\u308B\u3053\u3068\u3067\u7A4D\u3092\u5B9A\u7FA9\u3059\u308B\u30BB\u30B0\
-    \u30E1\u30F3\u30C8\u6728\u306E\u5B9F\u88C5\n * \u30C6\u30F3\u30D7\u30EC\u30FC\u30C8\
-    \u5F15\u6570\u3092\u7701\u7565\u3059\u308B\u3053\u3068\u304C\u3067\u304D\u3001\
-    \u30E9\u30E0\u30C0\u5F0F\u304C\u4F7F\u3048\u308B\n * \n * @tparam S \u30E2\u30CE\
-    \u30A4\u30C9\u306E\u578B\n * @tparam Op \u7A4D\u306E\u95A2\u6570\u30AA\u30D6\u30B8\
-    \u30A7\u30AF\u30C8\u306E\u578B\n */\ntemplate <typename S, typename Op>\nclass\
-    \ SegTree : public SegTreeBase<S, SegTree<S, Op>> {\n    using BaseType = SegTreeBase<S,\
-    \ SegTree<S, Op>>;\n\n    Op operator_object;\n    S identity;\n\npublic:\n  \
-    \  S op(const S& a, const S& b) const { return operator_object(a, b); }\n    S\
-    \ e() const { return identity; }\n\n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\
-    \u30C8\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n    */\n    SegTree() = default;\n\
-    \    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n\
-    \     * @param n \u8981\u7D20\u6570\n     * @param op \u7A4D\u306E\u95A2\u6570\
-    \u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\n     * @param identity \u5358\u4F4D\u5143\
-    \n     */\n    explicit SegTree(int n, Op op, const S& identity) : BaseType(n),\
-    \ operator_object(std::move(op)), identity(identity) {\n        this->construct_data();\n\
-    \    }\n    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n  \
-    \   * \n     * @param v \u521D\u671F\u306E\u8981\u7D20\n     * @param op \u7A4D\
-    \u306E\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\n     * @param identity\
-    \ \u5358\u4F4D\u5143\n     */\n    explicit SegTree(const std::vector<S>& v, Op\
-    \ op, const S& identity) : SegTree(v.size(), std::move(op), identity) {\n    \
-    \    this->initialize(v);\n    }\n};\n\nnamespace segtree {\n    template <typename\
-    \ S>\n    struct Max {\n        const S operator() (const S& a, const S& b) const\
-    \ { return std::max(a, b); }\n    };\n    template <typename S>\n    struct Min\
-    \ {\n        const S operator() (const S& a, const S& b) const { return std::min(a,\
-    \ b); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MaxLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::max(); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
+    \  S all_prod() const { return data[1]; }\n\n    /**\n     * @brief (r = l or\
+    \ f(prod([l, r))) = true) and (r = n or f(prod([l, r+1))) = false)\u3068\u306A\
+    \u308Br\u3092\u8FD4\u3059\n     * f\u304C\u5358\u8ABF\u306A\u3089\u3001f(prod([l,\
+    \ r))) = true\u3068\u306A\u308B\u6700\u5927\u306Er\n     * \n     * @tparam F\n\
+    \     * @param l \u534A\u958B\u533A\u9593\u306E\u958B\u59CB\n     * @param f \u5224\
+    \u5B9A\u95A2\u6570 f(e) = true\n     * @return int\n     */\n    template <typename\
+    \ F>\n    int max_right(int l, F f) const {\n        assert(f(e()));\n       \
+    \ if (l == n) return n;\n        l += sz;\n        while (l % 2 == 0) l >>= 1;\n\
+    \        S sum = e();\n        while(f(op(sum, data[l]))) {\n            if (__builtin_clz(l)\
+    \ != __builtin_clz(l+1)) return n;\n            sum = op(sum, data[l]);\n    \
+    \        l++;\n            while (l % 2 == 0) l >>= 1;\n        }\n        while\
+    \ (l < sz) {\n            if (!f(op(sum, data[l * 2]))) l *= 2;\n            else\
+    \ {\n                sum = op(sum, data[l * 2]);\n                l = l * 2 +\
+    \ 1;\n            }\n        }\n        return l - sz;\n    }\n    /**\n     *\
+    \ @brief (l = 0 or f(prod([l, r))) = true) and (l = r or f(prod([l-1, r))) = false)\u3068\
+    \u306A\u308Bl\u3092\u8FD4\u3059\n     * f\u304C\u5358\u8ABF\u306A\u3089\u3001\
+    f(prod([l, r))) = true\u3068\u306A\u308B\u6700\u5C0F\u306El\n     * \n     * @tparam\
+    \ F\n     * @param r \u534A\u958B\u533A\u9593\u306E\u7D42\u7AEF\n     * @param\
+    \ f \u5224\u5B9A\u95A2\u6570 f(e) = true\n     * @return int\n     */\n    template\
+    \ <typename F>\n    int min_left(int r, F f) const {\n        assert(f(e()));\n\
+    \        if (r == 0) return 0;\n        r += sz - 1;\n        while (r % 2 ==\
+    \ 1) r >>= 1;\n        S sum = e();\n        while(f(op(sum, data[r]))) {\n  \
+    \          if (__builtin_clz(r) != __builtin_clz(r-1)) return 0;\n           \
+    \ sum = op(sum, data[r]);\n            r--;\n            while (r % 2 == 1) r\
+    \ >>= 1;\n        }\n        while (r < sz) {\n            if (!f(op(data[r *\
+    \ 2 + 1], sum))) r = r * 2 + 1;\n            else {\n                sum = op(data[r\
+    \ * 2 + 1], sum);\n                r *= 2;\n            }\n        }\n       \
+    \ return r + 1 - sz;\n    }\n};\n\n/**\n * @brief \u7A4D\u306E\u30D5\u30A1\u30F3\
+    \u30AF\u30BF\u304C\u9759\u7684\u306A\u5834\u5408\u306E\u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728\u306E\u5B9F\u88C5\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\
+    \u578B\n * @tparam Op \u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam E\
+    \ \u7A4D\u306E\u5358\u4F4D\u5143\u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\
+    \n */\ntemplate <typename S, typename Op, typename E>\nclass StaticSegTree : public\
+    \ SegTreeBase<S, StaticSegTree<S, Op, E>> {\n    using BaseType = SegTreeBase<S,\
+    \ StaticSegTree<S, Op, E>>;\n\n    inline static Op operator_object;\n    inline\
+    \ static E identity_object;\npublic:\n    S op(const S& a, const S& b) const {\
+    \ return operator_object(a, b); }\n    S e() const { return identity_object();\
+    \ }\n\n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\
+    \u30C8\u30E9\u30AF\u30BF\n     * \n    */\n    StaticSegTree() = default;\n  \
+    \  /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n  \
+    \   * @param n \u8981\u7D20\u6570\n     */\n    explicit StaticSegTree(int n)\
+    \ : BaseType(n) {\n        this->construct_data();\n    }\n    /**\n     * @brief\
+    \ \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n     * @param v \u521D\u671F\
+    \u306E\u8981\u7D20\n     */\n    explicit StaticSegTree(const std::vector<S>&\
+    \ v) : StaticSegTree(v.size()) {\n        this->initialize(v);\n    }\n};\n\n\
+    /**\n * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\u3067\u95A2\u6570\u30AA\
+    \u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u4E0E\u3048\u308B\u3053\u3068\u3067\u7A4D\
+    \u3092\u5B9A\u7FA9\u3059\u308B\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306E\u5B9F\
+    \u88C5\n * \u30C6\u30F3\u30D7\u30EC\u30FC\u30C8\u5F15\u6570\u3092\u7701\u7565\u3059\
+    \u308B\u3053\u3068\u304C\u3067\u304D\u3001\u30E9\u30E0\u30C0\u5F0F\u304C\u4F7F\
+    \u3048\u308B\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam\
+    \ Op \u7A4D\u306E\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u306E\u578B\n\
+    \ */\ntemplate <typename S, typename Op>\nclass SegTree : public SegTreeBase<S,\
+    \ SegTree<S, Op>> {\n    using BaseType = SegTreeBase<S, SegTree<S, Op>>;\n\n\
+    \    Op operator_object;\n    S identity;\n\npublic:\n    S op(const S& a, const\
+    \ S& b) const { return operator_object(a, b); }\n    S e() const { return identity;\
+    \ }\n\n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\
+    \u30C8\u30E9\u30AF\u30BF\n    */\n    SegTree() = default;\n    /**\n     * @brief\
+    \ \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n     * @param n \u8981\u7D20\
+    \u6570\n     * @param op \u7A4D\u306E\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\
+    \u30C8\n     * @param identity \u5358\u4F4D\u5143\n     */\n    explicit SegTree(int\
+    \ n, Op op, const S& identity) : BaseType(n), operator_object(std::move(op)),\
+    \ identity(identity) {\n        this->construct_data();\n    }\n    /**\n    \
+    \ * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n     * @param\
+    \ v \u521D\u671F\u306E\u8981\u7D20\n     * @param op \u7A4D\u306E\u95A2\u6570\u30AA\
+    \u30D6\u30B8\u30A7\u30AF\u30C8\n     * @param identity \u5358\u4F4D\u5143\n  \
+    \   */\n    explicit SegTree(const std::vector<S>& v, Op op, const S& identity)\
+    \ : SegTree(v.size(), std::move(op), identity) {\n        this->initialize(v);\n\
+    \    }\n};\n\nnamespace segtree {\n    template <typename S>\n    struct Max {\n\
+    \        const S operator() (const S& a, const S& b) const { return std::max(a,\
+    \ b); }\n    };\n    template <typename S>\n    struct Min {\n        const S\
+    \ operator() (const S& a, const S& b) const { return std::min(a, b); }\n    };\n\
+    \    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
+    \    struct MaxLimit {\n        constexpr S operator() () const { return std::numeric_limits<S>::max();\
+    \ }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
     \ = nullptr>\n    struct MinLimit {\n        constexpr S operator() () const {\
     \ return std::numeric_limits<S>::lowest(); }\n    };\n    template <typename S>\n\
     \    struct Zero {\n        S operator() () const { return S(0); }\n    };\n}\n\
@@ -444,7 +448,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-lca.2.test.cpp
   requiredBy: []
-  timestamp: '2023-05-12 10:04:03+09:00'
+  timestamp: '2023-05-24 09:10:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-lca.2.test.cpp

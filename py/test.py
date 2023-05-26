@@ -1,3 +1,6 @@
+import math
+
+
 class Dict:
     def __init__(self) -> None:
         self.d = {}
@@ -11,4 +14,6 @@ class Dict:
     def __setitem__(self, x: int, y: int) -> None:
         self.d[str(x)] = y
 
-import math
+
+def lcm(x, y):
+    return x*y//math.gcd(x, y)

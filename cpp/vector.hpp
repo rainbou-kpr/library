@@ -498,7 +498,8 @@ std::vector<Vector<T, 2>> select_convex(const std::vector<Vector<T, 2>>& points,
  * @return std::vector<Vector<T, 2>> 凸包の頂点の座標(反時計回り)
  */
 template <typename T>
-std::vector<Vector<T, 2>> convex_hull(const std::vector<Vector<T, 2>>& points, bool include_straight = false) {
+std::vector<Vector<T, 2>> convex_hull(const std::vector<Vector<T, 2>>& _points, bool include_straight = false) {
+    std::vector<Vector<T, 2>> points = _points;
     std::sort(points.begin(), points.end());
     std::vector<Vector<T, 2>> ret = select_convex(points, include_straight);
     std::reverse(points.begin(), points.end());

@@ -1,9 +1,9 @@
-# comment
-from typing import List
+class add:
+    def __init__(self, l) -> None:
+        t = 0
+        for i in l:
+            t += i
+        self.v += t
 
-
-def add(l: List):
-    t = 0
-    for i in l:
-        t += i
-    return t
+    def __str__(self) -> str:
+        return str(self.v)

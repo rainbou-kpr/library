@@ -1,7 +1,8 @@
-class add:
-    from typing import List
+import typing
 
-    def __init__(self, l: List[int]) -> None:
+
+class add:
+    def __init__(self, l: typing.List[int]):
         t = 0
         for i in l:
             t += i

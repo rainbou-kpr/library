@@ -2,4 +2,4 @@
 from py.add import add
 
 
-print(add(*map(int, input().split())))
+print(add(list(map(int, input().split()))))

@@ -11,9 +11,9 @@ def main() -> None:
     for _ in range(Q):
         t, u, v = map(int, input().split())
         if t == 0:
-            uft.unite(u, v)
+            uft.merge(u, v)
         else:
-            print(int(uft.is_same(u, v)))
+            print(int(uft.same(u, v)))
 
 
 if __name__ == "__main__":

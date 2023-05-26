@@ -1,8 +1,11 @@
 # verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
+import sys
+input = sys.stdin.buffer.readline
+
 from py.unionfind import UnionFind
 
 
-def main():
+def main() -> None:
     N, Q = map(int, input().split())
     g = UnionFind(N)
     for i in range(Q):

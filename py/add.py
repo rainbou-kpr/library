@@ -1,7 +1,8 @@
-from typing import List
+from typing import List, TypeVar
+T = TypeVar('T')
 
 
-def add(l: List[int]):
+def add(l: List[T]) -> T:
     t = 0
     for i in l:
         t += i

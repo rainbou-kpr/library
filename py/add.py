@@ -3,7 +3,7 @@ class add:
         t = 0
         for i in l:
             t += i
-        self.v += t
+        self.v = t
 
     def __str__(self) -> str:
         return str(self.v)

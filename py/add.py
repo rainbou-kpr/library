@@ -1,5 +1,7 @@
 class add:
-    def __init__(self, l) -> None:
+    from typing import List
+
+    def __init__(self, l: List[int]) -> None:
         t = 0
         for i in l:
             t += i

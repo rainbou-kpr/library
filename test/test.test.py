@@ -7,6 +7,6 @@ d = Dict()
 for _ in range(Q):
     q = tuple(map(int, input().split()))
     if q[0] == 0:
-        d[q[1]] = q[2]*lcm(4, 6)//121
+        d[q[1]] = q[2]*lcm(4, 6)//12
     else:
         print(d[q[1]])

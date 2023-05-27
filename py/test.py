@@ -1,5 +1,4 @@
 import math
-import collections
 
 
 def lcm(x, y):
@@ -8,10 +7,13 @@ def lcm(x, y):
 
 class Dict:
     def __init__(self) -> None:
-        self.d = collections.defaultdict(int)
+        self.d = {}
 
     def __getitem__(self, x: int) -> int:
-        return self.d[str(x)]
+        if str(x) in self.d:
+            return self.d[str(x)]
+        else:
+            return 0
 
     def __setitem__(self, x: int, y: int) -> None:
         self.d[str(x)] = y

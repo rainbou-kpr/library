@@ -1,4 +1,4 @@
-# verification-helper: PROBLEM double_ended_priority_queue
+# verification-helper: PROBLEM https://judge.yosupo.jp/problem/double_ended_priority_queue
 from py.test import DoubleEndedPriorityQueue
 
 

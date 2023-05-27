@@ -1,2 +1,5 @@
+from subtest import add
+
+
 def Main():
-    print(sum(list(map(int, input().split()))))
+    print(add(*map(int, input().split())))

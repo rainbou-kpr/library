@@ -1,14 +1,19 @@
-# verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
+# verification-helper: PROBLEM https://judge.yosupo.jp/problem/double_ended_priority_queue
 import heapq
 
-from py.test import UnionFindTree
+from py.test import DoubleEndedPriorityQueue
 
 
+pq = DoubleEndedPriorityQueue(heapq.heappop, heapq.heappush)
 N, Q = map(int, input().split())
-g = UnionFindTree(N, heapq.heappop, heapq.heappush)
-for i in range(Q):
-    t, u, v = map(int, input().split())
-    if t == 0:
-        g.merge(u, v)
+S = list(map(int, input().split()))
+for i in S:
+    pq.insert(i)
+for _ in range(Q):
+    q = tuple(map(int, input().split()))
+    if q[0] == 0:
+        pq.insert(q[1])
+    elif q[0] == 1:
+        print(pq.pop_min())
     else:
-        print(1 if g.same(u, v) else 0)
+        print(pq.pop_max())

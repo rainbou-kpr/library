@@ -1,4 +1,4 @@
-import fractions
+import bisect
 
 
 def Main():

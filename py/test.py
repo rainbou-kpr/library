@@ -8,7 +8,7 @@ def lcm(x, y):
 
 class Dict:
     def __init__(self) -> None:
-        self.d = collections(int)
+        self.d = collections.defaultdict(int)
 
     def __getitem__(self, x: int) -> int:
         return self.d[str(x)]

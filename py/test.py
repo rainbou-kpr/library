@@ -1,4 +1,4 @@
-import bisect
+import itertools
 
 
 def Main():

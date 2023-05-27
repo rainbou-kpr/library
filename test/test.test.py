@@ -1,4 +1,17 @@
-# verification-helper: PROBLEM https://judge.yosupo.jp/problem/aplusb
-from py.test import lcm
+# verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind
+from py.test import UnionFindTree
 
-print(sum(list(map(int, input().split())))*lcm(4, 6)//12)
+
+def main():
+    N, Q = map(int, input().split())
+    g = UnionFindTree(N)
+    for i in range(Q):
+        t, u, v = map(int, input().split())
+        if t == 0:
+            g.merge(u, v)
+        else:
+            print(1 if g.same(u, v) else 0)
+
+
+if __name__ == "__main__":
+    main()

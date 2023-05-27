@@ -1,5 +1,6 @@
-from py.subtest import add
+import collections
 
 
 def Main():
-    print(add(*map(int, input().split())))
+    A, B = map(int, input().split())
+    print(A+B)

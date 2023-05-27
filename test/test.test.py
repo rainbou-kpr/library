@@ -2,5 +2,4 @@
 
 from py.test import Main
 
-
 Main()

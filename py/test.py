@@ -1,4 +1,4 @@
-from subtest import add
+from py.subtest import add
 
 
 def Main():

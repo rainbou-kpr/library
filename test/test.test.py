@@ -1,12 +1,17 @@
-# verification-helper: PROBLEM https://judge.yosupo.jp/problem/associative_array
-from py.test import Dict, lcm
+# verification-helper: PROBLEM double_ended_priority_queue
+from py.test import DoubleEndedPriorityQueue
 
 
-Q = int(input())
-d = Dict()
+pq = DoubleEndedPriorityQueue()
+N, Q = map(int, input().split())
+S = list(map(int, input().split()))
+for i in S:
+    pq.insert(i)
 for _ in range(Q):
     q = tuple(map(int, input().split()))
     if q[0] == 0:
-        d[q[1]] = q[2]*lcm(4, 6)//12
+        pq.insert(q[1])
+    elif q[0] == 1:
+        print(pq.pop_min())
     else:
-        print(d[q[1]])
+        print(pq.pop_max())

@@ -1,6 +1,5 @@
-import sys
+from subtest import read
 
 
 def Main():
-    input = sys.stdin.buffer.readline
-    print(sum(list(map(int, input().split()))))
+    print(sum(list(map(int, read().split()))))

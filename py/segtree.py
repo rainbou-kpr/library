@@ -8,13 +8,13 @@ class SegTree(Generic[S]):
     セグメント木
     """
 
-    def __init__(self, n_or_v: Union[int, List[S]], op: Callable[[S, S], S], e: Callable[[], S]) -> None:
+    def __init__(self, n_or_v: Union[int, List[S]], op: Callable[[S, S], S], e: S) -> None:
         """
         コンストラクタ
         :type S: 要素のtype
         :param int | List[S] n_or_v: 要素数 or 初期の要素のリスト
         :param Callable[[S, S], S] op: 積の関数
-        :param Callable[[], S] e: 積の単位元を返す関数
+        :param S e: 積の単位元を返す関数
         """
         if type(n_or_v) is int:
             self.n = n_or_v
@@ -25,7 +25,7 @@ class SegTree(Generic[S]):
             while self.sz < self.n:
                 self.sz <<= 1
                 self.height += 1
-            self.data = [e() for i in range(self.sz*2)]
+            self.data = [e for i in range(self.sz*2)]
         elif type(n_or_v) is list:
             self.n = len(n_or_v)
             self.op = op
@@ -35,7 +35,7 @@ class SegTree(Generic[S]):
             while self.sz < self.n:
                 self.sz <<= 1
                 self.height += 1
-            self.data = [e() for i in range(self.sz*2)]
+            self.data = [e for i in range(self.sz*2)]
             for i in range(self.n):
                 self.data[self.sz+i] = n_or_v[i]
             for i in range(self.sz-1, 0, -1):
@@ -43,7 +43,7 @@ class SegTree(Generic[S]):
         else:
             return TypeError
 
-    def update(self, k: int) -> None:
+    def __update(self, k: int) -> None:
         self.data[k] = self.op(self.data[2*k], self.data[2*k+1])
 
     def get(self, k: int) -> S:
@@ -96,8 +96,8 @@ class SegTree(Generic[S]):
         :param int r: 半壊区間の終端
         :return S: 総積
         """
-        left_prod = self.e()
-        right_prod = self.e()
+        left_prod = self.e
+        right_prod = self.e
         l += self.sz
         r += self.sz
         while l < r:
@@ -120,18 +120,19 @@ class SegTree(Generic[S]):
 
     def max_right(self, l: int, f: Callable[[S], bool]) -> int:
         """
-        (r = l or f(prod([l, r))) = True) and (r = n or f(prod([l, r+1))) = False)となるrを返す。fが単調なら、f(prod([l, r))) = Trueとなる最大のrとなる。
+        (r = l or f(prod([l, r))) = True) and (r = n or f(prod([l, r+1))) = False)となるrを返す。
+        fが単調なら、f(prod([l, r))) = Trueとなる最大のrとなる。
         :param l: 半開区間の開始
-        :param f: 単調な判定関数
-        :return int: 最大のr
+        :param f: 判定関数
+        :return int: r
         """
-        assert f(self.e())
+        assert f(self.e)
         if l == self.n:
             return self.n
         l += self.sz
         while l % 2 == 0:
             l >>= 1
-        sm = self.e()
+        sm = self.e
         while f(self.op(sm, self.data[l])):
             if l.bit_length() != (l+1).bit_length():
                 return self.n
@@ -149,18 +150,19 @@ class SegTree(Generic[S]):
 
     def min_left(self, r: int, f: Callable[[S], bool]) -> int:
         """
-        (l = 0 or f(prod([l, r))) = True) and (l = r or f(prod([l-1, r))) = False)となるlを返す。fが単調なら、f(prod([l, r))) = Trueとなる最小のlとなる。
+        (l = 0 or f(prod([l, r))) = True) and (l = r or f(prod([l-1, r))) = False)となるlを返す。
+        fが単調なら、f(prod([l, r))) = Trueとなる最小のlとなる。
         :param r: 半開区間の終端
-        :param f: 単調な判定関数
-        :return int: 最小のl
+        :param f: 判定関数
+        :return int: l
         """
-        assert f(self.e())
-        if r == self.n:
-            return self.n
+        assert f(self.e)
+        if r == 0:
+            return 0
         r += self.sz-1
         while r % 2 == 1:
             r >>= 1
-        sm = self.e()
+        sm = self.e
         while f(self.op(sm, self.data[r])):
             if r.bit_length() != (r-1).bit_length():
                 return 0
@@ -184,6 +186,17 @@ class SegTree(Generic[S]):
 
 
 class RMaxQ(SegTree, Generic[S]):
+    def __init__(self, n_or_v: Union[int, List[S]], init: S = -float('inf')) -> None:
+        """
+        コンストラクタ
+        :type S: 要素のtype
+        :param int | List[S] n_or_v: 要素数 or 初期の要素のリスト
+        :param S init: 単位元 デフォルトは-float('inf') これと比較演算できるならばSは他のtype(intなど)でもかまわない
+        """
+        super().__init__(n_or_v, lambda x, y: x if x > y else y, init)
+
+
+class RMinQ(SegTree, Generic[S]):
     def __init__(self, n_or_v: Union[int, List[S]], init: S = float('inf')) -> None:
         """
         コンストラクタ
@@ -191,18 +204,7 @@ class RMaxQ(SegTree, Generic[S]):
         :param int | List[S] n_or_v: 要素数 or 初期の要素のリスト
         :param S init: 単位元 デフォルトはfloat('inf') これと比較演算できるならばSは他のtype(intなど)でもかまわない
         """
-        super().__init__(n_or_v, lambda x, y: x if x > y else y, lambda: init)
-
-
-class RMinQ(SegTree, Generic[S]):
-    def __init__(self, n_or_v: Union[int, List[S]], init: S = -float('inf')) -> None:
-        """
-        コンストラクタ
-        :type S: 要素のtype
-        :param int | List[S] n_or_v: 要素数 or 初期の要素のリスト
-        :param S init: 単位元 デフォルトはfloat('inf') これと比較演算できるならばSは他のtype(intなど)でもかまわない
-        """
-        super().__init__(n_or_v, lambda x, y: x if x < y else y, lambda: init)
+        super().__init__(n_or_v, lambda x, y: x if x < y else y, init)
 
 
 class RSumQ(SegTree, Generic[S]):
@@ -211,6 +213,6 @@ class RSumQ(SegTree, Generic[S]):
         コンストラクタ
         :type S: 要素のtype
         :param int | List[S] n_or_v: 要素数 or 初期の要素のリスト
-        :param S init: 単位元 デフォルトはfloat('inf') これと加算できるならばSは他のtype(intなど)でもかまわない
+        :param S init: 単位元 デフォルトは0
         """
-        super().__init__(n_or_v, lambda x, y: x+y, lambda: init)
+        super().__init__(n_or_v, lambda x, y: x+y, init)

@@ -10,8 +10,7 @@ def main() -> None:
     n, q = map(int, input().split())
     v = [tuple(map(int, input().split())) for i in range(n)]
     def op(l, r): return (l[0]*r[0] % MOD, (r[0]*l[1]+r[1]) % MOD)
-    def e(): return (1, 0)
-    seg = SegTree(v, op, e)
+    seg = SegTree(v, op, (1, 0))
     for _ in range(q):
         query = tuple(map(int, input().split()))
         if query[0] == 0:

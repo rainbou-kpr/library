@@ -39,7 +39,7 @@ class SegTree(Generic[S]):
             for i in range(self.n):
                 self.data[self.sz+i] = n_or_v[i]
             for i in range(self.sz-1, 0, -1):
-                self.update(i)
+                self.__update(i)
         else:
             return TypeError
 
@@ -71,7 +71,7 @@ class SegTree(Generic[S]):
         k += self.sz
         self.data[k] = x
         for i in range(1, self.height+1):
-            self.update(k >> i)
+            self.__update(k >> i)
 
     def __setitem__(self, k: int, x: S):
         """

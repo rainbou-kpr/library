@@ -14,7 +14,7 @@ class SegTree(Generic[S]):
         :type S: 要素のtype
         :param int | List[S] n_or_v: 要素数 or 初期の要素のリスト
         :param Callable[[S, S], S] op: 積の関数
-        :param S e: 積の単位元を返す関数
+        :param S e: 積の単位元
         """
         if type(n_or_v) is int:
             self.n = n_or_v

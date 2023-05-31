@@ -78,7 +78,8 @@ public:
      */
     template <typename R>
     std::vector<unsigned long long> build(R&& s) {
-        return build(std::begin(s), std::end(s));
+        using std::begin, std::end;
+        return build(begin(s), end(s));
     }
 
     /**

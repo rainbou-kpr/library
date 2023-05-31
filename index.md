@@ -50,6 +50,9 @@ data:
       path: py/modint.py
       title: py/modint.py
     - icon: ':heavy_check_mark:'
+      path: py/segtree.py
+      title: py/segtree.py
+    - icon: ':heavy_check_mark:'
       path: py/sqrt.py
       title: py/sqrt.py
     - icon: ':heavy_check_mark:'
@@ -68,8 +71,14 @@ data:
       path: test/aoj-dsl-2-a.test.cpp
       title: test/aoj-dsl-2-a.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-a.test.py
+      title: test/aoj-dsl-2-a.test.py
+    - icon: ':heavy_check_mark:'
       path: test/aoj-dsl-2-b.test.cpp
       title: test/aoj-dsl-2-b.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-2-b.test.py
+      title: test/aoj-dsl-2-b.test.py
     - icon: ':heavy_check_mark:'
       path: test/aoj-dsl-2-f.test.cpp
       title: test/aoj-dsl-2-f.test.cpp
@@ -121,6 +130,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.2.test.cpp
       title: test/yosupo-point-set-range-composite.2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-point-set-range-composite.test.py
+      title: test/yosupo-point-set-range-composite.test.py
     - icon: ':heavy_check_mark:'
       path: test/yosupo-range-affine-range-sum.1.test.cpp
       title: test/yosupo-range-affine-range-sum.1.test.cpp

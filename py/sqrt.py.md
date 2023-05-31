@@ -14,7 +14,7 @@ data:
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/python.py\"\
-    , line 96, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
+    , line 93, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "def isqrt(n: int) -> int:\n    \"\"\"\n    floor(sqrt(n))\n    :param int\
     \ n: \u5E73\u65B9\u6839\u3092\u6C42\u3081\u305F\u3044\u975E\u8CA0\u6574\u6570\n\
     \    :rtype: int\n    \"\"\"\n    # python3.8\u4EE5\u4E0A\u3067\u306Fmath.isqrt\u3092\

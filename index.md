@@ -43,7 +43,7 @@ data:
       title: "\u5E7E\u4F55\u5B66\u3068\u3057\u3066\u306E\u30D9\u30AF\u30C8\u30EB"
   - name: py
     pages:
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: py/graph.py
       title: py/graph.py
     - icon: ':warning:'
@@ -52,7 +52,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: py/sqrt.py
       title: py/sqrt.py
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: py/unionfind.py
       title: py/unionfind.py
   verificationCategories:

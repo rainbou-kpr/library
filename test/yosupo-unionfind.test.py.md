@@ -1,6 +1,9 @@
 ---
 data:
-  _extendedDependsOn: []
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: py/unionfind.py
+    title: py/unionfind.py
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -13,17 +16,18 @@ data:
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/python.py\"\
-    , line 96, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
+    , line 93, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "# verification-helper: PROBLEM https://judge.yosupo.jp/problem/unionfind\n\
     from py.unionfind import UnionFind\n\n\ndef main():\n    N, Q = map(int, input().split())\n\
     \    g = UnionFind(N)\n    for i in range(Q):\n        t, u, v = map(int, input().split())\n\
     \        if t == 0:\n            g.merge(u, v)\n        else:\n            print(1\
     \ if g.same(u, v) else 0)\n\n\nif __name__ == \"__main__\":\n    main()\n"
-  dependsOn: []
+  dependsOn:
+  - py/unionfind.py
   isVerificationFile: true
   path: test/yosupo-unionfind.test.py
   requiredBy: []
-  timestamp: '1970-01-01 00:00:00+00:00'
+  timestamp: '2023-05-26 10:38:14+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-unionfind.test.py

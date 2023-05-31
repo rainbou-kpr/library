@@ -11,7 +11,7 @@ data:
   bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
     \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/python.py\"\
-    , line 96, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
+    , line 93, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "from typing import TypeVar, Generic, Callable, Union, Dict\n\n\nT = TypeVar(\"\
     T\")\n\n\nclass _Template(Generic[T]):\n    def __init__(self, func: Callable[...,\
     \ T]) -> None:\n        self.__func = func\n        self.__cache: Dict[tuple,\

@@ -11,22 +11,24 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B
+    ERROR: 1e-6
+    PROBLEM: https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_5_A
     links:
-    - https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B
-  bundledCode: "#line 1 \"test/aoj-cgl-2-b.test.cpp\"\n#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B\"\
-    \n\n#include <iostream>\n\n#line 2 \"cpp/vector.hpp\"\n\n#include <algorithm>\n\
-    #include <array>\n#include <cassert>\n#include <cmath>\n#include <initializer_list>\n\
-    #include <istream>\n#include <numeric>\n#include <ostream>\n#include <stack>\n\
-    #include <tuple>\n#include <type_traits>\n#include <vector>\n\n/**\n * @brief\
-    \ \u5E7E\u4F55\u5B66\u3068\u3057\u3066\u306E\u30D9\u30AF\u30C8\u30EB\n *\n * @tparam\
-    \ T \u578B \u7701\u7565\u3057\u305F\u3089double\n * @tparam Dim \u6B21\u5143 \u7701\
-    \u7565\u3057\u305F\u30892\n */\ntemplate <typename T = double, int Dim = 2, std::enable_if_t<std::is_scalar_v<T>\
-    \ && (Dim > 0)>* = nullptr>\nstruct Vector {\n    std::array<T, Dim> v; //!< \u30D9\
-    \u30AF\u30C8\u30EB\u306E\u6210\u5206\u8868\u793A\n\n    /**\n     * @brief \u30C7\
-    \u30D5\u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \u30BC\
-    \u30ED\u30D9\u30AF\u30C8\u30EB\n     */\n    constexpr Vector() noexcept : v()\
-    \ {}\n    /**\n     * @brief \u53EF\u5909\u9577\u5F15\u6570\u306B\u3088\u308B\u30B3\
+    - https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_5_A
+  bundledCode: "#line 1 \"test/aoj-cgl-5-a.test.cpp\"\n#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_5_A\"\
+    \n#define ERROR \"1e-6\"\n\n#include <iomanip>\n#include <iostream>\n\n#line 2\
+    \ \"cpp/vector.hpp\"\n\n#include <algorithm>\n#include <array>\n#include <cassert>\n\
+    #include <cmath>\n#include <initializer_list>\n#include <istream>\n#include <numeric>\n\
+    #include <ostream>\n#include <stack>\n#include <tuple>\n#include <type_traits>\n\
+    #include <vector>\n\n/**\n * @brief \u5E7E\u4F55\u5B66\u3068\u3057\u3066\u306E\
+    \u30D9\u30AF\u30C8\u30EB\n *\n * @tparam T \u578B \u7701\u7565\u3057\u305F\u3089\
+    double\n * @tparam Dim \u6B21\u5143 \u7701\u7565\u3057\u305F\u30892\n */\ntemplate\
+    \ <typename T = double, int Dim = 2, std::enable_if_t<std::is_scalar_v<T> && (Dim\
+    \ > 0)>* = nullptr>\nstruct Vector {\n    std::array<T, Dim> v; //!< \u30D9\u30AF\
+    \u30C8\u30EB\u306E\u6210\u5206\u8868\u793A\n\n    /**\n     * @brief \u30C7\u30D5\
+    \u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \u30BC\u30ED\
+    \u30D9\u30AF\u30C8\u30EB\n     */\n    constexpr Vector() noexcept : v() {}\n\
+    \    /**\n     * @brief \u53EF\u5909\u9577\u5F15\u6570\u306B\u3088\u308B\u30B3\
     \u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n     * @tparam Args \n     */\n\
     \    template <typename... Args>\n    constexpr Vector(Args... args) noexcept\
     \ : v{args...} {}\n\n    /**\n     * @brief i\u756A\u76EE\u306E\u6210\u5206\u3092\
@@ -284,27 +286,29 @@ data:
     \u306E\u8DDD\u96E2\u3001\u6700\u8FD1\u70B9\u5BFE\u306E\u30A4\u30F3\u30C7\u30C3\
     \u30AF\u30B9\n */\ntemplate <typename T>\nstd::tuple<double, int, int> closest_point_pair(const\
     \ std::vector<Vector<T, 2>>& points) {\n    auto [d2, i, j] = closest_point_pair_squred(points);\n\
-    \    return {std::sqrt(d2), i, j};\n}\n#line 6 \"test/aoj-cgl-2-b.test.cpp\"\n\
-    \nint main() {\n    int q; std::cin >> q;\n    while(q--) {\n        Vector p0,\
-    \ p1, p2, p3; std::cin >> p0 >> p1 >> p2 >> p3;\n        std::cout << (segment_intersect(p0,\
-    \ p1, p2, p3).first ? 1 : 0) << std::endl;\n    }\n}\n"
-  code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B\"\
-    \n\n#include <iostream>\n\n#include \"../cpp/vector.hpp\"\n\nint main() {\n  \
-    \  int q; std::cin >> q;\n    while(q--) {\n        Vector p0, p1, p2, p3; std::cin\
-    \ >> p0 >> p1 >> p2 >> p3;\n        std::cout << (segment_intersect(p0, p1, p2,\
-    \ p3).first ? 1 : 0) << std::endl;\n    }\n}"
+    \    return {std::sqrt(d2), i, j};\n}\n#line 8 \"test/aoj-cgl-5-a.test.cpp\"\n\
+    \nint main(void) {\n    int n; std::cin >> n;\n    std::vector<Vector<double>>\
+    \ points(n);\n    for(int i = 0; i < n; i++) std::cin >> points[i];\n    std::cout\
+    \ << std::fixed << std::setprecision(7) << std::get<0>(closest_point_pair(points))\
+    \ << std::endl;\n}\n"
+  code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_5_A\"\
+    \n#define ERROR \"1e-6\"\n\n#include <iomanip>\n#include <iostream>\n\n#include\
+    \ \"../cpp/vector.hpp\"\n\nint main(void) {\n    int n; std::cin >> n;\n    std::vector<Vector<double>>\
+    \ points(n);\n    for(int i = 0; i < n; i++) std::cin >> points[i];\n    std::cout\
+    \ << std::fixed << std::setprecision(7) << std::get<0>(closest_point_pair(points))\
+    \ << std::endl;\n}"
   dependsOn:
   - cpp/vector.hpp
   isVerificationFile: true
-  path: test/aoj-cgl-2-b.test.cpp
+  path: test/aoj-cgl-5-a.test.cpp
   requiredBy: []
   timestamp: '2023-05-26 16:24:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj-cgl-2-b.test.cpp
+documentation_of: test/aoj-cgl-5-a.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj-cgl-2-b.test.cpp
-- /verify/test/aoj-cgl-2-b.test.cpp.html
-title: test/aoj-cgl-2-b.test.cpp
+- /verify/test/aoj-cgl-5-a.test.cpp
+- /verify/test/aoj-cgl-5-a.test.cpp.html
+title: test/aoj-cgl-5-a.test.cpp
 ---

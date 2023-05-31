@@ -11,10 +11,10 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B
+    PROBLEM: https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_A
     links:
-    - https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B
-  bundledCode: "#line 1 \"test/aoj-cgl-2-b.test.cpp\"\n#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B\"\
+    - https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_A
+  bundledCode: "#line 1 \"test/aoj-cgl-4-a.test.cpp\"\n#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_A\"\
     \n\n#include <iostream>\n\n#line 2 \"cpp/vector.hpp\"\n\n#include <algorithm>\n\
     #include <array>\n#include <cassert>\n#include <cmath>\n#include <initializer_list>\n\
     #include <istream>\n#include <numeric>\n#include <ostream>\n#include <stack>\n\
@@ -284,27 +284,37 @@ data:
     \u306E\u8DDD\u96E2\u3001\u6700\u8FD1\u70B9\u5BFE\u306E\u30A4\u30F3\u30C7\u30C3\
     \u30AF\u30B9\n */\ntemplate <typename T>\nstd::tuple<double, int, int> closest_point_pair(const\
     \ std::vector<Vector<T, 2>>& points) {\n    auto [d2, i, j] = closest_point_pair_squred(points);\n\
-    \    return {std::sqrt(d2), i, j};\n}\n#line 6 \"test/aoj-cgl-2-b.test.cpp\"\n\
-    \nint main() {\n    int q; std::cin >> q;\n    while(q--) {\n        Vector p0,\
-    \ p1, p2, p3; std::cin >> p0 >> p1 >> p2 >> p3;\n        std::cout << (segment_intersect(p0,\
-    \ p1, p2, p3).first ? 1 : 0) << std::endl;\n    }\n}\n"
-  code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_2_B\"\
-    \n\n#include <iostream>\n\n#include \"../cpp/vector.hpp\"\n\nint main() {\n  \
-    \  int q; std::cin >> q;\n    while(q--) {\n        Vector p0, p1, p2, p3; std::cin\
-    \ >> p0 >> p1 >> p2 >> p3;\n        std::cout << (segment_intersect(p0, p1, p2,\
-    \ p3).first ? 1 : 0) << std::endl;\n    }\n}"
+    \    return {std::sqrt(d2), i, j};\n}\n#line 6 \"test/aoj-cgl-4-a.test.cpp\"\n\
+    \nint main(void) {\n    int n; std::cin >> n;\n    std::vector<Vector<int>> points(n);\n\
+    \    for(int i = 0; i < n; ++i) std::cin >> points[i];\n    std::vector<Vector<int>>\
+    \ polygon = convex_hull(points, true);\n    int j = 0;\n    for(int i = 0; i <\
+    \ (int)polygon.size(); i++) {\n        if(polygon[i][1] < polygon[j][1]) j = i;\n\
+    \        if(polygon[i][1] == polygon[j][1] && polygon[i][0] < polygon[j][0]) j\
+    \ = i;        \n    }\n    std::rotate(polygon.begin(), polygon.begin() + j, polygon.end());\n\
+    \    std::cout << polygon.size() << '\\n';\n    for(auto& p : polygon) std::cout\
+    \ << p << '\\n';\n}\n"
+  code: "#define PROBLEM \"https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=CGL_4_A\"\
+    \n\n#include <iostream>\n\n#include \"../cpp/vector.hpp\"\n\nint main(void) {\n\
+    \    int n; std::cin >> n;\n    std::vector<Vector<int>> points(n);\n    for(int\
+    \ i = 0; i < n; ++i) std::cin >> points[i];\n    std::vector<Vector<int>> polygon\
+    \ = convex_hull(points, true);\n    int j = 0;\n    for(int i = 0; i < (int)polygon.size();\
+    \ i++) {\n        if(polygon[i][1] < polygon[j][1]) j = i;\n        if(polygon[i][1]\
+    \ == polygon[j][1] && polygon[i][0] < polygon[j][0]) j = i;        \n    }\n \
+    \   std::rotate(polygon.begin(), polygon.begin() + j, polygon.end());\n    std::cout\
+    \ << polygon.size() << '\\n';\n    for(auto& p : polygon) std::cout << p << '\\\
+    n';\n}"
   dependsOn:
   - cpp/vector.hpp
   isVerificationFile: true
-  path: test/aoj-cgl-2-b.test.cpp
+  path: test/aoj-cgl-4-a.test.cpp
   requiredBy: []
   timestamp: '2023-05-26 16:24:31+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj-cgl-2-b.test.cpp
+documentation_of: test/aoj-cgl-4-a.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj-cgl-2-b.test.cpp
-- /verify/test/aoj-cgl-2-b.test.cpp.html
-title: test/aoj-cgl-2-b.test.cpp
+- /verify/test/aoj-cgl-4-a.test.cpp
+- /verify/test/aoj-cgl-4-a.test.cpp.html
+title: test/aoj-cgl-4-a.test.cpp
 ---

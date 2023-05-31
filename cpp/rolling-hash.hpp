@@ -29,7 +29,7 @@ class RollingHash {
     }
 
     void expand(int n) {
-        while(power.size() <= n) power.push_back(mul(power.back(), base));
+        while((int)power.size() <= n) power.push_back(mul(power.back(), base));
     }
 
 public:
@@ -50,7 +50,7 @@ public:
     }
 
     /**
-     * @brief 配列のハッシュの計算(O(N))
+     * @brief 配列/文字列のイテレータ間のハッシュの計算(O(N))
      *
      * @tparam It イテレータ
      * @param first 配列の開始イテレータ
@@ -59,22 +59,26 @@ public:
      */
     template <typename It>
     std::vector<unsigned long long> build(It first, It last) {
-        int n = std::distance(first, last);
-        std::vector<unsigned long long> res(n+1);
-        for(int i = 0; i < n; i++) {
-            res[i+1] = add(mul(res[i], base), *(first+i));
+        std::vector<unsigned long long> res;
+        if constexpr (std::is_convertible_v<typename std::iterator_traits<It>::iterator_category, std::random_access_iterator_tag>) {
+            res.reserve(last - first + 1);
+        }
+        res.push_back(0);
+        for(; first != last; ++first) {
+            res.push_back(add(mul(res.back(), base), *first));
         }
         return res;
     }
 
     /**
-     * @brief 文字列のハッシュの計算(O(N))
+     * @brief 配列/文字列全体のハッシュの計算(O(N))
      *
-     * @param s 文字列
+     * @param s 配列/文字列
      * @return std::vector<unsigned long long> 先頭から各文字数分のハッシュ
      */
-    std::vector<unsigned long long> build(const std::string& s) {
-        return build(s.begin(), s.end());
+    template <typename R>
+    std::vector<unsigned long long> build(R&& s) {
+        return build(std::begin(s), std::end(s));
     }
 
     /**

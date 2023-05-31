@@ -24,12 +24,12 @@ class RollingHash {
 
     // a < MOD, b < MOD必須
     constexpr static unsigned long long mul(unsigned long long a, unsigned long long b) {
-        __uint128_t c = (__uint128_t)a * b;
-        return add((unsigned long long)(c >> 61), (unsigned long long)c & MOD);
+        __uint128_t c = static_cast<__uint128_t>(a) * b;
+        return add(static_cast<unsigned long long>(c >> 61), static_cast<unsigned long long>(c & MOD));
     }
 
     void expand(int n) {
-        while((int)power.size() <= n) power.push_back(mul(power.back(), base));
+        while(static_cast<int>(power.size()) <= n) power.push_back(mul(power.back(), base));
     }
 
 public:

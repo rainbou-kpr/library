@@ -1,6 +1,6 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod"
 
-#include "../cpp/convolution.hpp"
+#include "../cpp/number-theory.hpp"
 
 using mint = modint998244353;
 

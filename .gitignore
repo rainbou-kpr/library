@@ -35,6 +35,9 @@
 *.out
 *.app
 
+# main.cpp
+/**/main.cpp
+
 ### Linux ###
 *~
 

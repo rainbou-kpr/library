@@ -18,7 +18,9 @@ jobs:
         python-version: '3.8'
 
     - name: Install dependencies
-      run: pip3 install -U online-judge-verify-helper
+      run: |
+        git clone --depth=1 https://github.com/rainbou-kpr/verification-helper.git ~/verification-helper
+        pip3 install ~/verification-helper
 
     - name: Run tests
       env:

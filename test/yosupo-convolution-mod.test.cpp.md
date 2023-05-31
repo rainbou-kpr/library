@@ -347,17 +347,20 @@ data:
     \    for (int i = 0; i < size_fft; ++ i) {\n        c0[i] = a0[i] * b0[i];\n \
     \       c1[i] = a1[i] * b1[i];\n        c2[i] = a2[i] * b2[i];\n    }\n    NTT::trans(c0,\
     \ true), NTT::trans(c1, true), NTT::trans(c2, true);\n    static const long long\
-    \ mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;\n    std::vector<long long> res(N\
-    \ + M - 1);\n    for (int i = 0; i < N + M - 1; ++ i) {\n        int y0 = c0[i].value();\n\
+    \ mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;\n    static const __int128_t mod012\
+    \ = (__int128_t)mod01 * NTT::MOD2;\n    std::vector<long long> res(N + M - 1);\n\
+    \    for (int i = 0; i < N + M - 1; ++ i) {\n        int y0 = c0[i].value();\n\
     \        int y1 = (NTT::imod0 * (c1[i] - y0)).value();\n        int y2 = (NTT::imod01\
-    \ * (c2[i] - y0) - NTT::imod1 * y1).value();\n        res[i] = mod01 * y2 + mod0\
-    \ * y1 + y0;\n    }\n    return res;\n}\n#line 4 \"test/yosupo-convolution-mod.test.cpp\"\
-    \n\nusing mint = modint998244353;\n\nint main() {\n    long long n, m, x;\n  \
-    \  std::cin >> n >> m;\n    std::vector<mint> a(n), b(m);\n    for(int i = 0;\
-    \ i < n; ++ i) {\n        std::cin >> x;\n        a[i] = mint(x);\n    }\n   \
-    \ for(int i = 0; i < m; ++ i) {\n        std::cin >> x;\n        b[i] = mint(x);\n\
-    \    }\n    auto c = convolution(a, b);\n    for(auto e : c) std::cout << e.value()\
-    \ << \" \";\n    std::cout << std::endl;\n\n    return 0;\n\n}\n\n\n"
+    \ * (c2[i] - y0) - NTT::imod1 * y1).value();\n        __int128_t tmp = (__int128_t)mod01\
+    \ * y2 + (__int128_t)mod0 * y1 + y0;\n        if(tmp < (mod012 >> 1)) res[i] =\
+    \ tmp;\n        else res[i] = tmp - mod012;\n    }\n    return res;\n}\n#line\
+    \ 4 \"test/yosupo-convolution-mod.test.cpp\"\n\nusing mint = modint998244353;\n\
+    \nint main() {\n    long long n, m, x;\n    std::cin >> n >> m;\n    std::vector<mint>\
+    \ a(n), b(m);\n    for(int i = 0; i < n; ++ i) {\n        std::cin >> x;\n   \
+    \     a[i] = mint(x);\n    }\n    for(int i = 0; i < m; ++ i) {\n        std::cin\
+    \ >> x;\n        b[i] = mint(x);\n    }\n    auto c = convolution(a, b);\n   \
+    \ for(auto e : c) std::cout << e.value() << \" \";\n    std::cout << std::endl;\n\
+    \n    return 0;\n\n}\n\n\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/convolution_mod\"\n\n#include\
     \ \"../cpp/convolution.hpp\"\n\nusing mint = modint998244353;\n\nint main() {\n\
     \    long long n, m, x;\n    std::cin >> n >> m;\n    std::vector<mint> a(n),\
@@ -372,7 +375,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-convolution-mod.test.cpp
   requiredBy: []
-  timestamp: '2023-05-16 22:12:56+09:00'
+  timestamp: '2023-05-25 22:58:09+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-convolution-mod.test.cpp

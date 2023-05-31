@@ -11,6 +11,9 @@ data:
     path: test/yosupo-convolution-mod-1000000007.test.cpp
     title: test/yosupo-convolution-mod-1000000007.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo-convolution-mod-2-64.test.cpp
+    title: test/yosupo-convolution-mod-2-64.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo-convolution-mod.test.cpp
     title: test/yosupo-convolution-mod.test.cpp
   _isVerificationFailed: false
@@ -347,11 +350,13 @@ data:
     \    for (int i = 0; i < size_fft; ++ i) {\n        c0[i] = a0[i] * b0[i];\n \
     \       c1[i] = a1[i] * b1[i];\n        c2[i] = a2[i] * b2[i];\n    }\n    NTT::trans(c0,\
     \ true), NTT::trans(c1, true), NTT::trans(c2, true);\n    static const long long\
-    \ mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;\n    std::vector<long long> res(N\
-    \ + M - 1);\n    for (int i = 0; i < N + M - 1; ++ i) {\n        int y0 = c0[i].value();\n\
+    \ mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;\n    static const __int128_t mod012\
+    \ = (__int128_t)mod01 * NTT::MOD2;\n    std::vector<long long> res(N + M - 1);\n\
+    \    for (int i = 0; i < N + M - 1; ++ i) {\n        int y0 = c0[i].value();\n\
     \        int y1 = (NTT::imod0 * (c1[i] - y0)).value();\n        int y2 = (NTT::imod01\
-    \ * (c2[i] - y0) - NTT::imod1 * y1).value();\n        res[i] = mod01 * y2 + mod0\
-    \ * y1 + y0;\n    }\n    return res;\n}\n"
+    \ * (c2[i] - y0) - NTT::imod1 * y1).value();\n        __int128_t tmp = (__int128_t)mod01\
+    \ * y2 + (__int128_t)mod0 * y1 + y0;\n        if(tmp < (mod012 >> 1)) res[i] =\
+    \ tmp;\n        else res[i] = tmp - mod012;\n    }\n    return res;\n}\n"
   code: "#pragma once\n\n#include <vector>\n#include \"modint.hpp\"\n\n/**\n * @brief\
     \ \u7573\u307F\u8FBC\u307F\n */\n\nnamespace NTT {\n    /**\n     * @brief a^(-1)\
     \ mod MOD\u3092\u8FD4\u3059\n     * @param a long long\n     * @param MOD long\
@@ -458,20 +463,23 @@ data:
     \        c0[i] = a0[i] * b0[i];\n        c1[i] = a1[i] * b1[i];\n        c2[i]\
     \ = a2[i] * b2[i];\n    }\n    NTT::trans(c0, true), NTT::trans(c1, true), NTT::trans(c2,\
     \ true);\n    static const long long mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;\n\
-    \    std::vector<long long> res(N + M - 1);\n    for (int i = 0; i < N + M - 1;\
-    \ ++ i) {\n        int y0 = c0[i].value();\n        int y1 = (NTT::imod0 * (c1[i]\
-    \ - y0)).value();\n        int y2 = (NTT::imod01 * (c2[i] - y0) - NTT::imod1 *\
-    \ y1).value();\n        res[i] = mod01 * y2 + mod0 * y1 + y0;\n    }\n    return\
-    \ res;\n}\n"
+    \    static const __int128_t mod012 = (__int128_t)mod01 * NTT::MOD2;\n    std::vector<long\
+    \ long> res(N + M - 1);\n    for (int i = 0; i < N + M - 1; ++ i) {\n        int\
+    \ y0 = c0[i].value();\n        int y1 = (NTT::imod0 * (c1[i] - y0)).value();\n\
+    \        int y2 = (NTT::imod01 * (c2[i] - y0) - NTT::imod1 * y1).value();\n  \
+    \      __int128_t tmp = (__int128_t)mod01 * y2 + (__int128_t)mod0 * y1 + y0;\n\
+    \        if(tmp < (mod012 >> 1)) res[i] = tmp;\n        else res[i] = tmp - mod012;\n\
+    \    }\n    return res;\n}\n"
   dependsOn:
   - cpp/modint.hpp
   isVerificationFile: false
   path: cpp/convolution.hpp
   requiredBy: []
-  timestamp: '2023-05-16 22:12:56+09:00'
+  timestamp: '2023-05-25 22:58:09+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo-convolution-mod.test.cpp
+  - test/yosupo-convolution-mod-2-64.test.cpp
   - test/yosupo-convolution-mod-1000000007.test.cpp
 documentation_of: cpp/convolution.hpp
 layout: document

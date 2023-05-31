@@ -10,6 +10,9 @@ data:
     path: test/yosupo-convolution-mod-1000000007.test.cpp
     title: test/yosupo-convolution-mod-1000000007.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo-convolution-mod-2-64.test.cpp
+    title: test/yosupo-convolution-mod-2-64.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo-convolution-mod.test.cpp
     title: test/yosupo-convolution-mod.test.cpp
   - icon: ':heavy_check_mark:'
@@ -488,6 +491,7 @@ data:
   verifiedWith:
   - test/yosupo-convolution-mod.test.cpp
   - test/yosupo-range-affine-range-sum.2.test.cpp
+  - test/yosupo-convolution-mod-2-64.test.cpp
   - test/yukicoder-search-oji.test.cpp
   - test/yosupo-convolution-mod-1000000007.test.cpp
   - test/yosupo-range-affine-range-sum.1.test.cpp

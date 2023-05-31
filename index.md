@@ -9,7 +9,7 @@ data:
     - icon: ':heavy_check_mark:'
       path: cpp/graph.hpp
       title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
-    - icon: ':warning:'
+    - icon: ':heavy_check_mark:'
       path: cpp/io.hpp
       title: "\u7A7A\u767D\u533A\u5207\u308A\u51FA\u529B\u3001iostream\u306E\u30AA\
         \u30FC\u30D0\u30FC\u30ED\u30FC\u30C9"
@@ -97,6 +97,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-convolution-mod-2-64.test.cpp
+      title: test/yosupo-convolution-mod-2-64.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod.test.cpp
       title: test/yosupo-convolution-mod.test.cpp

@@ -2,10 +2,13 @@
 data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
-  _extendedVerifiedWith: []
+  _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-convolution-mod-2-64.test.cpp
+    title: test/yosupo-convolution-mod-2-64.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
-  _verificationStatusIcon: ':warning:'
+  _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     document_title: "\u7A7A\u767D\u533A\u5207\u308A\u51FA\u529B\u3001iostream\u306E\
       \u30AA\u30FC\u30D0\u30FC\u30ED\u30FC\u30C9"
@@ -111,8 +114,9 @@ data:
   path: cpp/io.hpp
   requiredBy: []
   timestamp: '2023-05-10 17:52:01+09:00'
-  verificationStatus: LIBRARY_NO_TESTS
-  verifiedWith: []
+  verificationStatus: LIBRARY_ALL_AC
+  verifiedWith:
+  - test/yosupo-convolution-mod-2-64.test.cpp
 documentation_of: cpp/io.hpp
 layout: document
 redirect_from:

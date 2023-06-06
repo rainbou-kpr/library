@@ -25,13 +25,15 @@ def _template(func: Callable[..., T]) -> _Template[T]:
 
 
 class ModintBase:
-    def __init__(self, value: int = 0) -> None:
+    def __init__(self, value: Union["ModintBase", int] = 0) -> None:
         """value の剰余で初期化します。
         :param value: 初期化に使う値
         """
         self._mod: int
-        self._value = value % self._mod
         self._type = type(self)
+        if isinstance(value, self._type):
+            value = value._value
+        self._value = value % self._mod
 
     def copy(self):
         """自身のコピーを返します。

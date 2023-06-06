@@ -1,7 +1,7 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/convolution_mod_2_64"
 
 #include "../cpp/io.hpp"
-#include "../cpp/convolution.hpp"
+#include "../cpp/number-theory.hpp"
 
 int main(void) {
     int n, m; std::cin >> n >> m;

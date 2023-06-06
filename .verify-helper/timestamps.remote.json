@@ -22,6 +22,7 @@
 "test/yosupo-convolution-mod-1000000007.test.cpp": "2023-05-31 16:26:21 +0900",
 "test/yosupo-convolution-mod-2-64.test.cpp": "2023-05-31 16:26:21 +0900",
 "test/yosupo-convolution-mod.test.cpp": "2023-05-31 16:26:21 +0900",
+"test/yosupo-enumerate-palindromes.test.cpp": "2023-05-31 16:27:00 +0900",
 "test/yosupo-enumerate-quotients.test.cpp": "2023-05-03 12:22:21 +0900",
 "test/yosupo-enumerate-quotients.test.py": "2023-05-23 13:25:17 +0900",
 "test/yosupo-lca.1.test.cpp": "2023-05-12 10:04:03 +0900",

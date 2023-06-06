@@ -4,9 +4,6 @@ data:
   - name: cpp
     pages:
     - icon: ':heavy_check_mark:'
-      path: cpp/convolution.hpp
-      title: "\u7573\u307F\u8FBC\u307F"
-    - icon: ':heavy_check_mark:'
       path: cpp/graph.hpp
       title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
@@ -23,6 +20,12 @@ data:
       path: cpp/modint.hpp
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
         \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
+    - icon: ':heavy_check_mark:'
+      path: cpp/number-theory.hpp
+      title: "a^(-1) mod MOD\u3092\u8FD4\u3059"
+    - icon: ':heavy_check_mark:'
+      path: cpp/rolling-hash.hpp
+      title: "\u30ED\u30FC\u30EA\u30F3\u30B0\u30CF\u30C3\u30B7\u30E5"
     - icon: ':heavy_check_mark:'
       path: cpp/segtree-beats.hpp
       title: Segment Tree Beats
@@ -119,6 +122,9 @@ data:
       path: test/atcoder-abc177-f.2.test.cpp
       title: test/atcoder-abc177-f.2.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/atcoder-abc300-b.test.cpp
+      title: test/atcoder-abc300-b.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
     - icon: ':heavy_check_mark:'
@@ -127,6 +133,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod.test.cpp
       title: test/yosupo-convolution-mod.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-enumerate-palindromes.test.cpp
+      title: test/yosupo-enumerate-palindromes.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-enumerate-quotients.test.cpp
       title: test/yosupo-enumerate-quotients.test.cpp

@@ -3,8 +3,8 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
-    path: cpp/convolution.hpp
-    title: "\u7573\u307F\u8FBC\u307F"
+    path: cpp/number-theory.hpp
+    title: "a^(-1) mod MOD\u3092\u8FD4\u3059"
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
     path: test/yosupo-convolution-mod-1000000007.test.cpp
@@ -485,7 +485,7 @@ data:
   isVerificationFile: false
   path: cpp/modint.hpp
   requiredBy:
-  - cpp/convolution.hpp
+  - cpp/number-theory.hpp
   timestamp: '2023-04-26 23:09:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:

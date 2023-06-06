@@ -39,18 +39,19 @@ data:
     \ [] (int i) {return v[i];}\n    const std::vector<T>& operator [] (int i) const\
     \ {return v[i];}\n    constexpr Matrix<T>& operator = (const std::vector<std::vector<T>>\
     \ &A) noexcept {\n        n = A.size();\n        m = (n == 0 ? 0 : A[0].size());\n\
-    \        v = A;\n        return *this;\n    }\n\n    /**\n     * @brief \u8EE2\
-    \u7F6E\n     * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix\
-    \ transpose() noexcept {\n        if(n == 0) return Matrix(v);\n        std::vector<std::vector<T>>\
-    \ ret(m);\n        for(int i = 0; i < m; i ++) {\n            ret[i].resize(n);\n\
-    \            for(int j = 0; j < n; j ++) ret[i][j] = v[j][i];\n        }\n   \
-    \     return Matrix(ret);\n    }\n\n    /**\n     * @brief \u5DE6\u53F3\u53CD\u8EE2\
-    \n     * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix rev_lr()\
-    \ noexcept {\n        std::vector<std::vector<T>> ret = v;\n        for(int i\
-    \ = 0; i < n; i ++) std::reverse(ret[i].begin(), ret[i].end());\n        return\
-    \ Matrix(ret);\n    }\n\n    /**\n     * @brief \u4E0A\u4E0B\u53CD\u8EE2\n   \
-    \  * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix rev_ud()\
-    \ noexcept {\n        std::vector<std::vector<T>> ret = v;\n        reverse(ret.begin(),\
+    \        v = A;\n        return *this;\n    }\n    constexpr bool operator ==\
+    \ (const Matrix<T> &A) noexcept {\n        return this->v == A.v;\n    }\n\n \
+    \   /**\n     * @brief \u8EE2\u7F6E\n     * @return Matrix\n     */\n    [[nodiscard]]\n\
+    \    constexpr Matrix transpose() noexcept {\n        if(n == 0) return Matrix(v);\n\
+    \        std::vector<std::vector<T>> ret(m);\n        for(int i = 0; i < m; i\
+    \ ++) {\n            ret[i].resize(n);\n            for(int j = 0; j < n; j ++)\
+    \ ret[i][j] = v[j][i];\n        }\n        return Matrix(ret);\n    }\n\n    /**\n\
+    \     * @brief \u5DE6\u53F3\u53CD\u8EE2\n     * @return Matrix\n     */\n    [[nodiscard]]\n\
+    \    constexpr Matrix rev_lr() noexcept {\n        std::vector<std::vector<T>>\
+    \ ret = v;\n        for(int i = 0; i < n; i ++) std::reverse(ret[i].begin(), ret[i].end());\n\
+    \        return Matrix(ret);\n    }\n\n    /**\n     * @brief \u4E0A\u4E0B\u53CD\
+    \u8EE2\n     * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix\
+    \ rev_ud() noexcept {\n        std::vector<std::vector<T>> ret = v;\n        reverse(ret.begin(),\
     \ ret.end());\n        return Matrix(ret);\n    }\n\n    /**\n     * @brief \u6642\
     \u8A08\u5468\u308A\u306B90\u5EA6\u56DE\u8EE2\n     * @param k \u56DE\u8EE2\u3059\
     \u308B\u56DE\u6570\n     * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr\
@@ -159,7 +160,7 @@ data:
   isVerificationFile: true
   path: test/yukicoder-rotate-enlarge_1.test.cpp
   requiredBy: []
-  timestamp: '2023-05-24 13:53:05+09:00'
+  timestamp: '2023-05-31 16:38:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yukicoder-rotate-enlarge_1.test.cpp

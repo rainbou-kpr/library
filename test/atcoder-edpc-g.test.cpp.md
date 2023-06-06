@@ -11,12 +11,12 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/shortest_path
+    PROBLEM: https://atcoder.jp/contests/dp/tasks/dp_g
     links:
-    - https://judge.yosupo.jp/problem/shortest_path
-  bundledCode: "#line 1 \"test/yosupo-shortest-path.test.cpp\"\n#define PROBLEM \"\
-    https://judge.yosupo.jp/problem/shortest_path\"\n\n#line 2 \"cpp/graph.hpp\"\n\
-    \n#include <iostream>\n#include <limits>\n#include <queue>\n#include <vector>\n\
+    - https://atcoder.jp/contests/dp/tasks/dp_g
+  bundledCode: "#line 1 \"test/atcoder-edpc-g.test.cpp\"\n#define PROBLEM \"https://atcoder.jp/contests/dp/tasks/dp_g\"\
+    \n\n#include <iostream>\n#include <algorithm>\n\n#line 2 \"cpp/graph.hpp\"\n\n\
+    #line 4 \"cpp/graph.hpp\"\n#include <limits>\n#include <queue>\n#include <vector>\n\
     \n/**\n * @brief \u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9\n *\n\
     \ * @tparam Cost \u8FBA\u306E\u30B3\u30B9\u30C8\u306E\u578B\n */\ntemplate <typename\
     \ Cost=int>\nstruct Graph {\n    /**\n     * @brief \u6709\u5411\u8FBA\u306E\u69CB\
@@ -112,37 +112,30 @@ data:
     \                    dist[e.dst] = dist[e.src] + e.cost;\n                   \
     \ prev[e.dst] = e;\n                    que.push({dist[e.dst], e.dst});\n    \
     \            }\n            }\n        }\n        return {dist, prev};\n    }\n\
-    \n\n};\n#line 4 \"test/yosupo-shortest-path.test.cpp\"\n\nint main() {\n    int\
-    \ n, m, s, t; std::cin >> n >> m >> s >> t;\n    Graph<long long> g(n); g.read(m,\
-    \ 0, true, true);\n    auto [dist, prev] = g.shortest_path(s);\n    if(dist[t]\
-    \ == -1) {\n        std::cout << -1 << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int,\
-    \ int>> route;\n    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].src,\
-    \ prev[cur].dst);\n        cur = prev[cur].src;\n    }\n    std::cout << dist[t]\
-    \ << ' ' << route.size() << '\\n';\n    for(auto it = route.rbegin(); it != route.rend();\
-    \ it++) {\n        std::cout << it->first << ' ' << it->second << '\\n';\n   \
-    \ }\n}\n\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/shortest_path\"\n\n#include\
-    \ \"../cpp/graph.hpp\"\n\nint main() {\n    int n, m, s, t; std::cin >> n >> m\
-    \ >> s >> t;\n    Graph<long long> g(n); g.read(m, 0, true, true);\n    auto [dist,\
-    \ prev] = g.shortest_path(s);\n    if(dist[t] == -1) {\n        std::cout << -1\
-    \ << '\\n';\n        return 0;\n    }\n    std::vector<std::pair<int, int>> route;\n\
-    \    int cur = t;\n    while(cur != s) {\n        route.emplace_back(prev[cur].src,\
-    \ prev[cur].dst);\n        cur = prev[cur].src;\n    }\n    std::cout << dist[t]\
-    \ << ' ' << route.size() << '\\n';\n    for(auto it = route.rbegin(); it != route.rend();\
-    \ it++) {\n        std::cout << it->first << ' ' << it->second << '\\n';\n   \
-    \ }\n}\n\n"
+    \n\n};\n#line 7 \"test/atcoder-edpc-g.test.cpp\"\n\nint main(void){\n\n    int\
+    \ N, M;\n    std::cin >> N >> M;\n    Graph G(N);\n    G.read(M, -1, false, true);\n\
+    \n    std::vector<int> dist(N);\n    for(int x : G.topological_sort()){\n    \
+    \    for(int y : G[x]) dist[y] = std::max(dist[y], dist[x] + 1);\n    }\n    std::cout\
+    \ << *std::max_element(dist.begin(), dist.end()) << std::endl;\n\n}\n"
+  code: "#define PROBLEM \"https://atcoder.jp/contests/dp/tasks/dp_g\"\n\n#include\
+    \ <iostream>\n#include <algorithm>\n\n#include \"../cpp/graph.hpp\"\n\nint main(void){\n\
+    \n    int N, M;\n    std::cin >> N >> M;\n    Graph G(N);\n    G.read(M, -1, false,\
+    \ true);\n\n    std::vector<int> dist(N);\n    for(int x : G.topological_sort()){\n\
+    \        for(int y : G[x]) dist[y] = std::max(dist[y], dist[x] + 1);\n    }\n\
+    \    std::cout << *std::max_element(dist.begin(), dist.end()) << std::endl;\n\n\
+    }\n"
   dependsOn:
   - cpp/graph.hpp
   isVerificationFile: true
-  path: test/yosupo-shortest-path.test.cpp
+  path: test/atcoder-edpc-g.test.cpp
   requiredBy: []
   timestamp: '2023-06-06 14:52:29+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo-shortest-path.test.cpp
+documentation_of: test/atcoder-edpc-g.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo-shortest-path.test.cpp
-- /verify/test/yosupo-shortest-path.test.cpp.html
-title: test/yosupo-shortest-path.test.cpp
+- /verify/test/atcoder-edpc-g.test.cpp
+- /verify/test/atcoder-edpc-g.test.cpp.html
+title: test/atcoder-edpc-g.test.cpp
 ---

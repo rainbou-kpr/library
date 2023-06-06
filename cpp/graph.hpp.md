@@ -13,6 +13,9 @@ data:
     path: test/aoj-grl-5-b.test.cpp
     title: test/aoj-grl-5-b.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/atcoder-edpc-g.test.cpp
+    title: test/atcoder-edpc-g.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo-lca.1.test.cpp
     title: test/yosupo-lca.1.test.cpp
   - icon: ':heavy_check_mark:'
@@ -98,7 +101,14 @@ data:
     \u70B9\u3078\u306E\u6700\u77ED\u8DEF\u4E0A\u306E\u76F4\u524D\u306E\u8FBA\n   \
     \  */\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s,\
     \ bool weignted = true, Cost inf = -1) const {\n        if(weignted) return shortest_path_dijkstra(s,\
-    \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
+    \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n    \n    std::vector<int>\
+    \ topological_sort() {\n        std::vector<int> indeg(n), sorted;\n        std::queue<int>\
+    \ q;\n        for (int i = 0; i < n; i++) {\n            for (int dst : g[i])\
+    \ indeg[dst]++;\n        }\n        for (int i = 0; i < n; i++) {\n          \
+    \  if (!indeg[i]) q.push(i);\n        }\n        while (!q.empty()) {\n      \
+    \      int cur = q.front(); q.pop();\n            for (int dst : g[cur]) {\n \
+    \               if (!--indeg[dst]) q.push(dst);\n            }\n            sorted.push_back(cur);\n\
+    \        }\n        return sorted;\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
     \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) const {\n        std::vector<Cost>\
     \ dist(n, inf);\n        std::vector<Edge> prev(n);\n        std::queue<int> que;\n\
     \        dist[s] = 0;\n        que.push(s);\n        while(!que.empty()) {\n \
@@ -116,7 +126,7 @@ data:
     \                    dist[e.dst] = dist[e.src] + e.cost;\n                   \
     \ prev[e.dst] = e;\n                    que.push({dist[e.dst], e.dst});\n    \
     \            }\n            }\n        }\n        return {dist, prev};\n    }\n\
-    };\n"
+    \n\n};\n"
   code: "#pragma once\n\n#include <iostream>\n#include <limits>\n#include <queue>\n\
     #include <vector>\n\n/**\n * @brief \u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\
     \u30E9\u30B9\n *\n * @tparam Cost \u8FBA\u306E\u30B3\u30B9\u30C8\u306E\u578B\n\
@@ -188,7 +198,14 @@ data:
     \u70B9\u3078\u306E\u6700\u77ED\u8DEF\u4E0A\u306E\u76F4\u524D\u306E\u8FBA\n   \
     \  */\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s,\
     \ bool weignted = true, Cost inf = -1) const {\n        if(weignted) return shortest_path_dijkstra(s,\
-    \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
+    \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n    \n    std::vector<int>\
+    \ topological_sort() {\n        std::vector<int> indeg(n), sorted;\n        std::queue<int>\
+    \ q;\n        for (int i = 0; i < n; i++) {\n            for (int dst : g[i])\
+    \ indeg[dst]++;\n        }\n        for (int i = 0; i < n; i++) {\n          \
+    \  if (!indeg[i]) q.push(i);\n        }\n        while (!q.empty()) {\n      \
+    \      int cur = q.front(); q.pop();\n            for (int dst : g[cur]) {\n \
+    \               if (!--indeg[dst]) q.push(dst);\n            }\n            sorted.push_back(cur);\n\
+    \        }\n        return sorted;\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
     \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) const {\n        std::vector<Cost>\
     \ dist(n, inf);\n        std::vector<Edge> prev(n);\n        std::queue<int> que;\n\
     \        dist[s] = 0;\n        que.push(s);\n        while(!que.empty()) {\n \
@@ -206,13 +223,13 @@ data:
     \                    dist[e.dst] = dist[e.src] + e.cost;\n                   \
     \ prev[e.dst] = e;\n                    que.push({dist[e.dst], e.dst});\n    \
     \            }\n            }\n        }\n        return {dist, prev};\n    }\n\
-    };\n"
+    \n\n};\n"
   dependsOn: []
   isVerificationFile: false
   path: cpp/graph.hpp
   requiredBy:
   - cpp/tree.hpp
-  timestamp: '2023-05-10 16:54:37+09:00'
+  timestamp: '2023-06-06 14:52:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj-grl-5-a.test.cpp
@@ -220,6 +237,7 @@ data:
   - test/yosupo-lca.1.test.cpp
   - test/yosupo-lca.2.test.cpp
   - test/aoj-grl-5-b.test.cpp
+  - test/atcoder-edpc-g.test.cpp
 documentation_of: cpp/graph.hpp
 layout: document
 redirect_from:

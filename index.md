@@ -125,6 +125,9 @@ data:
       path: test/atcoder-abc300-b.test.cpp
       title: test/atcoder-abc300-b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/atcoder-edpc-g.test.cpp
+      title: test/atcoder-edpc-g.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
     - icon: ':heavy_check_mark:'

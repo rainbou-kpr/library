@@ -97,7 +97,14 @@ data:
     \u70B9\u3078\u306E\u6700\u77ED\u8DEF\u4E0A\u306E\u76F4\u524D\u306E\u8FBA\n   \
     \  */\n    std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path(int s,\
     \ bool weignted = true, Cost inf = -1) const {\n        if(weignted) return shortest_path_dijkstra(s,\
-    \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
+    \ inf);\n        return shortest_path_bfs(s, inf);\n    }\n    \n    std::vector<int>\
+    \ topological_sort() {\n        std::vector<int> indeg(n), sorted;\n        std::queue<int>\
+    \ q;\n        for (int i = 0; i < n; i++) {\n            for (int dst : g[i])\
+    \ indeg[dst]++;\n        }\n        for (int i = 0; i < n; i++) {\n          \
+    \  if (!indeg[i]) q.push(i);\n        }\n        while (!q.empty()) {\n      \
+    \      int cur = q.front(); q.pop();\n            for (int dst : g[cur]) {\n \
+    \               if (!--indeg[dst]) q.push(dst);\n            }\n            sorted.push_back(cur);\n\
+    \        }\n        return sorted;\n    }\n\nprivate:\n    std::pair<std::vector<Cost>,\
     \ std::vector<Edge>> shortest_path_bfs(int s, Cost inf) const {\n        std::vector<Cost>\
     \ dist(n, inf);\n        std::vector<Edge> prev(n);\n        std::queue<int> que;\n\
     \        dist[s] = 0;\n        que.push(s);\n        while(!que.empty()) {\n \
@@ -115,9 +122,9 @@ data:
     \                    dist[e.dst] = dist[e.src] + e.cost;\n                   \
     \ prev[e.dst] = e;\n                    que.push({dist[e.dst], e.dst});\n    \
     \            }\n            }\n        }\n        return {dist, prev};\n    }\n\
-    };\n#line 13 \"cpp/tree.hpp\"\n\ntemplate <typename>\nstruct RootedTree;\ntemplate\
-    \ <typename>\nstruct DoublingClimbTree;\n\n/**\n * @brief \u6839\u306A\u3057\u6728\
-    \n * \n * @tparam Cost = int \u8FBA\u306E\u91CD\u307F\n * \n * Graph<Cost>\u3092\
+    \n\n};\n#line 13 \"cpp/tree.hpp\"\n\ntemplate <typename>\nstruct RootedTree;\n\
+    template <typename>\nstruct DoublingClimbTree;\n\n/**\n * @brief \u6839\u306A\u3057\
+    \u6728\n * \n * @tparam Cost = int \u8FBA\u306E\u91CD\u307F\n * \n * Graph<Cost>\u3092\
     \u7D99\u627F\u3057\u3001\u3059\u3079\u3066\u7121\u5411\u8FBA\u3067\u8868\u3059\
     \n*/\ntemplate <typename Cost = int>\nstruct Tree : private Graph<Cost> {\n  \
     \  // Graph<Cost>* g = new Tree<Cost>(); \u304C\u3067\u304D\u3066\u3057\u307E\u3046\
@@ -444,7 +451,7 @@ data:
   isVerificationFile: false
   path: cpp/tree.hpp
   requiredBy: []
-  timestamp: '2023-05-12 10:04:03+09:00'
+  timestamp: '2023-06-06 14:52:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj-grl-5-a.test.cpp

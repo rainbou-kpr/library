@@ -269,8 +269,8 @@ data:
   timestamp: '2023-05-24 13:53:05+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yukicoder-search-oji.test.cpp
   - test/yukicoder-rotate-enlarge_1.test.cpp
+  - test/yukicoder-search-oji.test.cpp
   - test/yukicoder-rotate-enlarge_2.test.cpp
 documentation_of: cpp/matrix.hpp
 layout: document

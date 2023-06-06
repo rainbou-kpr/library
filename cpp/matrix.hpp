@@ -4,6 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <valarray>
+#include <cassert>
 
 /**
  * @brief 行列

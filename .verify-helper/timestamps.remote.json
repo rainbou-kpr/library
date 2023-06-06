@@ -18,6 +18,7 @@
 "test/aoj-grl-5-b.test.cpp": "2023-05-12 10:04:03 +0900",
 "test/atcoder-abc177-f.1.test.cpp": "2023-05-24 09:10:09 +0900",
 "test/atcoder-abc177-f.2.test.cpp": "2023-05-24 09:10:09 +0900",
+"test/atcoder-abc300-b.test.cpp": "2023-06-06 09:15:19 +0900",
 "test/yosupo-convolution-mod-1000000007.test.cpp": "2023-05-31 16:26:21 +0900",
 "test/yosupo-convolution-mod-2-64.test.cpp": "2023-05-31 16:26:21 +0900",
 "test/yosupo-convolution-mod.test.cpp": "2023-05-31 16:26:21 +0900",
@@ -35,5 +36,8 @@
 "test/yosupo-shortest-path.test.cpp": "2023-05-10 16:54:37 +0900",
 "test/yosupo-shortest-path.test.py": "2023-05-26 10:38:14 +0900",
 "test/yosupo-unionfind.test.cpp": "2023-04-28 12:54:27 +0900",
-"test/yosupo-unionfind.test.py": "2023-05-26 10:38:14 +0900"
+"test/yosupo-unionfind.test.py": "2023-05-26 10:38:14 +0900",
+"test/yukicoder-rotate-enlarge_1.test.cpp": "2023-06-06 09:15:19 +0900",
+"test/yukicoder-rotate-enlarge_2.test.cpp": "2023-06-06 09:15:19 +0900",
+"test/yukicoder-search-oji.test.cpp": "2023-06-06 09:15:19 +0900"
 }

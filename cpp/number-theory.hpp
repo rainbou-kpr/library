@@ -4,46 +4,49 @@
 #include "modint.hpp"
 
 /**
+ * @brief a^(-1) mod MODを返す
+ * @param a long long
+ * @param MOD long long
+ * @return long long
+ */
+long long modinv(long long a, long long MOD) {
+    long long b = MOD, u = 1, v = 0;
+    while (b) {
+        long long t = a / b;
+        a -= t * b; std::swap(a, b);
+        u -= t * v; std::swap(u, v);
+    }
+    u %= MOD; 
+    if (u < 0) u += MOD;
+    return u;
+}
+
+/**
+ * @brief a^n mod MODを返す
+ * @param a long long
+ * @param n long long
+ * @param MOD long long
+ * @return long long
+ */
+long long modpow(long long a, long long n, long long MOD) {
+    long long res = 1;
+    a %= MOD;
+    if(n < 0) {
+        n = -n;
+        a = modinv(a, MOD);
+    }
+    while (n > 0) {
+        if (n & 1) res = res * a % MOD;
+        a = a * a % MOD;
+        n >>= 1;
+    }
+    return res;
+}
+
+/**
  * @brief 畳み込み
  */
-
 namespace NTT {
-    /**
-     * @brief a^(-1) mod MODを返す
-     * @param a long long
-     * @param MOD long long
-     * @return long long
-     */
-    long long modinv(long long a, long long MOD) {
-        long long b = MOD, u = 1, v = 0;
-        while (b) {
-            long long t = a / b;
-            a -= t * b; std::swap(a, b);
-            u -= t * v; std::swap(u, v);
-        }
-        u %= MOD; 
-        if (u < 0) u += MOD;
-        return u;
-    }
-
-    /**
-     * @brief a^n mod MODを返す
-     * @param a long long
-     * @param n long long
-     * @param MOD long long
-     * @return long long
-     */
-    long long modpow(long long a, long long n, long long MOD) {
-        long long res = 1;
-        a %= MOD;
-        while (n > 0) {
-            if (n & 1) res = res * a % MOD;
-            a = a * a % MOD;
-            n >>= 1;
-        }
-        return res;
-    }
-
     /**
      * @brief 原子根
      * @param MOD int

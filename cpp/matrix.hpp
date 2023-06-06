@@ -52,6 +52,9 @@ template<class T> struct Matrix {
         v = A;
         return *this;
     }
+    constexpr bool operator == (const Matrix<T> &A) noexcept {
+        return this->v == A.v;
+    }
 
     /**
      * @brief 転置

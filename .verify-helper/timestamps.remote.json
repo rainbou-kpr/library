@@ -28,6 +28,7 @@
 "test/yosupo-enumerate-quotients.test.py": "2023-05-23 13:25:17 +0900",
 "test/yosupo-lca.1.test.cpp": "2023-06-06 14:52:29 +0900",
 "test/yosupo-lca.2.test.cpp": "2023-06-06 14:52:29 +0900",
+"test/yosupo-line-add-get-min.test.cpp": "2023-06-19 07:11:52 +0900",
 "test/yosupo-point-set-range-composite.1.test.cpp": "2023-05-24 09:10:09 +0900",
 "test/yosupo-point-set-range-composite.2.test.cpp": "2023-05-24 09:10:09 +0900",
 "test/yosupo-point-set-range-composite.test.py": "2023-05-31 01:56:17 +0900",

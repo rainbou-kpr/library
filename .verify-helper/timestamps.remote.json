@@ -39,6 +39,7 @@
 "test/yosupo-shortest-path.test.py": "2023-05-26 10:38:14 +0900",
 "test/yosupo-unionfind.test.cpp": "2023-04-28 12:54:27 +0900",
 "test/yosupo-unionfind.test.py": "2023-05-26 10:38:14 +0900",
+"test/yosupo-zalgorithm.test.cpp": "2023-06-15 15:22:46 +0900",
 "test/yukicoder-rotate-enlarge_1.test.cpp": "2023-05-31 16:38:54 +0900",
 "test/yukicoder-rotate-enlarge_2.test.cpp": "2023-05-31 16:38:54 +0900",
 "test/yukicoder-search-oji.test.cpp": "2023-05-31 16:38:54 +0900"

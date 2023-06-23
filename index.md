@@ -4,6 +4,9 @@ data:
   - name: cpp
     pages:
     - icon: ':heavy_check_mark:'
+      path: cpp/convex-hull-trick.hpp
+      title: Convex Hull Trick
+    - icon: ':heavy_check_mark:'
       path: cpp/graph.hpp
       title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
@@ -35,6 +38,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: cpp/sqrt.hpp
       title: floor(sqrt(n))
+    - icon: ':heavy_check_mark:'
+      path: cpp/string.hpp
+      title: Z-algorithm
     - icon: ':heavy_check_mark:'
       path: cpp/tree.hpp
       title: "\u6728\u306E\u6C4E\u7528\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
@@ -152,6 +158,9 @@ data:
       path: test/yosupo-lca.2.test.cpp
       title: test/yosupo-lca.2.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo-line-add-get-min.test.cpp
+      title: test/yosupo-line-add-get-min.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.1.test.cpp
       title: test/yosupo-point-set-range-composite.1.test.cpp
     - icon: ':heavy_check_mark:'
@@ -173,6 +182,9 @@ data:
       path: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
       title: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo-segment-add-get-min.test.cpp
+      title: test/yosupo-segment-add-get-min.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-shortest-path.test.cpp
       title: test/yosupo-shortest-path.test.cpp
     - icon: ':heavy_check_mark:'
@@ -184,6 +196,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-unionfind.test.py
       title: test/yosupo-unionfind.test.py
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-zalgorithm.test.cpp
+      title: test/yosupo-zalgorithm.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yukicoder-rotate-enlarge_1.test.cpp
       title: test/yukicoder-rotate-enlarge_1.test.cpp

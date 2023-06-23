@@ -173,21 +173,20 @@ data:
     \ * @brief \u6839\u4ED8\u304D\u6728\n * \n * @tparam Cost = int \u8FBA\u306E\u30B3\
     \u30B9\u30C8\n */\ntemplate <typename Cost = int>\nstruct RootedTree : private\
     \ Tree<Cost> {\n    using Edge = typename Tree<Cost>::Edge;\n    using Tree<Cost>::n;\n\
-    \    using Tree<Cost>::m;\n    using Tree<Cost>::g;\n    using Tree<Cost>::add_edge;\n\
-    \    using Tree<Cost>::add_directed_edge;\n    using Tree<Cost>::read;\n    using\
-    \ Tree<Cost>::operator[];\n    using Tree<Cost>::edges;\n    using Tree<Cost>::shortest_path;\n\
-    \    using Tree<Cost>::Tree;\n\n    int root; //!< \u6839\n    std::vector<Edge>\
-    \ par; //!< \u89AA\u3078\u5411\u304B\u3046\u8FBA\n    std::vector<std::vector<Edge>>\
-    \ child; //!< \u5B50\u3078\u5411\u304B\u3046\u8FBA\u306E\u30EA\u30B9\u30C8\n \
-    \   std::vector<Cost> depth; //!< \u6DF1\u3055\u306E\u30EA\u30B9\u30C8\n    std::vector<Cost>\
-    \ height; //!< \u90E8\u5206\u6728\u306E\u9AD8\u3055\u306E\u30EA\u30B9\u30C8\n\
-    \    std::vector<int> sz; //!< \u90E8\u5206\u671F\u306E\u9802\u70B9\u6570\u306E\
-    \u30EA\u30B9\u30C8\n    std::vector<int> preorder; //!< \u5148\u884C\u9806\u5DE1\
-    \u56DE\n    std::vector<int> postorder; //!< \u5F8C\u884C\u9806\u5DE1\u56DE\n\
-    \    std::vector<std::pair<int, int>> euler_tour; //!< \u30AA\u30A4\u30E9\u30FC\
-    \u30C4\u30A2\u30FC DFS\u4E2D\u306B\u3068\u304A\u3063\u305F\u9802\u70B9\u306E(\u9802\
-    \u70B9\u756A\u53F7,\u305D\u306E\u9802\u70B9\u3092\u901A\u3063\u305F\u56DE\u6570\
-    )\u306E\u30EA\u30B9\u30C8\n    \n    /**\n     * @brief \u89AA\u306E\u9802\u70B9\
+    \    using Tree<Cost>::m;\n    using Tree<Cost>::g;\n    using Tree<Cost>::operator[];\n\
+    \    using Tree<Cost>::edges;\n    using Tree<Cost>::shortest_path;\n    using\
+    \ Tree<Cost>::Tree;\n\n    int root; //!< \u6839\n    std::vector<Edge> par; //!<\
+    \ \u89AA\u3078\u5411\u304B\u3046\u8FBA\n    std::vector<std::vector<Edge>> child;\
+    \ //!< \u5B50\u3078\u5411\u304B\u3046\u8FBA\u306E\u30EA\u30B9\u30C8\n    std::vector<Cost>\
+    \ depth; //!< \u6DF1\u3055\u306E\u30EA\u30B9\u30C8\n    std::vector<Cost> height;\
+    \ //!< \u90E8\u5206\u6728\u306E\u9AD8\u3055\u306E\u30EA\u30B9\u30C8\n    std::vector<int>\
+    \ sz; //!< \u90E8\u5206\u671F\u306E\u9802\u70B9\u6570\u306E\u30EA\u30B9\u30C8\n\
+    \    std::vector<int> preorder; //!< \u5148\u884C\u9806\u5DE1\u56DE\n    std::vector<int>\
+    \ postorder; //!< \u5F8C\u884C\u9806\u5DE1\u56DE\n    std::vector<std::pair<int,\
+    \ int>> euler_tour; //!< \u30AA\u30A4\u30E9\u30FC\u30C4\u30A2\u30FC DFS\u4E2D\u306B\
+    \u3068\u304A\u3063\u305F\u9802\u70B9\u306E(\u9802\u70B9\u756A\u53F7,\u305D\u306E\
+    \u9802\u70B9\u3092\u901A\u3063\u305F\u56DE\u6570)\u306E\u30EA\u30B9\u30C8\n\n\
+    \    RootedTree() = delete;\n    \n    /**\n     * @brief \u89AA\u306E\u9802\u70B9\
     \u306E\u30EA\u30B9\u30C8\u304B\u3089\u6839\u304C0\u306E\u6839\u4ED8\u304D\u6728\
     \u3092\u69CB\u7BC9\u3059\u308B\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n   \
     \  * \n     * @param par_ \u9802\u70B90\u4EE5\u5916\u306E\u89AA\u306E\u9802\u70B9\
@@ -195,11 +194,14 @@ data:
     \u53F7\u3092\u3044\u304F\u3064\u305A\u3089\u3059\u304B\n     */\n    RootedTree(const\
     \ std::vector<int>& par_, int padding = -1) : Tree<Cost>(par_.size() + 1), root(0)\
     \ {\n        for(int i = 0; i < (int)par_.size(); i++) {\n            this->add_edge(i\
-    \ + 1, par_[i] + padding);\n        }\n        build();\n    }\n    // Tree::set_root()\u304B\
-    \u3089\u547C\u3070\u308C\u308B\n    // \u76F4\u63A5\u306F\u547C\u3070\u306A\u3044\
-    \n    RootedTree(const Tree<Cost>& tree, int root) : Tree<Cost>(tree), root(root)\
-    \ {\n        build();\n    }\n    // Tree::set_root\u304B\u3089\u547C\u3070\u308C\
-    \u308B\n    // \u76F4\u63A5\u306F\u547C\u3070\u306A\u3044\n    RootedTree(Tree<Cost>&&\
+    \ + 1, par_[i] + padding);\n        }\n        build();\n    }\n    /**\n    \
+    \ * @brief Tree\u304B\u3089\u6839\u4ED8\u304D\u6728\u3092\u69CB\u7BC9\u3059\u308B\
+    \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF(\u30B3\u30D4\u30FC)\n     *\n     *\
+    \ @param tree Tree\n     * @param root \u6839\n     */\n    RootedTree(const Tree<Cost>&\
+    \ tree, int root) : Tree<Cost>(tree), root(root) {\n        build();\n    }\n\
+    \    /**\n     * @brief Tree\u304B\u3089\u6839\u4ED8\u304D\u6728\u3092\u69CB\u7BC9\
+    \u3059\u308B\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF(\u30E0\u30FC\u30D6)\n \
+    \    *\n     * @param tree Tree\n     * @param root \u6839\n     */\n    RootedTree(Tree<Cost>&&\
     \ tree, int root) : Tree<Cost>(std::move(tree)), root(root) {\n        build();\n\
     \    }\n    \n    /**\n     * @brief \u30C0\u30D6\u30EA\u30F3\u30B0LCA\u304C\u4F7F\
     \u3048\u308B\u6839\u4ED8\u304D\u6728\u3092\u5F97\u308B\n     * \n     * @return\
@@ -233,39 +235,41 @@ data:
     \u306F\u6839\u306E\u91CD\u307F\u306F\u8003\u3048\u306A\u3044)\n */\ntemplate <typename\
     \ Cost = int>\nstruct DoublingClimbTree : private RootedTree<Cost> {\n    using\
     \ Edge = typename RootedTree<Cost>::Edge;\n    using RootedTree<Cost>::n;\n  \
-    \  using RootedTree<Cost>::m;\n    using RootedTree<Cost>::g;\n    using RootedTree<Cost>::add_edge;\n\
-    \    using RootedTree<Cost>::add_directed_edge;\n    using RootedTree<Cost>::read;\n\
-    \    using RootedTree<Cost>::operator[];\n    using RootedTree<Cost>::edges;\n\
-    \    using RootedTree<Cost>::shortest_path;\n    using RootedTree<Cost>::RootedTree;\n\
-    \    using RootedTree<Cost>::root;\n    using RootedTree<Cost>::par;\n    using\
-    \ RootedTree<Cost>::child;\n    using RootedTree<Cost>::depth;\n    using RootedTree<Cost>::height;\n\
-    \    using RootedTree<Cost>::sz;\n    using RootedTree<Cost>::preorder;\n    using\
-    \ RootedTree<Cost>::postorder;\n    using RootedTree<Cost>::euler_tour;\n\n  \
-    \  int h; //!< \u30C0\u30D6\u30EA\u30F3\u30B0\u306E\u56DE\u6570\n    std::vector<std::vector<int>>\
-    \ doubling_par; //!< j\u304B\u3089(1<<i)\u9802\u70B9\u767B\u3063\u305F\u9802\u70B9\
-    (\u5B58\u5728\u3057\u306A\u3044\u5834\u5408\u306F-1)\n    \n    // Tree::build_lca()\u3084\
-    RootedTree::build_lca()\u304B\u3089\u547C\u3070\u308C\u308B\n    // \u76F4\u63A5\
-    \u306F\u547C\u3070\u306A\u3044\n    DoublingClimbTree(const RootedTree<Cost>&\
-    \ tree) : RootedTree<Cost>(tree) {\n        build();\n    }\n    // Tree::build_lca()\u3084\
-    RootedTree::build_lca()\u304B\u3089\u547C\u3070\u308C\u308B\n    // \u76F4\u63A5\
-    \u306F\u547C\u3070\u306A\u3044\n    DoublingClimbTree(RootedTree<Cost>&& tree)\
-    \ : RootedTree<Cost>(std::move(tree)) {\n        build();\n    }\n    \n    /**\n\
-    \     * @brief \u9802\u70B9u\u304B\u3089k\u56DE\u3092\u6839\u306E\u65B9\u5411\u306B\
-    \u9061\u3063\u305F\u9802\u70B9\n     * \n     * @param u \u5143\u306E\u9802\u70B9\
-    \n     * @param k \u767B\u308B\u6BB5\u6570\n     * @return int k\u56DE\u767B\u3063\
-    \u305F\u9802\u70B9\n     */\n    int climb(int u, int k) const {\n        for(int\
-    \ i = 0; i < h; i++) {\n            if(k >> i & 1) u = doubling_par[i][u];\n \
-    \           if(u == -1) return -1;\n        }\n        return u;\n    }\n    \n\
-    \    /**\n     * @brief \u6700\u5C0F\u5171\u901A\u7956\u5148\n     * \n     *\
-    \ @param u \u9802\u70B91\n     * @param v \u9802\u70B92\n     * @return int LCA\u306E\
-    \u9802\u70B9\u756A\u53F7\n     */\n    int lca(int u, int v) const {\n       \
-    \ if(this->depth[u] > this->depth[v]) std::swap(u, v);\n        v = climb(v, this->depth[v]\
-    \ - this->depth[u]);\n        if(this->depth[u] > this->depth[v]) u = climb(u,\
-    \ this->depth[u] - this->depth[v]);\n        if(u == v) return u;\n        for(int\
-    \ i = h - 1; i >= 0; i--) {\n            int nu = doubling_par[i][u];\n      \
-    \      int nv = doubling_par[i][v];\n            if(nu == -1) continue;\n    \
-    \        if(nu != nv) {\n                u = nu;\n                v = nv;\n  \
-    \          }\n        }\n        return this->par[u];\n    }\n    \n    /**\n\
+    \  using RootedTree<Cost>::m;\n    using RootedTree<Cost>::g;\n    using RootedTree<Cost>::operator[];\n\
+    \    using RootedTree<Cost>::edges;\n    using RootedTree<Cost>::shortest_path;\n\
+    \    using RootedTree<Cost>::RootedTree;\n    using RootedTree<Cost>::root;\n\
+    \    using RootedTree<Cost>::par;\n    using RootedTree<Cost>::child;\n    using\
+    \ RootedTree<Cost>::depth;\n    using RootedTree<Cost>::height;\n    using RootedTree<Cost>::sz;\n\
+    \    using RootedTree<Cost>::preorder;\n    using RootedTree<Cost>::postorder;\n\
+    \    using RootedTree<Cost>::euler_tour;\n\n    int h; //!< \u30C0\u30D6\u30EA\
+    \u30F3\u30B0\u306E\u56DE\u6570\n    std::vector<std::vector<int>> doubling_par;\
+    \ //!< j\u304B\u3089(1<<i)\u9802\u70B9\u767B\u3063\u305F\u9802\u70B9(\u5B58\u5728\
+    \u3057\u306A\u3044\u5834\u5408\u306F-1)\n\n    DoublingClimbTree() = delete;\n\
+    \    \n    /**\n     * @brief RootedTree\u304B\u3089\u30C0\u30D6\u30EA\u30F3\u30B0\
+    \u6E08\u307F\u6839\u4ED8\u304D\u6728\u3092\u69CB\u7BC9\u3059\u308B\u30B3\u30F3\
+    \u30B9\u30C8\u30E9\u30AF\u30BF(\u30B3\u30D4\u30FC)\n     *\n     * @param tree\
+    \ RootedTree\n     */\n    DoublingClimbTree(const RootedTree<Cost>& tree) : RootedTree<Cost>(tree)\
+    \ {\n        build();\n    }\n\n    /**\n     * @brief RootedTree\u304B\u3089\u30C0\
+    \u30D6\u30EA\u30F3\u30B0\u6E08\u307F\u6839\u4ED8\u304D\u6728\u3092\u69CB\u7BC9\
+    \u3059\u308B\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF(\u30E0\u30FC\u30D6)\n \
+    \    *\n     * @param tree RootedTree\n     */\n    DoublingClimbTree(RootedTree<Cost>&&\
+    \ tree) : RootedTree<Cost>(std::move(tree)) {\n        build();\n    }\n    \n\
+    \    /**\n     * @brief \u9802\u70B9u\u304B\u3089k\u56DE\u3092\u6839\u306E\u65B9\
+    \u5411\u306B\u9061\u3063\u305F\u9802\u70B9\n     * \n     * @param u \u5143\u306E\
+    \u9802\u70B9\n     * @param k \u767B\u308B\u6BB5\u6570\n     * @return int k\u56DE\
+    \u767B\u3063\u305F\u9802\u70B9\n     */\n    int climb(int u, int k) const {\n\
+    \        for(int i = 0; i < h; i++) {\n            if(k >> i & 1) u = doubling_par[i][u];\n\
+    \            if(u == -1) return -1;\n        }\n        return u;\n    }\n   \
+    \ \n    /**\n     * @brief \u6700\u5C0F\u5171\u901A\u7956\u5148\n     * \n   \
+    \  * @param u \u9802\u70B91\n     * @param v \u9802\u70B92\n     * @return int\
+    \ LCA\u306E\u9802\u70B9\u756A\u53F7\n     */\n    int lca(int u, int v) const\
+    \ {\n        if(this->depth[u] > this->depth[v]) std::swap(u, v);\n        v =\
+    \ climb(v, this->depth[v] - this->depth[u]);\n        if(this->depth[u] > this->depth[v])\
+    \ u = climb(u, this->depth[u] - this->depth[v]);\n        if(u == v) return u;\n\
+    \        for(int i = h - 1; i >= 0; i--) {\n            int nu = doubling_par[i][u];\n\
+    \            int nv = doubling_par[i][v];\n            if(nu == -1) continue;\n\
+    \            if(nu != nv) {\n                u = nu;\n                v = nv;\n\
+    \            }\n        }\n        return this->par[u];\n    }\n    \n    /**\n\
     \     * @brief \u9802\u70B9\u9593\u8DDD\u96E2(\u91CD\u307F\u306A\u3057)\n    \
     \ * \n     * @param u \u9802\u70B91\n     * @param v \u9802\u70B92\n     * @return\
     \ int u\u3068v\u9593\u306E\u6700\u77ED\u7D4C\u8DEF\u306E\u8FBA\u306E\u672C\u6570\
@@ -292,7 +296,7 @@ data:
   isVerificationFile: true
   path: test/aoj-grl-5-a.test.cpp
   requiredBy: []
-  timestamp: '2023-06-06 14:52:29+09:00'
+  timestamp: '2023-06-16 15:41:49+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj-grl-5-a.test.cpp

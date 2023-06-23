@@ -323,10 +323,10 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj-dsl-2-b.test.cpp
-  - test/yosupo-lca.2.test.cpp
   - test/aoj-dsl-2-a.test.cpp
   - test/yosupo-point-set-range-composite.2.test.cpp
   - test/yosupo-point-set-range-composite.1.test.cpp
+  - test/yosupo-lca.2.test.cpp
 documentation_of: cpp/segtree.hpp
 layout: document
 redirect_from:

@@ -17,9 +17,9 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     links: []
-  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/documentation/build.py\"\
+  bundledCode: "Traceback (most recent call last):\n  File \"/opt/hostedtoolcache/Python/3.8.17/x64/lib/python3.8/site-packages/onlinejudge_verify/documentation/build.py\"\
     , line 71, in _render_source_code_stat\n    bundled_code = language.bundle(stat.path,\
-    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.8.16/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/python.py\"\
+    \ basedir=basedir, options={'include_paths': [basedir]}).decode()\n  File \"/opt/hostedtoolcache/Python/3.8.17/x64/lib/python3.8/site-packages/onlinejudge_verify/languages/python.py\"\
     , line 93, in bundle\n    raise NotImplementedError\nNotImplementedError\n"
   code: "from typing import Generic, TypeVar, Callable, List, Union\n\nS = TypeVar('S')\n\
     \n\nclass SegTree(Generic[S]):\n    \"\"\"\n    \u30BB\u30B0\u30E1\u30F3\u30C8\
@@ -136,8 +136,8 @@ data:
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj-dsl-2-b.test.py
-  - test/yosupo-point-set-range-composite.test.py
   - test/aoj-dsl-2-a.test.py
+  - test/yosupo-point-set-range-composite.test.py
 documentation_of: py/segtree.py
 layout: document
 redirect_from:

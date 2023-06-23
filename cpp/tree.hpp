@@ -132,9 +132,6 @@ struct RootedTree : private Tree<Cost> {
     using Tree<Cost>::n;
     using Tree<Cost>::m;
     using Tree<Cost>::g;
-    using Tree<Cost>::add_edge;
-    using Tree<Cost>::add_directed_edge;
-    using Tree<Cost>::read;
     using Tree<Cost>::operator[];
     using Tree<Cost>::edges;
     using Tree<Cost>::shortest_path;
@@ -149,6 +146,8 @@ struct RootedTree : private Tree<Cost> {
     std::vector<int> preorder; //!< 先行順巡回
     std::vector<int> postorder; //!< 後行順巡回
     std::vector<std::pair<int, int>> euler_tour; //!< オイラーツアー DFS中にとおった頂点の(頂点番号,その頂点を通った回数)のリスト
+
+    RootedTree() = delete;
     
     /**
      * @brief 親の頂点のリストから根が0の根付き木を構築するコンストラクタ
@@ -162,13 +161,21 @@ struct RootedTree : private Tree<Cost> {
         }
         build();
     }
-    // Tree::set_root()から呼ばれる
-    // 直接は呼ばない
+    /**
+     * @brief Treeから根付き木を構築するコンストラクタ(コピー)
+     *
+     * @param tree Tree
+     * @param root 根
+     */
     RootedTree(const Tree<Cost>& tree, int root) : Tree<Cost>(tree), root(root) {
         build();
     }
-    // Tree::set_rootから呼ばれる
-    // 直接は呼ばない
+    /**
+     * @brief Treeから根付き木を構築するコンストラクタ(ムーブ)
+     *
+     * @param tree Tree
+     * @param root 根
+     */
     RootedTree(Tree<Cost>&& tree, int root) : Tree<Cost>(std::move(tree)), root(root) {
         build();
     }
@@ -243,9 +250,6 @@ struct DoublingClimbTree : private RootedTree<Cost> {
     using RootedTree<Cost>::n;
     using RootedTree<Cost>::m;
     using RootedTree<Cost>::g;
-    using RootedTree<Cost>::add_edge;
-    using RootedTree<Cost>::add_directed_edge;
-    using RootedTree<Cost>::read;
     using RootedTree<Cost>::operator[];
     using RootedTree<Cost>::edges;
     using RootedTree<Cost>::shortest_path;
@@ -262,14 +266,23 @@ struct DoublingClimbTree : private RootedTree<Cost> {
 
     int h; //!< ダブリングの回数
     std::vector<std::vector<int>> doubling_par; //!< jから(1<<i)頂点登った頂点(存在しない場合は-1)
+
+    DoublingClimbTree() = delete;
     
-    // Tree::build_lca()やRootedTree::build_lca()から呼ばれる
-    // 直接は呼ばない
+    /**
+     * @brief RootedTreeからダブリング済み根付き木を構築するコンストラクタ(コピー)
+     *
+     * @param tree RootedTree
+     */
     DoublingClimbTree(const RootedTree<Cost>& tree) : RootedTree<Cost>(tree) {
         build();
     }
-    // Tree::build_lca()やRootedTree::build_lca()から呼ばれる
-    // 直接は呼ばない
+
+    /**
+     * @brief RootedTreeからダブリング済み根付き木を構築するコンストラクタ(ムーブ)
+     *
+     * @param tree RootedTree
+     */
     DoublingClimbTree(RootedTree<Cost>&& tree) : RootedTree<Cost>(std::move(tree)) {
         build();
     }

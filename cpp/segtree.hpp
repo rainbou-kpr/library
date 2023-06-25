@@ -324,7 +324,7 @@ using RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;
  * 
  * @tparam S 型
  */
-template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
+template <typename S>
 using RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;
 /**
  * @brief RangeSumQuery

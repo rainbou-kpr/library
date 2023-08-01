@@ -1,10 +1,10 @@
 ---
 data:
   _extendedDependsOn:
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: cpp/matrix.hpp
     title: "\u884C\u5217"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: cpp/modint.hpp
     title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
       \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
@@ -20,42 +20,43 @@ data:
     - https://yukicoder.me/problems/no/1340
   bundledCode: "#line 1 \"test/yukicoder-search-oji.test.cpp\"\n#define PROBLEM \"\
     https://yukicoder.me/problems/no/1340\"\n\n#line 2 \"cpp/matrix.hpp\"\n\n#include\
-    \ <vector>\n#include <string>\n#include <algorithm>\n\n/**\n * @brief \u884C\u5217\
-    \n * @tparam T \u578B \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u8981\u7D20\
-    \u3068\u306A\u308Bint\u3084char\n */\ntemplate<class T> struct Matrix {\n    int\
-    \ n, m;\n    std::vector<std::vector<T>> v;\n\n    /**\n     * @brief \u30B3\u30F3\
-    \u30B9\u30C8\u30E9\u30AF\u30BF\n     * @param v \u884C\u5217(\u30B0\u30EA\u30C3\
-    \u30C9)\u306E\u5143\u3068\u306A\u308B vector<string> \u3084 vector<vector<T>>\n\
-    \     * @return Matrix\n     */\n    template <typename Iterable>\n    constexpr\
-    \ Matrix(const std::vector<Iterable>& v_) noexcept : n(v_.size()), m(v_.size()\
-    \ == 0 ? 0 : v_[0].size()) {\n        v.resize(n);\n        for(int i = 0; i <\
-    \ n; i++) {\n            v[i].assign(v_[i].begin(), v_[i].end());\n        }\n\
-    \    }\n\n    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n\
-    \     * @param _n \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u884C\u6570\n \
-    \    * @param _m \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u5217\u6570\n  \
-    \   * @param _val \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u8981\u7D20\u306E\
-    \u521D\u671F\u5024\n     * @return Matrix\n     */\n    constexpr Matrix(int _n,\
-    \ int _m, T _val = T()) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}\n   \
-    \ \n    constexpr auto begin() noexcept {return v.begin();}\n    constexpr auto\
-    \ end() noexcept {return v.end();}\n\n    /**\n     * @brief \u884C\u5217(\u30B0\
-    \u30EA\u30C3\u30C9)\u306E\u884C\u6570\n     * @return size_t\n     */\n    [[nodiscard]]\n\
-    \    constexpr size_t size() const {return v.size();}\n\n    std::vector<T>& operator\
-    \ [] (int i) {return v[i];}\n    const std::vector<T>& operator [] (int i) const\
-    \ {return v[i];}\n    constexpr Matrix<T>& operator = (const std::vector<std::vector<T>>\
-    \ &A) noexcept {\n        n = A.size();\n        m = (n == 0 ? 0 : A[0].size());\n\
-    \        v = A;\n        return *this;\n    }\n    constexpr bool operator ==\
-    \ (const Matrix<T> &A) noexcept {\n        return this->v == A.v;\n    }\n\n \
-    \   /**\n     * @brief \u8EE2\u7F6E\n     * @return Matrix\n     */\n    [[nodiscard]]\n\
-    \    constexpr Matrix transpose() noexcept {\n        if(n == 0) return Matrix(v);\n\
-    \        std::vector<std::vector<T>> ret(m);\n        for(int i = 0; i < m; i\
-    \ ++) {\n            ret[i].resize(n);\n            for(int j = 0; j < n; j ++)\
-    \ ret[i][j] = v[j][i];\n        }\n        return Matrix(ret);\n    }\n\n    /**\n\
-    \     * @brief \u5DE6\u53F3\u53CD\u8EE2\n     * @return Matrix\n     */\n    [[nodiscard]]\n\
-    \    constexpr Matrix rev_lr() noexcept {\n        std::vector<std::vector<T>>\
-    \ ret = v;\n        for(int i = 0; i < n; i ++) std::reverse(ret[i].begin(), ret[i].end());\n\
-    \        return Matrix(ret);\n    }\n\n    /**\n     * @brief \u4E0A\u4E0B\u53CD\
-    \u8EE2\n     * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix\
-    \ rev_ud() noexcept {\n        std::vector<std::vector<T>> ret = v;\n        reverse(ret.begin(),\
+    \ <vector>\n#include <string>\n#include <algorithm>\n#include <valarray>\n#include\
+    \ <cassert>\n\n/**\n * @brief \u884C\u5217\n * @tparam T \u578B \u884C\u5217(\u30B0\
+    \u30EA\u30C3\u30C9)\u306E\u8981\u7D20\u3068\u306A\u308Bint\u3084char\n */\ntemplate<class\
+    \ T> struct Matrix {\n    int n, m;\n    std::vector<std::vector<T>> v;\n\n  \
+    \  /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * @param\
+    \ v \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u5143\u3068\u306A\u308B vector<string>\
+    \ \u3084 vector<vector<T>>\n     * @return Matrix\n     */\n    template <typename\
+    \ Iterable>\n    constexpr Matrix(const std::vector<Iterable>& v_) noexcept :\
+    \ n(v_.size()), m(v_.size() == 0 ? 0 : v_[0].size()) {\n        v.resize(n);\n\
+    \        for(int i = 0; i < n; i++) {\n            v[i].assign(v_[i].begin(),\
+    \ v_[i].end());\n        }\n    }\n\n    /**\n     * @brief \u30B3\u30F3\u30B9\
+    \u30C8\u30E9\u30AF\u30BF\n     * @param _n \u884C\u5217(\u30B0\u30EA\u30C3\u30C9\
+    )\u306E\u884C\u6570\n     * @param _m \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\
+    \u5217\u6570\n     * @param _val \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u8981\
+    \u7D20\u306E\u521D\u671F\u5024\n     * @return Matrix\n     */\n    constexpr\
+    \ Matrix(int _n, int _m, T _val = T()) : n(_n), m(_m), v(n, std::vector<T>(m,\
+    \ _val)) {}\n    \n    constexpr auto begin() noexcept {return v.begin();}\n \
+    \   constexpr auto end() noexcept {return v.end();}\n\n    /**\n     * @brief\
+    \ \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u884C\u6570\n     * @return size_t\n\
+    \     */\n    [[nodiscard]]\n    constexpr size_t size() const {return v.size();}\n\
+    \n    std::vector<T>& operator [] (int i) {return v[i];}\n    const std::vector<T>&\
+    \ operator [] (int i) const {return v[i];}\n    constexpr Matrix<T>& operator\
+    \ = (const std::vector<std::vector<T>> &A) noexcept {\n        n = A.size();\n\
+    \        m = (n == 0 ? 0 : A[0].size());\n        v = A;\n        return *this;\n\
+    \    }\n    constexpr bool operator == (const Matrix<T> &A) noexcept {\n     \
+    \   return this->v == A.v;\n    }\n\n    /**\n     * @brief \u8EE2\u7F6E\n   \
+    \  * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix transpose()\
+    \ noexcept {\n        if(n == 0) return Matrix(v);\n        std::vector<std::vector<T>>\
+    \ ret(m);\n        for(int i = 0; i < m; i ++) {\n            ret[i].resize(n);\n\
+    \            for(int j = 0; j < n; j ++) ret[i][j] = v[j][i];\n        }\n   \
+    \     return Matrix(ret);\n    }\n\n    /**\n     * @brief \u5DE6\u53F3\u53CD\u8EE2\
+    \n     * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix rev_lr()\
+    \ noexcept {\n        std::vector<std::vector<T>> ret = v;\n        for(int i\
+    \ = 0; i < n; i ++) std::reverse(ret[i].begin(), ret[i].end());\n        return\
+    \ Matrix(ret);\n    }\n\n    /**\n     * @brief \u4E0A\u4E0B\u53CD\u8EE2\n   \
+    \  * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr Matrix rev_ud()\
+    \ noexcept {\n        std::vector<std::vector<T>> ret = v;\n        reverse(ret.begin(),\
     \ ret.end());\n        return Matrix(ret);\n    }\n\n    /**\n     * @brief \u6642\
     \u8A08\u5468\u308A\u306B90\u5EA6\u56DE\u8EE2\n     * @param k \u56DE\u8EE2\u3059\
     \u308B\u56DE\u6570\n     * @return Matrix\n     */\n    [[nodiscard]]\n    constexpr\
@@ -86,10 +87,10 @@ data:
     \    [[nodiscard]]\n    constexpr Matrix shift_d(int k) noexcept {\n        return\
     \ this->shift(k, 0);\n    }\n\n    /**\n     * @brief \u30B0\u30EA\u30C3\u30C9\
     \u3092vector<string>\u3067\u8FD4\u3059\n     * @return std::vector<std::string>\n\
-    \     */\n    [[nodiscard]]\n    constexpr std::vector<std::string> vstr() noexcept\
-    \ {\n        std::vector<std::string> ret(n);\n        for(int i = 0; i < n; i\
-    \ ++) {\n            ret[i].assign(v[i].begin(), v[i].end());\n        }\n   \
-    \     return ret;\n    }\n\n    /**\n     * @brief \u30B0\u30EA\u30C3\u30C9\u306E\
+    \     */\n    [[nodiscard]]\n    std::vector<std::string> vstr() noexcept {\n\
+    \        std::vector<std::string> ret(n);\n        for(int i = 0; i < n; i ++)\
+    \ {\n            ret[i].assign(v[i].begin(), v[i].end());\n        }\n       \
+    \ return ret;\n    }\n\n    /**\n     * @brief \u30B0\u30EA\u30C3\u30C9\u306E\
     j\u5217\u76EE\u3092\u8FD4\u3059\n     * @param j \u8FD4\u3059\u5217\u756A\u53F7\
     (0-indexed)\n     * @return std::vector<T>\n     */\n    [[nodiscard]]\n    constexpr\
     \ std::vector<T> col(int j) noexcept {\n        std::vector<T> ret(n);\n     \
@@ -97,39 +98,39 @@ data:
     \        return ret;\n    }\n\n    /**\n     * @brief \u30B0\u30EA\u30C3\u30C9\
     \u306Ei\u884C\u76EE\u3092string\u3067\u8FD4\u3059\n     * @param i \u8FD4\u3059\
     \u884C\u756A\u53F7(0-indexed)\n     * @return std::string\n     */\n    [[nodiscard]]\n\
-    \    constexpr std::string str(int i) noexcept {\n        std::string ret;\n \
-    \       ret.assign(v[i].begin(), v[i].end());\n        return ret;\n    }\n  \
-    \  /**\n     * @brief \u4FDD\u6301\u3057\u3066\u3044\u308B\u884C\u5217\u306B\u884C\
-    \u5217B\u3092\u8DB3\u3059\n     * @param B \u8DB3\u3059\u884C\u5217\n     * @return\
-    \ @c *this\n    */\n    constexpr Matrix &operator+=(const Matrix &B) {\n    \
-    \    if(n == 0) return (*this);\n        assert(n == B.size() && m == B[0].size());\n\
-    \        for(int i = 0; i < n; i++)\n            for(int j = 0; j < m; j++) (*this)[i][j]\
-    \ += B[i][j];\n        return (*this);\n    }\n    /**\n     * @brief \u4FDD\u6301\
-    \u3057\u3066\u3044\u308B\u884C\u5217\u304B\u3089\u884C\u5217B\u3092\u5F15\u304F\
-    \n     * @param B \u5F15\u304F\u884C\u5217\n     * @return @c *this\n    */\n\
-    \    constexpr Matrix &operator-=(const Matrix &B) {\n        if(n == 0) return\
-    \ (*this);\n        assert(n == B.size() && m == B[0].size());\n        for(int\
-    \ i = 0; i < n; i++)\n            for(int j = 0; j < m; j++) (*this)[i][j] -=\
-    \ B[i][j];\n        return (*this);\n    }\n\n    /**\n     * @brief \u4FDD\u6301\
-    \u3057\u3066\u3044\u308B\u884C\u5217\u306B\u884C\u5217B\u3092\u639B\u3051\u308B\
-    \n     * @param B \u639B\u3051\u308B\u884C\u5217\n     * @return @c *this\n  \
-    \  */\n    constexpr Matrix &operator*=(const Matrix &B) {\n        int p = B[0].size();\n\
-    \        Matrix<T> C(n, p);\n        for(int i = 0; i < n; i ++) {\n         \
-    \   for(int k = 0; k < p; k ++) {\n                for(int j = 0; j < m; j ++)\
-    \ {\n                    C[i][j] += (*this)[i][k] * B[k][j];\n               \
-    \ }\n            }\n        }\n        v.swap(C.v);\n        m = p;\n        return\
+    \    std::string str(int i) noexcept {\n        std::string ret;\n        ret.assign(v[i].begin(),\
+    \ v[i].end());\n        return ret;\n    }\n    /**\n     * @brief \u4FDD\u6301\
+    \u3057\u3066\u3044\u308B\u884C\u5217\u306B\u884C\u5217B\u3092\u8DB3\u3059\n  \
+    \   * @param B \u8DB3\u3059\u884C\u5217\n     * @return @c *this\n    */\n   \
+    \ constexpr Matrix &operator+=(const Matrix &B) {\n        if(n == 0) return (*this);\n\
+    \        assert(n == B.size() && m == B[0].size());\n        for(int i = 0; i\
+    \ < n; i++)\n            for(int j = 0; j < m; j++) (*this)[i][j] += B[i][j];\n\
+    \        return (*this);\n    }\n    /**\n     * @brief \u4FDD\u6301\u3057\u3066\
+    \u3044\u308B\u884C\u5217\u304B\u3089\u884C\u5217B\u3092\u5F15\u304F\n     * @param\
+    \ B \u5F15\u304F\u884C\u5217\n     * @return @c *this\n    */\n    constexpr Matrix\
+    \ &operator-=(const Matrix &B) {\n        if(n == 0) return (*this);\n       \
+    \ assert(n == B.size() && m == B[0].size());\n        for(int i = 0; i < n; i++)\n\
+    \            for(int j = 0; j < m; j++) (*this)[i][j] -= B[i][j];\n        return\
     \ (*this);\n    }\n\n    /**\n     * @brief \u4FDD\u6301\u3057\u3066\u3044\u308B\
-    \u884C\u5217\u306Ek\u4E57\u3092\u6C42\u3081\u308B\n     * @param k \u6307\u6570\
-    \n     * @return Matrix\n    */\n    [[nodiscard]]\n    constexpr Matrix pow(long\
-    \ long k) {\n        Matrix<T> A = *this, B(n, n);\n        for(int i = 0; i <\
-    \ n; i ++) B[i][i] = 1;\n        while(k > 0) {\n            if(k & 1) B *= A;\n\
-    \            A *= A;\n            k >>= 1;\n        }\n        return B;\n   \
-    \ }\n\n    [[nodiscard]]\n    constexpr Matrix operator+(const Matrix &B) const\
-    \ { return (Matrix(*this) += B); }\n    [[nodiscard]]\n    constexpr Matrix operator-(const\
-    \ Matrix &B) const { return (Matrix(*this) -= B); }\n    [[nodiscard]]\n    constexpr\
-    \ Matrix operator*(const Matrix &B) const { return (Matrix(*this) *= B); }\n\n\
-    \    /**\n     * @brief \u884C\u5217A\u3068\u5217\u30D9\u30AF\u30C8\u30EBB\u306E\
-    \u7A4D\n     * @param A Matrix<T>\n     * @param B vector<T>\n     * @return vector<T>\
+    \u884C\u5217\u306B\u884C\u5217B\u3092\u639B\u3051\u308B\n     * @param B \u639B\
+    \u3051\u308B\u884C\u5217\n     * @return @c *this\n    */\n    constexpr Matrix\
+    \ &operator*=(const Matrix &B) {\n        int p = B[0].size();\n        Matrix<T>\
+    \ C(n, p);\n        for(int i = 0; i < n; i ++) {\n            for(int k = 0;\
+    \ k < p; k ++) {\n                for(int j = 0; j < m; j ++) {\n            \
+    \        C[i][j] += (*this)[i][k] * B[k][j];\n                }\n            }\n\
+    \        }\n        v.swap(C.v);\n        m = p;\n        return (*this);\n  \
+    \  }\n\n    /**\n     * @brief \u4FDD\u6301\u3057\u3066\u3044\u308B\u884C\u5217\
+    \u306Ek\u4E57\u3092\u6C42\u3081\u308B\n     * @param k \u6307\u6570\n     * @return\
+    \ Matrix\n    */\n    [[nodiscard]]\n    constexpr Matrix pow(long long k) {\n\
+    \        Matrix<T> A = *this, B(n, n);\n        for(int i = 0; i < n; i ++) B[i][i]\
+    \ = 1;\n        while(k > 0) {\n            if(k & 1) B *= A;\n            A *=\
+    \ A;\n            k >>= 1;\n        }\n        return B;\n    }\n\n    [[nodiscard]]\n\
+    \    constexpr Matrix operator+(const Matrix &B) const { return (Matrix(*this)\
+    \ += B); }\n    [[nodiscard]]\n    constexpr Matrix operator-(const Matrix &B)\
+    \ const { return (Matrix(*this) -= B); }\n    [[nodiscard]]\n    constexpr Matrix\
+    \ operator*(const Matrix &B) const { return (Matrix(*this) *= B); }\n\n    /**\n\
+    \     * @brief \u884C\u5217A\u3068\u5217\u30D9\u30AF\u30C8\u30EBB\u306E\u7A4D\n\
+    \     * @param A Matrix<T>\n     * @param B vector<T>\n     * @return vector<T>\
     \ \u5217\u30D9\u30AF\u30C8\u30EB\n    */\n    [[nodiscard]]\n    constexpr friend\
     \ std::vector<T> operator*(const Matrix &A, const std::vector<T> &B) {\n     \
     \   std::vector<T> ret(A.n, 0);\n        for(int i = 0; i < A.n; i ++) {\n   \
@@ -141,26 +142,37 @@ data:
     \ std::vector<T> operator*(const std::vector<T> &A, const Matrix &B) {\n     \
     \   std::vector<T> ret(B.m, 0);\n        for(int i = 0; i < B.n; i ++) {\n   \
     \         for(int j = 0; j < B.m; j ++) {\n                ret[j] += A[i] * B[i][j];\n\
-    \            }\n        }\n        return ret;\n    }\n};\n#line 2 \"cpp/modint.hpp\"\
+    \            }\n        }\n        return ret;\n    }\n\n    /**\n     * @brief\
+    \ \u884C\u5217\u5F0F\n     * @tparam T modint\n     * @return T modint\n    */\n\
+    \    [[nodiscard]]\n    T det() {\n        assert(n == m);\n        if(n == 0)\
+    \ return 1;\n        T ans = 1;\n        std::vector A(n, std::valarray(T(0),\
+    \ n));\n        for(int i = 0; i < n; i ++) for(int j = 0; j < n; j ++) A[i][j]\
+    \ = this->v[i][j];\n        for(int i = 0; i < n; i ++) {\n            if(A[i][i].value()\
+    \ == 0) {\n                for(int j = i + 1; j < n; j ++) if(A[j][i].value())\
+    \ {\n                    std::swap(A[i], A[j]);\n                    ans *= -1;\n\
+    \                    break;\n                }\n                if(A[i][i].value()\
+    \ == 0) return 0;\n            }\n            ans *= A[i][i];\n            A[i]\
+    \ *= A[i][i].inv();\n            for(int j = i + 1; j < n; j ++) A[j] -= A[i]\
+    \ * A[j][i];\n        }\n        return ans;\n    }\n};\n#line 2 \"cpp/modint.hpp\"\
     \n\n/**\n * @file modint.hpp\n * @brief \u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\
     \u3066\u81EA\u52D5\u3067 mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n */\n\n#include\
     \ <iostream>\n#include <utility>\n#include <limits>\n#include <type_traits>\n\
-    #include <cstdint>\n#include <cassert>\n\nnamespace detail {\n    static constexpr\
-    \ std::uint16_t prime32_bases[] {\n        15591,  2018,  166, 7429,  8064, 16045,\
-    \ 10503,  4399,  1949,  1295, 2776,  3620,   560,  3128,  5212,  2657,\n     \
-    \    2300,  2021, 4652, 1471,  9336,  4018,  2398, 20462, 10277,  8028, 2213,\
-    \  6219,   620,  3763,  4852,  5012,\n         3185,  1333, 6227, 5298,  1074,\
-    \  2391,  5113,  7061,   803,  1269, 3875,   422,   751,   580,  4729, 10239,\n\
-    \          746,  2951,  556, 2206,  3778,   481,  1522,  3476,   481,  2487, 3266,\
-    \  5633,   488,  3373,  6441,  3344,\n           17, 15105, 1490, 4154,  2036,\
-    \  1882,  1813,   467,  3307, 14042, 6371,   658,  1005,   903,   737,  1887,\n\
-    \         7447,  1888, 2848, 1784,  7559,  3400,   951, 13969,  4304,   177, \
-    \  41, 19875,  3110, 13221,  8726,   571,\n         7043,  6943, 1199,  352, \
-    \ 6435,   165,  1169,  3315,   978,   233, 3003,  2562,  2994, 10587, 10030, \
-    \ 2377,\n         1902,  5354, 4447, 1555,   263, 27027,  2283,   305,   669,\
-    \  1912,  601,  6186,   429,  1930, 14873,  1784,\n         1661,   524, 3577,\
-    \  236,  2360,  6146,  2850, 55637,  1753,  4178, 8466,   222,  2579,  2743, \
-    \ 2031,  2226,\n         2276,   374, 2132,  813, 23788,  1610,  4422,  5159,\
+    #include <cstdint>\n#line 14 \"cpp/modint.hpp\"\n\nnamespace detail {\n    static\
+    \ constexpr std::uint16_t prime32_bases[] {\n        15591,  2018,  166, 7429,\
+    \  8064, 16045, 10503,  4399,  1949,  1295, 2776,  3620,   560,  3128,  5212,\
+    \  2657,\n         2300,  2021, 4652, 1471,  9336,  4018,  2398, 20462, 10277,\
+    \  8028, 2213,  6219,   620,  3763,  4852,  5012,\n         3185,  1333, 6227,\
+    \ 5298,  1074,  2391,  5113,  7061,   803,  1269, 3875,   422,   751,   580, \
+    \ 4729, 10239,\n          746,  2951,  556, 2206,  3778,   481,  1522,  3476,\
+    \   481,  2487, 3266,  5633,   488,  3373,  6441,  3344,\n           17, 15105,\
+    \ 1490, 4154,  2036,  1882,  1813,   467,  3307, 14042, 6371,   658,  1005,  \
+    \ 903,   737,  1887,\n         7447,  1888, 2848, 1784,  7559,  3400,   951, 13969,\
+    \  4304,   177,   41, 19875,  3110, 13221,  8726,   571,\n         7043,  6943,\
+    \ 1199,  352,  6435,   165,  1169,  3315,   978,   233, 3003,  2562,  2994, 10587,\
+    \ 10030,  2377,\n         1902,  5354, 4447, 1555,   263, 27027,  2283,   305,\
+    \   669,  1912,  601,  6186,   429,  1930, 14873,  1784,\n         1661,   524,\
+    \ 3577,  236,  2360,  6146,  2850, 55637,  1753,  4178, 8466,   222,  2579,  2743,\
+    \  2031,  2226,\n         2276,   374, 2132,  813, 23788,  1610,  4422,  5159,\
     \  1725,  3597, 3366, 14336,   579,   165,  1375, 10018,\n        12616,  9816,\
     \ 1371,  536,  1867, 10864,   857,  2206,  5788,   434, 8085, 17618,   727,  3639,\
     \  1595,  4944,\n         2129,  2029, 8195, 8344,  6232,  9183,  8126,  1870,\
@@ -395,7 +407,7 @@ data:
   isVerificationFile: true
   path: test/yukicoder-search-oji.test.cpp
   requiredBy: []
-  timestamp: '2023-05-31 16:38:54+09:00'
+  timestamp: '2023-08-01 18:31:37+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yukicoder-search-oji.test.cpp

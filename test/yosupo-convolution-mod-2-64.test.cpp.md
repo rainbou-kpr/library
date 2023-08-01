@@ -5,7 +5,7 @@ data:
     path: cpp/io.hpp
     title: "\u7A7A\u767D\u533A\u5207\u308A\u51FA\u529B\u3001iostream\u306E\u30AA\u30FC\
       \u30D0\u30FC\u30ED\u30FC\u30C9"
-  - icon: ':heavy_check_mark:'
+  - icon: ':question:'
     path: cpp/modint.hpp
     title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
       \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"

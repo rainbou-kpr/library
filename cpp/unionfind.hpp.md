@@ -3,12 +3,15 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy: []
   _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/atcoder-jsc2021-g.test.cpp
+    title: test/atcoder-jsc2021-g.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo-unionfind.test.cpp
     title: test/yosupo-unionfind.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: UnionFind
     links: []
@@ -97,8 +100,9 @@ data:
   path: cpp/unionfind.hpp
   requiredBy: []
   timestamp: '2023-04-28 12:54:27+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/atcoder-jsc2021-g.test.cpp
   - test/yosupo-unionfind.test.cpp
 documentation_of: cpp/unionfind.hpp
 layout: document

@@ -6,6 +6,9 @@ data:
     path: cpp/number-theory.hpp
     title: "a^(-1) mod MOD\u3092\u8FD4\u3059"
   _extendedVerifiedWith:
+  - icon: ':x:'
+    path: test/atcoder-jsc2021-g.test.cpp
+    title: test/atcoder-jsc2021-g.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo-convolution-mod-1000000007.test.cpp
     title: test/yosupo-convolution-mod-1000000007.test.cpp
@@ -30,9 +33,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yukicoder-search-oji.test.cpp
     title: test/yukicoder-search-oji.test.cpp
-  _isVerificationFailed: false
+  _isVerificationFailed: true
   _pathExtension: hpp
-  _verificationStatusIcon: ':heavy_check_mark:'
+  _verificationStatusIcon: ':question:'
   attributes:
     document_title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067\
       \ mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
@@ -487,8 +490,9 @@ data:
   requiredBy:
   - cpp/number-theory.hpp
   timestamp: '2023-04-26 23:09:33+09:00'
-  verificationStatus: LIBRARY_ALL_AC
+  verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/atcoder-jsc2021-g.test.cpp
   - test/yosupo-range-affine-range-sum.2.test.cpp
   - test/yosupo-point-set-range-composite.1.test.cpp
   - test/yosupo-convolution-mod.test.cpp

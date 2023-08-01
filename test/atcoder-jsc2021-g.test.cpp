@@ -1,4 +1,5 @@
 #define PROBLEM "https://atcoder.jp/contests/jsc2021/tasks/jsc2021_g"
+#define IGNORE
 
 #include "../cpp/modint.hpp"
 #include "../cpp/matrix.hpp"

@@ -3,6 +3,8 @@
 #include <vector>
 #include <string>
 #include <algorithm>
+#include <valarray>
+#include <cassert>
 
 /**
  * @brief 行列
@@ -177,7 +179,7 @@ template<class T> struct Matrix {
      * @return std::vector<std::string>
      */
     [[nodiscard]]
-    constexpr std::vector<std::string> vstr() noexcept {
+    std::vector<std::string> vstr() noexcept {
         std::vector<std::string> ret(n);
         for(int i = 0; i < n; i ++) {
             ret[i].assign(v[i].begin(), v[i].end());
@@ -205,7 +207,7 @@ template<class T> struct Matrix {
      * @return std::string
      */
     [[nodiscard]]
-    constexpr std::string str(int i) noexcept {
+    std::string str(int i) noexcept {
         std::string ret;
         ret.assign(v[i].begin(), v[i].end());
         return ret;
@@ -311,5 +313,33 @@ template<class T> struct Matrix {
             }
         }
         return ret;
+    }
+
+    /**
+     * @brief 行列式
+     * @tparam T modint
+     * @return T modint
+    */
+    [[nodiscard]]
+    T det() {
+        assert(n == m);
+        if(n == 0) return 1;
+        T ans = 1;
+        std::vector A(n, std::valarray(T(0), n));
+        for(int i = 0; i < n; i ++) for(int j = 0; j < n; j ++) A[i][j] = this->v[i][j];
+        for(int i = 0; i < n; i ++) {
+            if(A[i][i].value() == 0) {
+                for(int j = i + 1; j < n; j ++) if(A[j][i].value()) {
+                    std::swap(A[i], A[j]);
+                    ans *= -1;
+                    break;
+                }
+                if(A[i][i].value() == 0) return 0;
+            }
+            ans *= A[i][i];
+            A[i] *= A[i][i].inv();
+            for(int j = i + 1; j < n; j ++) A[j] -= A[i] * A[j][i];
+        }
+        return ans;
     }
 };

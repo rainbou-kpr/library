@@ -114,35 +114,35 @@ data:
     g(prod([l, r))) = true\u3068\u306A\u308B\u6700\u5927\u306Er\n     * \n     * @tparam\
     \ G\n     * @param l \u534A\u958B\u533A\u9593\u306E\u958B\u59CB\n     * @param\
     \ g \u5224\u5B9A\u95A2\u6570 g(e) = true\n     * @return int\n     */\n    template\
-    \ <typename G>\n    int max_right(int l, G g) const {\n        assert(g(e()));\n\
-    \        if(l == n) return n;\n        l += sz;\n        for(int h = height; h\
-    \ > 0; h--) {\n            push(l >> h, h);\n        }\n        S sum = e();\n\
-    \        int h = 0;\n        while(g(op(sum, data[l]))) {\n            if(__builtin_clz(l)\
-    \ != __builtin_clz(l+1)) return n;\n            sum = op(sum, data[l]);\n    \
-    \        l++;\n            while(l % 2 == 0) {\n                l >>= 1;\n   \
-    \             h++;\n            }\n        }\n        while(l < sz) {\n      \
-    \      push(l, h);\n            if(!g(op(sum, data[l*2]))) {\n               \
-    \ l = l*2;\n            } else {\n                sum = op(sum, data[l*2]);\n\
-    \                l = l*2+1;\n            }\n            h--;\n        }\n    \
-    \    return l - sz;\n    }\n    /**\n     * @brief (l = 0 or g(prod([l, r))) =\
-    \ true) and (l = r or g(prod([l-1, r))) = false)\u3068\u306A\u308Bl\u3092\u8FD4\
-    \u3059\n     * g\u304C\u5358\u8ABF\u306A\u3089\u3001g(prod([l, r))) = true\u3068\
-    \u306A\u308B\u6700\u5C0F\u306El\n     * \n     * @tparam G\n     * @param r \u534A\
-    \u958B\u533A\u9593\u306E\u7D42\u7AEF\n     * @param g \u5224\u5B9A\u95A2\u6570\
-    \ g(e) = true\n     * @return int\n     */\n    template <typename G>\n    int\
-    \ min_left(int r, G g) const {\n        assert(f(e()));\n        if (r == 0) return\
-    \ 0;\n        r += sz - 1;\n        for(int h = height; h > 0; h--) {\n      \
-    \      push(r >> h, h);\n        }\n        int h = 0;\n        while(r % 2 ==\
-    \ 1) {\n            r >>= 1;\n            h++;\n        }\n        S sum = e();\n\
-    \        while(g(op(data[r], sum))) {\n            if(__builtin_clz(r) != __builtin_clz(r-1))\
-    \ return 0;\n            sum = op(data[r], sum);\n            r--;\n         \
-    \   while(r % 2 == 0) {\n                r >>= 1;\n                h++;\n    \
-    \        }\n        }\n        while(r < sz) {\n            push(r, h);\n    \
-    \        if(!g(op(data[r*2+1], sum))) {\n                r = r*2+1;\n        \
-    \    } else {\n                sum = op(data[r*2+1], sum);\n                r\
-    \ = r*2;\n            }\n            h--;\n        }\n        return r - sz +\
-    \ 1;\n    }\n};\n\n/**\n * @brief \u30D5\u30A1\u30F3\u30AF\u30BF\u304C\u9759\u7684\
-    \u306A\u5834\u5408\u306ESegment Tree Beats\u306E\u5B9F\u88C5\n * \n * @tparam\
+    \ <typename G>\n    int max_right(int l, G g) {\n        assert(g(e()));\n   \
+    \     if(l == n) return n;\n        l += sz;\n        for(int h = height; h >\
+    \ 0; h--) {\n            push(l >> h, h);\n        }\n        int h = 0;\n   \
+    \     while(l % 2 == 0) {\n            l >>= 1;\n            h++;\n        }\n\
+    \        S sum = e();\n        while(g(op(sum, data[l]))) {\n            sum =\
+    \ op(sum, data[l]);\n            l++;\n            while(l % 2 == 0) {\n     \
+    \           l >>= 1;\n                h++;\n            }\n            if(l ==\
+    \ 1) return n;\n        }\n        while(l < sz) {\n            push(l, h);\n\
+    \            if(!g(op(sum, data[l*2]))) {\n                l = l*2;\n        \
+    \    } else {\n                sum = op(sum, data[l*2]);\n                l =\
+    \ l*2+1;\n            }\n            h--;\n        }\n        return l - sz;\n\
+    \    }\n    /**\n     * @brief (l = 0 or g(prod([l, r))) = true) and (l = r or\
+    \ g(prod([l-1, r))) = false)\u3068\u306A\u308Bl\u3092\u8FD4\u3059\n     * g\u304C\
+    \u5358\u8ABF\u306A\u3089\u3001g(prod([l, r))) = true\u3068\u306A\u308B\u6700\u5C0F\
+    \u306El\n     * \n     * @tparam G\n     * @param r \u534A\u958B\u533A\u9593\u306E\
+    \u7D42\u7AEF\n     * @param g \u5224\u5B9A\u95A2\u6570 g(e) = true\n     * @return\
+    \ int\n     */\n    template <typename G>\n    int min_left(int r, G g) {\n  \
+    \      assert(g(e()));\n        if (r == 0) return 0;\n        r += sz;\n    \
+    \    for(int h = height; h > 0; h--) {\n            push(r >> h, h);\n       \
+    \ }\n        int h = 0;\n        while(r % 2 == 0) {\n            r >>= 1;\n \
+    \           h++;\n        }\n        S sum = e();\n        while(g(op(data[r-1],\
+    \ sum))) {\n            sum = op(data[r], sum);\n            r--;\n          \
+    \  while(r % 2 == 0) {\n                r >>= 1;\n                h++;\n     \
+    \       }\n            if(r == 1) return 0;\n        }\n        while(r < sz)\
+    \ {\n            push(r - 1, h);\n            if(!g(op(data[r*2-1], sum))) r *=\
+    \ 2;\n            else {\n                sum = op(data[r*2-1], sum);\n      \
+    \          r = r*2 - 1;\n            }\n            h--;\n        }\n        return\
+    \ r - sz;\n    }\n};\n\n/**\n * @brief \u30D5\u30A1\u30F3\u30AF\u30BF\u304C\u9759\
+    \u7684\u306A\u5834\u5408\u306ESegment Tree Beats\u306E\u5B9F\u88C5\n * \n * @tparam\
     \ S \u5024\u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam Op \u5024\u306E\u7A4D\
     \u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam E \u7A4D\u306E\u5358\u4F4D\u5143\
     \u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam F \u4F5C\u7528\u7D20\
@@ -339,7 +339,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
   requiredBy: []
-  timestamp: '2023-05-24 09:10:09+09:00'
+  timestamp: '2023-08-01 17:59:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp

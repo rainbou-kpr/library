@@ -311,42 +311,41 @@ data:
     \u5B9A\u95A2\u6570 f(e) = true\n     * @return int\n     */\n    template <typename\
     \ F>\n    int max_right(int l, F f) const {\n        assert(f(e()));\n       \
     \ if (l == n) return n;\n        l += sz;\n        while (l % 2 == 0) l >>= 1;\n\
-    \        S sum = e();\n        while(f(op(sum, data[l]))) {\n            if (__builtin_clz(l)\
-    \ != __builtin_clz(l+1)) return n;\n            sum = op(sum, data[l]);\n    \
-    \        l++;\n            while (l % 2 == 0) l >>= 1;\n        }\n        while\
-    \ (l < sz) {\n            if (!f(op(sum, data[l * 2]))) l *= 2;\n            else\
-    \ {\n                sum = op(sum, data[l * 2]);\n                l = l * 2 +\
-    \ 1;\n            }\n        }\n        return l - sz;\n    }\n    /**\n     *\
-    \ @brief (l = 0 or f(prod([l, r))) = true) and (l = r or f(prod([l-1, r))) = false)\u3068\
-    \u306A\u308Bl\u3092\u8FD4\u3059\n     * f\u304C\u5358\u8ABF\u306A\u3089\u3001\
-    f(prod([l, r))) = true\u3068\u306A\u308B\u6700\u5C0F\u306El\n     * \n     * @tparam\
-    \ F\n     * @param r \u534A\u958B\u533A\u9593\u306E\u7D42\u7AEF\n     * @param\
-    \ f \u5224\u5B9A\u95A2\u6570 f(e) = true\n     * @return int\n     */\n    template\
-    \ <typename F>\n    int min_left(int r, F f) const {\n        assert(f(e()));\n\
-    \        if (r == 0) return 0;\n        r += sz - 1;\n        while (r % 2 ==\
-    \ 1) r >>= 1;\n        S sum = e();\n        while(f(op(sum, data[r]))) {\n  \
-    \          if (__builtin_clz(r) != __builtin_clz(r-1)) return 0;\n           \
-    \ sum = op(sum, data[r]);\n            r--;\n            while (r % 2 == 1) r\
-    \ >>= 1;\n        }\n        while (r < sz) {\n            if (!f(op(data[r *\
-    \ 2 + 1], sum))) r = r * 2 + 1;\n            else {\n                sum = op(data[r\
-    \ * 2 + 1], sum);\n                r *= 2;\n            }\n        }\n       \
-    \ return r + 1 - sz;\n    }\n};\n\n/**\n * @brief \u7A4D\u306E\u30D5\u30A1\u30F3\
-    \u30AF\u30BF\u304C\u9759\u7684\u306A\u5834\u5408\u306E\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728\u306E\u5B9F\u88C5\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\
-    \u578B\n * @tparam Op \u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam E\
-    \ \u7A4D\u306E\u5358\u4F4D\u5143\u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\
-    \n */\ntemplate <typename S, typename Op, typename E>\nclass StaticSegTree : public\
-    \ SegTreeBase<S, StaticSegTree<S, Op, E>> {\n    using BaseType = SegTreeBase<S,\
-    \ StaticSegTree<S, Op, E>>;\n\n    inline static Op operator_object;\n    inline\
-    \ static E identity_object;\npublic:\n    S op(const S& a, const S& b) const {\
-    \ return operator_object(a, b); }\n    S e() const { return identity_object();\
-    \ }\n\n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\
-    \u30C8\u30E9\u30AF\u30BF\n     * \n    */\n    StaticSegTree() = default;\n  \
-    \  /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n  \
-    \   * @param n \u8981\u7D20\u6570\n     */\n    explicit StaticSegTree(int n)\
-    \ : BaseType(n) {\n        this->construct_data();\n    }\n    /**\n     * @brief\
-    \ \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n     * @param v \u521D\u671F\
-    \u306E\u8981\u7D20\n     */\n    explicit StaticSegTree(const std::vector<S>&\
+    \        S sum = e();\n        while(f(op(sum, data[l]))) {\n            sum =\
+    \ op(sum, data[l]);\n            l++;\n            while (l % 2 == 0) l >>= 1;\n\
+    \            if (l == 1) return n;\n        }\n        while (l < sz) {\n    \
+    \        if (!f(op(sum, data[l * 2]))) l *= 2;\n            else {\n         \
+    \       sum = op(sum, data[l * 2]);\n                l = l * 2 + 1;\n        \
+    \    }\n        }\n        return l - sz;\n    }\n    /**\n     * @brief (l =\
+    \ 0 or f(prod([l, r))) = true) and (l = r or f(prod([l-1, r))) = false)\u3068\u306A\
+    \u308Bl\u3092\u8FD4\u3059\n     * f\u304C\u5358\u8ABF\u306A\u3089\u3001f(prod([l,\
+    \ r))) = true\u3068\u306A\u308B\u6700\u5C0F\u306El\n     * \n     * @tparam F\n\
+    \     * @param r \u534A\u958B\u533A\u9593\u306E\u7D42\u7AEF\n     * @param f \u5224\
+    \u5B9A\u95A2\u6570 f(e) = true\n     * @return int\n     */\n    template <typename\
+    \ F>\n    int min_left(int r, F f) const {\n        assert(f(e()));\n        if\
+    \ (r == 0) return 0;\n        r += sz;\n        while (r % 2 == 0) r >>= 1;\n\
+    \        S sum = e();\n        while(f(op(data[r-1], sum))) {\n            sum\
+    \ = op(data[r-1], sum);\n            r--;\n            while (r % 2 == 0) r >>=\
+    \ 1;\n            if (r == 1) return 0;\n        }\n        while (r < sz) {\n\
+    \            if (!f(op(data[r * 2 - 1], sum))) r *= 2;\n            else {\n \
+    \               sum = op(data[r * 2 - 1], sum);\n                r = r * 2 - 1;\n\
+    \            }\n        }\n        return r - sz;\n    }\n};\n\n/**\n * @brief\
+    \ \u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\u304C\u9759\u7684\u306A\u5834\u5408\
+    \u306E\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306E\u5B9F\u88C5\n * \n * @tparam\
+    \ S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam Op \u7A4D\u306E\u30D5\u30A1\
+    \u30F3\u30AF\u30BF\n * @tparam E \u7A4D\u306E\u5358\u4F4D\u5143\u3092\u8FD4\u3059\
+    \u30D5\u30A1\u30F3\u30AF\u30BF\n */\ntemplate <typename S, typename Op, typename\
+    \ E>\nclass StaticSegTree : public SegTreeBase<S, StaticSegTree<S, Op, E>> {\n\
+    \    using BaseType = SegTreeBase<S, StaticSegTree<S, Op, E>>;\n\n    inline static\
+    \ Op operator_object;\n    inline static E identity_object;\npublic:\n    S op(const\
+    \ S& a, const S& b) const { return operator_object(a, b); }\n    S e() const {\
+    \ return identity_object(); }\n\n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\
+    \u30C8\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n    */\n    StaticSegTree()\
+    \ = default;\n    /**\n     * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\
+    \n     * \n     * @param n \u8981\u7D20\u6570\n     */\n    explicit StaticSegTree(int\
+    \ n) : BaseType(n) {\n        this->construct_data();\n    }\n    /**\n     *\
+    \ @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\n     * \n     * @param v\
+    \ \u521D\u671F\u306E\u8981\u7D20\n     */\n    explicit StaticSegTree(const std::vector<S>&\
     \ v) : StaticSegTree(v.size()) {\n        this->initialize(v);\n    }\n};\n\n\
     /**\n * @brief \u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\u3067\u95A2\u6570\u30AA\
     \u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u4E0E\u3048\u308B\u3053\u3068\u3067\u7A4D\
@@ -418,7 +417,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-point-set-range-composite.2.test.cpp
   requiredBy: []
-  timestamp: '2023-06-25 14:14:02+09:00'
+  timestamp: '2023-08-01 18:34:30+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-point-set-range-composite.2.test.cpp

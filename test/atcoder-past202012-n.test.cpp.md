@@ -11,50 +11,50 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B
+    PROBLEM: https://atcoder.jp/contests/past202012-open/tasks/past202012_n
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B
-  bundledCode: "#line 1 \"test/aoj-dsl-2-b.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\
-    \n\n#include <iostream>\n\n#line 2 \"cpp/segtree.hpp\"\n\n/**\n * @file segtree.hpp\n\
-    \ * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#include <cassert>\n#include\
-    \ <functional>\n#include <limits>\n#include <ostream>\n#include <vector>\n\n/**\n\
-    \ * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\u30E9\
-    \u30B9\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam ActualSegTree\
-    \ \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate <typename S, typename ActualSegTree>\n\
-    class SegTreeBase {\n    S op(const S& a, const S& b) const { return static_cast<const\
-    \ ActualSegTree&>(*this).op(a, b); }\n    S e() const { return static_cast<const\
-    \ ActualSegTree&>(*this).e(); }\n\n    int n, sz, height;\n    std::vector<S>\
-    \ data;\n    void update(int k) { data[k] = op(data[2 * k], data[2 * k + 1]);\
-    \ }\n\n    class SegTreeReference {\n        SegTreeBase& segtree;\n        int\
-    \ k;\n    public:\n        SegTreeReference(SegTreeBase& segtree, int k) : segtree(segtree),\
-    \ k(k) {}\n        SegTreeReference& operator=(const S& x) {\n            segtree.set(k,\
-    \ x);\n            return *this;\n        }\n        operator S() const { return\
-    \ segtree.get(k); }\n    };\n\nprotected:\n    void construct_data() {\n     \
-    \   sz = 1;\n        height = 0;\n        while (sz < n) {\n            sz <<=\
-    \ 1;\n            height++;\n        }\n        data.assign(sz * 2, e());\n  \
-    \  }\n    void initialize(const std::vector<S>& v) {\n        for (int i = 0;\
-    \ i < n; i++) data[sz + i] = v[i];\n        for (int i = sz - 1; i > 0; i--) update(i);\n\
-    \    }\n\npublic:\n    // Warning: \u7D99\u627F\u5148\u306E\u30B3\u30F3\u30B9\u30C8\
-    \u30E9\u30AF\u30BF\u3067construct_data()\u3092\u5FC5\u305A\u547C\u3073\u51FA\u3059\
-    \uFF01\n    SegTreeBase(int n = 0) : n(n) {}\n\n    /**\n     * @brief \u6307\u5B9A\
-    \u3055\u308C\u305F\u8981\u7D20\u306E\u5024\u3092\u8FD4\u3059\n     * \n     *\
-    \ @param k \u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\n     * @return S \u5024\n   \
-    \  */\n    S get(int k) const { return data[sz + k]; }\n    /**\n     * @brief\
-    \ \u6307\u5B9A\u3055\u308C\u305F\u8981\u7D20\u306E\u5024\u3092\u8FD4\u3059\n \
-    \    * \n     * @param k \u30A4\u30F3\u30C7\u30C3\u30AF\u30B9\n     * @return\
-    \ S \u5024\n     */\n    S operator[] (int k) const { return get(k); }\n    /**\n\
-    \     * @brief \u6307\u5B9A\u3055\u308C\u305F\u8981\u7D20\u3078\u306E\u53C2\u7167\
-    \u3092\u8FD4\u3059\n     * \n     * @param k \n     * @return SegTreeReference\
-    \ \u8981\u7D20\u3078\u306E\u53C2\u7167 \u4EE3\u5165\u3055\u308C\u308B\u3068set()\u304C\
-    \u547C\u3070\u308C\u308B\n     */\n    SegTreeReference operator[] (int k) { return\
-    \ SegTreeReference(*this, k); }\n\n    /**\n     * @brief \u5185\u5BB9\u3092\u51FA\
-    \u529B\u3059\u308B\n     * \n     * @tparam CharT \u51FA\u529B\u30B9\u30C8\u30EA\
-    \u30FC\u30E0\u306E\u6587\u5B57\u578B\n     * @tparam Traits \u51FA\u529B\u30B9\
-    \u30C8\u30EA\u30FC\u30E0\u306E\u6587\u5B57\u578B\u7279\u6027\n     * @param os\
-    \ \u51FA\u529B\u30B9\u30C8\u30EA\u30FC\u30E0\n     * @param rhs \u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728\n     * @return std::basic_ostream<CharT, Traits>& \u51FA\u529B\
-    \u30B9\u30C8\u30EA\u30FC\u30E0 \n     */\n    template <class CharT, class Traits>\n\
-    \    friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT,\
+    - https://atcoder.jp/contests/past202012-open/tasks/past202012_n
+  bundledCode: "#line 1 \"test/atcoder-past202012-n.test.cpp\"\n#define PROBLEM \"\
+    https://atcoder.jp/contests/past202012-open/tasks/past202012_n\"\n\n#line 2 \"\
+    cpp/segtree.hpp\"\n\n/**\n * @file segtree.hpp\n * @brief \u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728\n */\n\n#include <cassert>\n#include <functional>\n#include <limits>\n\
+    #include <ostream>\n#include <vector>\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\
+    \u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u30E2\
+    \u30CE\u30A4\u30C9\u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\
+    \u30B9\n */\ntemplate <typename S, typename ActualSegTree>\nclass SegTreeBase\
+    \ {\n    S op(const S& a, const S& b) const { return static_cast<const ActualSegTree&>(*this).op(a,\
+    \ b); }\n    S e() const { return static_cast<const ActualSegTree&>(*this).e();\
+    \ }\n\n    int n, sz, height;\n    std::vector<S> data;\n    void update(int k)\
+    \ { data[k] = op(data[2 * k], data[2 * k + 1]); }\n\n    class SegTreeReference\
+    \ {\n        SegTreeBase& segtree;\n        int k;\n    public:\n        SegTreeReference(SegTreeBase&\
+    \ segtree, int k) : segtree(segtree), k(k) {}\n        SegTreeReference& operator=(const\
+    \ S& x) {\n            segtree.set(k, x);\n            return *this;\n       \
+    \ }\n        operator S() const { return segtree.get(k); }\n    };\n\nprotected:\n\
+    \    void construct_data() {\n        sz = 1;\n        height = 0;\n        while\
+    \ (sz < n) {\n            sz <<= 1;\n            height++;\n        }\n      \
+    \  data.assign(sz * 2, e());\n    }\n    void initialize(const std::vector<S>&\
+    \ v) {\n        for (int i = 0; i < n; i++) data[sz + i] = v[i];\n        for\
+    \ (int i = sz - 1; i > 0; i--) update(i);\n    }\n\npublic:\n    // Warning: \u7D99\
+    \u627F\u5148\u306E\u30B3\u30F3\u30B9\u30C8\u30E9\u30AF\u30BF\u3067construct_data()\u3092\
+    \u5FC5\u305A\u547C\u3073\u51FA\u3059\uFF01\n    SegTreeBase(int n = 0) : n(n)\
+    \ {}\n\n    /**\n     * @brief \u6307\u5B9A\u3055\u308C\u305F\u8981\u7D20\u306E\
+    \u5024\u3092\u8FD4\u3059\n     * \n     * @param k \u30A4\u30F3\u30C7\u30C3\u30AF\
+    \u30B9\n     * @return S \u5024\n     */\n    S get(int k) const { return data[sz\
+    \ + k]; }\n    /**\n     * @brief \u6307\u5B9A\u3055\u308C\u305F\u8981\u7D20\u306E\
+    \u5024\u3092\u8FD4\u3059\n     * \n     * @param k \u30A4\u30F3\u30C7\u30C3\u30AF\
+    \u30B9\n     * @return S \u5024\n     */\n    S operator[] (int k) const { return\
+    \ get(k); }\n    /**\n     * @brief \u6307\u5B9A\u3055\u308C\u305F\u8981\u7D20\
+    \u3078\u306E\u53C2\u7167\u3092\u8FD4\u3059\n     * \n     * @param k \n     *\
+    \ @return SegTreeReference \u8981\u7D20\u3078\u306E\u53C2\u7167 \u4EE3\u5165\u3055\
+    \u308C\u308B\u3068set()\u304C\u547C\u3070\u308C\u308B\n     */\n    SegTreeReference\
+    \ operator[] (int k) { return SegTreeReference(*this, k); }\n\n    /**\n     *\
+    \ @brief \u5185\u5BB9\u3092\u51FA\u529B\u3059\u308B\n     * \n     * @tparam CharT\
+    \ \u51FA\u529B\u30B9\u30C8\u30EA\u30FC\u30E0\u306E\u6587\u5B57\u578B\n     * @tparam\
+    \ Traits \u51FA\u529B\u30B9\u30C8\u30EA\u30FC\u30E0\u306E\u6587\u5B57\u578B\u7279\
+    \u6027\n     * @param os \u51FA\u529B\u30B9\u30C8\u30EA\u30FC\u30E0\n     * @param\
+    \ rhs \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n     * @return std::basic_ostream<CharT,\
+    \ Traits>& \u51FA\u529B\u30B9\u30C8\u30EA\u30FC\u30E0 \n     */\n    template\
+    \ <class CharT, class Traits>\n    friend std::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT,\
     \ Traits>& os, const SegTreeBase& rhs) {\n        for(int i = 0; i < rhs.n; i++)\
     \ {\n            if(i != 0) os << CharT(' ');\n            os << rhs[i];\n   \
     \     }\n        return os;\n    }\n\n    /**\n     * @brief \u6307\u5B9A\u3055\
@@ -158,28 +158,42 @@ data:
     /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
     /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n#line 6\
-    \ \"test/aoj-dsl-2-b.test.cpp\"\n\nint main(void) {\n    int n, q; std::cin >>\
-    \ n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n        int com, x, y; std::cin\
-    \ >> com >> x >> y;\n        if(com == 0) seg.apply(x-1, y);\n        else std::cout\
-    \ << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\n\n\
-    #include <iostream>\n\n#include \"../cpp/segtree.hpp\"\n\nint main(void) {\n \
-    \   int n, q; std::cin >> n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n\
-    \        int com, x, y; std::cin >> com >> x >> y;\n        if(com == 0) seg.apply(x-1,\
-    \ y);\n        else std::cout << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
+    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n#line 4\
+    \ \"test/atcoder-past202012-n.test.cpp\"\n#include <iostream>\n\nint main() {\n\
+    \    int n, q; std::cin >> n >> q;\n    std::vector<std::pair<int, int>> lr(n-1);\n\
+    \    for(int i = 0; i < n-1; i++) {\n        int l, r; std::cin >> l >> r;\n \
+    \       lr[i] = {l, r};\n    }\n    SegTree seg(lr, [](const std::pair<int, int>&\
+    \ a, const std::pair<int, int>& b) {\n            return std::pair<int, int>(std::max(a.first,\
+    \ b.first), std::min(a.second, b.second));\n            }, std::pair<int,int>(0,\
+    \ 1e9));\n    while(q--) {\n        int a, b; std::cin >> a >> b; b--;\n     \
+    \   int r = seg.max_right(b, [&](const std::pair<int, int>& x) { return x.first\
+    \ <= a && a <= x.second; });\n        int l = seg.min_left(b, [&](const std::pair<int,\
+    \ int>& x) { return x.first <= a && a <= x.second; });\n        std::cout << r\
+    \ - l + 1 << std::endl;\n    }\n}\n"
+  code: "#define PROBLEM \"https://atcoder.jp/contests/past202012-open/tasks/past202012_n\"\
+    \n\n#include \"../cpp/segtree.hpp\"\n#include <iostream>\n\nint main() {\n   \
+    \ int n, q; std::cin >> n >> q;\n    std::vector<std::pair<int, int>> lr(n-1);\n\
+    \    for(int i = 0; i < n-1; i++) {\n        int l, r; std::cin >> l >> r;\n \
+    \       lr[i] = {l, r};\n    }\n    SegTree seg(lr, [](const std::pair<int, int>&\
+    \ a, const std::pair<int, int>& b) {\n            return std::pair<int, int>(std::max(a.first,\
+    \ b.first), std::min(a.second, b.second));\n            }, std::pair<int,int>(0,\
+    \ 1e9));\n    while(q--) {\n        int a, b; std::cin >> a >> b; b--;\n     \
+    \   int r = seg.max_right(b, [&](const std::pair<int, int>& x) { return x.first\
+    \ <= a && a <= x.second; });\n        int l = seg.min_left(b, [&](const std::pair<int,\
+    \ int>& x) { return x.first <= a && a <= x.second; });\n        std::cout << r\
+    \ - l + 1 << std::endl;\n    }\n}\n"
   dependsOn:
   - cpp/segtree.hpp
   isVerificationFile: true
-  path: test/aoj-dsl-2-b.test.cpp
+  path: test/atcoder-past202012-n.test.cpp
   requiredBy: []
   timestamp: '2023-08-01 18:34:30+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj-dsl-2-b.test.cpp
+documentation_of: test/atcoder-past202012-n.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj-dsl-2-b.test.cpp
-- /verify/test/aoj-dsl-2-b.test.cpp.html
-title: test/aoj-dsl-2-b.test.cpp
+- /verify/test/atcoder-past202012-n.test.cpp
+- /verify/test/atcoder-past202012-n.test.cpp.html
+title: test/atcoder-past202012-n.test.cpp
 ---

@@ -137,6 +137,9 @@ data:
       path: test/atcoder-edpc-g.test.cpp
       title: test/atcoder-edpc-g.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/atcoder-past202012-n.test.cpp
+      title: test/atcoder-past202012-n.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
     - icon: ':heavy_check_mark:'
@@ -205,6 +208,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-zalgorithm.test.cpp
       title: test/yosupo-zalgorithm.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yukicoder-2292.test.cpp
+      title: test/yukicoder-2292.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yukicoder-rotate-enlarge_1.test.cpp
       title: test/yukicoder-rotate-enlarge_1.test.cpp

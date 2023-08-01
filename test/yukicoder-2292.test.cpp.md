@@ -11,34 +11,33 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F
+    PROBLEM: https://yukicoder.me/problems/9177
     links:
-    - http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F
-  bundledCode: "#line 1 \"test/aoj-dsl-2-f.test.cpp\"\n#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F\"\
-    \n\n#include <iostream>\n\n#line 2 \"cpp/lazy-segtree.hpp\"\n\n/**\n * @file segtree.hpp\n\
-    \ * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\
-    \n#include <cassert>\n#include <functional>\n#include <limits>\n#include <ostream>\n\
-    #include <vector>\n\n/**\n * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S\
-    \ \u5024\u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam F \u4F5C\u7528\u7D20\u30E2\
-    \u30CE\u30A4\u30C9\u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\
-    \u30B9\n */\ntemplate <typename S, typename F, typename ActualLazySegTree>\nclass\
-    \ LazySegTreeBase {\n    S op(const S& a, const S& b) const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).op(a, b); }\n    S e() const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).e(); }\n    S mapping(const F& f, const S& x, int\
-    \ l, int r) const { return static_cast<const ActualLazySegTree&>(*this).mapping(f,\
-    \ x, l, r); }\n    F composition(const F& f, const F& g) const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).composition(f, g); }\n    F id() const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).id(); }\n\n    int n, sz, height;\n    std::vector<S>\
-    \ data;\n    std::vector<F> lazy;\n\n    void update(int k) { data[k] = op(data[2\
-    \ * k], data[2 * k + 1]); }\n    void apply_node(int k, int h, const F& f) {\n\
-    \        int l = (k << h) & (sz - 1);\n        int r = l + (1 << h);\n       \
-    \ data[k] = mapping(f, data[k], l, r);\n        if(k < sz) lazy[k] = composition(f,\
-    \ lazy[k]);\n    }\n    void push(int k, int h) {\n        apply_node(2 * k, h-1,\
-    \ lazy[k]);\n        apply_node(2 * k + 1, h-1, lazy[k]);\n        lazy[k] = id();\n\
-    \    }\n\n    class LazySegTreeReference {\n        LazySegTreeBase& segtree;\n\
-    \        int k;\n    public:\n        LazySegTreeReference(LazySegTreeBase& segtree,\
-    \ int k) : segtree(segtree), k(k) {}\n        LazySegTreeReference& operator=(const\
+    - https://yukicoder.me/problems/9177
+  bundledCode: "#line 1 \"test/yukicoder-2292.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/9177\"\
+    \n\n#line 2 \"cpp/lazy-segtree.hpp\"\n\n/**\n * @file segtree.hpp\n * @brief \u9045\
+    \u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#include <cassert>\n\
+    #include <functional>\n#include <limits>\n#include <ostream>\n#include <vector>\n\
+    \n/**\n * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306E\
+    CRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u5024\u30E2\u30CE\u30A4\
+    \u30C9\u306E\u578B\n * @tparam F \u4F5C\u7528\u7D20\u30E2\u30CE\u30A4\u30C9\u306E\
+    \u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate\
+    \ <typename S, typename F, typename ActualLazySegTree>\nclass LazySegTreeBase\
+    \ {\n    S op(const S& a, const S& b) const { return static_cast<const ActualLazySegTree&>(*this).op(a,\
+    \ b); }\n    S e() const { return static_cast<const ActualLazySegTree&>(*this).e();\
+    \ }\n    S mapping(const F& f, const S& x, int l, int r) const { return static_cast<const\
+    \ ActualLazySegTree&>(*this).mapping(f, x, l, r); }\n    F composition(const F&\
+    \ f, const F& g) const { return static_cast<const ActualLazySegTree&>(*this).composition(f,\
+    \ g); }\n    F id() const { return static_cast<const ActualLazySegTree&>(*this).id();\
+    \ }\n\n    int n, sz, height;\n    std::vector<S> data;\n    std::vector<F> lazy;\n\
+    \n    void update(int k) { data[k] = op(data[2 * k], data[2 * k + 1]); }\n   \
+    \ void apply_node(int k, int h, const F& f) {\n        int l = (k << h) & (sz\
+    \ - 1);\n        int r = l + (1 << h);\n        data[k] = mapping(f, data[k],\
+    \ l, r);\n        if(k < sz) lazy[k] = composition(f, lazy[k]);\n    }\n    void\
+    \ push(int k, int h) {\n        apply_node(2 * k, h-1, lazy[k]);\n        apply_node(2\
+    \ * k + 1, h-1, lazy[k]);\n        lazy[k] = id();\n    }\n\n    class LazySegTreeReference\
+    \ {\n        LazySegTreeBase& segtree;\n        int k;\n    public:\n        LazySegTreeReference(LazySegTreeBase&\
+    \ segtree, int k) : segtree(segtree), k(k) {}\n        LazySegTreeReference& operator=(const\
     \ S& x) {\n            segtree.set(k, x);\n            return *this;\n       \
     \ }\n        operator S() { return segtree.get(k); }\n    };\n\nprotected:\n \
     \   void construct_data() {\n        sz = 1;\n        height = 0;\n        while\
@@ -274,31 +273,66 @@ data:
     \ S>\nusing RUpdateSumQ = StaticLazySegTree<\n    S,\n    std::plus<S>,\n    lazy_segtree::Zero<S>,\n\
     \    S,\n    lazy_segtree::UpdateWithSize<S, lazy_segtree::MaxLimit<S>{}()>,\n\
     \    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::MaxLimit<S>\n\
-    >;\n#line 6 \"test/aoj-dsl-2-f.test.cpp\"\n\nint main(void) {\n    int n, q; std::cin\
-    \ >> n >> q;\n    RUpdateMinQ<int> seg(n);\n    while(q--) {\n        int op;\
-    \ std::cin >> op;\n        if(op == 0) {\n            int s, t, x; std::cin >>\
-    \ s >> t >> x; t++;\n            seg.apply(s, t, x);\n        } else {\n     \
-    \       int s, t; std::cin >> s >> t; t++;\n            std::cout << seg.prod(s,\
-    \ t) << '\\n';\n        }\n    }\n}\n"
-  code: "#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F\"\
-    \n\n#include <iostream>\n\n#include \"../cpp/lazy-segtree.hpp\"\n\nint main(void)\
-    \ {\n    int n, q; std::cin >> n >> q;\n    RUpdateMinQ<int> seg(n);\n    while(q--)\
-    \ {\n        int op; std::cin >> op;\n        if(op == 0) {\n            int s,\
-    \ t, x; std::cin >> s >> t >> x; t++;\n            seg.apply(s, t, x);\n     \
-    \   } else {\n            int s, t; std::cin >> s >> t; t++;\n            std::cout\
-    \ << seg.prod(s, t) << '\\n';\n        }\n    }\n}"
+    >;\n#line 4 \"test/yukicoder-2292.test.cpp\"\n#include <iostream>\n\nint main()\
+    \ {\n    int n, q; std::cin >> n >> q;\n    std::vector<int> x;\n    std::vector<std::tuple<int,\
+    \ int, int>> qs(q);\n    for(int i = 0; i < q; i++) {\n        int t; std::cin\
+    \ >> t;\n        if(t <= 2) {\n            int l, r; std::cin >> l >> r; l--;\
+    \ r--;\n            x.push_back(l);\n            x.push_back(r);\n           \
+    \ qs[i] = {t, l, r};\n        } else if(t == 3) {\n            int u, v; std::cin\
+    \ >> u >> v; u--; v--;\n            if(u > v) std::swap(u, v);\n            x.push_back(u);\n\
+    \            x.push_back(v);\n            qs[i] = {t, u, v};\n        } else {\n\
+    \            int v; std::cin >> v; v--;\n            x.push_back(v);\n       \
+    \     qs[i] = {t, v, 0};\n        }\n    }\n    std::sort(x.begin(), x.end());\n\
+    \    x.erase(std::unique(x.begin(), x.end()), x.end());\n    int m = x.size();\n\
+    \    RUpdateMinQ<int> seg(std::vector<int>(m, 0));\n    for(auto [t, u, v] : qs)\
+    \ {\n        if(t == 1) {\n            u = std::lower_bound(x.begin(), x.end(),\
+    \ u) - x.begin();\n            v = std::lower_bound(x.begin(), x.end(), v) - x.begin();\n\
+    \            seg.apply(u, v, 1);\n        } else if(t == 2) {\n            u =\
+    \ std::lower_bound(x.begin(), x.end(), u) - x.begin();\n            v = std::lower_bound(x.begin(),\
+    \ x.end(), v) - x.begin();\n            seg.apply(u, v, 0);\n        } else if(t\
+    \ == 3) {\n            u = std::lower_bound(x.begin(), x.end(), u) - x.begin();\n\
+    \            v = std::lower_bound(x.begin(), x.end(), v) - x.begin();\n      \
+    \      std::cout << (u == v ? 1 : seg.prod(u, v)) << \"\\n\";\n        } else\
+    \ {\n            u = std::lower_bound(x.begin(), x.end(), u) - x.begin();\n  \
+    \          int r = seg.max_right(u, [&](int x) { return x > 0; });\n         \
+    \   int l = seg.min_left(u, [&](int x) { return x > 0; });\n            std::cout\
+    \ << x[r] - x[l] + 1 << \"\\n\";\n        }\n    }\n}\n"
+  code: "#define PROBLEM \"https://yukicoder.me/problems/9177\"\n\n#include \"../cpp/lazy-segtree.hpp\"\
+    \n#include <iostream>\n\nint main() {\n    int n, q; std::cin >> n >> q;\n   \
+    \ std::vector<int> x;\n    std::vector<std::tuple<int, int, int>> qs(q);\n   \
+    \ for(int i = 0; i < q; i++) {\n        int t; std::cin >> t;\n        if(t <=\
+    \ 2) {\n            int l, r; std::cin >> l >> r; l--; r--;\n            x.push_back(l);\n\
+    \            x.push_back(r);\n            qs[i] = {t, l, r};\n        } else if(t\
+    \ == 3) {\n            int u, v; std::cin >> u >> v; u--; v--;\n            if(u\
+    \ > v) std::swap(u, v);\n            x.push_back(u);\n            x.push_back(v);\n\
+    \            qs[i] = {t, u, v};\n        } else {\n            int v; std::cin\
+    \ >> v; v--;\n            x.push_back(v);\n            qs[i] = {t, v, 0};\n  \
+    \      }\n    }\n    std::sort(x.begin(), x.end());\n    x.erase(std::unique(x.begin(),\
+    \ x.end()), x.end());\n    int m = x.size();\n    RUpdateMinQ<int> seg(std::vector<int>(m,\
+    \ 0));\n    for(auto [t, u, v] : qs) {\n        if(t == 1) {\n            u =\
+    \ std::lower_bound(x.begin(), x.end(), u) - x.begin();\n            v = std::lower_bound(x.begin(),\
+    \ x.end(), v) - x.begin();\n            seg.apply(u, v, 1);\n        } else if(t\
+    \ == 2) {\n            u = std::lower_bound(x.begin(), x.end(), u) - x.begin();\n\
+    \            v = std::lower_bound(x.begin(), x.end(), v) - x.begin();\n      \
+    \      seg.apply(u, v, 0);\n        } else if(t == 3) {\n            u = std::lower_bound(x.begin(),\
+    \ x.end(), u) - x.begin();\n            v = std::lower_bound(x.begin(), x.end(),\
+    \ v) - x.begin();\n            std::cout << (u == v ? 1 : seg.prod(u, v)) << \"\
+    \\n\";\n        } else {\n            u = std::lower_bound(x.begin(), x.end(),\
+    \ u) - x.begin();\n            int r = seg.max_right(u, [&](int x) { return x\
+    \ > 0; });\n            int l = seg.min_left(u, [&](int x) { return x > 0; });\n\
+    \            std::cout << x[r] - x[l] + 1 << \"\\n\";\n        }\n    }\n}\n"
   dependsOn:
   - cpp/lazy-segtree.hpp
   isVerificationFile: true
-  path: test/aoj-dsl-2-f.test.cpp
+  path: test/yukicoder-2292.test.cpp
   requiredBy: []
   timestamp: '2023-08-01 17:59:54+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj-dsl-2-f.test.cpp
+documentation_of: test/yukicoder-2292.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj-dsl-2-f.test.cpp
-- /verify/test/aoj-dsl-2-f.test.cpp.html
-title: test/aoj-dsl-2-f.test.cpp
+- /verify/test/yukicoder-2292.test.cpp
+- /verify/test/yukicoder-2292.test.cpp.html
+title: test/yukicoder-2292.test.cpp
 ---

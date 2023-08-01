@@ -121,6 +121,25 @@ struct Graph {
         if(weignted) return shortest_path_dijkstra(s, inf);
         return shortest_path_bfs(s, inf);
     }
+    
+    std::vector<int> topological_sort() {
+        std::vector<int> indeg(n), sorted;
+        std::queue<int> q;
+        for (int i = 0; i < n; i++) {
+            for (int dst : g[i]) indeg[dst]++;
+        }
+        for (int i = 0; i < n; i++) {
+            if (!indeg[i]) q.push(i);
+        }
+        while (!q.empty()) {
+            int cur = q.front(); q.pop();
+            for (int dst : g[cur]) {
+                if (!--indeg[dst]) q.push(dst);
+            }
+            sorted.push_back(cur);
+        }
+        return sorted;
+    }
 
 private:
     std::pair<std::vector<Cost>, std::vector<Edge>> shortest_path_bfs(int s, Cost inf) const {
@@ -161,4 +180,6 @@ private:
         }
         return {dist, prev};
     }
+
+
 };

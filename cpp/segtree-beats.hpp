@@ -224,23 +224,27 @@ public:
      * @return int
      */
     template <typename G>
-    int max_right(int l, G g) const {
+    int max_right(int l, G g) {
         assert(g(e()));
         if(l == n) return n;
         l += sz;
         for(int h = height; h > 0; h--) {
             push(l >> h, h);
         }
-        S sum = e();
         int h = 0;
+        while(l % 2 == 0) {
+            l >>= 1;
+            h++;
+        }
+        S sum = e();
         while(g(op(sum, data[l]))) {
-            if(__builtin_clz(l) != __builtin_clz(l+1)) return n;
             sum = op(sum, data[l]);
             l++;
             while(l % 2 == 0) {
                 l >>= 1;
                 h++;
             }
+            if(l == 1) return n;
         }
         while(l < sz) {
             push(l, h);
@@ -264,39 +268,38 @@ public:
      * @return int
      */
     template <typename G>
-    int min_left(int r, G g) const {
-        assert(f(e()));
+    int min_left(int r, G g) {
+        assert(g(e()));
         if (r == 0) return 0;
-        r += sz - 1;
+        r += sz;
         for(int h = height; h > 0; h--) {
             push(r >> h, h);
         }
         int h = 0;
-        while(r % 2 == 1) {
+        while(r % 2 == 0) {
             r >>= 1;
             h++;
         }
         S sum = e();
-        while(g(op(data[r], sum))) {
-            if(__builtin_clz(r) != __builtin_clz(r-1)) return 0;
+        while(g(op(data[r-1], sum))) {
             sum = op(data[r], sum);
             r--;
             while(r % 2 == 0) {
                 r >>= 1;
                 h++;
             }
+            if(r == 1) return 0;
         }
         while(r < sz) {
-            push(r, h);
-            if(!g(op(data[r*2+1], sum))) {
-                r = r*2+1;
-            } else {
-                sum = op(data[r*2+1], sum);
-                r = r*2;
+            push(r - 1, h);
+            if(!g(op(data[r*2-1], sum))) r *= 2;
+            else {
+                sum = op(data[r*2-1], sum);
+                r = r*2 - 1;
             }
             h--;
         }
-        return r - sz + 1;
+        return r - sz;
     }
 };
 

@@ -159,10 +159,10 @@ public:
         while (l % 2 == 0) l >>= 1;
         S sum = e();
         while(f(op(sum, data[l]))) {
-            if (__builtin_clz(l) != __builtin_clz(l+1)) return n;
             sum = op(sum, data[l]);
             l++;
             while (l % 2 == 0) l >>= 1;
+            if (l == 1) return n;
         }
         while (l < sz) {
             if (!f(op(sum, data[l * 2]))) l *= 2;
@@ -186,23 +186,23 @@ public:
     int min_left(int r, F f) const {
         assert(f(e()));
         if (r == 0) return 0;
-        r += sz - 1;
-        while (r % 2 == 1) r >>= 1;
+        r += sz;
+        while (r % 2 == 0) r >>= 1;
         S sum = e();
-        while(f(op(sum, data[r]))) {
-            if (__builtin_clz(r) != __builtin_clz(r-1)) return 0;
-            sum = op(sum, data[r]);
+        while(f(op(data[r-1], sum))) {
+            sum = op(data[r-1], sum);
             r--;
-            while (r % 2 == 1) r >>= 1;
+            while (r % 2 == 0) r >>= 1;
+            if (r == 1) return 0;
         }
         while (r < sz) {
-            if (!f(op(data[r * 2 + 1], sum))) r = r * 2 + 1;
+            if (!f(op(data[r * 2 - 1], sum))) r *= 2;
             else {
-                sum = op(data[r * 2 + 1], sum);
-                r *= 2;
+                sum = op(data[r * 2 - 1], sum);
+                r = r * 2 - 1;
             }
         }
-        return r + 1 - sz;
+        return r - sz;
     }
 };
 
@@ -324,7 +324,7 @@ using RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;
  * 
  * @tparam S 型
  */
-template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
+template <typename S>
 using RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;
 /**
  * @brief RangeSumQuery

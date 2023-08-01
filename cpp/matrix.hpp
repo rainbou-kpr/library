@@ -179,7 +179,7 @@ template<class T> struct Matrix {
      * @return std::vector<std::string>
      */
     [[nodiscard]]
-    constexpr std::vector<std::string> vstr() noexcept {
+    std::vector<std::string> vstr() noexcept {
         std::vector<std::string> ret(n);
         for(int i = 0; i < n; i ++) {
             ret[i].assign(v[i].begin(), v[i].end());
@@ -207,7 +207,7 @@ template<class T> struct Matrix {
      * @return std::string
      */
     [[nodiscard]]
-    constexpr std::string str(int i) noexcept {
+    std::string str(int i) noexcept {
         std::string ret;
         ret.assign(v[i].begin(), v[i].end());
         return ret;

@@ -30,6 +30,9 @@ data:
       path: cpp/rolling-hash.hpp
       title: "\u30ED\u30FC\u30EA\u30F3\u30B0\u30CF\u30C3\u30B7\u30E5"
     - icon: ':heavy_check_mark:'
+      path: cpp/segtree-2d.hpp
+      title: "2\u6B21\u5143\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
+    - icon: ':heavy_check_mark:'
       path: cpp/segtree-beats.hpp
       title: Segment Tree Beats
     - icon: ':heavy_check_mark:'
@@ -160,6 +163,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-line-add-get-min.test.cpp
       title: test/yosupo-line-add-get-min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-point-add-rectangle-sum.test.cpp
+      title: test/yosupo-point-add-rectangle-sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.1.test.cpp
       title: test/yosupo-point-set-range-composite.1.test.cpp

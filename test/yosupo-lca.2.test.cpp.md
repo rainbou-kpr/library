@@ -426,18 +426,17 @@ data:
     /**\n * @brief RangeMaxQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;\n\
     /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nusing RMinQ = StaticSegTree<S,\
-    \ segtree::Min<S>, segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n\
-    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S,\
-    \ std::plus<S>, segtree::Zero<S>>;\n#line 7 \"test/yosupo-lca.2.test.cpp\"\n\n\
-    int main(void) {\n    std::cin.tie(nullptr);\n    std::ios::sync_with_stdio(0);\n\
-    \    int n, q; std::cin >> n >> q;\n    std::vector<int> par(n-1);\n    for(int\
-    \ i = 0; i < n-1; i++) std::cin >> par[i];\n    RootedTree tree(par, 0);\n   \
-    \ RMinQ<long long> et_depth(tree.euler_tour.size());\n    std::vector<int> pre_idx(n);\n\
-    \    for(int i = 0; i < (int)tree.euler_tour.size(); i++) {\n        auto [u,\
-    \ cnt] = tree.euler_tour[i];\n        et_depth[i] = (long long)tree.depth[u] *\
-    \ n + u;\n        if(cnt == 0) pre_idx[u] = i;\n    }\n    while(q--) {\n    \
-    \    int u, v; std::cin >> u >> v;\n        if(pre_idx[u] > pre_idx[v]) std::swap(u,\
+    \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
+    /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n#line 7\
+    \ \"test/yosupo-lca.2.test.cpp\"\n\nint main(void) {\n    std::cin.tie(nullptr);\n\
+    \    std::ios::sync_with_stdio(0);\n    int n, q; std::cin >> n >> q;\n    std::vector<int>\
+    \ par(n-1);\n    for(int i = 0; i < n-1; i++) std::cin >> par[i];\n    RootedTree\
+    \ tree(par, 0);\n    RMinQ<long long> et_depth(tree.euler_tour.size());\n    std::vector<int>\
+    \ pre_idx(n);\n    for(int i = 0; i < (int)tree.euler_tour.size(); i++) {\n  \
+    \      auto [u, cnt] = tree.euler_tour[i];\n        et_depth[i] = (long long)tree.depth[u]\
+    \ * n + u;\n        if(cnt == 0) pre_idx[u] = i;\n    }\n    while(q--) {\n  \
+    \      int u, v; std::cin >> u >> v;\n        if(pre_idx[u] > pre_idx[v]) std::swap(u,\
     \ v);\n        std::cout << et_depth.prod(pre_idx[u], pre_idx[v]+1) % n << '\\\
     n';\n    }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/lca\"\n\n#include <iostream>\n\
@@ -459,7 +458,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-lca.2.test.cpp
   requiredBy: []
-  timestamp: '2023-06-16 15:41:49+09:00'
+  timestamp: '2023-06-25 14:14:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-lca.2.test.cpp

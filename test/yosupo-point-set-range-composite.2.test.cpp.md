@@ -384,15 +384,15 @@ data:
     /**\n * @brief RangeMaxQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;\n\
     /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nusing RMinQ = StaticSegTree<S,\
-    \ segtree::Min<S>, segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n\
-    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S,\
-    \ std::plus<S>, segtree::Zero<S>>;\n#line 7 \"test/yosupo-point-set-range-composite.2.test.cpp\"\
-    \n\nint main(void) {\n    int n, q; std::cin >> n >> q;\n    using S = std::pair<modint998244353,\
-    \ modint998244353>;\n    std::vector<S> v(n);\n    for(int i = 0; i < n; i++)\
-    \ std::cin >> v[i].first >> v[i].second;\n    SegTree seg(v, [](const S& l, const\
-    \ S& r) {\n            return std::make_pair(r.first * l.first, r.first * l.second\
-    \ + r.second);\n        },\n        std::make_pair(modint998244353(1), modint998244353(0))\n\
+    \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
+    /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n#line 7\
+    \ \"test/yosupo-point-set-range-composite.2.test.cpp\"\n\nint main(void) {\n \
+    \   int n, q; std::cin >> n >> q;\n    using S = std::pair<modint998244353, modint998244353>;\n\
+    \    std::vector<S> v(n);\n    for(int i = 0; i < n; i++) std::cin >> v[i].first\
+    \ >> v[i].second;\n    SegTree seg(v, [](const S& l, const S& r) {\n         \
+    \   return std::make_pair(r.first * l.first, r.first * l.second + r.second);\n\
+    \        },\n        std::make_pair(modint998244353(1), modint998244353(0))\n\
     \    );\n    while(q--) {\n        int op; std::cin >> op;\n        if(op == 0)\
     \ {\n            int p; modint998244353 c, d; std::cin >> p >> c >> d;\n     \
     \       seg.set(p, std::make_pair(c, d));\n        } else {\n            int l,\
@@ -418,7 +418,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-point-set-range-composite.2.test.cpp
   requiredBy: []
-  timestamp: '2023-05-24 09:10:09+09:00'
+  timestamp: '2023-06-25 14:14:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-point-set-range-composite.2.test.cpp

@@ -166,10 +166,9 @@ data:
     /**\n * @brief RangeMaxQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;\n\
     /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nusing RMinQ = StaticSegTree<S,\
-    \ segtree::Min<S>, segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n\
-    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S,\
-    \ std::plus<S>, segtree::Zero<S>>;\n"
+    \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
+    /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n"
   code: "#pragma once\n\n/**\n * @file segtree.hpp\n * @brief \u30BB\u30B0\u30E1\u30F3\
     \u30C8\u6728\n */\n\n#include <cassert>\n#include <functional>\n#include <limits>\n\
     #include <ostream>\n#include <vector>\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\
@@ -311,21 +310,20 @@ data:
     /**\n * @brief RangeMaxQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;\n\
     /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nusing RMinQ = StaticSegTree<S,\
-    \ segtree::Min<S>, segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n\
-    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S,\
-    \ std::plus<S>, segtree::Zero<S>>;\n"
+    \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
+    /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n"
   dependsOn: []
   isVerificationFile: false
   path: cpp/segtree.hpp
   requiredBy: []
-  timestamp: '2023-05-24 09:10:09+09:00'
+  timestamp: '2023-06-25 14:14:02+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj-dsl-2-b.test.cpp
+  - test/yosupo-point-set-range-composite.1.test.cpp
   - test/aoj-dsl-2-a.test.cpp
   - test/yosupo-point-set-range-composite.2.test.cpp
-  - test/yosupo-point-set-range-composite.1.test.cpp
   - test/yosupo-lca.2.test.cpp
 documentation_of: cpp/segtree.hpp
 layout: document

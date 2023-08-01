@@ -157,14 +157,13 @@ data:
     /**\n * @brief RangeMaxQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;\n\
     /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nusing RMinQ = StaticSegTree<S,\
-    \ segtree::Min<S>, segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n\
-    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S,\
-    \ std::plus<S>, segtree::Zero<S>>;\n#line 6 \"test/aoj-dsl-2-b.test.cpp\"\n\n\
-    int main(void) {\n    int n, q; std::cin >> n >> q;\n    RSumQ<int> seg(n);\n\
-    \    while(q--) {\n        int com, x, y; std::cin >> com >> x >> y;\n       \
-    \ if(com == 0) seg.apply(x-1, y);\n        else std::cout << seg.prod(x-1, y)\
-    \ << '\\n';\n    }\n}\n"
+    \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
+    /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n#line 6\
+    \ \"test/aoj-dsl-2-b.test.cpp\"\n\nint main(void) {\n    int n, q; std::cin >>\
+    \ n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n        int com, x, y; std::cin\
+    \ >> com >> x >> y;\n        if(com == 0) seg.apply(x-1, y);\n        else std::cout\
+    \ << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\n\n\
     #include <iostream>\n\n#include \"../cpp/segtree.hpp\"\n\nint main(void) {\n \
     \   int n, q; std::cin >> n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n\
@@ -175,7 +174,7 @@ data:
   isVerificationFile: true
   path: test/aoj-dsl-2-b.test.cpp
   requiredBy: []
-  timestamp: '2023-05-24 09:10:09+09:00'
+  timestamp: '2023-06-25 14:14:02+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj-dsl-2-b.test.cpp

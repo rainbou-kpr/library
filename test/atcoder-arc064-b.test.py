@@ -17,8 +17,12 @@ def query(s):
     return t % 2 == 1
 
 
-def __main__():
+def main():
     if query(input()):
         print('First')
     else:
         print('Second')
+
+
+if __name__ == "__main__":
+    main()

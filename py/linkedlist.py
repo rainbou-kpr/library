@@ -54,7 +54,7 @@ class LinkedList:
         if self.back is None:
             self.back = itr
         else:
-            self.front.next = itr
+            self.front.prev = itr
         self.front = itr
 
     def pop(self):
@@ -100,3 +100,12 @@ class LinkedList:
             i = i.prev
             i.next = j
             j.prev = i
+
+    def index(self, v):
+        itr = self.front
+        while itr is not None:
+            if itr.value == v:
+                return itr
+            else:
+                itr += 1
+        return None

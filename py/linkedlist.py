@@ -40,8 +40,7 @@ class LinkedList:
             return rt
 
     def values(self):
-        for itr in self:
-            yield itr.value
+        return [itr.value for itr in self]
 
     def append(self, v) -> None:
         itr = self.LinkedListIterator(v)

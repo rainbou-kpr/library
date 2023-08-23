@@ -16,7 +16,7 @@ def main():
             l.popleft()
         else:
             l.pop()
-    print(*list(l))
+    print(*l.values())
 
 
 if __name__ == "__main__":

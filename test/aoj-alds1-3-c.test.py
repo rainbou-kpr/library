@@ -9,7 +9,7 @@ def main():
         if q[0] == 'insert':
             l.appendleft(int(q[1]))
         elif q[0] == 'delete':
-            i = l.index(int(q[1]))
+            i = l.find(int(q[1]))
             if i is not None:
                 l.erase(i)
         elif q[0] == 'deleteFirst':

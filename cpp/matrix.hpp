@@ -10,12 +10,12 @@
 namespace matrix {
     template <typename T>
     struct OperatorPropertyDefault {
-        static T zero() { return T(0); }
-        inline static T add(const T &a, const T &b) { return a + b; }
-        inline static T neg(const T &a) { return -a; }
-        static T one() { return T(1); }
-        inline static T mul(const T &a, const T &b) { return a * b; }
-        inline static T inv(const T &a) { return T(1) / a; }
+        constexpr static T zero = T(0);
+        inline constexpr static T add(const T &a, const T &b) { return a + b; }
+        inline constexpr static T neg(const T &a) { return -a; }
+        constexpr static T one = T(1);
+        inline constexpr static T mul(const T &a, const T &b) { return a * b; }
+        inline constexpr static T inv(const T &a) { return T(1) / a; }
     };
 }
 
@@ -25,14 +25,17 @@ namespace matrix {
  * @tparam OperatorProperty 行列の要素の演算を定義する構造体 0,1と+,*なら省略可
  *
  * @note
- * RingPropertyの例（トロピカル半環）
+ * OperatorPropertyの例（整数のxorとandによる環）
  * @code
- * struct OperatorProperty {
- *    static int zero() { return INF; }
- *    static int one() { return 0; }
- *    inline static int add(const int &a, const int &b) { return std::min(a, b); }
- *    inline static int mul(const int &a, const int &b) { return a + b; }
+ * struct XorOperatorProperty {
+ *     constexpr static int zero = 0;
+ *     inline constexpr static int add(const int &a, const int &b) { return a ^ b; }
+ *     inline constexpr static int neg(const int &a) { return a; }
+ *     constexpr static int one = 0;
+ *     inline constexpr static int mul(const int &a, const int &b) { return a & b; }
  * };
+ * @endcode
+ * constexprである必要はなく、またinvなど使わないものは定義しなくてもよい（必要なものがなかったらコンパイルエラーが発生する）
  */
 template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> struct Matrix {
     int n, m;

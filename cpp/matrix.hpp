@@ -5,12 +5,36 @@
 #include <algorithm>
 #include <valarray>
 #include <cassert>
+#include <type_traits>
+
+namespace matrix {
+    template <typename T>
+    struct OperatorPropertyDefault {
+        static T zero() { return T(0); }
+        inline static T add(const T &a, const T &b) { return a + b; }
+        inline static T neg(const T &a) { return -a; }
+        static T one() { return T(1); }
+        inline static T mul(const T &a, const T &b) { return a * b; }
+        inline static T inv(const T &a) { return T(1) / a; }
+    };
+}
 
 /**
  * @brief 行列
  * @tparam T 型 行列(グリッド)の要素となるintやchar
+ * @tparam OperatorProperty 行列の要素の演算を定義する構造体 0,1と+,*なら省略可
+ *
+ * @note
+ * RingPropertyの例（トロピカル半環）
+ * @code
+ * struct OperatorProperty {
+ *    static int zero() { return INF; }
+ *    static int one() { return 0; }
+ *    inline static int add(const int &a, const int &b) { return std::min(a, b); }
+ *    inline static int mul(const int &a, const int &b) { return a + b; }
+ * };
  */
-template<class T> struct Matrix {
+template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> struct Matrix {
     int n, m;
     std::vector<std::vector<T>> v;
 
@@ -34,7 +58,7 @@ template<class T> struct Matrix {
      * @param _val 行列(グリッド)の要素の初期値
      * @return Matrix
      */
-    constexpr Matrix(int _n, int _m, T _val = T()) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}
+    constexpr Matrix(int _n, int _m, T _val = OperatorProperty::zero) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}
     
     constexpr auto begin() noexcept {return v.begin();}
     constexpr auto end() noexcept {return v.end();}
@@ -221,7 +245,8 @@ template<class T> struct Matrix {
         if(n == 0) return (*this);
         assert(n == B.size() && m == B[0].size());
         for(int i = 0; i < n; i++)
-            for(int j = 0; j < m; j++) (*this)[i][j] += B[i][j];
+            for(int j = 0; j < m; j++)
+                (*this)[i][j] = OperatorProperty::add((*this)[i][j], B[i][j]);
         return (*this);
     }
     /**
@@ -233,7 +258,8 @@ template<class T> struct Matrix {
         if(n == 0) return (*this);
         assert(n == B.size() && m == B[0].size());
         for(int i = 0; i < n; i++)
-            for(int j = 0; j < m; j++) (*this)[i][j] -= B[i][j];
+            for(int j = 0; j < m; j++) 
+                (*this)[i][j] = OperatorProperty::add((*this)[i][j], OperatorProperty::neg(B[i][j]));
         return (*this);
     }
 
@@ -248,7 +274,7 @@ template<class T> struct Matrix {
         for(int i = 0; i < n; i ++) {
             for(int k = 0; k < p; k ++) {
                 for(int j = 0; j < m; j ++) {
-                    C[i][j] += (*this)[i][k] * B[k][j];
+                    C[i][j] = OperatorProperty::add(C[i][j], OperatorProperty::mul((*this)[i][k], B[k][j]));
                 }
             }
         }
@@ -265,7 +291,7 @@ template<class T> struct Matrix {
     [[nodiscard]]
     constexpr Matrix pow(long long k) {
         Matrix<T> A = *this, B(n, n);
-        for(int i = 0; i < n; i ++) B[i][i] = 1;
+        for(int i = 0; i < n; i ++) B[i][i] = OperatorProperty::one;
         while(k > 0) {
             if(k & 1) B *= A;
             A *= A;
@@ -292,7 +318,7 @@ template<class T> struct Matrix {
         std::vector<T> ret(A.n, 0);
         for(int i = 0; i < A.n; i ++) {
             for(int j = 0; j < A.m; j ++) {
-                ret[i] += A[i][j] * B[j];
+                ret[i] = OperatorProperty::add(ret[i], OperatorProperty::mul(A[i][j], B[j]));
             }
         }
         return ret;
@@ -309,7 +335,7 @@ template<class T> struct Matrix {
         std::vector<T> ret(B.m, 0);
         for(int i = 0; i < B.n; i ++) {
             for(int j = 0; j < B.m; j ++) {
-                ret[j] += A[i] * B[i][j];
+                ret[j] = OperatorProperty::add(ret[j], OperatorProperty::mul(A[i], B[i][j]));
             }
         }
         return ret;
@@ -317,27 +343,40 @@ template<class T> struct Matrix {
 
     /**
      * @brief 行列式
-     * @tparam T modint
-     * @return T modint
+     * @return 行列式
+     *
+     * @note
+     * OperatorPropertyがデフォルトである場合のみ有効
     */
     [[nodiscard]]
+    template <std::enable_if_t<std::is_same_v<OperatorProperty, matrix::OperatorPropertyDefault<T>>, bool> = true>
     T det() {
         assert(n == m);
-        if(n == 0) return 1;
-        T ans = 1;
+        if(n == 0) return T(1);
+        T ans = T(1);
         std::vector A(n, std::valarray(T(0), n));
         for(int i = 0; i < n; i ++) for(int j = 0; j < n; j ++) A[i][j] = this->v[i][j];
         for(int i = 0; i < n; i ++) {
-            if(A[i][i].value() == 0) {
-                for(int j = i + 1; j < n; j ++) if(A[j][i].value()) {
-                    std::swap(A[i], A[j]);
+            if constexpr(std::is_floating_point_v<T>) {
+                int pivot = i;
+                for(int j = i + 1; j < n; j ++) if(std::abs(A[j][i]) > std::abs(A[pivot][i])) pivot = j;
+                if(pivot != i) {
+                    std::swap(A[i], A[pivot]);
                     ans *= -1;
-                    break;
                 }
-                if(A[i][i].value() == 0) return 0;
+                if(std::abs(A[i][i]) < 1e-9) return 0;
+            } else {
+                if(A[i][i] == T(0)) {
+                    for(int j = i + 1; j < n; j ++) if(A[j][i] != T(0)) {
+                        std::swap(A[i], A[j]);
+                        ans *= -T(1);
+                        break;
+                    }
+                    if(A[i][i] == T(0)) return 0;
+                }
             }
             ans *= A[i][i];
-            A[i] *= A[i][i].inv();
+            A[i] /= A[i][i];
             for(int j = i + 1; j < n; j ++) A[j] -= A[i] * A[j][i];
         }
         return ans;

@@ -44,7 +44,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     template <typename Iterable>
-    constexpr Matrix(const std::vector<Iterable>& v_) noexcept : n(v_.size()), m(v_.size() == 0 ? 0 : v_[0].size()) {
+    Matrix(const std::vector<Iterable>& v_) noexcept : n(v_.size()), m(v_.size() == 0 ? 0 : v_[0].size()) {
         v.resize(n);
         for(int i = 0; i < n; i++) {
             v[i].assign(v_[i].begin(), v_[i].end());
@@ -58,27 +58,27 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @param _val 行列(グリッド)の要素の初期値
      * @return Matrix
      */
-    constexpr Matrix(int _n, int _m, T _val = OperatorProperty::zero) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}
+    Matrix(int _n, int _m, T _val = OperatorProperty::zero) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}
     
-    constexpr auto begin() noexcept {return v.begin();}
-    constexpr auto end() noexcept {return v.end();}
+    auto begin() noexcept {return v.begin();}
+    auto end() noexcept {return v.end();}
 
     /**
      * @brief 行列(グリッド)の行数
      * @return size_t
      */
     [[nodiscard]]
-    constexpr size_t size() const {return v.size();}
+    size_t size() const {return v.size();}
 
     std::vector<T>& operator [] (int i) {return v[i];}
     const std::vector<T>& operator [] (int i) const {return v[i];}
-    constexpr Matrix<T>& operator = (const std::vector<std::vector<T>> &A) noexcept {
+    Matrix<T>& operator = (const std::vector<std::vector<T>> &A) noexcept {
         n = A.size();
         m = (n == 0 ? 0 : A[0].size());
         v = A;
         return *this;
     }
-    constexpr bool operator == (const Matrix<T> &A) noexcept {
+    bool operator == (const Matrix<T> &A) noexcept {
         return this->v == A.v;
     }
 
@@ -87,7 +87,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix transpose() noexcept {
+    Matrix transpose() noexcept {
         if(n == 0) return Matrix(v);
         std::vector<std::vector<T>> ret(m);
         for(int i = 0; i < m; i ++) {
@@ -102,7 +102,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix rev_lr() noexcept {
+    Matrix rev_lr() noexcept {
         std::vector<std::vector<T>> ret = v;
         for(int i = 0; i < n; i ++) std::reverse(ret[i].begin(), ret[i].end());
         return Matrix(ret);
@@ -113,7 +113,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix rev_ud() noexcept {
+    Matrix rev_ud() noexcept {
         std::vector<std::vector<T>> ret = v;
         reverse(ret.begin(), ret.end());
         return Matrix(ret);
@@ -125,7 +125,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix rotate(int k) noexcept {
+    Matrix rotate(int k) noexcept {
         k %= 4;
         if(k == 0) return *this;
         if(k < 0) k += 4;
@@ -150,7 +150,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix shift(int dy, int dx) noexcept {
+    Matrix shift(int dy, int dx) noexcept {
         std::vector<std::vector<T>> ret = v;
         for(int i = 0, ni = dy; i < n; i ++, ni ++) {
             if(ni >= n) ni = 0;
@@ -167,7 +167,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix shift_l(int k) noexcept {
+    Matrix shift_l(int k) noexcept {
         return this->shift(0, -k);
     }
 
@@ -176,7 +176,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix shift_r(int k) noexcept {
+    Matrix shift_r(int k) noexcept {
         return this->shift(0, k);
     }
 
@@ -185,7 +185,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix shift_u(int k) noexcept {
+    Matrix shift_u(int k) noexcept {
         return this->shift(-k, 0);
     }
 
@@ -194,7 +194,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
      */
     [[nodiscard]]
-    constexpr Matrix shift_d(int k) noexcept {
+    Matrix shift_d(int k) noexcept {
         return this->shift(k, 0);
     }
 
@@ -217,7 +217,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return std::vector<T>
      */
     [[nodiscard]]
-    constexpr std::vector<T> col(int j) noexcept {
+    std::vector<T> col(int j) noexcept {
         std::vector<T> ret(n);
         for(int i = 0; i < n; i ++) {
             ret[i] = v[i][j];
@@ -241,7 +241,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @param B 足す行列
      * @return @c *this
     */
-    constexpr Matrix &operator+=(const Matrix &B) {
+    Matrix &operator+=(const Matrix &B) {
         if(n == 0) return (*this);
         assert(n == B.size() && m == B[0].size());
         for(int i = 0; i < n; i++)
@@ -254,7 +254,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @param B 引く行列
      * @return @c *this
     */
-    constexpr Matrix &operator-=(const Matrix &B) {
+    Matrix &operator-=(const Matrix &B) {
         if(n == 0) return (*this);
         assert(n == B.size() && m == B[0].size());
         for(int i = 0; i < n; i++)
@@ -268,7 +268,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @param B 掛ける行列
      * @return @c *this
     */
-    constexpr Matrix &operator*=(const Matrix &B) {
+    Matrix &operator*=(const Matrix &B) {
         int p = B[0].size();
         Matrix<T> C(n, p);
         for(int i = 0; i < n; i ++) {
@@ -289,7 +289,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return Matrix
     */
     [[nodiscard]]
-    constexpr Matrix pow(long long k) {
+    Matrix pow(long long k) {
         Matrix<T> A = *this, B(n, n);
         for(int i = 0; i < n; i ++) B[i][i] = OperatorProperty::one;
         while(k > 0) {
@@ -301,11 +301,11 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
     }
 
     [[nodiscard]]
-    constexpr Matrix operator+(const Matrix &B) const { return (Matrix(*this) += B); }
+    Matrix operator+(const Matrix &B) const { return (Matrix(*this) += B); }
     [[nodiscard]]
-    constexpr Matrix operator-(const Matrix &B) const { return (Matrix(*this) -= B); }
+    Matrix operator-(const Matrix &B) const { return (Matrix(*this) -= B); }
     [[nodiscard]]
-    constexpr Matrix operator*(const Matrix &B) const { return (Matrix(*this) *= B); }
+    Matrix operator*(const Matrix &B) const { return (Matrix(*this) *= B); }
 
     /**
      * @brief 行列Aと列ベクトルBの積
@@ -314,7 +314,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return vector<T> 列ベクトル
     */
     [[nodiscard]]
-    constexpr friend std::vector<T> operator*(const Matrix &A, const std::vector<T> &B) {
+    friend std::vector<T> operator*(const Matrix &A, const std::vector<T> &B) {
         std::vector<T> ret(A.n, 0);
         for(int i = 0; i < A.n; i ++) {
             for(int j = 0; j < A.m; j ++) {
@@ -331,7 +331,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @return vector<T> 行ベクトル
     */
     [[nodiscard]]
-    constexpr friend std::vector<T> operator*(const std::vector<T> &A, const Matrix &B) {
+    friend std::vector<T> operator*(const std::vector<T> &A, const Matrix &B) {
         std::vector<T> ret(B.m, 0);
         for(int i = 0; i < B.n; i ++) {
             for(int j = 0; j < B.m; j ++) {
@@ -348,8 +348,8 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
      * @note
      * OperatorPropertyがデフォルトである場合のみ有効
     */
-    [[nodiscard]]
     template <std::enable_if_t<std::is_same_v<OperatorProperty, matrix::OperatorPropertyDefault<T>>, bool> = true>
+    [[nodiscard]]
     T det() {
         assert(n == m);
         if(n == 0) return T(1);

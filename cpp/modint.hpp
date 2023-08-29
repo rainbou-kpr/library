@@ -331,7 +331,17 @@ public:
         return Mod;
     }
 
-    using base_type::modint_base;
+    using typename base_type::modint_base;
+
+    /// @brief 0 で初期化します。
+    constexpr static_modint() noexcept
+        : modint_base{} {}
+
+    /// @brief @c value の剰余で初期化します。
+    /// @param value 初期化に使う値
+    template <class SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral>>* = nullptr>
+    constexpr static_modint(SignedIntegral value) noexcept
+        : modint_base{value} {}
 
     /// @brief 自身の逆数を返します。
     /// @remark 時間計算量： @f$O(\log value)@f$
@@ -372,7 +382,17 @@ public:
         modulus = m;
     }
 
-    using base_type::modint_base;
+    using typename base_type::modint_base;
+
+    /// @brief 0 で初期化します。
+    constexpr dynamic_modint() noexcept
+        : modint_base{} {}
+
+    /// @brief @c value の剰余で初期化します。
+    /// @param value 初期化に使う値
+    template <class SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral>>* = nullptr>
+    constexpr dynamic_modint(SignedIntegral value) noexcept
+        : modint_base{value} {}
 
 private:
     inline static value_type modulus = 998244353;

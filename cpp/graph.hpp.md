@@ -234,10 +234,10 @@ data:
   verifiedWith:
   - test/aoj-grl-5-b.test.cpp
   - test/yosupo-lca.1.test.cpp
-  - test/atcoder-edpc-g.test.cpp
   - test/yosupo-shortest-path.test.cpp
-  - test/aoj-grl-5-a.test.cpp
   - test/yosupo-lca.2.test.cpp
+  - test/aoj-grl-5-a.test.cpp
+  - test/atcoder-edpc-g.test.cpp
 documentation_of: cpp/graph.hpp
 layout: document
 redirect_from:

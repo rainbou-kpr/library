@@ -464,8 +464,8 @@ data:
   verifiedWith:
   - test/aoj-grl-5-b.test.cpp
   - test/yosupo-lca.1.test.cpp
-  - test/aoj-grl-5-a.test.cpp
   - test/yosupo-lca.2.test.cpp
+  - test/aoj-grl-5-a.test.cpp
 documentation_of: cpp/tree.hpp
 layout: document
 redirect_from:

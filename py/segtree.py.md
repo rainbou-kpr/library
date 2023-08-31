@@ -135,9 +135,9 @@ data:
   timestamp: '1970-01-01 00:00:00+00:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo-point-set-range-composite.test.py
   - test/aoj-dsl-2-b.test.py
   - test/aoj-dsl-2-a.test.py
-  - test/yosupo-point-set-range-composite.test.py
 documentation_of: py/segtree.py
 layout: document
 redirect_from:

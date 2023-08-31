@@ -222,29 +222,40 @@ data:
     \    using base_type = modint_base<static_modint<Mod>>;\n\npublic:\n    using\
     \ typename base_type::value_type;\n\n    /// @brief \u6CD5\u3092\u53D6\u5F97\u3057\
     \u307E\u3059\u3002\n    /// @return \u6CD5\n    [[nodiscard]]\n    static constexpr\
-    \ value_type mod() noexcept {\n        return Mod;\n    }\n\n    using base_type::modint_base;\n\
-    \n    /// @brief \u81EA\u8EAB\u306E\u9006\u6570\u3092\u8FD4\u3057\u307E\u3059\u3002\
-    \n    /// @remark \u6642\u9593\u8A08\u7B97\u91CF\uFF1A @f$O(\\log value)@f$\n\
-    \    /// @return \u81EA\u8EAB\u306E\u9006\u6570\n    [[nodiscard]]\n    constexpr\
-    \ static_modint inv() const noexcept {\n        if constexpr (detail::is_prime32(Mod))\
-    \ {\n            assert(this->m_value != 0 && \"The inverse element of zero does\
-    \ not exist.\");\n            return this->pow(Mod - 2);\n        }\n        else\
-    \ {\n            return base_type::inv();\n        }\n    }\n};\n\n/// @brief\
-    \ \u5B9F\u884C\u6642\u306B\u6CD5\u304C\u6C7A\u307E\u308B\u3068\u304D\u3001\u56DB\
-    \u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod \u3092\u53D6\u308B\
-    \u30AF\u30E9\u30B9\n/// @tparam ID \u3053\u306EID\u3054\u3068\u306B\u6CD5\u3092\
-    \u8A2D\u5B9A\u3059\u308B\u3053\u3068\u304C\u3067\u304D\u307E\u3059\ntemplate <int\
-    \ ID>\nclass dynamic_modint : public modint_base<dynamic_modint<ID>> {\nprivate:\n\
-    \    using base_type = modint_base<dynamic_modint<ID>>;\n\npublic:\n    using\
-    \ typename base_type::value_type;\n\n    /// @brief \u6CD5\u3092\u53D6\u5F97\u3057\
-    \u307E\u3059\u3002\n    /// @return \u6CD5\n    [[nodiscard]]\n    static value_type\
-    \ mod() noexcept {\n        return modulus;\n    }\n\n    /// @brief \u6CD5\u3092\
-    \u8A2D\u5B9A\u3057\u307E\u3059\u3002\n    /// @param m \u65B0\u3057\u3044\u6CD5\
-    \n    static void set_mod(value_type m) noexcept {\n        assert(m > 0 && m\
-    \ <= std::numeric_limits<value_type>::max() / 2);\n        modulus = m;\n    }\n\
-    \n    using base_type::modint_base;\n\nprivate:\n    inline static value_type\
-    \ modulus = 998244353;\n};\n\nusing modint998244353 = static_modint<998244353>;\n\
-    using modint1000000007 = static_modint<1000000007>;\nusing modint = dynamic_modint<-1>;\n\
+    \ value_type mod() noexcept {\n        return Mod;\n    }\n\n    /// @brief 0\
+    \ \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    constexpr static_modint()\
+    \ noexcept\n        : base_type{} {}\n\n    /// @brief @c value \u306E\u5270\u4F59\
+    \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    /// @param value \u521D\u671F\
+    \u5316\u306B\u4F7F\u3046\u5024\n    template <class SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral>>*\
+    \ = nullptr>\n    constexpr static_modint(SignedIntegral value) noexcept\n   \
+    \     : base_type{value} {}\n\n    /// @brief \u81EA\u8EAB\u306E\u9006\u6570\u3092\
+    \u8FD4\u3057\u307E\u3059\u3002\n    /// @remark \u6642\u9593\u8A08\u7B97\u91CF\
+    \uFF1A @f$O(\\log value)@f$\n    /// @return \u81EA\u8EAB\u306E\u9006\u6570\n\
+    \    [[nodiscard]]\n    constexpr static_modint inv() const noexcept {\n     \
+    \   if constexpr (detail::is_prime32(Mod)) {\n            assert(this->m_value\
+    \ != 0 && \"The inverse element of zero does not exist.\");\n            return\
+    \ this->pow(Mod - 2);\n        }\n        else {\n            return base_type::inv();\n\
+    \        }\n    }\n};\n\n/// @brief \u5B9F\u884C\u6642\u306B\u6CD5\u304C\u6C7A\
+    \u307E\u308B\u3068\u304D\u3001\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\
+    \u81EA\u52D5\u3067 mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n/// @tparam ID \u3053\
+    \u306EID\u3054\u3068\u306B\u6CD5\u3092\u8A2D\u5B9A\u3059\u308B\u3053\u3068\u304C\
+    \u3067\u304D\u307E\u3059\ntemplate <int ID>\nclass dynamic_modint : public modint_base<dynamic_modint<ID>>\
+    \ {\nprivate:\n    using base_type = modint_base<dynamic_modint<ID>>;\n\npublic:\n\
+    \    using typename base_type::value_type;\n\n    /// @brief \u6CD5\u3092\u53D6\
+    \u5F97\u3057\u307E\u3059\u3002\n    /// @return \u6CD5\n    [[nodiscard]]\n  \
+    \  static value_type mod() noexcept {\n        return modulus;\n    }\n\n    ///\
+    \ @brief \u6CD5\u3092\u8A2D\u5B9A\u3057\u307E\u3059\u3002\n    /// @param m \u65B0\
+    \u3057\u3044\u6CD5\n    static void set_mod(value_type m) noexcept {\n       \
+    \ assert(m > 0 && m <= std::numeric_limits<value_type>::max() / 2);\n        modulus\
+    \ = m;\n    }\n\n    /// @brief 0 \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\
+    \n    constexpr dynamic_modint() noexcept\n        : base_type{} {}\n\n    ///\
+    \ @brief @c value \u306E\u5270\u4F59\u3067\u521D\u671F\u5316\u3057\u307E\u3059\
+    \u3002\n    /// @param value \u521D\u671F\u5316\u306B\u4F7F\u3046\u5024\n    template\
+    \ <class SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral>>*\
+    \ = nullptr>\n    constexpr dynamic_modint(SignedIntegral value) noexcept\n  \
+    \      : base_type{value} {}\n\nprivate:\n    inline static value_type modulus\
+    \ = 998244353;\n};\n\nusing modint998244353 = static_modint<998244353>;\nusing\
+    \ modint1000000007 = static_modint<1000000007>;\nusing modint = dynamic_modint<-1>;\n\
     #line 2 \"cpp/matrix.hpp\"\n\n#include <vector>\n#include <string>\n#include <algorithm>\n\
     #include <valarray>\n#line 9 \"cpp/matrix.hpp\"\n\nnamespace matrix {\n    template\
     \ <typename T>\n    struct OperatorPropertyDefault {\n        constexpr static\
@@ -501,7 +512,7 @@ data:
   isVerificationFile: true
   path: test/atcoder-jsc2021-g.test.cpp
   requiredBy: []
-  timestamp: '2023-08-28 17:11:45+09:00'
+  timestamp: '2023-08-31 20:45:09+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/atcoder-jsc2021-g.test.cpp

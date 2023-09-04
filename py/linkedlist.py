@@ -36,7 +36,7 @@ class LinkedListElement:
             a = a.prev
             if a is None:
                 return None
-        return self.prev
+        return a
 
     def __sub__(self, k: int) -> Optional['LinkedListElement']:
         a = self

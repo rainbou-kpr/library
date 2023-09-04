@@ -17,7 +17,7 @@ class LinkedListElement:
         self.prev = prev
         self.next = next
 
-    def __iadd__(self, k: int) -> Optional['LinkedListElement']:
+    def __add__(self, k: int) -> Optional['LinkedListElement']:
         a = self
         for i in range(k):
             a = a.next
@@ -25,22 +25,12 @@ class LinkedListElement:
                 return None
         return a
 
-    def __add__(self, k: int) -> Optional['LinkedListElement']:
-        a = self
-        a += k
-        return a
-
-    def __isub__(self, k: int) -> Optional['LinkedListElement']:
+    def __sub__(self, k: int) -> Optional['LinkedListElement']:
         a = self
         for i in range(k):
             a = a.prev
             if a is None:
                 return None
-        return a
-
-    def __sub__(self, k: int) -> Optional['LinkedListElement']:
-        a = self
-        a -= k
         return a
 
 
@@ -58,7 +48,7 @@ class LinkedListIterator:
             raise StopIteration()
         else:
             rt = self.a
-            self.a += 1
+            self.a = self.a + 1
             return rt
 
 
@@ -241,5 +231,5 @@ class LinkedList:
             if itr.value == v:
                 return k
             else:
-                k += 1
+                k = k + 1
         return None

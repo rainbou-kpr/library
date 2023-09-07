@@ -1,4 +1,5 @@
 #define PROBLEM "https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=3314"
+#define ERROR 1e-6
 
 #include "../cpp/matrix.hpp"
 #include "../cpp/vector.hpp"

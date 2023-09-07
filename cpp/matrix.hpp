@@ -9,22 +9,13 @@
 
 namespace matrix {
     template <typename T>
-    struct OperatorPropertyDefaultConstexpr {
-        inline constexpr static T zero() { return T(0); }
-        inline constexpr static T add(const T &a, const T &b) { return a + b; }
-        inline constexpr static T neg(const T &a) { return -a; }
-        inline constexpr static T one() { return T(1); }
-        inline constexpr static T mul(const T &a, const T &b) { return a * b; }
-        inline constexpr static T inv(const T &a) { return T(1) / a; }
-    };
-    template <typename T>
     struct OperatorPropertyDefault {
-        inline static T zero() { return T(0); }
-        inline static T add(const T &a, const T &b) { return a + b; }
-        inline static T neg(const T &a) { return -a; }
-        inline static T one() { return T(1); }
-        inline static T mul(const T &a, const T &b) { return a * b; }
-        inline static T inv(const T &a) { return T(1) / a; }
+        constexpr static T zero() { return T(0); }
+        constexpr static T add(const T &a, const T &b) { return a + b; }
+        constexpr static T neg(const T &a) { return -a; }
+        constexpr static T one() { return T(1); }
+        constexpr static T mul(const T &a, const T &b) { return a * b; }
+        constexpr static T inv(const T &a) { return T(1) / a; }
     };
 }
 
@@ -37,16 +28,16 @@ namespace matrix {
  * OperatorPropertyの例（整数のxorとandによる環）
  * @code
  * struct XorOperatorProperty {
- *     inline constexpr static int zero() { return 0; }
- *     inline constexpr static int add(const int &a, const int &b) { return a ^ b; }
- *     inline constexpr static int neg(const int &a) { return a; }
- *     inline constexpr static int one() { return 0; }
- *     inline constexpr static int mul(const int &a, const int &b) { return a & b; }
+ *     constexpr static int zero() { return 0; }
+ *     constexpr static int add(const int &a, const int &b) { return a ^ b; }
+ *     constexpr static int neg(const int &a) { return a; }
+ *     constexpr static int one() { return 0; }
+ *     constexpr static int mul(const int &a, const int &b) { return a & b; }
  * };
  * @endcode
  * constexprである必要はなく、またinvなど使わないものは定義しなくてもよい（必要なものがなかったらコンパイルエラーが発生する）
  */
-template<class T, class OperatorProperty = std::conditional_t<std::is_scalar_v<T>, matrix::OperatorPropertyDefaultConstexpr<T>, matrix::OperatorPropertyDefault<T>>> struct Matrix {
+template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> struct Matrix {
     int n, m;
     std::vector<std::vector<T>> v;
 
@@ -379,7 +370,7 @@ template<class T, class OperatorProperty = std::conditional_t<std::is_scalar_v<T
     Matrix inv() const {
         assert(n == m);
         if(n == 0) return Matrix(n, n);
-        if constexpr(std::is_same_v<OperatorProperty, matrix::OperatorPropertyDefaultConstexpr<T>> || std::is_same_v<OperatorProperty, matrix::OperatorPropertyDefault<T>>) {
+        if constexpr(std::is_same_v<OperatorProperty, matrix::OperatorPropertyDefault<T>>) {
             std::vector A(n, std::valarray(T(0), n+n));
             for(int i = 0; i < n; i ++) {
                 for(int j = 0; j < n; j ++) A[i][j] = this->v[i][j];

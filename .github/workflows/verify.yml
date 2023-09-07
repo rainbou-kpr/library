@@ -21,11 +21,18 @@ jobs:
       run: |
         git clone --depth=1 https://github.com/rainbou-kpr/verification-helper.git ~/verification-helper
         pip3 install ~/verification-helper
+        apt update -y && apt install -y jq
+
+    - name: Get Dropbox token
+      env:
+        DROPBOX_APP_KEY: ${{ secrets.DROPBOX_APP_KEY }}
+        DROPBOX_APP_SECRET: ${{ secrets.DROPBOX_APP_SECRET }}
+        DROPBOX_REFRESH_TOKEN: ${{ secrets.DROPBOX_REFRESH_TOKEN }}
+      run: echo DROPBOX_TOKEN=$(curl https://api.dropbox.com/oauth2/token -d grant_type=refresh_token -d refresh_token=$DROPBOX_REFRESH_TOKEN -u $DROPBOX_APP_KEY:$DROPBOX_APP_SECRET | jq -r '.access_token') >> $GITHUB_ENV
 
     - name: Run tests
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         YUKICODER_TOKEN: ${{ secrets.YUKICODER_TOKEN }}
-        DROPBOX_TOKEN: ${{ secrets.DROPBOX_TOKEN }}
         GH_PAT: ${{ secrets.GH_PAT }}
       run: oj-verify all -j $(nproc) --timeout=6000

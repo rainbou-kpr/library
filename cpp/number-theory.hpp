@@ -150,7 +150,7 @@ namespace NTT {
      * @param B vector<T>
      * @return vector<T>
      */
-    template<class T> std::vector<T> naive_mul 
+    template<class T> std::vector<T> naive
     (const std::vector<T>& A, const std::vector<T>& B) {
         if (A.empty() || B.empty()) return {};
         int N = (int) A.size(), M = (int) B.size();
@@ -172,7 +172,7 @@ template<class mint> std::vector<mint> convolution
 (const std::vector<mint>& A, const std::vector<mint>& B) {
     if (A.empty() || B.empty()) return {};
     int N = (int) A.size(), M = (int) B.size();
-    if (std::min(N, M) < 30) return NTT::naive_mul(A, B);
+    if (std::min(N, M) < 30) return NTT::naive(A, B);
     int MOD = A[0].mod();
     int size_fft = NTT::get_fft_size(N, M);
     if (MOD == 998244353) {
@@ -228,7 +228,7 @@ std::vector<long long> convolution_ll
 (const std::vector<long long>& A, const std::vector<long long>& B) {
     if (A.empty() || B.empty()) return {};
     int N = (int) A.size(), M = (int) B.size();
-    if (std::min(N, M) < 30) return NTT::naive_mul(A, B);
+    if (std::min(N, M) < 30) return NTT::naive(A, B);
     int size_fft = NTT::get_fft_size(N, M);
     std::vector<NTT::mint0> a0(size_fft, 0), b0(size_fft, 0), c0(size_fft, 0);
     std::vector<NTT::mint1> a1(size_fft, 0), b1(size_fft, 0), c1(size_fft, 0);

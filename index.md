@@ -58,6 +58,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: py/graph.py
       title: py/graph.py
+    - icon: ':heavy_check_mark:'
+      path: py/linkedlist.py
+      title: py/linkedlist.py
     - icon: ':warning:'
       path: py/modint.py
       title: py/modint.py
@@ -73,6 +76,9 @@ data:
   verificationCategories:
   - name: test
     pages:
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-alds1-3-c.test.py
+      title: test/aoj-alds1-3-c.test.py
     - icon: ':heavy_check_mark:'
       path: test/aoj-cgl-2-b.test.cpp
       title: test/aoj-cgl-2-b.test.cpp

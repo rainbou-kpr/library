@@ -10,19 +10,19 @@
 namespace matrix {
     template <typename T>
     struct OperatorPropertyDefaultConstexpr {
-        constexpr static T zero = T(0);
+        inline constexpr static T zero() { return T(0); }
         inline constexpr static T add(const T &a, const T &b) { return a + b; }
         inline constexpr static T neg(const T &a) { return -a; }
-        constexpr static T one = T(1);
+        inline constexpr static T one() { return T(1); }
         inline constexpr static T mul(const T &a, const T &b) { return a * b; }
         inline constexpr static T inv(const T &a) { return T(1) / a; }
     };
     template <typename T>
     struct OperatorPropertyDefault {
-        static T zero = T(0);
+        inline static T zero() { return T(0); }
         inline static T add(const T &a, const T &b) { return a + b; }
         inline static T neg(const T &a) { return -a; }
-        static T one = T(1);
+        inline static T one() { return T(1); }
         inline static T mul(const T &a, const T &b) { return a * b; }
         inline static T inv(const T &a) { return T(1) / a; }
     };
@@ -37,10 +37,10 @@ namespace matrix {
  * OperatorPropertyの例（整数のxorとandによる環）
  * @code
  * struct XorOperatorProperty {
- *     constexpr static int zero = 0;
+ *     inline constexpr static int zero() { return 0; }
  *     inline constexpr static int add(const int &a, const int &b) { return a ^ b; }
  *     inline constexpr static int neg(const int &a) { return a; }
- *     constexpr static int one = 0;
+ *     inline constexpr static int one() { return 0; }
  *     inline constexpr static int mul(const int &a, const int &b) { return a & b; }
  * };
  * @endcode
@@ -70,7 +70,7 @@ template<class T, class OperatorProperty = std::conditional_t<std::is_scalar_v<T
      * @param _val 行列(グリッド)の要素の初期値
      * @return Matrix
      */
-    Matrix(int _n, int _m, T _val = OperatorProperty::zero) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}
+    Matrix(int _n, int _m, T _val = OperatorProperty::zero()) : n(_n), m(_m), v(n, std::vector<T>(m, _val)) {}
     
     auto begin() noexcept {return v.begin();}
     auto end() noexcept {return v.end();}
@@ -303,7 +303,7 @@ template<class T, class OperatorProperty = std::conditional_t<std::is_scalar_v<T
     [[nodiscard]]
     Matrix pow(long long k) const {
         Matrix<T> A = *this, B(n, n);
-        for(int i = 0; i < n; i ++) B[i][i] = OperatorProperty::one;
+        for(int i = 0; i < n; i ++) B[i][i] = OperatorProperty::one();
         while(k > 0) {
             if(k & 1) B *= A;
             A *= A;
@@ -395,10 +395,10 @@ template<class T, class OperatorProperty = std::conditional_t<std::is_scalar_v<T
             for(int i = 0; i < n; i ++) for(int j = 0; j < n; j ++) ret[i][j] = A[i][n+j];
             return ret;
         } else {
-            std::vector A(n, std::vector<T>(n+n, OperatorProperty::zero));
+            std::vector A(n, std::vector<T>(n+n, OperatorProperty::zero()));
             for(int i = 0; i < n; i ++) {
                 for(int j = 0; j < n; j ++) A[i][j] = this->v[i][j];
-                A[i][n+i] = OperatorProperty::one;
+                A[i][n+i] = OperatorProperty::one();
             }
             assert(forward_elimination(A) != T(0));
             for(int i = n - 1; i >= 0; i --) {
@@ -468,13 +468,13 @@ private:
      */
     T forward_elimination(std::vector<std::vector<T>>& A) const {
         std::vector<int> pivot_col(n, 0);
-        T d = OperatorProperty::one;
+        T d = OperatorProperty::one();
         for(int i = 0; i < n; i ++) {
             if(i - 1 >= 0) pivot_col[i] = pivot_col[i - 1] + 1;
             while(pivot_col[i] < m) {
                 int pivot = i;
-                while(pivot < n && A[pivot][pivot_col[i]] == OperatorProperty::zero) pivot ++;
-                if(A[pivot][pivot_col[i]] == OperatorProperty::zero) {
+                while(pivot < n && A[pivot][pivot_col[i]] == OperatorProperty::zero()) pivot ++;
+                if(A[pivot][pivot_col[i]] == OperatorProperty::zero()) {
                     pivot_col[i] ++;
                     continue;
                 }

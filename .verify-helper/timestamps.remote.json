@@ -1,5 +1,6 @@
 {
 "test/aoj-3314.test.cpp": "2023-09-08 07:41:17 +0900",
+"test/aoj-alds1-3-c.test.py": "2023-09-05 02:43:56 +0900",
 "test/aoj-cgl-2-b.test.cpp": "2023-09-07 23:01:33 +0900",
 "test/aoj-cgl-2-c.test.cpp": "2023-09-07 23:01:33 +0900",
 "test/aoj-cgl-3-a.test.cpp": "2023-09-07 23:01:33 +0900",
@@ -7,7 +8,6 @@
 "test/aoj-cgl-3-c.test.cpp": "2023-09-07 23:01:33 +0900",
 "test/aoj-cgl-4-a.test.cpp": "2023-09-07 23:01:33 +0900",
 "test/aoj-cgl-5-a.test.cpp": "2023-09-07 23:01:33 +0900",
-"test/aoj-alds1-3-c.test.py": "2023-09-05 02:43:56 +0900",
 "test/aoj-dsl-2-a.test.cpp": "2023-08-01 18:34:30 +0900",
 "test/aoj-dsl-2-a.test.py": "2023-09-07 14:26:13 +0900",
 "test/aoj-dsl-2-b.test.cpp": "2023-08-01 18:34:30 +0900",

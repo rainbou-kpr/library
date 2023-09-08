@@ -149,6 +149,9 @@ data:
       path: test/atcoder-past202012-n.test.cpp
       title: test/atcoder-past202012-n.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/atcoder-past202012-n.test.py
+      title: test/atcoder-past202012-n.test.py
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
     - icon: ':heavy_check_mark:'

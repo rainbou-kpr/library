@@ -361,61 +361,60 @@ data:
     \u30A4\u30BA\u304C\u5C0F\u3055\u3044\u3068\u304D\u306E\u7573\u307F\u8FBC\u307F\
     \n     * @param T mint, long long\n     * @param A vector<T>\n     * @param B\
     \ vector<T>\n     * @return vector<T>\n     */\n    template<class T> std::vector<T>\
-    \ naive_mul \n    (const std::vector<T>& A, const std::vector<T>& B) {\n     \
-    \   if (A.empty() || B.empty()) return {};\n        int N = (int) A.size(), M\
-    \ = (int) B.size();\n        std::vector<T> res(N + M - 1);\n        for (int\
-    \ i = 0; i < N; ++ i)\n            for (int j = 0; j < M; ++ j)\n            \
-    \    res[i + j] += A[i] * B[j];\n        return res;\n    }\n};\n\n/**\n * @brief\
-    \ modint\u306E\u7573\u307F\u8FBC\u307F\n * @param A vector<mint>\n * @param B\
-    \ vector<mint>\n * @return vector<mint>\n */\ntemplate<class mint> std::vector<mint>\
-    \ convolution\n(const std::vector<mint>& A, const std::vector<mint>& B) {\n  \
-    \  if (A.empty() || B.empty()) return {};\n    int N = (int) A.size(), M = (int)\
-    \ B.size();\n    if (std::min(N, M) < 30) return NTT::naive_mul(A, B);\n    int\
-    \ MOD = A[0].mod();\n    int size_fft = NTT::get_fft_size(N, M);\n    if (MOD\
-    \ == 998244353) {\n        std::vector<mint> a(size_fft), b(size_fft), c(size_fft);\n\
-    \        for (int i = 0; i < N; ++i) a[i] = A[i];\n        for (int i = 0; i <\
-    \ M; ++i) b[i] = B[i];\n        NTT::trans(a), NTT::trans(b);\n        std::vector<mint>\
-    \ res(size_fft);\n        for (int i = 0; i < size_fft; ++i) res[i] = a[i] * b[i];\n\
-    \        NTT::trans(res, true);\n        res.resize(N + M - 1);\n        return\
-    \ res;\n    }\n    std::vector<NTT::mint0> a0(size_fft, 0), b0(size_fft, 0), c0(size_fft,\
-    \ 0);\n    std::vector<NTT::mint1> a1(size_fft, 0), b1(size_fft, 0), c1(size_fft,\
-    \ 0);\n    std::vector<NTT::mint2> a2(size_fft, 0), b2(size_fft, 0), c2(size_fft,\
-    \ 0);\n    for (int i = 0; i < N; ++ i) {\n        a0[i] = A[i].value();\n   \
-    \     a1[i] = A[i].value();\n        a2[i] = A[i].value();\n    }\n    for (int\
-    \ i = 0; i < M; ++ i) {\n        b0[i] = B[i].value();\n        b1[i] = B[i].value();\n\
-    \        b2[i] = B[i].value();\n    }\n    NTT::trans(a0), NTT::trans(a1), NTT::trans(a2),\
-    \ \n    NTT::trans(b0), NTT::trans(b1), NTT::trans(b2);\n    for (int i = 0; i\
-    \ < size_fft; ++i) {\n        c0[i] = a0[i] * b0[i];\n        c1[i] = a1[i] *\
-    \ b1[i];\n        c2[i] = a2[i] * b2[i];\n    }\n    NTT::trans(c0, true), NTT::trans(c1,\
-    \ true), NTT::trans(c2, true);\n    static const mint mod0 = NTT::MOD0, mod01\
-    \ = mod0 * NTT::MOD1;\n    std::vector<mint> res(N + M - 1);\n    for (int i =\
-    \ 0; i < N + M - 1; ++ i) {\n        int y0 = c0[i].value();\n        int y1 =\
-    \ (NTT::imod0 * (c1[i] - y0)).value();\n        int y2 = (NTT::imod01 * (c2[i]\
-    \ - y0) - NTT::imod1 * y1).value();\n        res[i] = mod01 * y2 + mod0 * y1 +\
-    \ y0;\n    }\n    return res;\n}\n\n/**\n * @brief long long\u306E\u7573\u307F\
-    \u8FBC\u307F\n * @param A vector<long long>\n * @param B vector<long long>\n *\
-    \ @return vector<long long>\n */\nstd::vector<long long> convolution_ll\n(const\
-    \ std::vector<long long>& A, const std::vector<long long>& B) {\n    if (A.empty()\
+    \ naive\n    (const std::vector<T>& A, const std::vector<T>& B) {\n        if\
+    \ (A.empty() || B.empty()) return {};\n        int N = (int) A.size(), M = (int)\
+    \ B.size();\n        std::vector<T> res(N + M - 1);\n        for (int i = 0; i\
+    \ < N; ++ i)\n            for (int j = 0; j < M; ++ j)\n                res[i\
+    \ + j] += A[i] * B[j];\n        return res;\n    }\n};\n\n/**\n * @brief modint\u306E\
+    \u7573\u307F\u8FBC\u307F\n * @param A vector<mint>\n * @param B vector<mint>\n\
+    \ * @return vector<mint>\n */\ntemplate<class mint> std::vector<mint> convolution\n\
+    (const std::vector<mint>& A, const std::vector<mint>& B) {\n    if (A.empty()\
     \ || B.empty()) return {};\n    int N = (int) A.size(), M = (int) B.size();\n\
-    \    if (std::min(N, M) < 30) return NTT::naive_mul(A, B);\n    int size_fft =\
-    \ NTT::get_fft_size(N, M);\n    std::vector<NTT::mint0> a0(size_fft, 0), b0(size_fft,\
-    \ 0), c0(size_fft, 0);\n    std::vector<NTT::mint1> a1(size_fft, 0), b1(size_fft,\
-    \ 0), c1(size_fft, 0);\n    std::vector<NTT::mint2> a2(size_fft, 0), b2(size_fft,\
-    \ 0), c2(size_fft, 0);\n    for (int i = 0; i < N; ++ i) {\n        a0[i] = A[i];\n\
-    \        a1[i] = A[i];\n        a2[i] = A[i];\n    }\n    for (int i = 0; i <\
-    \ M; ++ i) {\n        b0[i] = B[i];\n        b1[i] = B[i];\n        b2[i] = B[i];\n\
+    \    if (std::min(N, M) < 30) return NTT::naive(A, B);\n    int MOD = A[0].mod();\n\
+    \    int size_fft = NTT::get_fft_size(N, M);\n    if (MOD == 998244353) {\n  \
+    \      std::vector<mint> a(size_fft), b(size_fft), c(size_fft);\n        for (int\
+    \ i = 0; i < N; ++i) a[i] = A[i];\n        for (int i = 0; i < M; ++i) b[i] =\
+    \ B[i];\n        NTT::trans(a), NTT::trans(b);\n        std::vector<mint> res(size_fft);\n\
+    \        for (int i = 0; i < size_fft; ++i) res[i] = a[i] * b[i];\n        NTT::trans(res,\
+    \ true);\n        res.resize(N + M - 1);\n        return res;\n    }\n    std::vector<NTT::mint0>\
+    \ a0(size_fft, 0), b0(size_fft, 0), c0(size_fft, 0);\n    std::vector<NTT::mint1>\
+    \ a1(size_fft, 0), b1(size_fft, 0), c1(size_fft, 0);\n    std::vector<NTT::mint2>\
+    \ a2(size_fft, 0), b2(size_fft, 0), c2(size_fft, 0);\n    for (int i = 0; i <\
+    \ N; ++ i) {\n        a0[i] = A[i].value();\n        a1[i] = A[i].value();\n \
+    \       a2[i] = A[i].value();\n    }\n    for (int i = 0; i < M; ++ i) {\n   \
+    \     b0[i] = B[i].value();\n        b1[i] = B[i].value();\n        b2[i] = B[i].value();\n\
     \    }\n    NTT::trans(a0), NTT::trans(a1), NTT::trans(a2), \n    NTT::trans(b0),\
-    \ NTT::trans(b1), NTT::trans(b2);\n    for (int i = 0; i < size_fft; ++ i) {\n\
+    \ NTT::trans(b1), NTT::trans(b2);\n    for (int i = 0; i < size_fft; ++i) {\n\
     \        c0[i] = a0[i] * b0[i];\n        c1[i] = a1[i] * b1[i];\n        c2[i]\
     \ = a2[i] * b2[i];\n    }\n    NTT::trans(c0, true), NTT::trans(c1, true), NTT::trans(c2,\
-    \ true);\n    static const long long mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;\n\
-    \    static const __int128_t mod012 = (__int128_t)mod01 * NTT::MOD2;\n    std::vector<long\
-    \ long> res(N + M - 1);\n    for (int i = 0; i < N + M - 1; ++ i) {\n        int\
-    \ y0 = c0[i].value();\n        int y1 = (NTT::imod0 * (c1[i] - y0)).value();\n\
-    \        int y2 = (NTT::imod01 * (c2[i] - y0) - NTT::imod1 * y1).value();\n  \
-    \      __int128_t tmp = (__int128_t)mod01 * y2 + (__int128_t)mod0 * y1 + y0;\n\
-    \        if(tmp < (mod012 >> 1)) res[i] = tmp;\n        else res[i] = tmp - mod012;\n\
-    \    }\n    return res;\n}\n#line 5 \"test/yosupo-convolution-mod-2-64.test.cpp\"\
+    \ true);\n    static const mint mod0 = NTT::MOD0, mod01 = mod0 * NTT::MOD1;\n\
+    \    std::vector<mint> res(N + M - 1);\n    for (int i = 0; i < N + M - 1; ++\
+    \ i) {\n        int y0 = c0[i].value();\n        int y1 = (NTT::imod0 * (c1[i]\
+    \ - y0)).value();\n        int y2 = (NTT::imod01 * (c2[i] - y0) - NTT::imod1 *\
+    \ y1).value();\n        res[i] = mod01 * y2 + mod0 * y1 + y0;\n    }\n    return\
+    \ res;\n}\n\n/**\n * @brief long long\u306E\u7573\u307F\u8FBC\u307F\n * @param\
+    \ A vector<long long>\n * @param B vector<long long>\n * @return vector<long long>\n\
+    \ */\nstd::vector<long long> convolution_ll\n(const std::vector<long long>& A,\
+    \ const std::vector<long long>& B) {\n    if (A.empty() || B.empty()) return {};\n\
+    \    int N = (int) A.size(), M = (int) B.size();\n    if (std::min(N, M) < 30)\
+    \ return NTT::naive(A, B);\n    int size_fft = NTT::get_fft_size(N, M);\n    std::vector<NTT::mint0>\
+    \ a0(size_fft, 0), b0(size_fft, 0), c0(size_fft, 0);\n    std::vector<NTT::mint1>\
+    \ a1(size_fft, 0), b1(size_fft, 0), c1(size_fft, 0);\n    std::vector<NTT::mint2>\
+    \ a2(size_fft, 0), b2(size_fft, 0), c2(size_fft, 0);\n    for (int i = 0; i <\
+    \ N; ++ i) {\n        a0[i] = A[i];\n        a1[i] = A[i];\n        a2[i] = A[i];\n\
+    \    }\n    for (int i = 0; i < M; ++ i) {\n        b0[i] = B[i];\n        b1[i]\
+    \ = B[i];\n        b2[i] = B[i];\n    }\n    NTT::trans(a0), NTT::trans(a1), NTT::trans(a2),\
+    \ \n    NTT::trans(b0), NTT::trans(b1), NTT::trans(b2);\n    for (int i = 0; i\
+    \ < size_fft; ++ i) {\n        c0[i] = a0[i] * b0[i];\n        c1[i] = a1[i] *\
+    \ b1[i];\n        c2[i] = a2[i] * b2[i];\n    }\n    NTT::trans(c0, true), NTT::trans(c1,\
+    \ true), NTT::trans(c2, true);\n    static const long long mod0 = NTT::MOD0, mod01\
+    \ = mod0 * NTT::MOD1;\n    static const __int128_t mod012 = (__int128_t)mod01\
+    \ * NTT::MOD2;\n    std::vector<long long> res(N + M - 1);\n    for (int i = 0;\
+    \ i < N + M - 1; ++ i) {\n        int y0 = c0[i].value();\n        int y1 = (NTT::imod0\
+    \ * (c1[i] - y0)).value();\n        int y2 = (NTT::imod01 * (c2[i] - y0) - NTT::imod1\
+    \ * y1).value();\n        __int128_t tmp = (__int128_t)mod01 * y2 + (__int128_t)mod0\
+    \ * y1 + y0;\n        if(tmp < (mod012 >> 1)) res[i] = tmp;\n        else res[i]\
+    \ = tmp - mod012;\n    }\n    return res;\n}\n#line 5 \"test/yosupo-convolution-mod-2-64.test.cpp\"\
     \n\nint main(void) {\n    int n, m; std::cin >> n >> m;\n    std::vector<long\
     \ long> a0(n), a1(n), a2(n), b0(m), b1(m), b2(m);\n    for(int i = 0; i < n; i++)\
     \ {\n        unsigned long long a; std::cin >> a;\n        a0[i] = a & ((1ULL\
@@ -465,7 +464,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-convolution-mod-2-64.test.cpp
   requiredBy: []
-  timestamp: '2023-08-29 23:08:45+09:00'
+  timestamp: '2023-09-03 11:57:52+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-convolution-mod-2-64.test.cpp

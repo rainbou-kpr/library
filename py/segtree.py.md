@@ -10,6 +10,9 @@ data:
     path: test/aoj-dsl-2-b.test.py
     title: test/aoj-dsl-2-b.test.py
   - icon: ':heavy_check_mark:'
+    path: test/atcoder-past202012-n.test.py
+    title: test/atcoder-past202012-n.test.py
+  - icon: ':heavy_check_mark:'
     path: test/yosupo-point-set-range-composite.test.py
     title: test/yosupo-point-set-range-composite.test.py
   _isVerificationFailed: false
@@ -82,26 +85,25 @@ data:
     \       :return int: r\n        \"\"\"\n        assert f(self.e)\n        if l\
     \ == self.n:\n            return self.n\n        l += self.sz\n        while l\
     \ % 2 == 0:\n            l >>= 1\n        sm = self.e\n        while f(self.op(sm,\
-    \ self.data[l])):\n            if l.bit_length() != (l+1).bit_length():\n    \
-    \            return self.n\n            sm = self.op(sm, self.data[l])\n     \
-    \       l += 1\n            while l % 2 == 0:\n                l >>= 1\n     \
-    \   while l < self.sz:\n            if not f(self.op(self.data[l*2])):\n     \
-    \           l *= 2\n            else:\n                sm = self.op(sm, self.data[l*2])\n\
-    \                l = l*2+1\n        return l-self.sz\n\n    def min_left(self,\
-    \ r: int, f: Callable[[S], bool]) -> int:\n        \"\"\"\n        (l = 0 or f(prod([l,\
-    \ r))) = True) and (l = r or f(prod([l-1, r))) = False)\u3068\u306A\u308Bl\u3092\
-    \u8FD4\u3059\u3002\n        f\u304C\u5358\u8ABF\u306A\u3089\u3001f(prod([l, r)))\
-    \ = True\u3068\u306A\u308B\u6700\u5C0F\u306El\u3068\u306A\u308B\u3002\n      \
-    \  :param r: \u534A\u958B\u533A\u9593\u306E\u7D42\u7AEF\n        :param f: \u5224\
-    \u5B9A\u95A2\u6570\n        :return int: l\n        \"\"\"\n        assert f(self.e)\n\
-    \        if r == 0:\n            return 0\n        r += self.sz-1\n        while\
-    \ r % 2 == 1:\n            r >>= 1\n        sm = self.e\n        while f(self.op(sm,\
-    \ self.data[r])):\n            if r.bit_length() != (r-1).bit_length():\n    \
-    \            return 0\n            sm = self.op(sm, self.data[r])\n          \
-    \  r -= 1\n            while r % 2 == 1:\n                r >>= 1\n        while\
-    \ r < self.sz:\n            if not f(self.op(self.data[r*2+1], sm)):\n       \
-    \         r = r*2+1\n            else:\n                sm = self.op(self.data[r*2+1],\
-    \ sm)\n                r *= 2\n        return r+1-self.sz\n\n    def __str__(self)\
+    \ self.data[l])):\n            sm = self.op(sm, self.data[l])\n            l +=\
+    \ 1\n            while l % 2 == 0:\n                l >>= 1\n            if l\
+    \ == 1:\n                return self.n\n        while l < self.sz:\n         \
+    \   if not f(self.op(sm, self.data[l*2])):\n                l *= 2\n         \
+    \   else:\n                sm = self.op(sm, self.data[l*2])\n                l\
+    \ = l*2+1\n        return l-self.sz\n\n    def min_left(self, r: int, f: Callable[[S],\
+    \ bool]) -> int:\n        \"\"\"\n        (l = 0 or f(prod([l, r))) = True) and\
+    \ (l = r or f(prod([l-1, r))) = False)\u3068\u306A\u308Bl\u3092\u8FD4\u3059\u3002\
+    \n        f\u304C\u5358\u8ABF\u306A\u3089\u3001f(prod([l, r))) = True\u3068\u306A\
+    \u308B\u6700\u5C0F\u306El\u3068\u306A\u308B\u3002\n        :param r: \u534A\u958B\
+    \u533A\u9593\u306E\u7D42\u7AEF\n        :param f: \u5224\u5B9A\u95A2\u6570\n \
+    \       :return int: l\n        \"\"\"\n        assert f(self.e)\n        if r\
+    \ == 0:\n            return 0\n        r += self.sz\n        while r % 2 == 0:\n\
+    \            r >>= 1\n        sm = self.e\n        while f(self.op(self.data[r-1],\
+    \ sm)):\n            sm = self.op(self.data[r-1], sm)\n            r -= 1\n  \
+    \          while r % 2 == 0:\n                r >>= 1\n            if r == 1:\n\
+    \                return 0\n        while r < self.sz:\n            if not f(self.op(self.data[r*2-1],\
+    \ sm)):\n                r = r*2\n            else:\n                sm = self.op(self.data[r*2-1],\
+    \ sm)\n                r = r*2-1\n        return r-self.sz\n\n    def __str__(self)\
     \ -> str:\n        re: List[str] = []\n        for i in range(self.n):\n     \
     \       re.append(str(self.data[i+self.sz]))\n        return ' '.join(re)\n\n\n\
     class RMaxQ(SegTree, Generic[S]):\n    def __init__(self, n_or_v: Union[int, List[S]],\
@@ -138,6 +140,7 @@ data:
   - test/yosupo-point-set-range-composite.test.py
   - test/aoj-dsl-2-b.test.py
   - test/aoj-dsl-2-a.test.py
+  - test/atcoder-past202012-n.test.py
 documentation_of: py/segtree.py
 layout: document
 redirect_from:

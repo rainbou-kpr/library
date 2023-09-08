@@ -32,7 +32,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-point-set-range-composite.test.py
   requiredBy: []
-  timestamp: '2023-05-31 01:56:17+09:00'
+  timestamp: '2023-09-07 14:26:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-point-set-range-composite.test.py

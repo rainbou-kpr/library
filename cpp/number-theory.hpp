@@ -1,5 +1,6 @@
 #pragma once
 
+#include <numeric>
 #include <vector>
 #include "modint.hpp"
 
@@ -41,6 +42,60 @@ long long modpow(long long a, long long n, long long MOD) {
         n >>= 1;
     }
     return res;
+}
+
+std::pair<long long, long long> crt(const std::vector<long long>& r, const std::vector<long long>& m) {
+    assert(r.size() == m.size());
+    if(r.size() == 0) return {0, 1};
+    int n = (int)r.size();
+    long long m_lcm = m[0];
+    long long ans = r[0];
+    for (int i = 1; i < n; i++) {
+        long long g = std::gcd(m_lcm, m[i]);
+        if(r[i] % g != 0) return {0, 0};
+        long long rr = r[i] / g, mm = m[i] / g;
+        m_lcm *= mm;
+        long long t = ((rr - ans) * modinv(m_lcm, mm)) % mm;
+        if(t < 0) t += mm;
+        ans += t * m_lcm;
+    }
+    return {ans, m_lcm};
+}
+
+long long garner(std::vector<long long>& r, std::vector<long long>& m, long long MOD) {
+    assert(r.size() == m.size());
+    if(r.size() == 0) return 0;
+    int n = (int)r.size();
+    // mを互いに素にする
+    for(int i = 1; i < n; i++) {
+        for(int j = 0; j < i; j++) {
+            long long g = std::gcd(m[i], m[j]);
+            if(r[i] % g != r[j] % g) return -1;
+            m[i] /= g, m[j] /= g;
+            long long gi = std::gcd(g, m[i]);
+            long long gj = g / gi;
+            do {
+                g = std::gcd(gi, gj);
+                gi *= g, gj /= g;
+            } while(g != 1);
+            m[i] *= gi, m[j] *= gj;
+            r[i] %= m[i], r[j] %= m[j];
+        }
+    }
+
+    m.push_back(MOD);
+    std::vector<long long> prod(n+1, 1); // m[0] * ... * m[i - 1] mod m[i]
+    std::vector<long long> x(n+1, 0); // 解 mod m[i]
+    for(int i = 0; i < n; i++) {
+        long long t = (r[i] - x[i]) * modinv(prod[i], m[i]) % m[i];
+        if(t < 0) t += m[i];
+        for(int j = i + 1; j <= n; j++) {
+            (x[j] += t * prod[j]) %= m[j];
+            (prod[j] *= m[i]) %= m[j];
+        }
+    }
+    m.pop_back();
+    return x[n];
 }
 
 /**

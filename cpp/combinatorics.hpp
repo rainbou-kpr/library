@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vector>
-#include "modint.hpp"
+#include "number-theory.hpp"
 
 /**
  * @brief 組み合わせ
@@ -165,3 +165,53 @@ template <typename Modint>
 std::vector<Modint> Combination<Modint>::fact{1, 1};
 template <typename Modint>
 std::vector<Modint> Combination<Modint>::inv_fact{1, 1};
+
+struct CombinationPQ {
+    int p, q;
+    int pq;
+    std::vector<int> fact_p, inv_fact_p;
+    int delta;
+    CombinationPQ(int p, int q) : p(p), q(q) {
+        pq = 1;
+        for(int i = 0; i < q; i++) pq *= p;
+        fact_p.resize(pq);
+        fact_p[0] = 1;
+        for(int i = 1; i < pq; i++) {
+            if(i % p == 0) fact_p[i] = fact_p[i - 1];
+            else fact_p[i] = (long long)fact_p[i - 1] * i % pq;
+        }
+        inv_fact_p.resize(pq);
+        inv_fact_p[pq - 1] = modinv(fact_p[pq - 1], pq);
+        for(int i = pq - 1; i > 0; i--) {
+            if(i % p == 0) inv_fact_p[i - 1] = inv_fact_p[i];
+            else inv_fact_p[i - 1] = (long long)inv_fact_p[i] * i % pq;
+        }
+        if(p == 2 && q >= 3) delta = 1;
+        else delta = -1;
+    }
+    int C(long long n, long long r) {
+        if(r < 0 || n < r) return 0;
+        long long m = n - r;
+        int ans = 1;
+        std::vector<int> epsilon;
+        while(n > 0) {
+            ans = (long long)ans * fact_p[n % pq] % pq;
+            ans = (long long)ans * inv_fact_p[m % pq] % pq;
+            ans = (long long)ans * inv_fact_p[r % pq] % pq;
+            n /= p;
+            m /= p;
+            r /= p;
+            epsilon.push_back(n - m - r);
+        }
+        if(delta == -1 && epsilon.size() >= q && accumulate(epsilon.begin()+q-1, epsilon.end(), 0) % 2 == 1) ans = pq - ans;
+        if(ans == pq) ans = 0;
+        int e = accumulate(epsilon.begin(), epsilon.end(), 0);
+        if(e >= q) ans = 0;
+        else {
+            for(int i = 0; i < e; i++) {
+                ans = (long long)ans * p % pq;
+            }
+        }
+        return ans;
+    }
+};

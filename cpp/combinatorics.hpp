@@ -166,6 +166,10 @@ std::vector<Modint> Combination<Modint>::fact{1, 1};
 template <typename Modint>
 std::vector<Modint> Combination<Modint>::inv_fact{1, 1};
 
+/**
+ * @brief mod p^q での二項係数を求める構造
+ * @note 前計算O(p^q) 参考: https://nyaannyaan.github.io/library/modulo/arbitrary-mod-binomial.hpp
+ */
 struct CombinationPQ {
     int p, q;
     int pq;
@@ -189,6 +193,13 @@ struct CombinationPQ {
         if(p == 2 && q >= 3) delta = 1;
         else delta = -1;
     }
+    /**
+     * @brief nCr mod p^q を返す
+     * @param n long long
+     * @param r long long
+     * @return nCr mod p^q
+     * @note O(log(n))
+     */
     int C(long long n, long long r) {
         if(r < 0 || n < r) return 0;
         long long m = n - r;

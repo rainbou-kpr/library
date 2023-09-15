@@ -1,5 +1,4 @@
 #define PROBLEM "https://judge.yosupo.jp/problem/binomial_coefficient"
-#define IGNORE
 
 #include "../cpp/combinatorics.hpp"
 #include "../cpp/number-theory.hpp"

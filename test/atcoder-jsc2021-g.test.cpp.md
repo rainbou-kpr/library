@@ -259,20 +259,20 @@ data:
     #line 2 \"cpp/matrix.hpp\"\n\n#include <vector>\n#include <string>\n#include <algorithm>\n\
     #include <valarray>\n#line 9 \"cpp/matrix.hpp\"\n\nnamespace matrix {\n    template\
     \ <typename T>\n    struct OperatorPropertyDefault {\n        constexpr static\
-    \ T zero = T(0);\n        inline constexpr static T add(const T &a, const T &b)\
-    \ { return a + b; }\n        inline constexpr static T neg(const T &a) { return\
-    \ -a; }\n        constexpr static T one = T(1);\n        inline constexpr static\
-    \ T mul(const T &a, const T &b) { return a * b; }\n        inline constexpr static\
+    \ T zero() { return T(0); }\n        constexpr static T add(const T &a, const\
+    \ T &b) { return a + b; }\n        constexpr static T neg(const T &a) { return\
+    \ -a; }\n        constexpr static T one() { return T(1); }\n        constexpr\
+    \ static T mul(const T &a, const T &b) { return a * b; }\n        constexpr static\
     \ T inv(const T &a) { return T(1) / a; }\n    };\n}\n\n/**\n * @brief \u884C\u5217\
     \n * @tparam T \u578B \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u8981\u7D20\
     \u3068\u306A\u308Bint\u3084char\n * @tparam OperatorProperty \u884C\u5217\u306E\
     \u8981\u7D20\u306E\u6F14\u7B97\u3092\u5B9A\u7FA9\u3059\u308B\u69CB\u9020\u4F53\
     \ 0,1\u3068+,*\u306A\u3089\u7701\u7565\u53EF\n *\n * @note\n * OperatorProperty\u306E\
     \u4F8B\uFF08\u6574\u6570\u306Exor\u3068and\u306B\u3088\u308B\u74B0\uFF09\n * @code\n\
-    \ * struct XorOperatorProperty {\n *     constexpr static int zero = 0;\n *  \
-    \   inline constexpr static int add(const int &a, const int &b) { return a ^ b;\
-    \ }\n *     inline constexpr static int neg(const int &a) { return a; }\n *  \
-    \   constexpr static int one = 0;\n *     inline constexpr static int mul(const\
+    \ * struct XorOperatorProperty {\n *     constexpr static int zero() { return\
+    \ 0; }\n *     constexpr static int add(const int &a, const int &b) { return a\
+    \ ^ b; }\n *     constexpr static int neg(const int &a) { return a; }\n *    \
+    \ constexpr static int one() { return 0; }\n *     constexpr static int mul(const\
     \ int &a, const int &b) { return a & b; }\n * };\n * @endcode\n * constexpr\u3067\
     \u3042\u308B\u5FC5\u8981\u306F\u306A\u304F\u3001\u307E\u305Finv\u306A\u3069\u4F7F\
     \u308F\u306A\u3044\u3082\u306E\u306F\u5B9A\u7FA9\u3057\u306A\u304F\u3066\u3082\
@@ -291,7 +291,7 @@ data:
     \n     * @param _m \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u5217\u6570\n\
     \     * @param _val \u884C\u5217(\u30B0\u30EA\u30C3\u30C9)\u306E\u8981\u7D20\u306E\
     \u521D\u671F\u5024\n     * @return Matrix\n     */\n    Matrix(int _n, int _m,\
-    \ T _val = OperatorProperty::zero) : n(_n), m(_m), v(n, std::vector<T>(m, _val))\
+    \ T _val = OperatorProperty::zero()) : n(_n), m(_m), v(n, std::vector<T>(m, _val))\
     \ {}\n    \n    auto begin() noexcept {return v.begin();}\n    auto end() noexcept\
     \ {return v.end();}\n\n    /**\n     * @brief \u884C\u5217(\u30B0\u30EA\u30C3\u30C9\
     )\u306E\u884C\u6570\n     * @return size_t\n     */\n    [[nodiscard]]\n    size_t\
@@ -376,19 +376,20 @@ data:
     \     }\n        }\n        v.swap(C.v);\n        m = p;\n        return (*this);\n\
     \    }\n\n    /**\n     * @brief \u4FDD\u6301\u3057\u3066\u3044\u308B\u884C\u5217\
     \u306Ek\u4E57\u3092\u6C42\u3081\u308B\n     * @param k \u6307\u6570\n     * @return\
-    \ Matrix\n    */\n    [[nodiscard]]\n    Matrix pow(long long k) {\n        Matrix<T>\
-    \ A = *this, B(n, n);\n        for(int i = 0; i < n; i ++) B[i][i] = OperatorProperty::one;\n\
-    \        while(k > 0) {\n            if(k & 1) B *= A;\n            A *= A;\n\
-    \            k >>= 1;\n        }\n        return B;\n    }\n\n    [[nodiscard]]\n\
-    \    Matrix operator+(const Matrix &B) const { return (Matrix(*this) += B); }\n\
-    \    [[nodiscard]]\n    Matrix operator-(const Matrix &B) const { return (Matrix(*this)\
-    \ -= B); }\n    [[nodiscard]]\n    Matrix operator*(const Matrix &B) const { return\
-    \ (Matrix(*this) *= B); }\n\n    /**\n     * @brief \u884C\u5217A\u3068\u5217\u30D9\
-    \u30AF\u30C8\u30EBB\u306E\u7A4D\n     * @param A Matrix<T>\n     * @param B vector<T>\n\
-    \     * @return vector<T> \u5217\u30D9\u30AF\u30C8\u30EB\n    */\n    [[nodiscard]]\n\
-    \    friend std::vector<T> operator*(const Matrix &A, const std::vector<T> &B)\
-    \ {\n        std::vector<T> ret(A.n, 0);\n        for(int i = 0; i < A.n; i ++)\
-    \ {\n            for(int j = 0; j < A.m; j ++) {\n                ret[i] = OperatorProperty::add(ret[i],\
+    \ Matrix\n    */\n    [[nodiscard]]\n    Matrix pow(long long k) const {\n   \
+    \     Matrix<T> A = *this, B(n, n);\n        for(int i = 0; i < n; i ++) B[i][i]\
+    \ = OperatorProperty::one();\n        while(k > 0) {\n            if(k & 1) B\
+    \ *= A;\n            A *= A;\n            k >>= 1;\n        }\n        return\
+    \ B;\n    }\n\n    [[nodiscard]]\n    Matrix operator+(const Matrix &B) const\
+    \ { return (Matrix(*this) += B); }\n    [[nodiscard]]\n    Matrix operator-(const\
+    \ Matrix &B) const { return (Matrix(*this) -= B); }\n    [[nodiscard]]\n    Matrix\
+    \ operator*(const Matrix &B) const { return (Matrix(*this) *= B); }\n\n    /**\n\
+    \     * @brief \u884C\u5217A\u3068\u5217\u30D9\u30AF\u30C8\u30EBB\u306E\u7A4D\n\
+    \     * @param A Matrix<T>\n     * @param B vector<T>\n     * @return vector<T>\
+    \ \u5217\u30D9\u30AF\u30C8\u30EB\n    */\n    [[nodiscard]]\n    friend std::vector<T>\
+    \ operator*(const Matrix &A, const std::vector<T> &B) {\n        std::vector<T>\
+    \ ret(A.n, 0);\n        for(int i = 0; i < A.n; i ++) {\n            for(int j\
+    \ = 0; j < A.m; j ++) {\n                ret[i] = OperatorProperty::add(ret[i],\
     \ OperatorProperty::mul(A[i][j], B[j]));\n            }\n        }\n        return\
     \ ret;\n    }\n\n    /**\n     * @brief \u884C\u30D9\u30AF\u30C8\u30EBA\u3068\u884C\
     \u5217B\u306E\u7A4D\n     * @param A vector<T>\n     * @param B Matrix<T>\n  \
@@ -398,46 +399,103 @@ data:
     \ {\n            for(int j = 0; j < B.m; j ++) {\n                ret[j] = OperatorProperty::add(ret[j],\
     \ OperatorProperty::mul(A[i], B[i][j]));\n            }\n        }\n        return\
     \ ret;\n    }\n\n    /**\n     * @brief \u884C\u5217\u5F0F\n     * @return \u884C\
-    \u5217\u5F0F\n     *\n     * @note\n     * OperatorProperty\u304C\u30C7\u30D5\u30A9\
-    \u30EB\u30C8\u3067\u3042\u308B\u5834\u5408\u306E\u307F\u6709\u52B9\n    */\n \
-    \   template <std::enable_if_t<std::is_same_v<OperatorProperty, matrix::OperatorPropertyDefault<T>>,\
-    \ bool> = true>\n    [[nodiscard]]\n    T det() {\n        assert(n == m);\n \
-    \       if(n == 0) return T(1);\n        T ans = T(1);\n        std::vector A(n,\
-    \ std::valarray(T(0), n));\n        for(int i = 0; i < n; i ++) for(int j = 0;\
-    \ j < n; j ++) A[i][j] = this->v[i][j];\n        for(int i = 0; i < n; i ++) {\n\
-    \            if constexpr(std::is_floating_point_v<T>) {\n                int\
-    \ pivot = i;\n                for(int j = i + 1; j < n; j ++) if(std::abs(A[j][i])\
-    \ > std::abs(A[pivot][i])) pivot = j;\n                if(pivot != i) {\n    \
-    \                std::swap(A[i], A[pivot]);\n                    ans *= -1;\n\
-    \                }\n                if(std::abs(A[i][i]) < 1e-9) return 0;\n \
-    \           } else {\n                if(A[i][i] == T(0)) {\n                \
-    \    for(int j = i + 1; j < n; j ++) if(A[j][i] != T(0)) {\n                 \
-    \       std::swap(A[i], A[j]);\n                        ans *= -T(1);\n      \
-    \                  break;\n                    }\n                    if(A[i][i]\
-    \ == T(0)) return 0;\n                }\n            }\n            ans *= A[i][i];\n\
-    \            A[i] /= A[i][i];\n            for(int j = i + 1; j < n; j ++) A[j]\
-    \ -= A[i] * A[j][i];\n        }\n        return ans;\n    }\n};\n#line 2 \"cpp/unionfind.hpp\"\
-    \n\n/**\n * @file unionfind.hpp\n * @brief UnionFind\n */\n\n#line 11 \"cpp/unionfind.hpp\"\
-    \n\n/**\n * @brief \u7121\u5411\u30B0\u30E9\u30D5\u306B\u5BFE\u3057\u3066\u300C\
-    \u8FBA\u306E\u8FFD\u52A0\u300D\u3001\u300C2\u9802\u70B9\u304C\u9023\u7D50\u304B\
-    \u306E\u5224\u5B9A\u300D\u3092\u3059\u308B\n */\nstruct UnionFind {\n   private:\n\
-    \    int _n;\n    // \u8CA0\u306A\u3089\u30B5\u30A4\u30BA\u3001\u975E\u8CA0\u306A\
-    \u3089\u89AA\n    std::vector<int> parent_or_size;\n\n   public:\n    UnionFind()\
-    \ : _n(0) {}\n    explicit UnionFind(int n) : _n(n), parent_or_size(n, -1) {}\n\
-    \n    /**\n     * @brief \u8FBA(a,b)\u3092\u8DB3\u3059\n     * @return \u9023\u7D50\
-    \u3057\u305F\u3082\u306E\u306E\u4EE3\u8868\u5143\n     */\n    int merge(int a,\
-    \ int b) {\n        assert(0 <= a && a < _n);\n        assert(0 <= b && b < _n);\n\
-    \        int x = leader(a), y = leader(b);\n        if (x == y) return x;\n  \
-    \      if (-parent_or_size[x] < -parent_or_size[y]) std::swap(x, y);\n       \
-    \ parent_or_size[x] += parent_or_size[y];\n        parent_or_size[y] = x;\n  \
-    \      return x;\n    }\n    /**\n     * @brief \u9802\u70B9a,b\u304C\u9023\u7D50\
-    \u304B\u3069\u3046\u304B\n     */\n    bool same(int a, int b) {\n        assert(0\
-    \ <= a && a < _n);\n        assert(0 <= b && b < _n);\n        return leader(a)\
-    \ == leader(b);\n    }\n    /**\n     * @brief \u9802\u70B9a\u306E\u5C5E\u3059\
-    \u308B\u9023\u7D50\u6210\u5206\u306E\u4EE3\u8868\u5143\n     */\n    int leader(int\
-    \ a) {\n        assert(0 <= a && a < _n);\n        if (parent_or_size[a] < 0)\
-    \ return a;\n        int x = a;\n        while (parent_or_size[x] >= 0) {\n  \
-    \          x = parent_or_size[x];\n        }\n        while (parent_or_size[a]\
+    \u5217\u5F0F\n    */\n    [[nodiscard]]\n    T det() const {\n        assert(n\
+    \ == m);\n        if(n == 0) return T(1);\n        if constexpr(std::is_same_v<OperatorProperty,\
+    \ matrix::OperatorPropertyDefault<T>>) {\n            std::vector A(n, std::valarray(T(0),\
+    \ n));\n            for(int i = 0; i < n; i ++) for(int j = 0; j < n; j ++) A[i][j]\
+    \ = this->v[i][j];\n            return forward_elimination(A);\n        } else\
+    \ {\n            auto A = this->v;\n            return forward_elimination(A);\n\
+    \        }\n    }\n\n    /**\n     * @brief \u9006\u884C\u5217\n     * @return\
+    \ \u9006\u884C\u5217\n     */\n    [[nodiscard]]\n    Matrix inv() const {\n \
+    \       assert(n == m);\n        if(n == 0) return Matrix(n, n);\n        if constexpr(std::is_same_v<OperatorProperty,\
+    \ matrix::OperatorPropertyDefault<T>>) {\n            std::vector A(n, std::valarray(T(0),\
+    \ n+n));\n            for(int i = 0; i < n; i ++) {\n                for(int j\
+    \ = 0; j < n; j ++) A[i][j] = this->v[i][j];\n                A[i][n+i] = T(1);\n\
+    \            }\n            assert(forward_elimination(A) != T(0));\n        \
+    \    for(int i = n - 1; i >= 0; i --) {\n                for(int j = i - 1; j\
+    \ >= 0; j --) {\n                    A[j] -= A[i] * A[j][i];\n               \
+    \ }\n            }\n            Matrix<T> ret(n, n);\n            for(int i =\
+    \ 0; i < n; i ++) for(int j = 0; j < n; j ++) ret[i][j] = A[i][n+j];\n       \
+    \     return ret;\n        } else {\n            std::vector A(n, std::vector<T>(n+n,\
+    \ OperatorProperty::zero()));\n            for(int i = 0; i < n; i ++) {\n   \
+    \             for(int j = 0; j < n; j ++) A[i][j] = this->v[i][j];\n         \
+    \       A[i][n+i] = OperatorProperty::one();\n            }\n            assert(forward_elimination(A)\
+    \ != T(0));\n            for(int i = n - 1; i >= 0; i --) {\n                for(int\
+    \ j = i - 1; j >= 0; j --) {\n                    for(int k = n; k < n+n; k ++)\
+    \ {\n                        A[j][k] = OperatorProperty::add(A[j][k], OperatorProperty::neg(OperatorProperty::mul(A[i][k],\
+    \ A[j][i])));\n                    }\n                }\n            }\n     \
+    \       Matrix<T> ret(n, n);\n            for(int i = 0; i < n; i ++) for(int\
+    \ j = 0; j < n; j ++) ret[i][j] = A[i][n+j];\n            return ret;\n      \
+    \  }\n    }\n\nprivate:\n    /**\n     * @brief \u30AC\u30A6\u30B9\u306E\u6D88\
+    \u53BB\u6CD5\u306E\u524D\u9032\u6D88\u53BB\u3092\u884C\u3063\u3066\u4E0A\u4E09\
+    \u89D2\u884C\u5217\u3092\u4F5C\u308A\u3001\u884C\u5217\u5F0F\u3092\u8FD4\u3059\
+    \n     * @param A \u884C\u5217\n     * @return \u884C\u5217\u5F0F\n     * @note\n\
+    \     * rank(A) < n\u306E\u5834\u5408\u306F0\u3092\u8FD4\u3059\n     * \u6B63\u65B9\
+    \u884C\u5217\u3067\u306F\u306A\u3044\u5834\u5408\u30010\u4EE5\u5916\u304C\u6B8B\
+    \u308B\u5DE6\u304B\u3089n\u500B\u306E\u5217\u3092\u4F7F\u3063\u3066\u884C\u5217\
+    \u5F0F\u3092\u8A08\u7B97\u3059\u308B\n     */\n    T forward_elimination(std::vector<std::valarray<T>>&\
+    \ A) const {\n        std::vector<int> pivot_col(n, 0);\n        T d(1);\n   \
+    \     for(int i = 0; i < n; i ++) {\n            if(i - 1 >= 0) pivot_col[i] =\
+    \ pivot_col[i - 1] + 1;\n            while(pivot_col[i] < m) {\n             \
+    \   int pivot = i;\n                if constexpr(std::is_floating_point_v<T>)\
+    \ {\n                    for(int j = i + 1; j < n; j ++) if(std::abs(A[j][pivot_col[i]])\
+    \ > std::abs(A[pivot][pivot_col[i]])) pivot = j;\n                    if(std::abs(A[pivot][pivot_col[i]])\
+    \ < 1e-9) {\n                        pivot_col[i] ++;\n                      \
+    \  continue;\n                    }\n                } else {\n              \
+    \      while(pivot < n && A[pivot][pivot_col[i]] == T(0)) pivot ++;\n        \
+    \            if(A[pivot][pivot_col[i]] == T(0)) {\n                        pivot_col[i]\
+    \ ++;\n                        continue;\n                    }\n            \
+    \    }\n                if(pivot != i) {\n                    std::swap(A[i],\
+    \ A[pivot]);\n                    d *= -T(1);\n                }\n           \
+    \     break;\n            }\n            if(pivot_col[i] == m) return T(0);\n\
+    \            T scale = A[i][pivot_col[i]];\n            d *= scale;\n        \
+    \    A[i] /= scale;\n            for(int j = i + 1; j < n; j ++) A[j] -= A[i]\
+    \ * A[j][pivot_col[i]];\n        }\n        return d;\n    }\n\n    /**\n    \
+    \ * @brief \u30AC\u30A6\u30B9\u306E\u6D88\u53BB\u6CD5\u306E\u524D\u9032\u6D88\u53BB\
+    \u3092\u884C\u3063\u3066\u4E0A\u4E09\u89D2\u884C\u5217\u3092\u4F5C\u308A\u3001\
+    \u884C\u5217\u5F0F\u3092\u8FD4\u3059\n     * @param A \u884C\u5217\n     * @return\
+    \ \u884C\u5217\u5F0F\n     * @note\n     * rank(A) < n\u306E\u5834\u5408\u306F\
+    0\u3092\u8FD4\u3059\n     * \u6B63\u65B9\u884C\u5217\u3067\u306F\u306A\u3044\u5834\
+    \u5408\u30010\u4EE5\u5916\u304C\u6B8B\u308B\u5DE6\u304B\u3089n\u500B\u306E\u5217\
+    \u3092\u4F7F\u3063\u3066\u884C\u5217\u5F0F\u3092\u8A08\u7B97\u3059\u308B\n   \
+    \  */\n    T forward_elimination(std::vector<std::vector<T>>& A) const {\n   \
+    \     std::vector<int> pivot_col(n, 0);\n        T d = OperatorProperty::one();\n\
+    \        for(int i = 0; i < n; i ++) {\n            if(i - 1 >= 0) pivot_col[i]\
+    \ = pivot_col[i - 1] + 1;\n            while(pivot_col[i] < m) {\n           \
+    \     int pivot = i;\n                while(pivot < n && A[pivot][pivot_col[i]]\
+    \ == OperatorProperty::zero()) pivot ++;\n                if(A[pivot][pivot_col[i]]\
+    \ == OperatorProperty::zero()) {\n                    pivot_col[i] ++;\n     \
+    \               continue;\n                }\n                if(pivot != i) {\n\
+    \                    std::swap(A[i], A[pivot]);\n                    d = OperatorProperty::neg(d);\n\
+    \                }\n                break;\n            }\n            if(pivot_col[i]\
+    \ == m) return T(0);\n            T scale = A[i][pivot_col[i]];\n            d\
+    \ = OperatorProperty::mul(d, scale);\n            for(int j = pivot_col[i]; j\
+    \ < m; j ++) A[i][j] = OperatorProperty::mul(A[i][j], OperatorProperty::inv(scale));\n\
+    \            for(int j = i + 1; j < n; j ++) {\n                T scale = A[j][pivot_col[i]];\n\
+    \                for(int k = pivot_col[i]; k < m; k ++) {\n                  \
+    \  A[j][k] = OperatorProperty::add(A[j][k], OperatorProperty::neg(OperatorProperty::mul(A[i][k],\
+    \ scale)));\n                }\n            }\n        }\n        return d;\n\
+    \    }\n};\n#line 2 \"cpp/unionfind.hpp\"\n\n/**\n * @file unionfind.hpp\n * @brief\
+    \ UnionFind\n */\n\n#line 11 \"cpp/unionfind.hpp\"\n\n/**\n * @brief \u7121\u5411\
+    \u30B0\u30E9\u30D5\u306B\u5BFE\u3057\u3066\u300C\u8FBA\u306E\u8FFD\u52A0\u300D\
+    \u3001\u300C2\u9802\u70B9\u304C\u9023\u7D50\u304B\u306E\u5224\u5B9A\u300D\u3092\
+    \u3059\u308B\n */\nstruct UnionFind {\n   private:\n    int _n;\n    // \u8CA0\
+    \u306A\u3089\u30B5\u30A4\u30BA\u3001\u975E\u8CA0\u306A\u3089\u89AA\n    std::vector<int>\
+    \ parent_or_size;\n\n   public:\n    UnionFind() : _n(0) {}\n    explicit UnionFind(int\
+    \ n) : _n(n), parent_or_size(n, -1) {}\n\n    /**\n     * @brief \u8FBA(a,b)\u3092\
+    \u8DB3\u3059\n     * @return \u9023\u7D50\u3057\u305F\u3082\u306E\u306E\u4EE3\u8868\
+    \u5143\n     */\n    int merge(int a, int b) {\n        assert(0 <= a && a < _n);\n\
+    \        assert(0 <= b && b < _n);\n        int x = leader(a), y = leader(b);\n\
+    \        if (x == y) return x;\n        if (-parent_or_size[x] < -parent_or_size[y])\
+    \ std::swap(x, y);\n        parent_or_size[x] += parent_or_size[y];\n        parent_or_size[y]\
+    \ = x;\n        return x;\n    }\n    /**\n     * @brief \u9802\u70B9a,b\u304C\
+    \u9023\u7D50\u304B\u3069\u3046\u304B\n     */\n    bool same(int a, int b) {\n\
+    \        assert(0 <= a && a < _n);\n        assert(0 <= b && b < _n);\n      \
+    \  return leader(a) == leader(b);\n    }\n    /**\n     * @brief \u9802\u70B9\
+    a\u306E\u5C5E\u3059\u308B\u9023\u7D50\u6210\u5206\u306E\u4EE3\u8868\u5143\n  \
+    \   */\n    int leader(int a) {\n        assert(0 <= a && a < _n);\n        if\
+    \ (parent_or_size[a] < 0) return a;\n        int x = a;\n        while (parent_or_size[x]\
+    \ >= 0) {\n            x = parent_or_size[x];\n        }\n        while (parent_or_size[a]\
     \ >= 0) {\n            int t = parent_or_size[a];\n            parent_or_size[a]\
     \ = x;\n            a = t;\n        }\n        return x;\n    }\n    /**\n   \
     \  * @brief \u9802\u70B9a\u306E\u5C5E\u3059\u308B\u9023\u7D50\u6210\u5206\u306E\
@@ -512,7 +570,7 @@ data:
   isVerificationFile: true
   path: test/atcoder-jsc2021-g.test.cpp
   requiredBy: []
-  timestamp: '2023-08-31 20:45:09+09:00'
+  timestamp: '2023-09-08 07:41:17+09:00'
   verificationStatus: TEST_WRONG_ANSWER
   verifiedWith: []
 documentation_of: test/atcoder-jsc2021-g.test.cpp

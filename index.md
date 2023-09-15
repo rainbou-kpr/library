@@ -77,6 +77,9 @@ data:
   - name: test
     pages:
     - icon: ':heavy_check_mark:'
+      path: test/aoj-3314.test.cpp
+      title: test/aoj-3314.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj-alds1-3-c.test.py
       title: test/aoj-alds1-3-c.test.py
     - icon: ':heavy_check_mark:'

@@ -4,6 +4,9 @@ data:
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
+    path: test/aoj-3314.test.cpp
+    title: test/aoj-3314.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/aoj-cgl-2-b.test.cpp
     title: test/aoj-cgl-2-b.test.cpp
   - icon: ':heavy_check_mark:'
@@ -157,7 +160,7 @@ data:
     \ 3> \n */\ntemplate <typename T>\nconstexpr Vector<T, 3> cross(const Vector<T,\
     \ 3>& lhs, const Vector<T, 3>& rhs) noexcept {\n    Vector<T, 3> ret;\n    ret[0]\
     \ = lhs[1] * rhs[2] - lhs[2] * rhs[1];\n    ret[1] = lhs[2] * rhs[0] - lhs[0]\
-    \ * rhs[2];\n    ret[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];\n    return std::move(ret);\n\
+    \ * rhs[2];\n    ret[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];\n    return ret;\n\
     }\n\n/**\n * @brief \u7DDA\u5206\u306E\u4EA4\u5DEE\u5224\u5B9A\n * \n * @param\
     \ p1 1\u672C\u76EE\u306E\u7DDA\u5206\u306E\u7AEF\u70B91\n * @param p2 1\u672C\u76EE\
     \u306E\u7DDA\u5206\u306E\u7AEF\u70B92\n * @param q1 2\u672C\u76EE\u306E\u7DDA\u5206\
@@ -427,7 +430,7 @@ data:
     \ 3> \n */\ntemplate <typename T>\nconstexpr Vector<T, 3> cross(const Vector<T,\
     \ 3>& lhs, const Vector<T, 3>& rhs) noexcept {\n    Vector<T, 3> ret;\n    ret[0]\
     \ = lhs[1] * rhs[2] - lhs[2] * rhs[1];\n    ret[1] = lhs[2] * rhs[0] - lhs[0]\
-    \ * rhs[2];\n    ret[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];\n    return std::move(ret);\n\
+    \ * rhs[2];\n    ret[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];\n    return ret;\n\
     }\n\n/**\n * @brief \u7DDA\u5206\u306E\u4EA4\u5DEE\u5224\u5B9A\n * \n * @param\
     \ p1 1\u672C\u76EE\u306E\u7DDA\u5206\u306E\u7AEF\u70B91\n * @param p2 1\u672C\u76EE\
     \u306E\u7DDA\u5206\u306E\u7AEF\u70B92\n * @param q1 2\u672C\u76EE\u306E\u7DDA\u5206\
@@ -569,21 +572,22 @@ data:
     \u306E\u8DDD\u96E2\u3001\u6700\u8FD1\u70B9\u5BFE\u306E\u30A4\u30F3\u30C7\u30C3\
     \u30AF\u30B9\n */\ntemplate <typename T>\nstd::tuple<double, int, int> closest_point_pair(const\
     \ std::vector<Vector<T, 2>>& points) {\n    auto [d2, i, j] = closest_point_pair_squred(points);\n\
-    \    return {std::sqrt(d2), i, j};\n}"
+    \    return {std::sqrt(d2), i, j};\n}\n"
   dependsOn: []
   isVerificationFile: false
   path: cpp/vector.hpp
   requiredBy: []
-  timestamp: '2023-05-26 16:24:31+09:00'
+  timestamp: '2023-09-07 23:01:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/aoj-3314.test.cpp
   - test/aoj-cgl-4-a.test.cpp
   - test/aoj-cgl-3-a.test.cpp
-  - test/aoj-cgl-2-b.test.cpp
-  - test/aoj-cgl-3-c.test.cpp
-  - test/aoj-cgl-5-a.test.cpp
   - test/aoj-cgl-2-c.test.cpp
   - test/aoj-cgl-3-b.test.cpp
+  - test/aoj-cgl-3-c.test.cpp
+  - test/aoj-cgl-2-b.test.cpp
+  - test/aoj-cgl-5-a.test.cpp
 documentation_of: cpp/vector.hpp
 layout: document
 redirect_from:

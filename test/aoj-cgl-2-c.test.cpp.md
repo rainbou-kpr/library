@@ -143,7 +143,7 @@ data:
     \ 3> \n */\ntemplate <typename T>\nconstexpr Vector<T, 3> cross(const Vector<T,\
     \ 3>& lhs, const Vector<T, 3>& rhs) noexcept {\n    Vector<T, 3> ret;\n    ret[0]\
     \ = lhs[1] * rhs[2] - lhs[2] * rhs[1];\n    ret[1] = lhs[2] * rhs[0] - lhs[0]\
-    \ * rhs[2];\n    ret[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];\n    return std::move(ret);\n\
+    \ * rhs[2];\n    ret[2] = lhs[0] * rhs[1] - lhs[1] * rhs[0];\n    return ret;\n\
     }\n\n/**\n * @brief \u7DDA\u5206\u306E\u4EA4\u5DEE\u5224\u5B9A\n * \n * @param\
     \ p1 1\u672C\u76EE\u306E\u7DDA\u5206\u306E\u7AEF\u70B91\n * @param p2 1\u672C\u76EE\
     \u306E\u7DDA\u5206\u306E\u7AEF\u70B92\n * @param q1 2\u672C\u76EE\u306E\u7DDA\u5206\
@@ -301,7 +301,7 @@ data:
   isVerificationFile: true
   path: test/aoj-cgl-2-c.test.cpp
   requiredBy: []
-  timestamp: '2023-05-26 16:24:31+09:00'
+  timestamp: '2023-09-07 23:01:33+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj-cgl-2-c.test.cpp

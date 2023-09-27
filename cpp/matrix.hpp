@@ -275,8 +275,8 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
         int p = B[0].size();
         Matrix<T> C(n, p);
         for(int i = 0; i < n; i ++) {
-            for(int k = 0; k < p; k ++) {
-                for(int j = 0; j < m; j ++) {
+            for(int k = 0; k < m; k ++) {
+                for(int j = 0; j < p; j ++) {
                     C[i][j] = OperatorProperty::add(C[i][j], OperatorProperty::mul((*this)[i][k], B[k][j]));
                 }
             }

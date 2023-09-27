@@ -134,14 +134,14 @@ class SegTree(Generic[S]):
             l >>= 1
         sm = self.e
         while f(self.op(sm, self.data[l])):
-            if l.bit_length() != (l+1).bit_length():
-                return self.n
             sm = self.op(sm, self.data[l])
             l += 1
             while l % 2 == 0:
                 l >>= 1
+            if l == 1:
+                return self.n
         while l < self.sz:
-            if not f(self.op(self.data[l*2])):
+            if not f(self.op(sm, self.data[l*2])):
                 l *= 2
             else:
                 sm = self.op(sm, self.data[l*2])
@@ -159,24 +159,24 @@ class SegTree(Generic[S]):
         assert f(self.e)
         if r == 0:
             return 0
-        r += self.sz-1
-        while r % 2 == 1:
+        r += self.sz
+        while r % 2 == 0:
             r >>= 1
         sm = self.e
-        while f(self.op(sm, self.data[r])):
-            if r.bit_length() != (r-1).bit_length():
-                return 0
-            sm = self.op(sm, self.data[r])
+        while f(self.op(self.data[r-1], sm)):
+            sm = self.op(self.data[r-1], sm)
             r -= 1
-            while r % 2 == 1:
+            while r % 2 == 0:
                 r >>= 1
+            if r == 1:
+                return 0
         while r < self.sz:
-            if not f(self.op(self.data[r*2+1], sm)):
-                r = r*2+1
+            if not f(self.op(self.data[r*2-1], sm)):
+                r = r*2
             else:
-                sm = self.op(self.data[r*2+1], sm)
-                r *= 2
-        return r+1-self.sz
+                sm = self.op(self.data[r*2-1], sm)
+                r = r*2-1
+        return r-self.sz
 
     def __str__(self) -> str:
         re: List[str] = []

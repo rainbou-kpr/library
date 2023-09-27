@@ -4,6 +4,9 @@ data:
   - name: cpp
     pages:
     - icon: ':heavy_check_mark:'
+      path: cpp/combinatorics.hpp
+      title: "\u7D44\u307F\u5408\u308F\u305B"
+    - icon: ':heavy_check_mark:'
       path: cpp/convex-hull-trick.hpp
       title: Convex Hull Trick
     - icon: ':heavy_check_mark:'
@@ -155,6 +158,9 @@ data:
       path: test/atcoder-past202012-n.test.py
       title: test/atcoder-past202012-n.test.py
     - icon: ':heavy_check_mark:'
+      path: test/yosupo-binomial-coefficient.test.cpp
+      title: test/yosupo-binomial-coefficient.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-convolution-mod-1000000007.test.cpp
       title: test/yosupo-convolution-mod-1000000007.test.cpp
     - icon: ':heavy_check_mark:'
@@ -223,6 +229,15 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-zalgorithm.test.cpp
       title: test/yosupo-zalgorithm.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yukicoder-117.test.cpp
+      title: test/yukicoder-117.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yukicoder-186.test.cpp
+      title: test/yukicoder-186.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yukicoder-187.test.cpp
+      title: test/yukicoder-187.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yukicoder-2292.test.cpp
       title: test/yukicoder-2292.test.cpp

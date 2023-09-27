@@ -2,9 +2,8 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
-    path: cpp/io.hpp
-    title: "\u7A7A\u767D\u533A\u5207\u308A\u51FA\u529B\u3001iostream\u306E\u30AA\u30FC\
-      \u30D0\u30FC\u30ED\u30FC\u30C9"
+    path: cpp/combinatorics.hpp
+    title: "\u7D44\u307F\u5408\u308F\u305B"
   - icon: ':question:'
     path: cpp/modint.hpp
     title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
@@ -19,122 +18,75 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://judge.yosupo.jp/problem/convolution_mod_2_64
+    PROBLEM: https://yukicoder.me/problems/no/117
     links:
-    - https://judge.yosupo.jp/problem/convolution_mod_2_64
-  bundledCode: "#line 1 \"test/yosupo-convolution-mod-2-64.test.cpp\"\n#define PROBLEM\
-    \ \"https://judge.yosupo.jp/problem/convolution_mod_2_64\"\n\n#line 2 \"cpp/io.hpp\"\
-    \n/**\n * @file io.hpp\n * @brief \u7A7A\u767D\u533A\u5207\u308A\u51FA\u529B\u3001\
-    iostream\u306E\u30AA\u30FC\u30D0\u30FC\u30ED\u30FC\u30C9\n */\n\n#include <array>\n\
-    #include <iostream>\n#include <utility>\n#include <tuple>\n#include <vector>\n\
-    \nnamespace tuple_io {\n    template <typename Tuple, size_t I, typename CharT,\
-    \ typename Traits>\n    std::basic_istream<CharT, Traits>& read_tuple(std::basic_istream<CharT,\
-    \ Traits>& is, Tuple& t) {\n        is >> std::get<I>(t);\n        if constexpr\
-    \ (I + 1 < std::tuple_size_v<Tuple>) {\n            return read_tuple<Tuple, I\
-    \ + 1>(is, t);\n        }\n        return is;\n    }\n    template <typename Tuple,\
-    \ size_t I, typename CharT, typename Traits>\n    std::basic_ostream<CharT, Traits>&\
-    \ write_tuple(std::basic_ostream<CharT, Traits>& os, const Tuple& t) {\n     \
-    \   os << std::get<I>(t);\n        if constexpr (I + 1 < std::tuple_size_v<Tuple>)\
-    \ {\n            os << CharT(' ');\n            return write_tuple<Tuple, I +\
-    \ 1>(os, t);\n        }\n        return os;\n    }\n};\n\ntemplate <typename T1,\
-    \ typename T2, typename CharT, typename Traits>\nstd::basic_istream<CharT, Traits>&\
-    \ operator>>(std::basic_istream<CharT, Traits>& is, std::pair<T1, T2>& p) {\n\
-    \    is >> p.first >> p.second;\n    return is;\n}\ntemplate <typename... Types,\
-    \ typename CharT, typename Traits>\nstd::basic_istream<CharT, Traits>& operator>>(std::basic_istream<CharT,\
-    \ Traits>& is, std::tuple<Types...>& p) {\n    return tuple_io::read_tuple<std::tuple<Types...>,\
-    \ 0>(is, p);\n}\ntemplate <typename T, size_t N, typename CharT, typename Traits>\n\
-    std::basic_istream<CharT, Traits>& operator>>(std::basic_istream<CharT, Traits>&\
-    \ is, std::array<T, N>& a) {\n    for(auto& e : a) is >> e;\n    return is;\n\
-    }\ntemplate <typename T, typename CharT, typename Traits>\nstd::basic_istream<CharT,\
-    \ Traits>& operator>>(std::basic_istream<CharT, Traits>& is, std::vector<T>& v)\
-    \ {\n    for(auto& e : v) is >> e;\n    return is;\n}\n\ntemplate <typename T1,\
-    \ typename T2, typename CharT, typename Traits>\nstd::basic_ostream<CharT, Traits>&\
-    \ operator<<(std::basic_ostream<CharT, Traits>& os, const std::pair<T1, T2>& p)\
-    \ {\n    os << p.first << CharT(' ') << p.second;\n    return os;\n}\ntemplate\
-    \ <typename... Types, typename CharT, typename Traits>\nstd::basic_ostream<CharT,\
-    \ Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const std::tuple<Types...>&\
-    \ p) {\n    return tuple_io::write_tuple<std::tuple<Types...>, 0>(os, p);\n}\n\
-    template <typename T, size_t N, typename CharT, typename Traits>\nstd::basic_ostream<CharT,\
-    \ Traits>& operator<<(std::basic_ostream<CharT, Traits>& os, const std::array<T,\
-    \ N>& a) {\n    for(size_t i = 0; i < N; ++i) {\n        if(i) os << CharT(' ');\n\
-    \        os << a[i];\n    }\n    return os;\n}\ntemplate <typename T, typename\
-    \ CharT, typename Traits>\nstd::basic_ostream<CharT, Traits>& operator<<(std::basic_ostream<CharT,\
-    \ Traits>& os, const std::vector<T>& v) {\n    for(size_t i = 0; i < v.size();\
-    \ ++i) {\n        if(i) os << CharT(' ');\n        os << v[i];\n    }\n    return\
-    \ os;\n}\n\n/**\n * @brief \u7A7A\u884C\u51FA\u529B\n */\nvoid print() { std::cout\
-    \ << '\\n'; }\n/**\n * @brief \u51FA\u529B\u3057\u3066\u6539\u884C\n * \n * @tparam\
-    \ T \u578B\n * @param x \u51FA\u529B\u3059\u308B\u5024\n */\ntemplate <typename\
-    \ T>\nvoid print(const T& x) { std::cout << x << '\\n'; }\n/**\n * @brief \u7A7A\
-    \u767D\u533A\u5207\u308A\u3067\u51FA\u529B\u3057\u3066\u6539\u884C\n * \n * @tparam\
-    \ T 1\u3064\u76EE\u306E\u8981\u7D20\u306E\u578B\n * @tparam Tail 2\u3064\u76EE\
-    \u4EE5\u964D\u306E\u8981\u7D20\u306E\u578B\n * @param x 1\u3064\u76EE\u306E\u8981\
-    \u7D20\n * @param tail 2\u3064\u76EE\u4EE5\u964D\u306E\u8981\u7D20\n */\ntemplate\
-    \ <typename T, typename... Tail>\nvoid print(const T& x, const Tail&... tail)\
-    \ {\n    std::cout << x << ' ';\n    print(tail...);\n}\n#line 2 \"cpp/number-theory.hpp\"\
+    - https://yukicoder.me/problems/no/117
+  bundledCode: "#line 1 \"test/yukicoder-117.test.cpp\"\n#define PROBLEM \"https://yukicoder.me/problems/no/117\"\
+    \n\n#line 2 \"cpp/combinatorics.hpp\"\n\n#include <vector>\n#line 2 \"cpp/number-theory.hpp\"\
     \n\n#include <numeric>\n#line 2 \"cpp/modint.hpp\"\n\n/**\n * @file modint.hpp\n\
     \ * @brief \u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067\
-    \ mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n */\n\n#line 10 \"cpp/modint.hpp\"\
-    \n#include <limits>\n#include <type_traits>\n#include <cstdint>\n#include <cassert>\n\
-    \nnamespace detail {\n    static constexpr std::uint16_t prime32_bases[] {\n \
-    \       15591,  2018,  166, 7429,  8064, 16045, 10503,  4399,  1949,  1295, 2776,\
-    \  3620,   560,  3128,  5212,  2657,\n         2300,  2021, 4652, 1471,  9336,\
-    \  4018,  2398, 20462, 10277,  8028, 2213,  6219,   620,  3763,  4852,  5012,\n\
-    \         3185,  1333, 6227, 5298,  1074,  2391,  5113,  7061,   803,  1269, 3875,\
-    \   422,   751,   580,  4729, 10239,\n          746,  2951,  556, 2206,  3778,\
-    \   481,  1522,  3476,   481,  2487, 3266,  5633,   488,  3373,  6441,  3344,\n\
-    \           17, 15105, 1490, 4154,  2036,  1882,  1813,   467,  3307, 14042, 6371,\
-    \   658,  1005,   903,   737,  1887,\n         7447,  1888, 2848, 1784,  7559,\
-    \  3400,   951, 13969,  4304,   177,   41, 19875,  3110, 13221,  8726,   571,\n\
-    \         7043,  6943, 1199,  352,  6435,   165,  1169,  3315,   978,   233, 3003,\
-    \  2562,  2994, 10587, 10030,  2377,\n         1902,  5354, 4447, 1555,   263,\
-    \ 27027,  2283,   305,   669,  1912,  601,  6186,   429,  1930, 14873,  1784,\n\
-    \         1661,   524, 3577,  236,  2360,  6146,  2850, 55637,  1753,  4178, 8466,\
-    \   222,  2579,  2743,  2031,  2226,\n         2276,   374, 2132,  813, 23788,\
-    \  1610,  4422,  5159,  1725,  3597, 3366, 14336,   579,   165,  1375, 10018,\n\
-    \        12616,  9816, 1371,  536,  1867, 10864,   857,  2206,  5788,   434, 8085,\
-    \ 17618,   727,  3639,  1595,  4944,\n         2129,  2029, 8195, 8344,  6232,\
-    \  9183,  8126,  1870,  3296,  7455, 8947, 25017,   541, 19115,   368,   566,\n\
-    \         5674,   411,  522, 1027,  8215,  2050,  6544, 10049,   614,   774, 2333,\
-    \  3007, 35201,  4706,  1152,  1785,\n         1028,  1540, 3743,  493,  4474,\
-    \  2521, 26845,  8354,   864, 18915, 5465,  2447,    42,  4511,  1660,   166,\n\
-    \         1249,  6259, 2553,  304,   272,  7286,    73,  6554,   899,  2816, 5197,\
-    \ 13330,  7054,  2818,  3199,   811,\n          922,   350, 7514, 4452,  3449,\
-    \  2663,  4708,   418,  1621,  1171, 3471,    88, 11345,   412,  1559,   194,\n\
-    \    };\n\n    static constexpr bool is_SPRP(std::uint32_t n, std::uint32_t a)\
-    \ noexcept {\n        std::uint32_t d = n - 1;\n        std::uint32_t s = 0;\n\
-    \        while ((d & 1) == 0) {\n            ++s;\n            d >>= 1;\n    \
-    \    }\n        std::uint64_t cur = 1;\n        std::uint64_t pw = d;\n      \
-    \  while (pw) {\n            if (pw & 1) cur = (cur * a) % n;\n            a =\
-    \ (static_cast<std::uint64_t>(a) * a) % n;\n            pw >>= 1;\n        }\n\
-    \        if (cur == 1) return true;\n        for (std::uint32_t r = 0; r < s;\
-    \ ++r) {\n            if (cur == n - 1) return true;\n            cur = (cur *\
-    \ cur) % n;\n        }\n        return false;\n    }\n\n    // 32\u30D3\u30C3\u30C8\
-    \u7B26\u53F7\u306A\u3057\u6574\u6570\u306E\u7D20\u6570\u5224\u5B9A\n    // \u53C2\
-    \u8003: M. Forisek and J. Jancina, \u201CFast Primality Testing for Integers That\
-    \ Fit into a Machine Word,\u201D presented at the Conference on Current Trends\
-    \ in Theory and Practice of Informatics, 2015.\n    [[nodiscard]]\n    static\
-    \ constexpr bool is_prime32(std::uint32_t x) noexcept {\n        if (x == 2 ||\
-    \ x == 3 || x == 5 || x == 7) return true;\n        if (x % 2 == 0 || x % 3 ==\
-    \ 0 || x % 5 == 0 || x % 7 == 0) return false;\n        if (x < 121) return (x\
-    \ > 1);\n        std::uint64_t h = x;\n        h = ((h >> 16) ^ h) * 0x45d9f3b;\n\
-    \        h = ((h >> 16) ^ h) * 0x45d9f3b;\n        h = ((h >> 16) ^ h) & 0xff;\n\
-    \        return is_SPRP(x, prime32_bases[h]);\n    }\n}\n\n/// @brief static_modint\
-    \ \u3068 dynamic_modint \u306E\u5B9F\u88C5\u3092 CRTP \u306B\u3088\u3063\u3066\
-    \u884C\u3046\u305F\u3081\u306E\u30AF\u30E9\u30B9\u30C6\u30F3\u30D7\u30EC\u30FC\
-    \u30C8\n/// @tparam Modint \u3053\u306E\u30AF\u30E9\u30B9\u30C6\u30F3\u30D7\u30EC\
-    \u30FC\u30C8\u3092\u7D99\u627F\u3059\u308B\u30AF\u30E9\u30B9\ntemplate <class\
-    \ Modint>\nclass modint_base {\npublic:\n    /// @brief \u4FDD\u6301\u3059\u308B\
-    \u5024\u306E\u578B\n    using value_type = std::uint32_t;\n\n    /// @brief 0\
-    \ \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    constexpr modint_base()\
-    \ noexcept\n        : m_value{ 0 } {}\n\n    /// @brief @c value \u306E\u5270\u4F59\
-    \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    /// @param value \u521D\u671F\
-    \u5316\u306B\u4F7F\u3046\u5024\n    template <class SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral>\
-    \ && std::is_signed_v<SignedIntegral>>* = nullptr>\n    constexpr modint_base(SignedIntegral\
-    \ value) noexcept\n        : m_value{ static_cast<value_type>((static_cast<long\
-    \ long>(value) % Modint::mod() + Modint::mod()) % Modint::mod()) } {}\n\n    ///\
-    \ @brief @c value \u306E\u5270\u4F59\u3067\u521D\u671F\u5316\u3057\u307E\u3059\
-    \u3002\n    /// @param value \u521D\u671F\u5316\u306B\u4F7F\u3046\u5024\n    template\
-    \ <class UnsignedIntegral, std::enable_if_t<std::is_integral_v<UnsignedIntegral>\
+    \ mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n */\n\n#include <iostream>\n#include\
+    \ <utility>\n#include <limits>\n#include <type_traits>\n#include <cstdint>\n#include\
+    \ <cassert>\n\nnamespace detail {\n    static constexpr std::uint16_t prime32_bases[]\
+    \ {\n        15591,  2018,  166, 7429,  8064, 16045, 10503,  4399,  1949,  1295,\
+    \ 2776,  3620,   560,  3128,  5212,  2657,\n         2300,  2021, 4652, 1471,\
+    \  9336,  4018,  2398, 20462, 10277,  8028, 2213,  6219,   620,  3763,  4852,\
+    \  5012,\n         3185,  1333, 6227, 5298,  1074,  2391,  5113,  7061,   803,\
+    \  1269, 3875,   422,   751,   580,  4729, 10239,\n          746,  2951,  556,\
+    \ 2206,  3778,   481,  1522,  3476,   481,  2487, 3266,  5633,   488,  3373, \
+    \ 6441,  3344,\n           17, 15105, 1490, 4154,  2036,  1882,  1813,   467,\
+    \  3307, 14042, 6371,   658,  1005,   903,   737,  1887,\n         7447,  1888,\
+    \ 2848, 1784,  7559,  3400,   951, 13969,  4304,   177,   41, 19875,  3110, 13221,\
+    \  8726,   571,\n         7043,  6943, 1199,  352,  6435,   165,  1169,  3315,\
+    \   978,   233, 3003,  2562,  2994, 10587, 10030,  2377,\n         1902,  5354,\
+    \ 4447, 1555,   263, 27027,  2283,   305,   669,  1912,  601,  6186,   429,  1930,\
+    \ 14873,  1784,\n         1661,   524, 3577,  236,  2360,  6146,  2850, 55637,\
+    \  1753,  4178, 8466,   222,  2579,  2743,  2031,  2226,\n         2276,   374,\
+    \ 2132,  813, 23788,  1610,  4422,  5159,  1725,  3597, 3366, 14336,   579,  \
+    \ 165,  1375, 10018,\n        12616,  9816, 1371,  536,  1867, 10864,   857, \
+    \ 2206,  5788,   434, 8085, 17618,   727,  3639,  1595,  4944,\n         2129,\
+    \  2029, 8195, 8344,  6232,  9183,  8126,  1870,  3296,  7455, 8947, 25017,  \
+    \ 541, 19115,   368,   566,\n         5674,   411,  522, 1027,  8215,  2050, \
+    \ 6544, 10049,   614,   774, 2333,  3007, 35201,  4706,  1152,  1785,\n      \
+    \   1028,  1540, 3743,  493,  4474,  2521, 26845,  8354,   864, 18915, 5465, \
+    \ 2447,    42,  4511,  1660,   166,\n         1249,  6259, 2553,  304,   272,\
+    \  7286,    73,  6554,   899,  2816, 5197, 13330,  7054,  2818,  3199,   811,\n\
+    \          922,   350, 7514, 4452,  3449,  2663,  4708,   418,  1621,  1171, 3471,\
+    \    88, 11345,   412,  1559,   194,\n    };\n\n    static constexpr bool is_SPRP(std::uint32_t\
+    \ n, std::uint32_t a) noexcept {\n        std::uint32_t d = n - 1;\n        std::uint32_t\
+    \ s = 0;\n        while ((d & 1) == 0) {\n            ++s;\n            d >>=\
+    \ 1;\n        }\n        std::uint64_t cur = 1;\n        std::uint64_t pw = d;\n\
+    \        while (pw) {\n            if (pw & 1) cur = (cur * a) % n;\n        \
+    \    a = (static_cast<std::uint64_t>(a) * a) % n;\n            pw >>= 1;\n   \
+    \     }\n        if (cur == 1) return true;\n        for (std::uint32_t r = 0;\
+    \ r < s; ++r) {\n            if (cur == n - 1) return true;\n            cur =\
+    \ (cur * cur) % n;\n        }\n        return false;\n    }\n\n    // 32\u30D3\
+    \u30C3\u30C8\u7B26\u53F7\u306A\u3057\u6574\u6570\u306E\u7D20\u6570\u5224\u5B9A\
+    \n    // \u53C2\u8003: M. Forisek and J. Jancina, \u201CFast Primality Testing\
+    \ for Integers That Fit into a Machine Word,\u201D presented at the Conference\
+    \ on Current Trends in Theory and Practice of Informatics, 2015.\n    [[nodiscard]]\n\
+    \    static constexpr bool is_prime32(std::uint32_t x) noexcept {\n        if\
+    \ (x == 2 || x == 3 || x == 5 || x == 7) return true;\n        if (x % 2 == 0\
+    \ || x % 3 == 0 || x % 5 == 0 || x % 7 == 0) return false;\n        if (x < 121)\
+    \ return (x > 1);\n        std::uint64_t h = x;\n        h = ((h >> 16) ^ h) *\
+    \ 0x45d9f3b;\n        h = ((h >> 16) ^ h) * 0x45d9f3b;\n        h = ((h >> 16)\
+    \ ^ h) & 0xff;\n        return is_SPRP(x, prime32_bases[h]);\n    }\n}\n\n///\
+    \ @brief static_modint \u3068 dynamic_modint \u306E\u5B9F\u88C5\u3092 CRTP \u306B\
+    \u3088\u3063\u3066\u884C\u3046\u305F\u3081\u306E\u30AF\u30E9\u30B9\u30C6\u30F3\
+    \u30D7\u30EC\u30FC\u30C8\n/// @tparam Modint \u3053\u306E\u30AF\u30E9\u30B9\u30C6\
+    \u30F3\u30D7\u30EC\u30FC\u30C8\u3092\u7D99\u627F\u3059\u308B\u30AF\u30E9\u30B9\
+    \ntemplate <class Modint>\nclass modint_base {\npublic:\n    /// @brief \u4FDD\
+    \u6301\u3059\u308B\u5024\u306E\u578B\n    using value_type = std::uint32_t;\n\n\
+    \    /// @brief 0 \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    constexpr\
+    \ modint_base() noexcept\n        : m_value{ 0 } {}\n\n    /// @brief @c value\
+    \ \u306E\u5270\u4F59\u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    ///\
+    \ @param value \u521D\u671F\u5316\u306B\u4F7F\u3046\u5024\n    template <class\
+    \ SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral> && std::is_signed_v<SignedIntegral>>*\
+    \ = nullptr>\n    constexpr modint_base(SignedIntegral value) noexcept\n     \
+    \   : m_value{ static_cast<value_type>((static_cast<long long>(value) % Modint::mod()\
+    \ + Modint::mod()) % Modint::mod()) } {}\n\n    /// @brief @c value \u306E\u5270\
+    \u4F59\u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    /// @param value \u521D\
+    \u671F\u5316\u306B\u4F7F\u3046\u5024\n    template <class UnsignedIntegral, std::enable_if_t<std::is_integral_v<UnsignedIntegral>\
     \ && std::is_unsigned_v<UnsignedIntegral>>* = nullptr>\n    constexpr modint_base(UnsignedIntegral\
     \ value) noexcept\n        : m_value{ static_cast<value_type>(value % Modint::mod())\
     \ } {}\n\n    /// @brief \u4FDD\u6301\u3057\u3066\u3044\u308B\u5024\u3092\u53D6\
@@ -454,63 +406,123 @@ data:
     \ * (c1[i] - y0)).value();\n        int y2 = (NTT::imod01 * (c2[i] - y0) - NTT::imod1\
     \ * y1).value();\n        __int128_t tmp = (__int128_t)mod01 * y2 + (__int128_t)mod0\
     \ * y1 + y0;\n        if(tmp < (mod012 >> 1)) res[i] = tmp;\n        else res[i]\
-    \ = tmp - mod012;\n    }\n    return res;\n}\n#line 5 \"test/yosupo-convolution-mod-2-64.test.cpp\"\
-    \n\nint main(void) {\n    int n, m; std::cin >> n >> m;\n    std::vector<long\
-    \ long> a0(n), a1(n), a2(n), b0(m), b1(m), b2(m);\n    for(int i = 0; i < n; i++)\
-    \ {\n        unsigned long long a; std::cin >> a;\n        a0[i] = a & ((1ULL\
-    \ << 31) - 1);\n        a1[i] = a >> 31 & ((1ULL << 31) - 1);\n        a2[i] =\
-    \ a >> 62;\n    }\n    for(int i = 0; i < m; i++) {\n        unsigned long long\
-    \ b; std::cin >> b;\n        b0[i] = b & ((1ULL << 31) - 1);\n        b1[i] =\
-    \ b >> 31 & ((1ULL << 31) - 1);\n        b2[i] = b >> 62;\n    }\n    std::vector<unsigned\
-    \ long long> c(n+m-1);\n    std::vector<long long> c00 = convolution_ll(a0, b0);\n\
-    \    for(int i = 0; i < n+m-1; i++) {\n        c[i] += (unsigned long long)c00[i];\n\
-    \    }\n    std::vector<long long> c01 = convolution_ll(a0, b1);\n    for(int\
-    \ i = 0; i < n+m-1; i++) {\n        c[i] += (unsigned long long)c01[i] << 31;\n\
-    \    }\n    std::vector<long long> c02 = convolution_ll(a0, b2);\n    for(int\
-    \ i = 0; i < n+m-1; i++) {\n        c[i] += (unsigned long long)c02[i] << 62;\n\
-    \    }\n    std::vector<long long> c10 = convolution_ll(a1, b0);\n    for(int\
-    \ i = 0; i < n+m-1; i++) {\n        c[i] += (unsigned long long)c10[i] << 31;\n\
-    \    }\n    std::vector<long long> c11 = convolution_ll(a1, b1);\n    for(int\
-    \ i = 0; i < n+m-1; i++) {\n        c[i] += (unsigned long long)c11[i] << 62;\n\
-    \    }\n    std::vector<long long> c20 = convolution_ll(a2, b0);\n    for(int\
-    \ i = 0; i < n+m-1; i++) {\n        c[i] += (unsigned long long)c20[i] << 62;\n\
-    \    }\n    std::cout << c << std::endl;\n}\n"
-  code: "#define PROBLEM \"https://judge.yosupo.jp/problem/convolution_mod_2_64\"\n\
-    \n#include \"../cpp/io.hpp\"\n#include \"../cpp/number-theory.hpp\"\n\nint main(void)\
-    \ {\n    int n, m; std::cin >> n >> m;\n    std::vector<long long> a0(n), a1(n),\
-    \ a2(n), b0(m), b1(m), b2(m);\n    for(int i = 0; i < n; i++) {\n        unsigned\
-    \ long long a; std::cin >> a;\n        a0[i] = a & ((1ULL << 31) - 1);\n     \
-    \   a1[i] = a >> 31 & ((1ULL << 31) - 1);\n        a2[i] = a >> 62;\n    }\n \
-    \   for(int i = 0; i < m; i++) {\n        unsigned long long b; std::cin >> b;\n\
-    \        b0[i] = b & ((1ULL << 31) - 1);\n        b1[i] = b >> 31 & ((1ULL <<\
-    \ 31) - 1);\n        b2[i] = b >> 62;\n    }\n    std::vector<unsigned long long>\
-    \ c(n+m-1);\n    std::vector<long long> c00 = convolution_ll(a0, b0);\n    for(int\
-    \ i = 0; i < n+m-1; i++) {\n        c[i] += (unsigned long long)c00[i];\n    }\n\
-    \    std::vector<long long> c01 = convolution_ll(a0, b1);\n    for(int i = 0;\
-    \ i < n+m-1; i++) {\n        c[i] += (unsigned long long)c01[i] << 31;\n    }\n\
-    \    std::vector<long long> c02 = convolution_ll(a0, b2);\n    for(int i = 0;\
-    \ i < n+m-1; i++) {\n        c[i] += (unsigned long long)c02[i] << 62;\n    }\n\
-    \    std::vector<long long> c10 = convolution_ll(a1, b0);\n    for(int i = 0;\
-    \ i < n+m-1; i++) {\n        c[i] += (unsigned long long)c10[i] << 31;\n    }\n\
-    \    std::vector<long long> c11 = convolution_ll(a1, b1);\n    for(int i = 0;\
-    \ i < n+m-1; i++) {\n        c[i] += (unsigned long long)c11[i] << 62;\n    }\n\
-    \    std::vector<long long> c20 = convolution_ll(a2, b0);\n    for(int i = 0;\
-    \ i < n+m-1; i++) {\n        c[i] += (unsigned long long)c20[i] << 62;\n    }\n\
-    \    std::cout << c << std::endl;\n}\n"
+    \ = tmp - mod012;\n    }\n    return res;\n}\n#line 5 \"cpp/combinatorics.hpp\"\
+    \n\n/**\n * @brief \u7D44\u307F\u5408\u308F\u305B\n */\ntemplate <typename Modint>\n\
+    class Combination {\n    static std::vector<Modint> fact, inv_fact;\n\npublic:\n\
+    \    /**\n     * @brief n \u307E\u3067\u306E\u968E\u4E57\u3068\u305D\u306E\u9006\
+    \u5143\u3092\u524D\u8A08\u7B97\u3059\u308B\n     * @param n\n     * @note O(n)\
+    \ \u5FC5\u8981\u306B\u306A\u3063\u305F\u3089\u547C\u3073\u51FA\u3055\u308C\u308B\
+    \u304C\u3001\u4E88\u3081\u5927\u304D\u306An\u306B\u5BFE\u3057\u3066\u547C\u3073\
+    \u51FA\u3057\u3066\u304A\u304F\u3053\u3068\u3067\u9006\u5143\u306E\u76F4\u63A5\
+    \u8A08\u7B97\u3092\u6E1B\u3089\u305B\u308B\n     */\n    inline static void extend(int\
+    \ n) {\n        int m = fact.size();\n        if (n < m) return;\n        fact.resize(n\
+    \ + 1);\n        inv_fact.resize(n + 1);\n        for (int i = m; i <= n; ++i)\
+    \ {\n            fact[i] = fact[i - 1] * i;\n        }\n        inv_fact[n] =\
+    \ fact[n].inv();\n        for (int i = n; i > m; --i) {\n            inv_fact[i\
+    \ - 1] = inv_fact[i] * i;\n        }\n    }\n    \n    /**\n     * @brief n \u306E\
+    \u968E\u4E57\u3092\u8FD4\u3059\n     * @param n\n     * @return n!\n     * @note\
+    \ extend(n), O(1)\n     */\n    inline static Modint factorial(int n) {\n    \
+    \    extend(n);\n        return fact[n];\n    }\n    /**\n     * @brief n \u306E\
+    \u968E\u4E57\u306E\u9006\u5143\u3092\u8FD4\u3059\n     * @param n\n     * @return\
+    \ n!^-1\n     * @note extend(n), O(1)\n     */\n    inline static Modint inverse_factorial(int\
+    \ n) {\n        extend(n);\n        return inv_fact[n];\n    }\n    /**\n    \
+    \ * @brief n \u306E\u9006\u5143\u3092\u8FD4\u3059\n     * @param n\n     * @return\
+    \ n^-1\n     * @note extend(n), O(1)\n     */\n    inline static Modint inverse(int\
+    \ n) {\n        extend(n);\n        return inv_fact[n] * fact[n - 1];\n    }\n\
+    \n    /**\n     * @brief nPr \u3092\u8FD4\u3059\n     * @param n\n     * @param\
+    \ r\n     * @return nPr\n     * @note extend(n), O(1)\n     */\n    inline static\
+    \ Modint P(int n, int r) {\n        if (r < 0 || n < r) return 0;\n        extend(n);\n\
+    \        return fact[n] * inv_fact[n - r];\n    }\n    /**\n     * @brief nCr\
+    \ \u3092\u8FD4\u3059\n     * @param n\n     * @param r\n     * @return nCr\n \
+    \    * @note extend(n), O(1)\n     */\n    inline static Modint C(int n, int r)\
+    \ {\n        if (r < 0 || n < r) return 0;\n        extend(n);\n        return\
+    \ fact[n] * inv_fact[r] * inv_fact[n - r];\n    }\n    /**\n     * @brief nHr\
+    \ \u3092\u8FD4\u3059\n     * @param n\n     * @param r\n     * @return nHr\n \
+    \    * @note extend(n+r-1), O(1)\n     */\n    inline static Modint H(int n, int\
+    \ r) {\n        if (n < 0 || r < 0) return 0;\n        if (n == 0 && r == 0) return\
+    \ 1;\n        return C(n + r - 1, r);\n    }\n\n    /**\n     * @brief nPr \u3092\
+    \u5B9A\u7FA9\u3069\u304A\u308A\u8A08\u7B97\u3059\u308B\n     * @param n\n    \
+    \ * @param r\n     * @return nPr\n     * @note O(r)\n     */\n    inline static\
+    \ Modint P_loop(long long n, int r) {\n        if (r < 0 || n < r) return 0;\n\
+    \        Modint res = 1;\n        for (int i = 0; i < r; ++i) {\n            res\
+    \ *= n - i;\n        }\n        return res;\n    }\n    /**\n     * @brief nCr\
+    \ \u3092\u5B9A\u7FA9\u3069\u304A\u308A\u8A08\u7B97\u3059\u308B\n     * @param\
+    \ n\n     * @param r\n     * @return nCr\n     * @note O(min(r, n-r))\n     */\n\
+    \    inline static Modint C_loop(long long n, long long r) {\n        if (r <\
+    \ 0 || n < r) return 0;\n        if(r > n - r) r = n - r;\n        extend(r);\n\
+    \        return P_loop(n, r) * inv_fact[r];\n    }\n    /**\n     * @brief nHr\
+    \ \u3092\u5B9A\u7FA9\u3069\u304A\u308A\u8A08\u7B97\u3059\u308B\n     * @param\
+    \ n\n     * @param r\n     * @return nHr\n     * @note O(r)\n     */\n    inline\
+    \ static Modint H_loop(long long n, long long r) {\n        if (n < 0 || r < 0)\
+    \ return 0;\n        if (n == 0 && r == 0) return 1;\n        return C_loop(n\
+    \ + r - 1, r);\n    }\n\n    /**\n     * @brief nCr \u3092 Lucas \u306E\u5B9A\u7406\
+    \u3092\u7528\u3044\u3066\u8A08\u7B97\u3059\u308B\n     * @param n\n     * @param\
+    \ r\n     * @return nCr\n     * @note expand(Mod), O(log(r))\n     */\n    inline\
+    \ static Modint C_lucas(long long n, long long r) {\n        if (r < 0 || n <\
+    \ r) return 0;\n        if (r == 0 || n == r) return 1;\n        Modint res =\
+    \ 1;\n        while(r > 0) {\n            int ni = n % Modint::mod(), ri = r %\
+    \ Modint::mod();\n            if (ni < ri) return 0;\n            res *= C(ni,\
+    \ ri);\n            n /= Modint::mod();\n            r /= Modint::mod();\n   \
+    \     }\n        return res;\n    }\n};\n\ntemplate <typename Modint>\nstd::vector<Modint>\
+    \ Combination<Modint>::fact{1, 1};\ntemplate <typename Modint>\nstd::vector<Modint>\
+    \ Combination<Modint>::inv_fact{1, 1};\n\n/**\n * @brief mod p^q \u3067\u306E\u4E8C\
+    \u9805\u4FC2\u6570\u3092\u6C42\u3081\u308B\u69CB\u9020\n * @note \u524D\u8A08\u7B97\
+    O(p^q) \u53C2\u8003: https://nyaannyaan.github.io/library/modulo/arbitrary-mod-binomial.hpp\n\
+    \ */\nstruct CombinationPQ {\n    int p, q;\n    int pq;\n    std::vector<int>\
+    \ fact_p, inv_fact_p;\n    int delta;\n    CombinationPQ(int p, int q) : p(p),\
+    \ q(q) {\n        pq = 1;\n        for(int i = 0; i < q; i++) pq *= p;\n     \
+    \   fact_p.resize(pq);\n        fact_p[0] = 1;\n        for(int i = 1; i < pq;\
+    \ i++) {\n            if(i % p == 0) fact_p[i] = fact_p[i - 1];\n            else\
+    \ fact_p[i] = (long long)fact_p[i - 1] * i % pq;\n        }\n        inv_fact_p.resize(pq);\n\
+    \        inv_fact_p[pq - 1] = modinv(fact_p[pq - 1], pq);\n        for(int i =\
+    \ pq - 1; i > 0; i--) {\n            if(i % p == 0) inv_fact_p[i - 1] = inv_fact_p[i];\n\
+    \            else inv_fact_p[i - 1] = (long long)inv_fact_p[i] * i % pq;\n   \
+    \     }\n        if(p == 2 && q >= 3) delta = 1;\n        else delta = -1;\n \
+    \   }\n    /**\n     * @brief nCr mod p^q \u3092\u8FD4\u3059\n     * @param n\
+    \ long long\n     * @param r long long\n     * @return nCr mod p^q\n     * @note\
+    \ O(log(n))\n     */\n    int C(long long n, long long r) {\n        if(r < 0\
+    \ || n < r) return 0;\n        long long m = n - r;\n        int ans = 1;\n  \
+    \      std::vector<int> epsilon;\n        while(n > 0) {\n            ans = (long\
+    \ long)ans * fact_p[n % pq] % pq;\n            ans = (long long)ans * inv_fact_p[m\
+    \ % pq] % pq;\n            ans = (long long)ans * inv_fact_p[r % pq] % pq;\n \
+    \           n /= p;\n            m /= p;\n            r /= p;\n            epsilon.push_back(n\
+    \ - m - r);\n        }\n        if(delta == -1 && epsilon.size() >= q && accumulate(epsilon.begin()+q-1,\
+    \ epsilon.end(), 0) % 2 == 1) ans = pq - ans;\n        if(ans == pq) ans = 0;\n\
+    \        int e = accumulate(epsilon.begin(), epsilon.end(), 0);\n        if(e\
+    \ >= q) ans = 0;\n        else {\n            for(int i = 0; i < e; i++) {\n \
+    \               ans = (long long)ans * p % pq;\n            }\n        }\n   \
+    \     return ans;\n    }\n};\n#line 5 \"test/yukicoder-117.test.cpp\"\n\n#line\
+    \ 7 \"test/yukicoder-117.test.cpp\"\n\nint main() {\n    int t; std::cin >> t;\n\
+    \    using C = Combination<modint1000000007>;\n    while(t--) {\n        std::string\
+    \ s; std::cin >> s;\n        s.pop_back();\n        int i = 2;\n        while(isdigit(s[i]))\
+    \ ++i;\n        int n = std::stoi(s.substr(2, i - 2));\n        int m = std::stoi(s.substr(i+1));\n\
+    \        if(s[0] == 'C') {\n            std::cout << C::C(n, m) << std::endl;\n\
+    \        } else if(s[0] == 'P') {\n            std::cout << C::P(n, m) << std::endl;\n\
+    \        } else {\n            std::cout << C::H(n, m) << std::endl;\n       \
+    \ }\n    }\n}\n"
+  code: "#define PROBLEM \"https://yukicoder.me/problems/no/117\"\n\n#include \"../cpp/combinatorics.hpp\"\
+    \n#include \"../cpp/modint.hpp\"\n\n#include <iostream>\n\nint main() {\n    int\
+    \ t; std::cin >> t;\n    using C = Combination<modint1000000007>;\n    while(t--)\
+    \ {\n        std::string s; std::cin >> s;\n        s.pop_back();\n        int\
+    \ i = 2;\n        while(isdigit(s[i])) ++i;\n        int n = std::stoi(s.substr(2,\
+    \ i - 2));\n        int m = std::stoi(s.substr(i+1));\n        if(s[0] == 'C')\
+    \ {\n            std::cout << C::C(n, m) << std::endl;\n        } else if(s[0]\
+    \ == 'P') {\n            std::cout << C::P(n, m) << std::endl;\n        } else\
+    \ {\n            std::cout << C::H(n, m) << std::endl;\n        }\n    }\n}\n"
   dependsOn:
-  - cpp/io.hpp
+  - cpp/combinatorics.hpp
   - cpp/number-theory.hpp
   - cpp/modint.hpp
   isVerificationFile: true
-  path: test/yosupo-convolution-mod-2-64.test.cpp
+  path: test/yukicoder-117.test.cpp
   requiredBy: []
-  timestamp: '2023-09-16 00:07:15+09:00'
+  timestamp: '2023-09-16 00:11:43+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo-convolution-mod-2-64.test.cpp
+documentation_of: test/yukicoder-117.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo-convolution-mod-2-64.test.cpp
-- /verify/test/yosupo-convolution-mod-2-64.test.cpp.html
-title: test/yosupo-convolution-mod-2-64.test.cpp
+- /verify/test/yukicoder-117.test.cpp
+- /verify/test/yukicoder-117.test.cpp.html
+title: test/yukicoder-117.test.cpp
 ---

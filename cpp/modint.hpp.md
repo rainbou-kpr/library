@@ -3,12 +3,18 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: cpp/combinatorics.hpp
+    title: "\u7D44\u307F\u5408\u308F\u305B"
+  - icon: ':heavy_check_mark:'
     path: cpp/number-theory.hpp
     title: "a^(-1) mod MOD\u3092\u8FD4\u3059"
   _extendedVerifiedWith:
   - icon: ':x:'
     path: test/atcoder-jsc2021-g.test.cpp
     title: test/atcoder-jsc2021-g.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-binomial-coefficient.test.cpp
+    title: test/yosupo-binomial-coefficient.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo-convolution-mod-1000000007.test.cpp
     title: test/yosupo-convolution-mod-1000000007.test.cpp
@@ -30,6 +36,15 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo-range-affine-range-sum.2.test.cpp
     title: test/yosupo-range-affine-range-sum.2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yukicoder-117.test.cpp
+    title: test/yukicoder-117.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yukicoder-186.test.cpp
+    title: test/yukicoder-186.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yukicoder-187.test.cpp
+    title: test/yukicoder-187.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yukicoder-search-oji.test.cpp
     title: test/yukicoder-search-oji.test.cpp
@@ -510,17 +525,22 @@ data:
   isVerificationFile: false
   path: cpp/modint.hpp
   requiredBy:
+  - cpp/combinatorics.hpp
   - cpp/number-theory.hpp
   timestamp: '2023-08-29 23:08:45+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yukicoder-search-oji.test.cpp
   - test/yosupo-convolution-mod-2-64.test.cpp
+  - test/yukicoder-187.test.cpp
   - test/yosupo-convolution-mod-1000000007.test.cpp
+  - test/yosupo-binomial-coefficient.test.cpp
   - test/yosupo-convolution-mod.test.cpp
   - test/atcoder-jsc2021-g.test.cpp
   - test/yosupo-point-set-range-composite.2.test.cpp
   - test/yosupo-point-set-range-composite.1.test.cpp
+  - test/yukicoder-186.test.cpp
+  - test/yukicoder-117.test.cpp
   - test/yosupo-range-affine-range-sum.2.test.cpp
   - test/yosupo-range-affine-range-sum.1.test.cpp
 documentation_of: cpp/modint.hpp

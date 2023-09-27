@@ -20,11 +20,11 @@ data:
     - https://judge.yosupo.jp/problem/convolution_mod
   bundledCode: "#line 1 \"test/yosupo-convolution-mod.test.cpp\"\n#define PROBLEM\
     \ \"https://judge.yosupo.jp/problem/convolution_mod\"\n\n#line 2 \"cpp/number-theory.hpp\"\
-    \n\n#include <vector>\n#line 2 \"cpp/modint.hpp\"\n\n/**\n * @file modint.hpp\n\
-    \ * @brief \u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067\
-    \ mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n */\n\n#include <iostream>\n#include\
-    \ <utility>\n#include <limits>\n#include <type_traits>\n#include <cstdint>\n#include\
-    \ <cassert>\n\nnamespace detail {\n    static constexpr std::uint16_t prime32_bases[]\
+    \n\n#include <numeric>\n#include <vector>\n#line 2 \"cpp/modint.hpp\"\n\n/**\n\
+    \ * @file modint.hpp\n * @brief \u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\
+    \u81EA\u52D5\u3067 mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n */\n\n#include <iostream>\n\
+    #include <utility>\n#include <limits>\n#include <type_traits>\n#include <cstdint>\n\
+    #include <cassert>\n\nnamespace detail {\n    static constexpr std::uint16_t prime32_bases[]\
     \ {\n        15591,  2018,  166, 7429,  8064, 16045, 10503,  4399,  1949,  1295,\
     \ 2776,  3620,   560,  3128,  5212,  2657,\n         2300,  2021, 4652, 1471,\
     \  9336,  4018,  2398, 20462, 10277,  8028, 2213,  6219,   620,  3763,  4852,\
@@ -253,7 +253,7 @@ data:
     \      : base_type{value} {}\n\nprivate:\n    inline static value_type modulus\
     \ = 998244353;\n};\n\nusing modint998244353 = static_modint<998244353>;\nusing\
     \ modint1000000007 = static_modint<1000000007>;\nusing modint = dynamic_modint<-1>;\n\
-    #line 5 \"cpp/number-theory.hpp\"\n\n/**\n * @brief a^(-1) mod MOD\u3092\u8FD4\
+    #line 6 \"cpp/number-theory.hpp\"\n\n/**\n * @brief a^(-1) mod MOD\u3092\u8FD4\
     \u3059\n * @param a long long\n * @param MOD long long\n * @return long long\n\
     \ */\nlong long modinv(long long a, long long MOD) {\n    long long b = MOD, u\
     \ = 1, v = 0;\n    while (b) {\n        long long t = a / b;\n        a -= t *\
@@ -264,24 +264,64 @@ data:
     \ long long MOD) {\n    long long res = 1;\n    a %= MOD;\n    if(n < 0) {\n \
     \       n = -n;\n        a = modinv(a, MOD);\n    }\n    while (n > 0) {\n   \
     \     if (n & 1) res = res * a % MOD;\n        a = a * a % MOD;\n        n >>=\
-    \ 1;\n    }\n    return res;\n}\n\n/**\n * @brief \u7573\u307F\u8FBC\u307F\n */\n\
-    namespace NTT {\n    /**\n     * @brief \u539F\u5B50\u6839\n     * @param MOD\
-    \ int\n     * @return int\n     */\n    int calc_primitive_root(int MOD) {\n \
-    \       if (MOD == 2) return 1;\n        if (MOD == 167772161) return 3;\n   \
-    \     if (MOD == 469762049) return 3;\n        if (MOD == 754974721) return 11;\n\
-    \        if (MOD == 998244353) return 3;\n        int divs[20] = {};\n       \
-    \ divs[0] = 2;\n        int cnt = 1;\n        long long x = (MOD - 1) >> 1;\n\
-    \        while (x % 2 == 0) x >>= 1;\n        for (long long i = 3; i * i <= x;\
-    \ i += 2) {\n            if (x % i == 0) {\n                divs[cnt ++] = i;\n\
-    \                while (x % i == 0) x /= i;\n            }\n        }\n      \
-    \  if (x > 1) divs[cnt++] = x;\n        for (int g = 2;; ++ g) {\n           \
-    \ bool ok = true;\n            for (int i = 0; i < cnt; i++) {\n             \
-    \   if (modpow(g, (MOD - 1) / divs[i], MOD) == 1) {\n                    ok =\
-    \ false;\n                    break;\n                }\n            }\n     \
-    \       if (ok) return g;\n        }\n    }\n\n    /**\n     * @brief \u7573\u307F\
-    \u8FBC\u307F\u306E\u30B5\u30A4\u30BA\u30922\u306E\u3079\u304D\u4E57\u306B\u3059\
-    \u308B\n     */\n    int get_fft_size(int N, int M) {\n        int size_a = 1,\
-    \ size_b = 1;\n        while (size_a < N) size_a <<= 1;\n        while (size_b\
+    \ 1;\n    }\n    return res;\n}\n\n/**\n * @brief 2\u5F0F\u306E\u9023\u7ACB\u5408\
+    \u540C\u5F0F\u3092\u3001m\u304C\u4E92\u3044\u306B\u7D20\u306B\u306A\u308B\u3088\
+    \u3046\u306B\u5909\u5F62\u3059\u308B\n * @param r1 long long\n * @param m1 long\
+    \ long\n * @param r2 long long\n * @param m2 long long\n * @note \u77DB\u76FE\u3059\
+    \u308B\u5834\u5408\u3001r1 = r2 = m1 = m2 = -1\u3068\u306A\u308B\n */\nvoid coprimize_simulaneous_congruence_equation(long\
+    \ long& r1, long long& m1, long long& r2, long long& m2) {\n    long long g =\
+    \ std::gcd(m1, m2);\n    if((r2 - r1) % g != 0) {\n        r1 = r2 = m1 = m2 =\
+    \ -1;\n        return;\n    }\n    m1 /= g, m2 /= g;\n    long long gi = std::gcd(g,\
+    \ m1);\n    long long gj = g / gi;\n    do {\n        g = std::gcd(gi, gj);\n\
+    \        gi *= g, gj /= g;\n    } while(g != 1);\n    m1 *= gi, m2 *= gj;\n  \
+    \  r1 %= m1, r2 %= m2;\n}\n\n/**\n * @brief \u9023\u7ACB\u5408\u540C\u5F0F\u3092\
+    \u89E3\u304F\n * @param r vector<long long> \u4F59\u308A\u306E\u914D\u5217\n *\
+    \ @param m vector<long long> mod\u306E\u914D\u5217\n * @return std::pair<long\
+    \ long, long long> (\u89E3, LCM) \u89E3\u306A\u3057\u306E\u3068\u304D\u306F{-1,\
+    \ -1}\n */\nstd::pair<long long, long long> crt(const std::vector<long long>&\
+    \ r, const std::vector<long long>& m) {\n    assert(r.size() == m.size());\n \
+    \   if(r.size() == 0) return {0, 1};\n    int n = (int)r.size();\n    long long\
+    \ m_lcm = m[0];\n    long long ans = r[0] % m[0];\n    for (int i = 1; i < n;\
+    \ i++) {\n        long long rr = r[i] % m[i], mm = m[i];\n        coprimize_simulaneous_congruence_equation(ans,\
+    \ m_lcm, rr, mm);\n        if(m_lcm == -1) return {-1, -1};\n        long long\
+    \ t = ((rr - ans) * modinv(m_lcm, mm)) % mm;\n        if(t < 0) t += mm;\n   \
+    \     ans += t * m_lcm;\n        m_lcm *= mm;\n    }\n    return {ans, m_lcm};\n\
+    }\n\n/**\n * @brief \u9023\u7ACB\u5408\u540C\u5F0F\u306E\u6700\u5C0F\u306E\u975E\
+    \u8CA0\u6574\u6570\u89E3 % MOD\u3092\u6C42\u3081\u308B\n * @param r vector<long\
+    \ long> \u4F59\u308A\u306E\u914D\u5217\n * @param m vector<long long> mod\u306E\
+    \u914D\u5217\n * @param MOD long long\n * @return std::pair<long long, long long>\
+    \ (\u6700\u5C0F\u89E3 % MOD, LCM % MOD) \u89E3\u306A\u3057\u306E\u3068\u304D\u306F\
+    {-1, -1}\n */\nstd::pair<long long, long long> crt(const std::vector<long long>&\
+    \ r, const std::vector<long long>& m, long long MOD) {\n    assert(r.size() ==\
+    \ m.size());\n    if(r.size() == 0) return {0, 1};\n    int n = (int)r.size();\n\
+    \    std::vector<long long> r2 = r, m2 = m;\n    // m\u3092\u4E92\u3044\u306B\u7D20\
+    \u306B\u3059\u308B\n    for(int i = 1; i < n; i++) {\n        for(int j = 0; j\
+    \ < i; j++) {\n            coprimize_simulaneous_congruence_equation(r2[i], m2[i],\
+    \ r2[j], m2[j]);\n            if(m2[i] == -1) return {-1, -1};\n        }\n  \
+    \  }\n\n    m2.push_back(MOD);\n    std::vector<long long> prod(n+1, 1); // m2[0]\
+    \ * ... * m2[i - 1] mod m2[i]\n    std::vector<long long> x(n+1, 0); // i\u756A\
+    \u76EE\u307E\u3067\u306E\u89E3 mod m2[i]\n    for(int i = 0; i < n; i++) {\n \
+    \       long long t = (r2[i] - x[i]) * modinv(prod[i], m2[i]) % m2[i];\n     \
+    \   if(t < 0) t += m2[i];\n        for(int j = i + 1; j <= n; j++) {\n       \
+    \     (x[j] += t * prod[j]) %= m2[j];\n            (prod[j] *= m2[i]) %= m2[j];\n\
+    \        }\n    }\n    return {x[n], prod[n]};\n}\n\n/**\n * @brief \u7573\u307F\
+    \u8FBC\u307F\n */\nnamespace NTT {\n    /**\n     * @brief \u539F\u5B50\u6839\n\
+    \     * @param MOD int\n     * @return int\n     */\n    int calc_primitive_root(int\
+    \ MOD) {\n        if (MOD == 2) return 1;\n        if (MOD == 167772161) return\
+    \ 3;\n        if (MOD == 469762049) return 3;\n        if (MOD == 754974721) return\
+    \ 11;\n        if (MOD == 998244353) return 3;\n        int divs[20] = {};\n \
+    \       divs[0] = 2;\n        int cnt = 1;\n        long long x = (MOD - 1) >>\
+    \ 1;\n        while (x % 2 == 0) x >>= 1;\n        for (long long i = 3; i * i\
+    \ <= x; i += 2) {\n            if (x % i == 0) {\n                divs[cnt ++]\
+    \ = i;\n                while (x % i == 0) x /= i;\n            }\n        }\n\
+    \        if (x > 1) divs[cnt++] = x;\n        for (int g = 2;; ++ g) {\n     \
+    \       bool ok = true;\n            for (int i = 0; i < cnt; i++) {\n       \
+    \         if (modpow(g, (MOD - 1) / divs[i], MOD) == 1) {\n                  \
+    \  ok = false;\n                    break;\n                }\n            }\n\
+    \            if (ok) return g;\n        }\n    }\n\n    /**\n     * @brief \u7573\
+    \u307F\u8FBC\u307F\u306E\u30B5\u30A4\u30BA\u30922\u306E\u3079\u304D\u4E57\u306B\
+    \u3059\u308B\n     */\n    int get_fft_size(int N, int M) {\n        int size_a\
+    \ = 1, size_b = 1;\n        while (size_a < N) size_a <<= 1;\n        while (size_b\
     \ < M) size_b <<= 1;\n        return std::max(size_a, size_b) << 1;\n    }\n\n\
     \    /**\n     * @brief NTT\n     */\n    template<class mint> void trans(std::vector<mint>&\
     \ v, bool inv = false) {\n        if (v.empty()) return;\n        int N = (int)\
@@ -384,7 +424,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-convolution-mod.test.cpp
   requiredBy: []
-  timestamp: '2023-09-03 11:57:52+09:00'
+  timestamp: '2023-09-16 00:07:15+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-convolution-mod.test.cpp

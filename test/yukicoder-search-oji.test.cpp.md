@@ -133,8 +133,8 @@ data:
     B\u3092\u639B\u3051\u308B\n     * @param B \u639B\u3051\u308B\u884C\u5217\n  \
     \   * @return @c *this\n    */\n    Matrix &operator*=(const Matrix &B) {\n  \
     \      int p = B[0].size();\n        Matrix<T> C(n, p);\n        for(int i = 0;\
-    \ i < n; i ++) {\n            for(int k = 0; k < p; k ++) {\n                for(int\
-    \ j = 0; j < m; j ++) {\n                    C[i][j] = OperatorProperty::add(C[i][j],\
+    \ i < n; i ++) {\n            for(int k = 0; k < m; k ++) {\n                for(int\
+    \ j = 0; j < p; j ++) {\n                    C[i][j] = OperatorProperty::add(C[i][j],\
     \ OperatorProperty::mul((*this)[i][k], B[k][j]));\n                }\n       \
     \     }\n        }\n        v.swap(C.v);\n        m = p;\n        return (*this);\n\
     \    }\n\n    /**\n     * @brief \u4FDD\u6301\u3057\u3066\u3044\u308B\u884C\u5217\
@@ -502,7 +502,7 @@ data:
   isVerificationFile: true
   path: test/yukicoder-search-oji.test.cpp
   requiredBy: []
-  timestamp: '2023-09-08 07:41:17+09:00'
+  timestamp: '2023-09-27 09:30:35+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yukicoder-search-oji.test.cpp

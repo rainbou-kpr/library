@@ -1,5 +1,6 @@
 #pragma once
 
+#include <algorithm>
 #include "number-theory.hpp"
 
 template <typename mint> struct FPS : std::vector<mint> {
@@ -66,7 +67,7 @@ template <typename mint> struct FPS : std::vector<mint> {
     }
     inline FPS& operator /= (const mint& v) {
         assert(v != 0);
-        mint iv = modinv(v);
+        mint iv = v.inv();
         for (int i = 0; i < (int)this->size(); ++i) (*this)[i] *= iv;
         return *this;
     }
@@ -175,33 +176,41 @@ template <typename mint> struct FPS : std::vector<mint> {
  
     // pow(f) = exp(e * log f)
     inline friend FPS pow(const FPS& f, long long e, int deg) {
+        if(e == 0) {
+            auto ret = FPS(deg, 0);
+            ret[0] = 1;
+            return ret;
+        }
         long long i = 0;
         while (i < (int)f.size() && f[i] == 0) ++i;
         if (i == (int)f.size()) return FPS(deg, 0);
-        if (i * e >= deg) return FPS(deg, 0);
+        if ((i >= 1 and e >= deg) or i * e >= deg) return FPS(deg, 0);
         mint k = f[i];
-        FPS res = exp(log((f >> i) / k, deg) * e, deg) * modpow(k, e) << (e * i);
+        FPS res = exp(log((f >> i) / k, deg) * e, deg) * k.pow(e) << (e * i);
         res.resize(deg);
         return res;
     }
     inline friend FPS pow(const FPS& f, long long e) {
         return pow(f, e, f.size());
     }
- 
-    // sqrt(f), f[0] must be 1
-    inline friend FPS sqrt(const FPS& f, int deg) {
-        assert(f[0] == 1);
-        mint inv2 = mint(1) / 2;
-        FPS res(1, 1);
-        for (int i = 1; i < deg; i <<= 1) {
-            res = (res + f.pre(i << 1) * inv(res, i << 1)).pre(i << 1);
-            for (mint& x : res) x *= inv2;
+
+    inline friend FPS taylor_shift(FPS f, mint a) {
+        int n = f.size();
+        std::vector<mint> fac(n, 1), inv(n, 1), finv(n, 1);
+        int mod = mint::mod();
+        for(int i = 2; i < n; i ++) {
+            fac[i] = fac[i - 1] * i;
+            inv[i] = -inv[mod % i] * (mod / i);
+            finv[i] = finv[i - 1] * inv[i];
         }
-        res.resize(deg);
-        return res;
-    }
-    inline friend FPS sqrt(const FPS& f) {
-        return sqrt(f, f.size());
+        for(int i = 0; i < n; i ++) f[i] *= fac[i];
+        std::reverse(f.begin(), f.end());
+        FPS<mint> g(n, 1);
+        for(int i = 1; i < n; i ++) g[i] = g[i - 1] * a * inv[i];
+        f = (f * g).pre(n);
+        std::reverse(f.begin(), f.end());
+        for(int i = 0; i < n; i ++) f[i] *= finv[i];
+        return f;
     }
 };
 

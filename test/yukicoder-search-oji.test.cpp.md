@@ -36,7 +36,7 @@ data:
     \ {\n *     constexpr static int zero() { return 0; }\n *     constexpr static\
     \ int add(const int &a, const int &b) { return a ^ b; }\n *     constexpr static\
     \ int neg(const int &a) { return a; }\n *     constexpr static int one() { return\
-    \ 0; }\n *     constexpr static int mul(const int &a, const int &b) { return a\
+    \ 1; }\n *     constexpr static int mul(const int &a, const int &b) { return a\
     \ & b; }\n * };\n * @endcode\n * constexpr\u3067\u3042\u308B\u5FC5\u8981\u306F\
     \u306A\u304F\u3001\u307E\u305Finv\u306A\u3069\u4F7F\u308F\u306A\u3044\u3082\u306E\
     \u306F\u5B9A\u7FA9\u3057\u306A\u304F\u3066\u3082\u3088\u3044\uFF08\u5FC5\u8981\
@@ -502,7 +502,7 @@ data:
   isVerificationFile: true
   path: test/yukicoder-search-oji.test.cpp
   requiredBy: []
-  timestamp: '2023-09-27 09:30:35+09:00'
+  timestamp: '2023-10-12 08:50:40+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yukicoder-search-oji.test.cpp

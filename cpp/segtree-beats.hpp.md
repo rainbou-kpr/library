@@ -436,8 +436,8 @@ data:
   timestamp: '2023-08-01 17:59:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo-range-chmin-chmax-add-range-sum.1.test.cpp
   - test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
+  - test/yosupo-range-chmin-chmax-add-range-sum.1.test.cpp
 documentation_of: cpp/segtree-beats.hpp
 layout: document
 redirect_from:

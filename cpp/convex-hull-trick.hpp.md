@@ -110,8 +110,8 @@ data:
   timestamp: '2023-06-19 07:11:52+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo-line-add-get-min.test.cpp
   - test/yosupo-segment-add-get-min.test.cpp
+  - test/yosupo-line-add-get-min.test.cpp
 documentation_of: cpp/convex-hull-trick.hpp
 layout: document
 redirect_from:

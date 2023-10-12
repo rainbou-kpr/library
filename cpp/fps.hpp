@@ -219,7 +219,5 @@ template <typename mint> FPS<mint> modpow(const FPS<mint> &f, long long n, const
     auto t = modpow(f, n / 2, m);
     t = (t * t) % m;
     if (n & 1) t = (t * f) % m;
-    auto q = t / m;
-    auto r = t % m;
     return t;
 }

@@ -31,7 +31,7 @@ namespace matrix {
  *     constexpr static int zero() { return 0; }
  *     constexpr static int add(const int &a, const int &b) { return a ^ b; }
  *     constexpr static int neg(const int &a) { return a; }
- *     constexpr static int one() { return 0; }
+ *     constexpr static int one() { return 1; }
  *     constexpr static int mul(const int &a, const int &b) { return a & b; }
  * };
  * @endcode

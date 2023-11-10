@@ -46,3 +46,31 @@ template <typename Cost = int>
 bool is_bipartite(const Graph<Cost>& graph) {
     return !bipartite_coloring(graph).empty();
 }
+
+/**
+ * @brief 無向グラフについて、連結成分分解する。
+ * @return std::vector<std::vector<int>> 「同じ連結成分となる頂点のリスト」のリスト
+ */
+template <typename Cost = int>
+std::vector<std::vector<int>> connected_components(const Graph<Cost>& graph) {
+    std::vector<std::vector<int>> groups;
+    std::vector<bool> visited(graph.n);
+    for (int i = 0; i < graph.n; i++) {
+        if (color[i] != -1) continue;
+        std::stack<int> stk;
+        stk.push(i);
+        visited[i] = true;
+        groups.push_back({i});
+        while (!stk.empty()) {
+            int u = stk.top();
+            stk.pop();
+            for (int v : graph[u]) {
+                if (visited[v]) continue;
+                visited[v] = true;
+                stk.push(v);
+                groups.back().push_back(v);
+            }
+        }
+    }
+    return groups;
+}

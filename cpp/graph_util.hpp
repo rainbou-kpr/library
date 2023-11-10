@@ -56,7 +56,7 @@ std::vector<std::vector<int>> connected_components(const Graph<Cost>& graph) {
     std::vector<std::vector<int>> groups;
     std::vector<bool> visited(graph.n);
     for (int i = 0; i < graph.n; i++) {
-        if (color[i] != -1) continue;
+        if (visited[i]) continue;
         std::stack<int> stk;
         stk.push(i);
         visited[i] = true;

@@ -1,8 +1,8 @@
 #pragma once
 
 /**
- * @file graph.hpp
- * @brief 木の汎用テンプレート
+ * @file graph_util.hpp
+ * @brief グラフに関する関数
  */
 
 #include <stack>
@@ -10,8 +10,10 @@
 #include "graph.hpp"
 
 /**
- * 無向グラフについて、二部グラフなら0と1に彩色した結果をひとつ返し、二部グラフでないなら空のvectorを返す。
- **/
+ * @brief 無向グラフについて、二部グラフなら0と1に彩色した結果をひとつ返し、二部グラフでないなら空のvectorを返す。
+ * 連結成分のうち、インデックスの小さいものを0にする。
+ * @return std::vector<int> 各頂点の彩色結果
+ */
 template <typename Cost = int>
 std::vector<int> bipartite_coloring(const Graph<Cost>& graph) {
     std::vector<int> color(graph.n, -1);
@@ -37,9 +39,10 @@ std::vector<int> bipartite_coloring(const Graph<Cost>& graph) {
 }
 
 /**
- * 無向グラフについて、二部グラフならtrue、二部グラフでないならfalseを返す。
- **/
+ * @brief 無向グラフについて、二部グラフかどうかを判定する。
+ * @return bool 二部グラフならtrue、二部グラフでないならfalseを返す。
+ */
 template <typename Cost = int>
-bool is_bipartite_graph(const Graph<Cost>& graph) {
+bool is_bipartite(const Graph<Cost>& graph) {
     return !bipartite_coloring(graph).empty();
 }

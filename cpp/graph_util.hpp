@@ -74,3 +74,12 @@ std::vector<std::vector<int>> connected_components(const Graph<Cost>& graph) {
     }
     return groups;
 }
+
+/**
+ * @brief 無向グラフについて、連結グラフかどうかを判定する。
+ * @return bool 連結グラフならtrue、連結グラフでないならfalseを返す。
+ */
+template <typename Cost = int>
+bool is_connected(const Graph<Cost>& graph) {
+    return connected_components(graph).size() == 1;
+}

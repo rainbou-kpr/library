@@ -1,5 +1,6 @@
 #define PROBLEM "https://atcoder.jp/contests/abc282/tasks/abc282_d"
 
+#include <algorithm>
 #include <array>
 
 #include "../cpp/graph_util.hpp"

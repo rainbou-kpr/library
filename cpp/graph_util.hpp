@@ -83,3 +83,12 @@ template <typename Cost = int>
 bool is_connected(const Graph<Cost>& graph) {
     return connected_components(graph).size() == 1;
 }
+
+/**
+ * @brief 無向グラフについて、木かどうかを判定する。
+ * @return bool 木ならtrue、木でないならfalseを返す。
+ */
+template <typename Cost = int>
+bool is_tree(const Graph<Cost>& graph) {
+    return graph.m == graph.n - 1 && is_connected(graph);
+}

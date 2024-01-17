@@ -3,6 +3,9 @@ data:
   _extendedDependsOn: []
   _extendedRequiredBy:
   - icon: ':heavy_check_mark:'
+    path: cpp/graph_util.hpp
+    title: "\u30B0\u30E9\u30D5\u306B\u95A2\u3059\u308B\u95A2\u6570"
+  - icon: ':heavy_check_mark:'
     path: cpp/tree.hpp
     title: "\u6728\u306E\u6C4E\u7528\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
   _extendedVerifiedWith:
@@ -12,6 +15,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/aoj-grl-5-b.test.cpp
     title: test/aoj-grl-5-b.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/atcoder-abc282-d.test.cpp
+    title: test/atcoder-abc282-d.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/atcoder-edpc-g.test.cpp
     title: test/atcoder-edpc-g.test.cpp
@@ -229,15 +235,17 @@ data:
   path: cpp/graph.hpp
   requiredBy:
   - cpp/tree.hpp
+  - cpp/graph_util.hpp
   timestamp: '2023-06-06 14:52:29+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo-lca.2.test.cpp
   - test/aoj-grl-5-b.test.cpp
   - test/yosupo-shortest-path.test.cpp
+  - test/yosupo-lca.2.test.cpp
   - test/atcoder-edpc-g.test.cpp
-  - test/aoj-grl-5-a.test.cpp
+  - test/atcoder-abc282-d.test.cpp
   - test/yosupo-lca.1.test.cpp
+  - test/aoj-grl-5-a.test.cpp
 documentation_of: cpp/graph.hpp
 layout: document
 redirect_from:

@@ -475,11 +475,11 @@ data:
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yukicoder-search-oji.test.cpp
-  - test/aoj-3314.test.cpp
   - test/atcoder-abc300-b.test.cpp
-  - test/atcoder-jsc2021-g.test.cpp
   - test/yukicoder-rotate-enlarge_1.test.cpp
+  - test/atcoder-jsc2021-g.test.cpp
   - test/yukicoder-rotate-enlarge_2.test.cpp
+  - test/aoj-3314.test.cpp
 documentation_of: cpp/matrix.hpp
 layout: document
 redirect_from:

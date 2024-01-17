@@ -13,6 +13,9 @@ data:
       path: cpp/graph.hpp
       title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
+      path: cpp/graph_util.hpp
+      title: "\u30B0\u30E9\u30D5\u306B\u95A2\u3059\u308B\u95A2\u6570"
+    - icon: ':heavy_check_mark:'
       path: cpp/io.hpp
       title: "\u7A7A\u767D\u533A\u5207\u308A\u51FA\u529B\u3001iostream\u306E\u30AA\
         \u30FC\u30D0\u30FC\u30ED\u30FC\u30C9"
@@ -142,6 +145,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/atcoder-abc177-f.2.test.cpp
       title: test/atcoder-abc177-f.2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/atcoder-abc282-d.test.cpp
+      title: test/atcoder-abc282-d.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/atcoder-abc300-b.test.cpp
       title: test/atcoder-abc300-b.test.cpp

@@ -14,32 +14,32 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://atcoder.jp/contests/dp/tasks/dp_g
+    PROBLEM: https://atcoder.jp/contests/abc282/tasks/abc282_d
     links:
-    - https://atcoder.jp/contests/dp/tasks/dp_g
-  bundledCode: "#line 1 \"test/atcoder-edpc-g.test.cpp\"\n#define PROBLEM \"https://atcoder.jp/contests/dp/tasks/dp_g\"\
-    \n\n#include <iostream>\n#include <algorithm>\n\n#line 2 \"cpp/graph_util.hpp\"\
-    \n\n/**\n * @file graph_util.hpp\n * @brief \u30B0\u30E9\u30D5\u306B\u95A2\u3059\
-    \u308B\u95A2\u6570\n */\n\n#include <stack>\n\n#line 2 \"cpp/graph.hpp\"\n\n#line\
-    \ 4 \"cpp/graph.hpp\"\n#include <limits>\n#include <queue>\n#include <vector>\n\
-    \n/**\n * @brief \u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9\n *\n\
-    \ * @tparam Cost \u8FBA\u306E\u30B3\u30B9\u30C8\u306E\u578B\n */\ntemplate <typename\
-    \ Cost=int>\nstruct Graph {\n    /**\n     * @brief \u6709\u5411\u8FBA\u306E\u69CB\
-    \u9020\u4F53\n     *\n     * operator int()\u3092\u5B9A\u7FA9\u3057\u3066\u3044\
-    \u308B\u306E\u3067\u3001int\u578B\u306B\u30AD\u30E3\u30B9\u30C8\u3059\u308B\u3068\
-    \u52DD\u624B\u306Bdst\u306B\u306A\u308B\n     * \u4F8B\u3048\u3070\u3001\n   \
-    \  * for (auto& e : g[v]) \u3092\u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\
-    \u8FBA\u304C\u5217\u6319\u3055\u308C\u308B\u304C\u3001\n     * for (int dst :\
-    \ g[v]) \u3068\u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\u8FBA\u306E\u884C\
-    \u304D\u5148\u304C\u5217\u6319\u3055\u308C\u308B\n     */\n    struct Edge {\n\
-    \        int src; //!< \u59CB\u70B9\n        int dst; //!< \u7D42\u70B9\n    \
-    \    Cost cost; //!< \u30B3\u30B9\u30C8\n        int id; //!< \u8FBA\u306E\u756A\
-    \u53F7(\u8FFD\u52A0\u3055\u308C\u305F\u9806\u3001\u7121\u5411\u8FBA\u306E\u5834\
-    \u5408\u306Fid\u304C\u540C\u3058\u3067\u65B9\u5411\u304C\u9006\u306E\u3082\u306E\
-    \u304C2\u3064\u5B58\u5728\u3059\u308B)\n        Edge() = default;\n        Edge(int\
-    \ src, int dst, Cost cost=1, int id=-1) : src(src), dst(dst), cost(cost), id(id)\
-    \ {}\n        operator int() const { return dst; }\n    };\n\n    int n; //!<\
-    \ \u9802\u70B9\u6570\n    int m; //!< \u8FBA\u6570\n    std::vector<std::vector<Edge>>\
+    - https://atcoder.jp/contests/abc282/tasks/abc282_d
+  bundledCode: "#line 1 \"test/atcoder-abc282-d.test.cpp\"\n#define PROBLEM \"https://atcoder.jp/contests/abc282/tasks/abc282_d\"\
+    \n\n#include <algorithm>\n#include <array>\n\n#line 2 \"cpp/graph_util.hpp\"\n\
+    \n/**\n * @file graph_util.hpp\n * @brief \u30B0\u30E9\u30D5\u306B\u95A2\u3059\
+    \u308B\u95A2\u6570\n */\n\n#include <stack>\n\n#line 2 \"cpp/graph.hpp\"\n\n#include\
+    \ <iostream>\n#include <limits>\n#include <queue>\n#include <vector>\n\n/**\n\
+    \ * @brief \u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9\n *\n * @tparam\
+    \ Cost \u8FBA\u306E\u30B3\u30B9\u30C8\u306E\u578B\n */\ntemplate <typename Cost=int>\n\
+    struct Graph {\n    /**\n     * @brief \u6709\u5411\u8FBA\u306E\u69CB\u9020\u4F53\
+    \n     *\n     * operator int()\u3092\u5B9A\u7FA9\u3057\u3066\u3044\u308B\u306E\
+    \u3067\u3001int\u578B\u306B\u30AD\u30E3\u30B9\u30C8\u3059\u308B\u3068\u52DD\u624B\
+    \u306Bdst\u306B\u306A\u308B\n     * \u4F8B\u3048\u3070\u3001\n     * for (auto&\
+    \ e : g[v]) \u3092\u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\u8FBA\u304C\
+    \u5217\u6319\u3055\u308C\u308B\u304C\u3001\n     * for (int dst : g[v]) \u3068\
+    \u3059\u308B\u3068\u3001v\u304B\u3089\u51FA\u308B\u8FBA\u306E\u884C\u304D\u5148\
+    \u304C\u5217\u6319\u3055\u308C\u308B\n     */\n    struct Edge {\n        int\
+    \ src; //!< \u59CB\u70B9\n        int dst; //!< \u7D42\u70B9\n        Cost cost;\
+    \ //!< \u30B3\u30B9\u30C8\n        int id; //!< \u8FBA\u306E\u756A\u53F7(\u8FFD\
+    \u52A0\u3055\u308C\u305F\u9806\u3001\u7121\u5411\u8FBA\u306E\u5834\u5408\u306F\
+    id\u304C\u540C\u3058\u3067\u65B9\u5411\u304C\u9006\u306E\u3082\u306E\u304C2\u3064\
+    \u5B58\u5728\u3059\u308B)\n        Edge() = default;\n        Edge(int src, int\
+    \ dst, Cost cost=1, int id=-1) : src(src), dst(dst), cost(cost), id(id) {}\n \
+    \       operator int() const { return dst; }\n    };\n\n    int n; //!< \u9802\
+    \u70B9\u6570\n    int m; //!< \u8FBA\u6570\n    std::vector<std::vector<Edge>>\
     \ g; //!< \u30B0\u30E9\u30D5\u306E\u96A3\u63A5\u30EA\u30B9\u30C8\u8868\u73FE\n\
     \n    /**\n     * @brief \u30C7\u30D5\u30A9\u30EB\u30C8\u30B3\u30F3\u30B9\u30C8\
     \u30E9\u30AF\u30BF\n     */\n    Graph() : n(0), m(0), g(0) {}\n    /**\n    \
@@ -174,32 +174,39 @@ data:
     \    if (!indeg[i]) q.push(i);\n    }\n    while (!q.empty()) {\n        int cur\
     \ = q.front(); q.pop();\n        for (int dst : G[cur]) {\n            if (!--indeg[dst])\
     \ q.push(dst);\n        }\n        sorted.push_back(cur);\n    }\n    return sorted;\n\
-    }\n#line 7 \"test/atcoder-edpc-g.test.cpp\"\n\nint main(void){\n\n    int N, M;\n\
-    \    std::cin >> N >> M;\n    Graph G(N);\n    G.read(M, -1, false, true);\n\n\
-    \    std::vector<int> dist(N), ord(topological_sort(G));\n    for(int x : ord){\n\
-    \        for(int y : G[x]) dist[y] = std::max(dist[y], dist[x] + 1);\n    }\n\
-    \    std::cout << *std::max_element(dist.begin(), dist.end()) << std::endl;\n\n\
-    }\n"
-  code: "#define PROBLEM \"https://atcoder.jp/contests/dp/tasks/dp_g\"\n\n#include\
-    \ <iostream>\n#include <algorithm>\n\n#include \"../cpp/graph_util.hpp\"\n\nint\
-    \ main(void){\n\n    int N, M;\n    std::cin >> N >> M;\n    Graph G(N);\n   \
-    \ G.read(M, -1, false, true);\n\n    std::vector<int> dist(N), ord(topological_sort(G));\n\
-    \    for(int x : ord){\n        for(int y : G[x]) dist[y] = std::max(dist[y],\
-    \ dist[x] + 1);\n    }\n    std::cout << *std::max_element(dist.begin(), dist.end())\
-    \ << std::endl;\n\n}\n"
+    }\n#line 7 \"test/atcoder-abc282-d.test.cpp\"\n\nint main(void) {\n    int N,\
+    \ M;\n    std::cin >> N >> M;\n    Graph<int> graph(N);\n    graph.read(M);\n\
+    \    std::vector<int> c = bipartite_coloring(graph);\n    if (c.empty()) {\n \
+    \       std::cout << 0 << std::endl;\n        return 0;\n    }\n    std::vector<std::vector<int>>\
+    \ groups = connected_components(graph);\n    long long ans = (long long)N * (N\
+    \ - 1) / 2 - M;\n    for (const std::vector<int>& group : groups) {\n        std::array<long\
+    \ long, 2> wb = {};\n        std::for_each(group.begin(), group.end(), [&](int\
+    \ x) { wb[c[x]]++; });\n        auto [w, b] = wb;\n        ans -= w * (w - 1)\
+    \ / 2 + b * (b - 1) / 2;\n    }\n    std::cout << ans << std::endl;\n}\n"
+  code: "#define PROBLEM \"https://atcoder.jp/contests/abc282/tasks/abc282_d\"\n\n\
+    #include <algorithm>\n#include <array>\n\n#include \"../cpp/graph_util.hpp\"\n\
+    \nint main(void) {\n    int N, M;\n    std::cin >> N >> M;\n    Graph<int> graph(N);\n\
+    \    graph.read(M);\n    std::vector<int> c = bipartite_coloring(graph);\n   \
+    \ if (c.empty()) {\n        std::cout << 0 << std::endl;\n        return 0;\n\
+    \    }\n    std::vector<std::vector<int>> groups = connected_components(graph);\n\
+    \    long long ans = (long long)N * (N - 1) / 2 - M;\n    for (const std::vector<int>&\
+    \ group : groups) {\n        std::array<long long, 2> wb = {};\n        std::for_each(group.begin(),\
+    \ group.end(), [&](int x) { wb[c[x]]++; });\n        auto [w, b] = wb;\n     \
+    \   ans -= w * (w - 1) / 2 + b * (b - 1) / 2;\n    }\n    std::cout << ans <<\
+    \ std::endl;\n}"
   dependsOn:
   - cpp/graph_util.hpp
   - cpp/graph.hpp
   isVerificationFile: true
-  path: test/atcoder-edpc-g.test.cpp
+  path: test/atcoder-abc282-d.test.cpp
   requiredBy: []
   timestamp: '2023-11-30 23:29:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/atcoder-edpc-g.test.cpp
+documentation_of: test/atcoder-abc282-d.test.cpp
 layout: document
 redirect_from:
-- /verify/test/atcoder-edpc-g.test.cpp
-- /verify/test/atcoder-edpc-g.test.cpp.html
-title: test/atcoder-edpc-g.test.cpp
+- /verify/test/atcoder-abc282-d.test.cpp
+- /verify/test/atcoder-abc282-d.test.cpp.html
+title: test/atcoder-abc282-d.test.cpp
 ---

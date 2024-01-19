@@ -3,6 +3,9 @@
 #include <string>
 #include <vector>
 #include <random>
+#include <cassert>
+
+struct RHString;
 
 /**
  * @brief ローリングハッシュ
@@ -94,4 +97,85 @@ public:
         expand(r - l);
         return add(hash[r], MOD - mul(hash[l], power[r-l]));
     }
+
+    friend RHString;
+};
+
+/**
+ * @brief ローリングハッシュによって管理される文字列型
+ */
+struct RHString {
+    RollingHash& rh;
+    size_t sz;
+    unsigned long long hash1;  //!< 正順
+    unsigned long long hash2;  //!< 逆順
+    /**
+     * @brief コンストラクタ
+     * 予めRollingHashをインスタンス化しておく必要がある
+     */
+    RHString(RollingHash& rh) : rh(rh), sz(0), hash1(0), hash2(0) {}
+    RHString(RollingHash& rh, size_t sz, unsigned long long hash1, unsigned long long hash2) : rh(rh), sz(sz), hash1(hash1), hash2(hash2) {}
+    RHString(const RHString& o) : rh(o.rh), sz(o.sz), hash1(o.hash1), hash2(o.hash2) {}
+    template <typename R>
+    RHString(RollingHash& rh, R s) : rh(rh) {
+        using std::begin, std::end;
+        sz = std::distance(begin(s), end(s));
+        hash1 = rh.build(begin(s), end(s)).back();
+        hash2 = rh.build(rbegin(s), rend(s)).back();
+    }
+
+    /**
+     * @brief 回文か否か
+     */
+    bool is_palindrome() const {
+        return hash1 == hash2;
+    }
+    size_t size() const {
+        return sz;
+    }
+    void clear() {
+        sz = 0;
+        hash1 = 0;
+        hash2 = 0;
+    }
+    bool empty() const {
+        return sz == 0;
+    }
+    RHString& operator+=(const RHString& o) {
+        assert(&rh == &o.rh);
+        rh.expand(sz);
+        rh.expand(o.sz);
+        hash1 = rh.add(rh.mul(hash1, rh.power[o.sz]), o.hash1);
+        hash2 = rh.add(hash2, rh.mul(o.hash2, rh.power[sz]));
+        sz += o.sz;
+        return *this;
+    }
+    RHString& operator=(const RHString& o) {
+        assert(&rh == &o.rh);
+        sz = o.sz;
+        hash1 = o.hash1;
+        hash2 = o.hash2;
+        return *this;
+    }
+    /**
+     * @brief 文字列などで初期化する
+     */
+    template <typename R>
+    RHString& assign(const R& s) {
+        using std::begin, std::end;
+        sz = std::distance(begin(s), end(s));
+        hash1 = rh.build(begin(s), end(s)).back();
+        hash2 = rh.build(rbegin(s), rend(s)).back();
+        return *this;
+    }
+    friend RHString operator+(const RHString& t1, const RHString& t2) {
+        RHString ret = t1;
+        ret += t2;
+        return ret;
+    }
+    friend bool operator==(const RHString& t1, const RHString& t2) {
+        assert(&t1.rh == &t2.rh);
+        return t1.hash1 == t2.hash1 && t1.hash2 == t2.hash2;
+    }
+    friend bool operator!=(const RHString& t1, const RHString& t2) { return !(t1 == t2); }
 };

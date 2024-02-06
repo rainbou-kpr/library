@@ -10,6 +10,9 @@ data:
       path: cpp/convex-hull-trick.hpp
       title: Convex Hull Trick
     - icon: ':heavy_check_mark:'
+      path: cpp/fps.hpp
+      title: cpp/fps.hpp
+    - icon: ':heavy_check_mark:'
       path: cpp/graph.hpp
       title: "\u30B0\u30E9\u30D5\u306E\u6C4E\u7528\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
@@ -185,6 +188,12 @@ data:
       path: test/yosupo-enumerate-quotients.test.py
       title: test/yosupo-enumerate-quotients.test.py
     - icon: ':heavy_check_mark:'
+      path: test/yosupo-exp-of-fps.test.cpp
+      title: test/yosupo-exp-of-fps.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-inv-of-fps.test.cpp
+      title: test/yosupo-inv-of-fps.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-lca.1.test.cpp
       title: test/yosupo-lca.1.test.cpp
     - icon: ':heavy_check_mark:'
@@ -193,6 +202,15 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-line-add-get-min.test.cpp
       title: test/yosupo-line-add-get-min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-log-of-fps.test.cpp
+      title: test/yosupo-log-of-fps.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-partition-function_1.test.cpp
+      title: test/yosupo-partition-function_1.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-partition-function_2.test.cpp
+      title: test/yosupo-partition-function_2.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-point-add-rectangle-sum.test.cpp
       title: test/yosupo-point-add-rectangle-sum.test.cpp
@@ -205,6 +223,12 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.test.py
       title: test/yosupo-point-set-range-composite.test.py
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-polynomial-taylor-shift.test.cpp
+      title: test/yosupo-polynomial-taylor-shift.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-pow-of-fps.test.cpp
+      title: test/yosupo-pow-of-fps.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-range-affine-range-sum.1.test.cpp
       title: test/yosupo-range-affine-range-sum.1.test.cpp
@@ -220,6 +244,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-segment-add-get-min.test.cpp
       title: test/yosupo-segment-add-get-min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-sharp-p-subset-sum.test.cpp
+      title: test/yosupo-sharp-p-subset-sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-shortest-path.test.cpp
       title: test/yosupo-shortest-path.test.cpp

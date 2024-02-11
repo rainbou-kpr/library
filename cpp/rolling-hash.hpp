@@ -4,6 +4,8 @@
 #include <vector>
 #include <random>
 #include <cassert>
+#include <string_view>
+#include <type_traits>
 
 #include "traits.hpp"
 
@@ -118,18 +120,32 @@ struct RHString {
     RHString(RollingHash& rh) : rh(rh), sz(0), hash1(0), hash2(0) {}
     RHString(RollingHash& rh, size_t sz, unsigned long long hash1, unsigned long long hash2) : rh(rh), sz(sz), hash1(hash1), hash2(hash2) {}
     RHString(const RHString& o) : rh(o.rh), sz(o.sz), hash1(o.hash1), hash2(o.hash2) {}
-    template <class R, class = std::enable_if_t<is_range_v<R>>>
-    RHString(RollingHash& rh, R&& s) : rh(rh) {
+    /**
+     * @brief vectorなどで初期化する
+     */
+    template <class R, std::enable_if_t<is_range_v<R> && !std::is_convertible_v<R, std::string_view>, std::nullptr_t> = nullptr>
+    RHString(RollingHash& rh, R&& v) : rh(rh) {
         using std::begin, std::end, std::rbegin, std::rend;
-        sz = std::distance(begin(s), end(s));
-        hash1 = rh.build(begin(s), end(s)).back();
-        hash2 = rh.build(rbegin(s), rend(s)).back();
+        sz = std::distance(begin(v), end(v));
+        hash1 = rh.build(begin(v), end(v)).back();
+        hash2 = rh.build(rbegin(v), rend(v)).back();
     }
-    template <class T, class = std::enable_if_t<!is_range_v<T>>>
+    /**
+     * @brief charやunsigned long longなどで初期化する
+     */
+    template <class T, std::enable_if_t<!is_range_v<T> && !std::is_convertible_v<T, std::string_view>, std::nullptr_t> = nullptr>
     RHString(RollingHash& rh, T x) : rh(rh) {
         sz = 1;
         hash1 = x;
         hash2 = x;
+    }
+    /**
+     * @brief 文字列(string, const char*, string_view)で初期化する
+     */
+    RHString(RollingHash& rh, std::string_view s) : rh(rh) {
+        sz = std::distance(s.begin(), s.end());
+        hash1 = rh.build(s.begin(), s.end()).back();
+        hash2 = rh.build(s.rbegin(), s.rend()).back();
     }
 
     /**
@@ -160,6 +176,7 @@ struct RHString {
     }
     /**
      * @brief 再代入する
+     * RollingHashは同じものである必要がある
      */
     void assign(const RHString& o) {
         assert(&rh == &o.rh);
@@ -168,57 +185,60 @@ struct RHString {
         hash2 = o.hash2;
     }
     /**
-     * @brief 文字列(std::string)などで再代入する
+     * @brief vectorなどを再代入する
      */
-    template <class R, class = std::enable_if_t<is_range_v<R>>>
-    void assign(R&& s) {
-        using std::begin, std::end;
-        sz = std::distance(begin(s), end(s));
-        hash1 = rh.build(begin(s), end(s)).back();
-        hash2 = rh.build(rbegin(s), rend(s)).back();
+    template <class R, std::enable_if_t<is_range_v<R> && !std::is_convertible_v<R, std::string_view>, std::nullptr_t> = nullptr>
+    void assign(R&& v) {
+        using std::begin, std::end, std::rbegin, std::rend;
+        sz = std::distance(begin(v), end(v));
+        hash1 = rh.build(begin(v), end(v)).back();
+        hash2 = rh.build(rbegin(v), rend(v)).back();
     }
     /**
-     * @brief 文字(char)などで再代入する
+     * @brief charやunsigned long longなどを再代入する
      */
-    template <class T, class = std::enable_if_t<not is_range_v<T>>>
-    void assign(T x) {
+    template <class T, std::enable_if_t<!is_range_v<T> && !std::is_convertible_v<T, std::string_view>, std::nullptr_t> = nullptr>
+    void assign(T&& x) {
         sz = 1;
         hash1 = x;
         hash2 = x;
     }
     /**
-     * @brief const char*で再代入する
+     * @brief 文字列(string, const char*, string_view)を再代入する
      */
-    void assign(const char* s) {
-        assign(std::string(s));
+    void assign(std::string_view s) {
+        sz = std::distance(s.begin(), s.end());
+        hash1 = rh.build(s.begin(), s.end()).back();
+        hash2 = rh.build(s.rbegin(), s.rend()).back();
     }
     /**
      * @brief 再代入する
+     * RollingHashは同じものである必要がある
      */
     RHString& operator=(const RHString& o) {
         assign(o);
         return *this;
     }
     /**
-     * @brief 文字列(std::string)などで再代入する
+     * @brief vectorなどを再代入する
      */
-    template <class R, class = std::enable_if_t<is_range_v<R>>>
-    RHString& operator=(R&& s) {
-        assign(s);
+    template <class R, std::enable_if_t<is_range_v<R> && !std::is_convertible_v<R, std::string_view>, std::nullptr_t> = nullptr>
+    RHString& operator=(R&& v) {
+        assign(v);
         return *this;
     }
     /**
-     * @brief 文字(char)などで再代入する
+     * @brief charやunsigned long longなどを再代入する
      */
-    template <class T, class = std::enable_if_t<not is_range_v<T>>>
-    RHString& operator=(T x) {
+    template <class T, std::enable_if_t<!is_range_v<T> && !std::is_convertible_v<T, std::string_view>, std::nullptr_t> = nullptr>
+    RHString& operator=(T&& x) {
         assign(x);
         return *this;
     }
     /**
-     * @brief const char*で再代入する
+     * @brief 文字列(string, const char*, string_view)を再代入する
      */
-    RHString& operator=(const char* s) {
+    RHString& operator=(std::string_view s) {
         assign(s);
         return *this;
     }

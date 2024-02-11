@@ -15,8 +15,9 @@ int main() {
     std::string S;
     std::cin >> N >> Q >> S;
     std::vector<RHString> init;
+    init.reserve(N);
     for (char c : S) {
-        init.emplace_back(rh, std::string{c});
+        init.emplace_back(rh, c);
     }
     StaticSegTree<RHString, std::plus<RHString>, E> seg(init);
     while (Q--) {
@@ -26,7 +27,7 @@ int main() {
             int x;
             char c;
             std::cin >> x >> c;
-            seg.set(x - 1, RHString(rh, std::string{c}));
+            seg.set(x - 1, RHString(rh, c));
         } else {
             int L, R;
             std::cin >> L >> R;

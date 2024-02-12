@@ -8,15 +8,15 @@ int main(void) {
     int N, Q;
     std::cin >> N >> Q;
     std::vector<int> A(N), B(N), dA, dB;
-    for (size_t i = 0; i < N; i++) {
-        std::cin >> A[i];
+    for (int& a : A) {
+        std::cin >> a;
     }
-    for (size_t i = 0; i < N; i++) {
-        std::cin >> B[i];
+    for (int& b : B) {
+        std::cin >> b;
     }
     dA.reserve(N - 1);
     dB.reserve(N - 1);
-    for (size_t i = 0; i < N - 1; i++) {
+    for (int i = 0; i < N - 1; i++) {
         dA.push_back(A[i + 1] - A[i]);
         dB.push_back(B[i + 1] - B[i]);
     }

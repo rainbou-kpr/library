@@ -8,6 +8,7 @@
 #include <cassert>
 #include <functional>
 #include <limits>
+#include <numeric>
 #include <ostream>
 #include <vector>
 
@@ -299,6 +300,10 @@ namespace segtree {
     struct Min {
         const S operator() (const S& a, const S& b) const { return std::min(a, b); }
     };
+    template <typename S, std::enable_if_t<std::is_integral_v<S>>* = nullptr>
+    struct Gcd {
+        constexpr S operator()(const S& a, const S& b) const { return std::gcd(a, b); }
+    };
     template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
     struct MaxLimit {
         constexpr S operator() () const { return std::numeric_limits<S>::max(); }
@@ -310,6 +315,14 @@ namespace segtree {
     template <typename S>
     struct Zero {
         S operator() () const { return S(0); }
+    };
+    template <typename S>
+    struct One {
+        S operator()() const { return S(1); }
+    };
+    template <typename S>
+    struct None {
+        S operator()() const { return S{}; }
     };
 }
 /**
@@ -333,3 +346,17 @@ using RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;
  */
 template <typename S>
 using RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;
+/**
+ * @brief RangeProdQuery
+ *
+ * @tparam S 型
+ */
+template <typename S>
+using RProdQ = StaticSegTree<S, std::multiplies<S>, segtree::One<S>>;
+/**
+ * @brief RangeGcdQuery
+ *
+ * @tparam S 型
+ */
+template <typename S>
+using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;

@@ -354,6 +354,13 @@ using RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;
 template <typename S>
 using RProdQ = StaticSegTree<S, std::multiplies<S>, segtree::One<S>>;
 /**
+ * @brief RangeXorQuery
+ *
+ * @tparam S 型
+ */
+template <typename S>
+using RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;
+/**
  * @brief RangeGcdQuery
  *
  * @tparam S 型

@@ -11,7 +11,7 @@ int main(void) {
     for (int& a : A) {
         std::cin >> a;
     }
-    StaticSegTree<int, std::bit_xor<int>, segtree::Zero<int>> seg(A);
+    RXorQ seg(A);
     while (Q--) {
         int T, X, Y;
         std::cin >> T >> X >> Y;

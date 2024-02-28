@@ -11,7 +11,7 @@ int main(void) {
     for (int& a : A) {
         std::cin >> a;
     }
-    RXorQ seg(A);
+    RXorQ<int> seg(A);
     while (Q--) {
         int T, X, Y;
         std::cin >> T >> X >> Y;

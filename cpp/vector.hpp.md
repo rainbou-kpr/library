@@ -580,13 +580,13 @@ data:
   timestamp: '2023-09-07 23:01:33+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj-cgl-2-c.test.cpp
-  - test/aoj-cgl-3-c.test.cpp
-  - test/aoj-3314.test.cpp
-  - test/aoj-cgl-3-a.test.cpp
-  - test/aoj-cgl-4-a.test.cpp
   - test/aoj-cgl-3-b.test.cpp
+  - test/aoj-cgl-3-a.test.cpp
+  - test/aoj-cgl-2-c.test.cpp
+  - test/aoj-3314.test.cpp
   - test/aoj-cgl-5-a.test.cpp
+  - test/aoj-cgl-4-a.test.cpp
+  - test/aoj-cgl-3-c.test.cpp
   - test/aoj-cgl-2-b.test.cpp
 documentation_of: cpp/vector.hpp
 layout: document

@@ -54,6 +54,9 @@ data:
       path: cpp/string.hpp
       title: Z-algorithm
     - icon: ':heavy_check_mark:'
+      path: cpp/traits.hpp
+      title: cpp/traits.hpp
+    - icon: ':heavy_check_mark:'
       path: cpp/tree.hpp
       title: "\u6728\u306E\u6C4E\u7528\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8"
     - icon: ':question:'
@@ -154,6 +157,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/atcoder-abc300-b.test.cpp
       title: test/atcoder-abc300-b.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/atcoder-abc331-f.test.cpp
+      title: test/atcoder-abc331-f.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/atcoder-edpc-g.test.cpp
       title: test/atcoder-edpc-g.test.cpp

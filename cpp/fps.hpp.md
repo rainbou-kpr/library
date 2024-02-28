@@ -624,14 +624,14 @@ data:
   timestamp: '2024-01-20 00:58:37+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo-pow-of-fps.test.cpp
-  - test/yosupo-exp-of-fps.test.cpp
-  - test/yosupo-log-of-fps.test.cpp
-  - test/yosupo-partition-function_2.test.cpp
-  - test/yosupo-partition-function_1.test.cpp
-  - test/yosupo-polynomial-taylor-shift.test.cpp
   - test/yosupo-inv-of-fps.test.cpp
+  - test/yosupo-log-of-fps.test.cpp
+  - test/yosupo-exp-of-fps.test.cpp
+  - test/yosupo-partition-function_2.test.cpp
+  - test/yosupo-pow-of-fps.test.cpp
+  - test/yosupo-polynomial-taylor-shift.test.cpp
   - test/yosupo-sharp-p-subset-sum.test.cpp
+  - test/yosupo-partition-function_1.test.cpp
 documentation_of: cpp/fps.hpp
 layout: document
 redirect_from:

@@ -589,8 +589,8 @@ data:
   timestamp: '2023-09-16 00:11:43+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo-binomial-coefficient.test.cpp
   - test/yukicoder-117.test.cpp
+  - test/yosupo-binomial-coefficient.test.cpp
 documentation_of: cpp/combinatorics.hpp
 layout: document
 redirect_from:

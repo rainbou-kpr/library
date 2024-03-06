@@ -345,7 +345,7 @@ using RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;
  * @tparam S 型
  */
 template <typename S>
-using RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;
+using RSumQ = StaticSegTree<S, std::plus<S>, segtree::None<S>>;
 /**
  * @brief RangeProdQuery
  *

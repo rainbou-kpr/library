@@ -1,4 +1,4 @@
-#define PROBLEM "https://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=3372"
+#define PROBLEM "https://onlinejudge.u-aizu.ac.jp/problems/3372"
 #include "../cpp/tree.hpp"
 using namespace std;
 using ll = long long;

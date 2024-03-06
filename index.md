@@ -152,6 +152,12 @@ data:
       path: test/atcoder-abc177-f.2.test.cpp
       title: test/atcoder-abc177-f.2.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/atcoder-abc185-f.test.cpp
+      title: test/atcoder-abc185-f.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/atcoder-abc254-f.test.cpp
+      title: test/atcoder-abc254-f.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/atcoder-abc282-d.test.cpp
       title: test/atcoder-abc282-d.test.cpp
     - icon: ':heavy_check_mark:'

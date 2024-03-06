@@ -11,10 +11,10 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B
+    PROBLEM: https://atcoder.jp/contests/abc254/tasks/abc254_f
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B
-  bundledCode: "#line 1 \"test/aoj-dsl-2-b.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\
+    - https://atcoder.jp/contests/abc254/tasks/abc254_f
+  bundledCode: "#line 1 \"test/atcoder-abc254-f.test.cpp\"\n#define PROBLEM \"https://atcoder.jp/contests/abc254/tasks/abc254_f\"\
     \n\n#include <iostream>\n\n#line 2 \"cpp/segtree.hpp\"\n\n/**\n * @file segtree.hpp\n\
     \ * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#include <cassert>\n#include\
     \ <functional>\n#include <limits>\n#include <numeric>\n#include <ostream>\n#include\
@@ -169,27 +169,39 @@ data:
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
     using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 6 \"\
-    test/aoj-dsl-2-b.test.cpp\"\n\nint main(void) {\n    int n, q; std::cin >> n >>\
-    \ q;\n    RSumQ<int> seg(n);\n    while(q--) {\n        int com, x, y; std::cin\
-    \ >> com >> x >> y;\n        if(com == 0) seg.apply(x-1, y);\n        else std::cout\
-    \ << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\n\n\
+    test/atcoder-abc254-f.test.cpp\"\n\nint main(void) {\n    int N, Q;\n    std::cin\
+    \ >> N >> Q;\n    std::vector<int> A(N), B(N), dA, dB;\n    for (int& a : A) {\n\
+    \        std::cin >> a;\n    }\n    for (int& b : B) {\n        std::cin >> b;\n\
+    \    }\n    dA.reserve(N - 1);\n    dB.reserve(N - 1);\n    for (int i = 0; i\
+    \ < N - 1; i++) {\n        dA.push_back(A[i + 1] - A[i]);\n        dB.push_back(B[i\
+    \ + 1] - B[i]);\n    }\n    RGcdQ<int> seg1(dA), seg2(dB);\n    while (Q--) {\n\
+    \        int h1, h2, w1, w2;\n        std::cin >> h1 >> h2 >> w1 >> w2;\n    \
+    \    int g = A[h1 - 1] + B[w1 - 1];\n        g = std::gcd(g, seg1.prod(h1 - 1,\
+    \ h2 - 1));\n        g = std::gcd(g, seg2.prod(w1 - 1, w2 - 1));\n        std::cout\
+    \ << g << std::endl;\n    }\n}\n"
+  code: "#define PROBLEM \"https://atcoder.jp/contests/abc254/tasks/abc254_f\"\n\n\
     #include <iostream>\n\n#include \"../cpp/segtree.hpp\"\n\nint main(void) {\n \
-    \   int n, q; std::cin >> n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n\
-    \        int com, x, y; std::cin >> com >> x >> y;\n        if(com == 0) seg.apply(x-1,\
-    \ y);\n        else std::cout << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
+    \   int N, Q;\n    std::cin >> N >> Q;\n    std::vector<int> A(N), B(N), dA, dB;\n\
+    \    for (int& a : A) {\n        std::cin >> a;\n    }\n    for (int& b : B) {\n\
+    \        std::cin >> b;\n    }\n    dA.reserve(N - 1);\n    dB.reserve(N - 1);\n\
+    \    for (int i = 0; i < N - 1; i++) {\n        dA.push_back(A[i + 1] - A[i]);\n\
+    \        dB.push_back(B[i + 1] - B[i]);\n    }\n    RGcdQ<int> seg1(dA), seg2(dB);\n\
+    \    while (Q--) {\n        int h1, h2, w1, w2;\n        std::cin >> h1 >> h2\
+    \ >> w1 >> w2;\n        int g = A[h1 - 1] + B[w1 - 1];\n        g = std::gcd(g,\
+    \ seg1.prod(h1 - 1, h2 - 1));\n        g = std::gcd(g, seg2.prod(w1 - 1, w2 -\
+    \ 1));\n        std::cout << g << std::endl;\n    }\n}\n"
   dependsOn:
   - cpp/segtree.hpp
   isVerificationFile: true
-  path: test/aoj-dsl-2-b.test.cpp
+  path: test/atcoder-abc254-f.test.cpp
   requiredBy: []
   timestamp: '2024-03-06 15:05:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj-dsl-2-b.test.cpp
+documentation_of: test/atcoder-abc254-f.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj-dsl-2-b.test.cpp
-- /verify/test/aoj-dsl-2-b.test.cpp.html
-title: test/aoj-dsl-2-b.test.cpp
+- /verify/test/atcoder-abc254-f.test.cpp
+- /verify/test/atcoder-abc254-f.test.cpp.html
+title: test/atcoder-abc254-f.test.cpp
 ---

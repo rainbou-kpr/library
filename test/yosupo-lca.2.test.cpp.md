@@ -286,12 +286,12 @@ data:
     \ = doubling_par[i][doubling_par[i][j]];\n                }\n            }\n \
     \       }\n    }\n};\n#line 2 \"cpp/segtree.hpp\"\n\n/**\n * @file segtree.hpp\n\
     \ * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#include <cassert>\n#include\
-    \ <functional>\n#line 11 \"cpp/segtree.hpp\"\n#include <ostream>\n#line 13 \"\
-    cpp/segtree.hpp\"\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306E\
-    CRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\
-    \u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate\
-    \ <typename S, typename ActualSegTree>\nclass SegTreeBase {\n    S op(const S&\
-    \ a, const S& b) const { return static_cast<const ActualSegTree&>(*this).op(a,\
+    \ <functional>\n#line 11 \"cpp/segtree.hpp\"\n#include <numeric>\n#include <ostream>\n\
+    #line 14 \"cpp/segtree.hpp\"\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\
+    \u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u30E2\u30CE\u30A4\
+    \u30C9\u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n\
+    \ */\ntemplate <typename S, typename ActualSegTree>\nclass SegTreeBase {\n   \
+    \ S op(const S& a, const S& b) const { return static_cast<const ActualSegTree&>(*this).op(a,\
     \ b); }\n    S e() const { return static_cast<const ActualSegTree&>(*this).e();\
     \ }\n\n    int n, sz, height;\n    std::vector<S> data;\n    void update(int k)\
     \ { data[k] = op(data[2 * k], data[2 * k + 1]); }\n\n    class SegTreeReference\
@@ -416,19 +416,29 @@ data:
     \        const S operator() (const S& a, const S& b) const { return std::max(a,\
     \ b); }\n    };\n    template <typename S>\n    struct Min {\n        const S\
     \ operator() (const S& a, const S& b) const { return std::min(a, b); }\n    };\n\
-    \    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
-    \    struct MaxLimit {\n        constexpr S operator() () const { return std::numeric_limits<S>::max();\
-    \ }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
+    \    template <typename S, std::enable_if_t<std::is_integral_v<S>>* = nullptr>\n\
+    \    struct Gcd {\n        constexpr S operator()(const S& a, const S& b) const\
+    \ { return std::gcd(a, b); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
+    \ = nullptr>\n    struct MaxLimit {\n        constexpr S operator() () const {\
+    \ return std::numeric_limits<S>::max(); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
     \ = nullptr>\n    struct MinLimit {\n        constexpr S operator() () const {\
     \ return std::numeric_limits<S>::lowest(); }\n    };\n    template <typename S>\n\
-    \    struct Zero {\n        S operator() () const { return S(0); }\n    };\n}\n\
-    /**\n * @brief RangeMaxQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;\n\
-    /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
-    /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n#line 7\
-    \ \"test/yosupo-lca.2.test.cpp\"\n\nint main(void) {\n    std::cin.tie(nullptr);\n\
+    \    struct Zero {\n        S operator() () const { return S(0); }\n    };\n \
+    \   template <typename S>\n    struct One {\n        S operator()() const { return\
+    \ S(1); }\n    };\n    template <typename S>\n    struct None {\n        S operator()()\
+    \ const { return S{}; }\n    };\n}\n/**\n * @brief RangeMaxQuery\n * \n * @tparam\
+    \ S \u578B\n */\ntemplate <typename S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>,\
+    \ segtree::MinLimit<S>>;\n/**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\
+    \n */\ntemplate <typename S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>,\
+    \ segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\
+    \n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::None<S>>;\n\
+    /**\n * @brief RangeProdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RProdQ = StaticSegTree<S, std::multiplies<S>, segtree::One<S>>;\n\
+    /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
+    \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 7 \"\
+    test/yosupo-lca.2.test.cpp\"\n\nint main(void) {\n    std::cin.tie(nullptr);\n\
     \    std::ios::sync_with_stdio(0);\n    int n, q; std::cin >> n >> q;\n    std::vector<int>\
     \ par(n-1);\n    for(int i = 0; i < n-1; i++) std::cin >> par[i];\n    RootedTree\
     \ tree(par, 0);\n    RMinQ<long long> et_depth(tree.euler_tour.size());\n    std::vector<int>\
@@ -457,7 +467,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-lca.2.test.cpp
   requiredBy: []
-  timestamp: '2023-08-01 18:34:30+09:00'
+  timestamp: '2024-03-06 15:05:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-lca.2.test.cpp

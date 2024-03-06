@@ -11,10 +11,10 @@ data:
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
     '*NOT_SPECIAL_COMMENTS*': ''
-    PROBLEM: https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B
+    PROBLEM: https://atcoder.jp/contests/abc185/tasks/abc185_f
     links:
-    - https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B
-  bundledCode: "#line 1 \"test/aoj-dsl-2-b.test.cpp\"\n#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\
+    - https://atcoder.jp/contests/abc185/tasks/abc185_f
+  bundledCode: "#line 1 \"test/atcoder-abc185-f.test.cpp\"\n#define PROBLEM \"https://atcoder.jp/contests/abc185/tasks/abc185_f\"\
     \n\n#include <iostream>\n\n#line 2 \"cpp/segtree.hpp\"\n\n/**\n * @file segtree.hpp\n\
     \ * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#include <cassert>\n#include\
     \ <functional>\n#include <limits>\n#include <numeric>\n#include <ostream>\n#include\
@@ -169,27 +169,32 @@ data:
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
     using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 6 \"\
-    test/aoj-dsl-2-b.test.cpp\"\n\nint main(void) {\n    int n, q; std::cin >> n >>\
-    \ q;\n    RSumQ<int> seg(n);\n    while(q--) {\n        int com, x, y; std::cin\
-    \ >> com >> x >> y;\n        if(com == 0) seg.apply(x-1, y);\n        else std::cout\
-    \ << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
-  code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\n\n\
+    test/atcoder-abc185-f.test.cpp\"\n\nint main(void) {\n    int N, Q;\n    std::cin\
+    \ >> N >> Q;\n    std::vector<int> A(N);\n    for (int& a : A) {\n        std::cin\
+    \ >> a;\n    }\n    RXorQ<int> seg(A);\n    while (Q--) {\n        int T, X, Y;\n\
+    \        std::cin >> T >> X >> Y;\n        if (T == 1) {\n            seg.apply(X\
+    \ - 1, Y);\n        } else {\n            int ans;\n            ans = seg.prod(X\
+    \ - 1, Y);\n            std::cout << ans << std::endl;\n        }\n    }\n}\n"
+  code: "#define PROBLEM \"https://atcoder.jp/contests/abc185/tasks/abc185_f\"\n\n\
     #include <iostream>\n\n#include \"../cpp/segtree.hpp\"\n\nint main(void) {\n \
-    \   int n, q; std::cin >> n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n\
-    \        int com, x, y; std::cin >> com >> x >> y;\n        if(com == 0) seg.apply(x-1,\
-    \ y);\n        else std::cout << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
+    \   int N, Q;\n    std::cin >> N >> Q;\n    std::vector<int> A(N);\n    for (int&\
+    \ a : A) {\n        std::cin >> a;\n    }\n    RXorQ<int> seg(A);\n    while (Q--)\
+    \ {\n        int T, X, Y;\n        std::cin >> T >> X >> Y;\n        if (T ==\
+    \ 1) {\n            seg.apply(X - 1, Y);\n        } else {\n            int ans;\n\
+    \            ans = seg.prod(X - 1, Y);\n            std::cout << ans << std::endl;\n\
+    \        }\n    }\n}\n"
   dependsOn:
   - cpp/segtree.hpp
   isVerificationFile: true
-  path: test/aoj-dsl-2-b.test.cpp
+  path: test/atcoder-abc185-f.test.cpp
   requiredBy: []
   timestamp: '2024-03-06 15:05:55+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/aoj-dsl-2-b.test.cpp
+documentation_of: test/atcoder-abc185-f.test.cpp
 layout: document
 redirect_from:
-- /verify/test/aoj-dsl-2-b.test.cpp
-- /verify/test/aoj-dsl-2-b.test.cpp.html
-title: test/aoj-dsl-2-b.test.cpp
+- /verify/test/atcoder-abc185-f.test.cpp
+- /verify/test/atcoder-abc185-f.test.cpp.html
+title: test/atcoder-abc185-f.test.cpp
 ---

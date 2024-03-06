@@ -151,19 +151,19 @@ data:
     \    }\n    friend bool operator!=(const RHString& t1, const RHString& t2) { return\
     \ !(t1 == t2); }\n};\n#line 2 \"cpp/segtree.hpp\"\n\n/**\n * @file segtree.hpp\n\
     \ * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#line 9 \"cpp/segtree.hpp\"\
-    \n#include <functional>\n#include <limits>\n#include <ostream>\n#line 13 \"cpp/segtree.hpp\"\
-    \n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\
-    \u30E9\u30B9\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam\
-    \ ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate <typename S, typename\
-    \ ActualSegTree>\nclass SegTreeBase {\n    S op(const S& a, const S& b) const\
-    \ { return static_cast<const ActualSegTree&>(*this).op(a, b); }\n    S e() const\
-    \ { return static_cast<const ActualSegTree&>(*this).e(); }\n\n    int n, sz, height;\n\
-    \    std::vector<S> data;\n    void update(int k) { data[k] = op(data[2 * k],\
-    \ data[2 * k + 1]); }\n\n    class SegTreeReference {\n        SegTreeBase& segtree;\n\
-    \        int k;\n    public:\n        SegTreeReference(SegTreeBase& segtree, int\
-    \ k) : segtree(segtree), k(k) {}\n        SegTreeReference& operator=(const S&\
-    \ x) {\n            segtree.set(k, x);\n            return *this;\n        }\n\
-    \        operator S() const { return segtree.get(k); }\n    };\n\nprotected:\n\
+    \n#include <functional>\n#include <limits>\n#include <numeric>\n#include <ostream>\n\
+    #line 14 \"cpp/segtree.hpp\"\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\
+    \u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u30E2\u30CE\u30A4\
+    \u30C9\u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n\
+    \ */\ntemplate <typename S, typename ActualSegTree>\nclass SegTreeBase {\n   \
+    \ S op(const S& a, const S& b) const { return static_cast<const ActualSegTree&>(*this).op(a,\
+    \ b); }\n    S e() const { return static_cast<const ActualSegTree&>(*this).e();\
+    \ }\n\n    int n, sz, height;\n    std::vector<S> data;\n    void update(int k)\
+    \ { data[k] = op(data[2 * k], data[2 * k + 1]); }\n\n    class SegTreeReference\
+    \ {\n        SegTreeBase& segtree;\n        int k;\n    public:\n        SegTreeReference(SegTreeBase&\
+    \ segtree, int k) : segtree(segtree), k(k) {}\n        SegTreeReference& operator=(const\
+    \ S& x) {\n            segtree.set(k, x);\n            return *this;\n       \
+    \ }\n        operator S() const { return segtree.get(k); }\n    };\n\nprotected:\n\
     \    void construct_data() {\n        sz = 1;\n        height = 0;\n        while\
     \ (sz < n) {\n            sz <<= 1;\n            height++;\n        }\n      \
     \  data.assign(sz * 2, e());\n    }\n    void initialize(const std::vector<S>&\
@@ -281,19 +281,29 @@ data:
     \        const S operator() (const S& a, const S& b) const { return std::max(a,\
     \ b); }\n    };\n    template <typename S>\n    struct Min {\n        const S\
     \ operator() (const S& a, const S& b) const { return std::min(a, b); }\n    };\n\
-    \    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
-    \    struct MaxLimit {\n        constexpr S operator() () const { return std::numeric_limits<S>::max();\
-    \ }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
+    \    template <typename S, std::enable_if_t<std::is_integral_v<S>>* = nullptr>\n\
+    \    struct Gcd {\n        constexpr S operator()(const S& a, const S& b) const\
+    \ { return std::gcd(a, b); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
+    \ = nullptr>\n    struct MaxLimit {\n        constexpr S operator() () const {\
+    \ return std::numeric_limits<S>::max(); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
     \ = nullptr>\n    struct MinLimit {\n        constexpr S operator() () const {\
     \ return std::numeric_limits<S>::lowest(); }\n    };\n    template <typename S>\n\
-    \    struct Zero {\n        S operator() () const { return S(0); }\n    };\n}\n\
-    /**\n * @brief RangeMaxQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;\n\
-    /**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;\n\
-    /**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::Zero<S>>;\n#line 7\
-    \ \"test/atcoder-abc331-f.test.cpp\"\n\nRollingHash rh;\nstruct E {\n    RHString\
+    \    struct Zero {\n        S operator() () const { return S(0); }\n    };\n \
+    \   template <typename S>\n    struct One {\n        S operator()() const { return\
+    \ S(1); }\n    };\n    template <typename S>\n    struct None {\n        S operator()()\
+    \ const { return S{}; }\n    };\n}\n/**\n * @brief RangeMaxQuery\n * \n * @tparam\
+    \ S \u578B\n */\ntemplate <typename S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>,\
+    \ segtree::MinLimit<S>>;\n/**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\
+    \n */\ntemplate <typename S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>,\
+    \ segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\
+    \n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::None<S>>;\n\
+    /**\n * @brief RangeProdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RProdQ = StaticSegTree<S, std::multiplies<S>, segtree::One<S>>;\n\
+    /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
+    \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 7 \"\
+    test/atcoder-abc331-f.test.cpp\"\n\nRollingHash rh;\nstruct E {\n    RHString\
     \ operator()() const { return RHString(rh); }\n};\n\nint main() {\n    int N,\
     \ Q;\n    std::string S;\n    std::cin >> N >> Q >> S;\n    std::vector<RHString>\
     \ init;\n    init.reserve(N);\n    for (char c : S) {\n        init.emplace_back(rh,\
@@ -323,7 +333,7 @@ data:
   isVerificationFile: true
   path: test/atcoder-abc331-f.test.cpp
   requiredBy: []
-  timestamp: '2024-02-12 01:35:20+09:00'
+  timestamp: '2024-03-06 18:33:07+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/atcoder-abc331-f.test.cpp

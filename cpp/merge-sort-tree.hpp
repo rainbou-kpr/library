@@ -8,12 +8,13 @@
 
 /**
  * @brief 区間の閾値以内の値の積
- * S value_type 群の型
- * K key_type ソートに使う型
- * Op Sの積のファンクタ
- * E Sの単位元を返すファンクタ
- * Inv Sの逆元を返すファンクタ
- * Comp Kを比較するファンクタ
+ *
+ * @tparam S value_type 可換群の型
+ * @tparam K key_type ソートに使う型
+ * @tparam Op Sの積のファンクタ
+ * @tparam E Sの単位元を返すファンクタ
+ * @tparam Inv Sの逆元を返すファンクタ
+ * @tparam Comp Kを比較するファンクタ
  */
 template <typename S, typename K, class Op, class E, class Inv, class Comp>
 class MergeSortTree {
@@ -130,7 +131,7 @@ class MergeSortTree {
    public:
     MergeSortTree() = default;
     /**
-     * value_key valueとkeyのpairのvector
+     * @param value_key valueとkeyのpairのvector
      */
     explicit MergeSortTree(const std::vector<std::pair<value_type, key_type>>& value_key) {
         std::vector<key_type> key;
@@ -144,8 +145,8 @@ class MergeSortTree {
         this->initialize(value, key);
     }
     /**
-     * value prodで計算する対象
-     * key ソートする基準
+     * @param value prodで計算する対象
+     * @param key ソートする基準
      */
     MergeSortTree(const std::vector<value_type>& value, const std::vector<key_type>& key) {
         assert(key.size() == value.size());
@@ -153,7 +154,7 @@ class MergeSortTree {
     }
 
     /**
-     * product value[i] s.t. a <= key[i] < b , i in [l, r)
+     * @brief product value[i] s.t. a <= key[i] < b , i in [l, r)
      */
     value_type prod(std::optional<int> l = std::nullopt, std::optional<int> r = std::nullopt, std::optional<key_type> a = std::nullopt, std::optional<key_type> b = std::nullopt) const {
         if (a.has_value() and b.has_value() and not comp(a.value(), b.value())) return e();
@@ -181,13 +182,13 @@ struct Inv {
 };
 }  // namespace merge_sort_tree
 /**
- * @tparam S 群の型
+ * @tparam S 可換群の型
  * @tparam K ソートに使う型
  */
 template <typename S, typename K>
 using MSTreeSum = MergeSortTree<S, K, std::plus<S>, merge_sort_tree::None<S>, std::negate<S>, std::less<K>>;
 /**
- * @tparam S 群の型
+ * @tparam S 可換群の型
  * @tparam K ソートに使う型
  */
 template <typename S, typename K>

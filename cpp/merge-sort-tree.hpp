@@ -16,7 +16,7 @@
  * @tparam Inv Sの逆元を返すファンクタ
  * @tparam Comp Kを比較するファンクタ
  */
-template <typename S, typename K, class Op, class E, class Inv, class Comp>
+template <typename S, typename K, class Op, class E, class Inv, class Comp = std::less<K>>
 class MergeSortTree {
    public:
     using value_type = S;
@@ -177,7 +177,7 @@ namespace merge_sort_tree {
         S operator()() const { return S{}; }
     };
     template <typename S>
-    struct Inv {
+    struct Div {
         S operator()(const S& a) const { return S(1) / a; }
     };
 }  // namespace merge_sort_tree
@@ -192,4 +192,4 @@ using MSTreeSum = MergeSortTree<S, K, std::plus<S>, merge_sort_tree::None<S>, st
  * @tparam K ソートに使う型
  */
 template <typename S, typename K>
-using MSTreeProd = MergeSortTree<S, K, std::multiplies<S>, merge_sort_tree::One<S>, merge_sort_tree::Inv<S>, std::less<K>>;
+using MSTreeProd = MergeSortTree<S, K, std::multiplies<S>, merge_sort_tree::One<S>, merge_sort_tree::Div<S>, std::less<K>>;

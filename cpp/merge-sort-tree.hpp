@@ -96,15 +96,15 @@ class MergeSortTree {
         if (b.has_value()) {
             int i = std::lower_bound(key_data.begin() + l, key_data.begin() + r, b.value(), comp) - key_data.begin();
             if (i != l) {
-                ret = cumulative_value[i - 1]
+                ret = cumulative_value[i - 1];
             }
         } else {
-            ret = cumulative_value[r - 1]
+            ret = cumulative_value[r - 1];
         }
         if (a.has_value()) {
             int i = std::lower_bound(key_data.begin() + l, key_data.begin() + r, a.value(), comp) - key_data.begin();
             if (i != l) {
-                ret = op(ret,inv(cumulative_value[i - 1]));
+                ret = op(ret, inv(cumulative_value[i - 1]));
             }
         }
         return ret;
@@ -164,22 +164,22 @@ class MergeSortTree {
 };
 
 namespace merge_sort_tree {
-template <typename S>
-struct Zero {
-    S operator()() const { return S(0); }
-};
-template <typename S>
-struct One {
-    S operator()() const { return S(1); }
-};
-template <typename S>
-struct None {
-    S operator()() const { return S{}; }
-};
-template <typename S>
-struct Inv {
-    S operator()(const S& a) const { return S(1) / a; }
-};
+    template <typename S>
+    struct Zero {
+        S operator()() const { return S(0); }
+    };
+    template <typename S>
+    struct One {
+        S operator()() const { return S(1); }
+    };
+    template <typename S>
+    struct None {
+        S operator()() const { return S{}; }
+    };
+    template <typename S>
+    struct Inv {
+        S operator()(const S& a) const { return S(1) / a; }
+    };
 }  // namespace merge_sort_tree
 /**
  * @tparam S 可換群の型
@@ -192,4 +192,4 @@ using MSTreeSum = MergeSortTree<S, K, std::plus<S>, merge_sort_tree::None<S>, st
  * @tparam K ソートに使う型
  */
 template <typename S, typename K>
-using MSTreeProd = MergeSortTree<S, K, std::multiplies<S>, merge_sort_tree::One<S>, std::Inv<S>, std::less<K>>;
+using MSTreeProd = MergeSortTree<S, K, std::multiplies<S>, merge_sort_tree::One<S>, merge_sort_tree::Inv<S>, std::less<K>>;

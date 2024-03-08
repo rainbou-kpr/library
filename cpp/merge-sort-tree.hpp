@@ -93,19 +93,19 @@ class MergeSortTree {
 
     value_type _prod_section(int l, int r, std::optional<key_type> a, std::optional<key_type> b) const {
         value_type ret = e();
-        if (a.has_value()) {
-            int i = std::lower_bound(key_data.begin() + l, key_data.begin() + r, a.value(), comp) - key_data.begin();
-            if (i != l) {
-                ret = inv(cumulative_value[i - 1]);
-            }
-        }
         if (b.has_value()) {
             int i = std::lower_bound(key_data.begin() + l, key_data.begin() + r, b.value(), comp) - key_data.begin();
             if (i != l) {
-                ret = op(ret, cumulative_value[i - 1]);
+                ret = cumulative_value[i - 1]
             }
         } else {
-            ret = op(ret, cumulative_value[r - 1]);
+            ret = cumulative_value[r - 1]
+        }
+        if (a.has_value()) {
+            int i = std::lower_bound(key_data.begin() + l, key_data.begin() + r, a.value(), comp) - key_data.begin();
+            if (i != l) {
+                ret = op(ret,inv(cumulative_value[i - 1]));
+            }
         }
         return ret;
     }

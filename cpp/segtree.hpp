@@ -64,7 +64,10 @@ public:
      * @param k インデックス
      * @return S 値
      */
-    S get(int k) const { return data[sz + k]; }
+    S get(int k) const {
+        assert(0 <= k < n);
+        return data[sz + k];
+    }
     /**
      * @brief 指定された要素の値を返す
      * 
@@ -105,6 +108,7 @@ public:
      * @param x 新しい値
      */
     void set(int k, const S& x) {
+        assert(0 <= k < n);
         k += sz;
         data[k] = x;
         for (int i = 1; i <= height; i++) update(k >> i);
@@ -121,10 +125,11 @@ public:
      * @brief [l, r)の区間の総積を返す
      * 
      * @param l 半開区間の開始
-     * @param r 半開区間の終端
+     * @param r 半開区間の終端 0<=l<=r<=n
      * @return S 総積
      */
     S prod(int l, int r) const {
+        assert(0 <= l && l <= r && r <= n);
         S left_prod = e(), right_prod = e();
         l += sz;
         r += sz;
@@ -148,13 +153,14 @@ public:
      * fが単調なら、f(prod([l, r))) = trueとなる最大のr
      * 
      * @tparam F
-     * @param l 半開区間の開始
+     * @param l 半開区間の開始 0<=l<=n
      * @param f 判定関数 f(e) = true
      * @return int
      */
     template <typename F>
     int max_right(int l, F f) const {
         assert(f(e()));
+        assert(0 <= l && l <= n);
         if (l == n) return n;
         l += sz;
         while (l % 2 == 0) l >>= 1;
@@ -179,13 +185,14 @@ public:
      * fが単調なら、f(prod([l, r))) = trueとなる最小のl
      * 
      * @tparam F
-     * @param r 半開区間の終端
+     * @param r 半開区間の終端 0<=r<=n
      * @param f 判定関数 f(e) = true
      * @return int
      */
     template <typename F>
     int min_left(int r, F f) const {
         assert(f(e()));
+        assert(0 <= r && r <= n);
         if (r == 0) return 0;
         r += sz;
         while (r % 2 == 0) r >>= 1;

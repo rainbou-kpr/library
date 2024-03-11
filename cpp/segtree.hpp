@@ -65,7 +65,7 @@ public:
      * @return S 値
      */
     S get(int k) const {
-        assert(0 <= k < n);
+        assert(0 <= k && k < n);
         return data[sz + k];
     }
     /**
@@ -108,7 +108,7 @@ public:
      * @param x 新しい値
      */
     void set(int k, const S& x) {
-        assert(0 <= k < n);
+        assert(0 <= k && k < n);
         k += sz;
         data[k] = x;
         for (int i = 1; i <= height; i++) update(k >> i);

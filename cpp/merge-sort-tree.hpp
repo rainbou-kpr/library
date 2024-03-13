@@ -56,18 +56,8 @@ class MergeSortTree {
                 int j0 = (h - 1) * sz + i;
                 int last1 = j2;
                 int last2 = h * sz + std::min(n, i + t * 2);
-                while (j1 != last1 or j2 != last2) {
-                    if (j1 == last1) {
-                        key_data[j0] = key_data[j2];
-                        value_data[j0] = value_data[j2];
-                        j0++;
-                        j2++;
-                    } else if (j2 == last2) {
-                        key_data[j0] = key_data[j1];
-                        value_data[j0] = value_data[j1];
-                        j0++;
-                        j1++;
-                    } else if (comp(key_data[j2], key_data[j1])) {
+                while (j1 != last1 || j2 != last2) {
+                    if (j1 == last1 || (j2 < last2 && comp(key_data[j2], key_data[j1]))) {
                         key_data[j0] = key_data[j2];
                         value_data[j0] = value_data[j2];
                         j0++;
@@ -79,10 +69,7 @@ class MergeSortTree {
                         j1++;
                     }
                 }
-
-                if (i < n) {
-                    cumulative_value[(h - 1) * sz + i] = value_data[(h - 1) * sz + i];
-                }
+                cumulative_value[(h - 1) * sz + i] = value_data[(h - 1) * sz + i];
                 for (int j = i + 1; j < std::min(n, i + t * 2); j++) {
                     cumulative_value[(h - 1) * sz + j] = op(cumulative_value[(h - 1) * sz + j - 1], value_data[(h - 1) * sz + j]);
                 }
@@ -92,38 +79,20 @@ class MergeSortTree {
     }
 
     value_type _prod_section(int l, int r, std::optional<key_type> a, std::optional<key_type> b) const {
-        value_type ret = e();
+        value_type ret = cumulative_value[r - 1];
         if (b.has_value()) {
             int i = std::lower_bound(key_data.begin() + l, key_data.begin() + r, b.value(), comp) - key_data.begin();
             if (i != l) {
                 ret = cumulative_value[i - 1];
+            } else {
+                ret = e();
             }
-        } else {
-            ret = cumulative_value[r - 1];
         }
         if (a.has_value()) {
             int i = std::lower_bound(key_data.begin() + l, key_data.begin() + r, a.value(), comp) - key_data.begin();
             if (i != l) {
                 ret = op(ret, inv(cumulative_value[i - 1]));
             }
-        }
-        return ret;
-    }
-    value_type _prod(int l, int r, std::optional<key_type> a, std::optional<key_type> b) const {
-        value_type ret = e();
-        int h = height - 1;
-        int t = 1;
-        while (l < r) {
-            if (l & t) {
-                ret = op(ret, _prod_section(h * sz + l, h * sz + l + t, a, b));
-                l += t;
-            }
-            if (r & t) {
-                r -= t;
-                ret = op(ret, _prod_section(h * sz + r, h * sz + r + t, a, b));
-            }
-            h--;
-            t <<= 1;
         }
         return ret;
     }
@@ -155,11 +124,31 @@ class MergeSortTree {
 
     /**
      * @brief product value[i] s.t. a <= key[i] < b , i in [l, r)
+     *
+     * @param l 半開区間の開始
+     * @param r 半開区間の終端 0<=l<=r<=n
+     * @param a nulloptの場合は負の無限大
+     * @param b nulloptの場合は正の無限大
      */
-    value_type prod(std::optional<int> l = std::nullopt, std::optional<int> r = std::nullopt, std::optional<key_type> a = std::nullopt, std::optional<key_type> b = std::nullopt) const {
-        if (a.has_value() and b.has_value() and not comp(a.value(), b.value())) return e();
-        if (l.has_value() and r.has_value() and l >= r) return e();
-        return _prod(l.value_or(0), r.value_or(n), a, b);
+    value_type prod(int l, int r, std::optional<key_type> a = std::nullopt, std::optional<key_type> b = std::nullopt) const {
+        assert(0 <= l && l <= r && r <= n);
+        if (a.has_value() && b.has_value() && !comp(a.value(), b.value())) return e();
+        value_type ret = e();
+        int h = height - 1;
+        int t = 1;
+        while (l < r) {
+            if (l & t) {
+                ret = op(ret, _prod_section(h * sz + l, h * sz + l + t, a, b));
+                l += t;
+            }
+            if (r & t) {
+                r -= t;
+                ret = op(ret, _prod_section(h * sz + r, h * sz + r + t, a, b));
+            }
+            h--;
+            t <<= 1;
+        }
+        return ret;
     }
 };
 

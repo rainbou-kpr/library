@@ -474,12 +474,12 @@ data:
   timestamp: '2023-10-12 08:50:40+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
-  - test/atcoder-abc300-b.test.cpp
-  - test/aoj-3314.test.cpp
-  - test/yukicoder-rotate-enlarge_2.test.cpp
   - test/yukicoder-search-oji.test.cpp
-  - test/atcoder-jsc2021-g.test.cpp
+  - test/yukicoder-rotate-enlarge_2.test.cpp
   - test/yukicoder-rotate-enlarge_1.test.cpp
+  - test/atcoder-abc300-b.test.cpp
+  - test/atcoder-jsc2021-g.test.cpp
+  - test/aoj-3314.test.cpp
 documentation_of: cpp/matrix.hpp
 layout: document
 redirect_from:

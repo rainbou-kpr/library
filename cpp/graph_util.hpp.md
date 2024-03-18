@@ -242,8 +242,8 @@ data:
   timestamp: '2023-11-30 23:29:28+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/atcoder-edpc-g.test.cpp
   - test/atcoder-abc282-d.test.cpp
+  - test/atcoder-edpc-g.test.cpp
 documentation_of: cpp/graph_util.hpp
 layout: document
 redirect_from:

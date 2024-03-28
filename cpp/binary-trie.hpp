@@ -68,7 +68,7 @@ template <unsigned int d> class BinaryTrie {
             cur_ptr->affect_xor();
             NodePtr &nxt_ptr = cur_ptr->children[cur_ptr->get_bit(n)];
             if (!nxt_ptr) {
-                return nullptr;
+                return 0;
             }
             cur_ptr = nxt_ptr;
         }
@@ -80,7 +80,7 @@ template <unsigned int d> class BinaryTrie {
      * @note 存在しない要素を指定したとき、何も起こらない
      */
     void erase(unsigned long long n) const {
-        int cnt = count(n);
+        unsigned int cnt = count(n);
         if (cnt == 0)
             return;
         NodePtr cur_ptr = root_ptr;
@@ -121,7 +121,7 @@ template <unsigned int d> class BinaryTrie {
      * @brief 昇順でn番目の要素を探索 (O(d))
      * @note nがtrie木のサイズ以上な場合、assert
      */
-    unsigned long long nth_element(int n) const {
+    unsigned long long nth_element(unsigned int n) const {
         assert(n < size());
         unsigned long long ret = 0;
         NodePtr cur_ptr = root_ptr;

@@ -171,17 +171,24 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 6 \"\
-    test/atcoder-abc254-f.test.cpp\"\n\nint main(void) {\n    int N, Q;\n    std::cin\
-    \ >> N >> Q;\n    std::vector<int> A(N), B(N), dA, dB;\n    for (int& a : A) {\n\
-    \        std::cin >> a;\n    }\n    for (int& b : B) {\n        std::cin >> b;\n\
-    \    }\n    dA.reserve(N - 1);\n    dB.reserve(N - 1);\n    for (int i = 0; i\
-    \ < N - 1; i++) {\n        dA.push_back(A[i + 1] - A[i]);\n        dB.push_back(B[i\
-    \ + 1] - B[i]);\n    }\n    RGcdQ<int> seg1(dA), seg2(dB);\n    while (Q--) {\n\
-    \        int h1, h2, w1, w2;\n        std::cin >> h1 >> h2 >> w1 >> w2;\n    \
-    \    int g = A[h1 - 1] + B[w1 - 1];\n        g = std::gcd(g, seg1.prod(h1 - 1,\
-    \ h2 - 1));\n        g = std::gcd(g, seg2.prod(w1 - 1, w2 - 1));\n        std::cout\
-    \ << g << std::endl;\n    }\n}\n"
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n#line 6 \"test/atcoder-abc254-f.test.cpp\"\n\nint main(void) {\n    int N,\
+    \ Q;\n    std::cin >> N >> Q;\n    std::vector<int> A(N), B(N), dA, dB;\n    for\
+    \ (int& a : A) {\n        std::cin >> a;\n    }\n    for (int& b : B) {\n    \
+    \    std::cin >> b;\n    }\n    dA.reserve(N - 1);\n    dB.reserve(N - 1);\n \
+    \   for (int i = 0; i < N - 1; i++) {\n        dA.push_back(A[i + 1] - A[i]);\n\
+    \        dB.push_back(B[i + 1] - B[i]);\n    }\n    RGcdQ<int> seg1(dA), seg2(dB);\n\
+    \    while (Q--) {\n        int h1, h2, w1, w2;\n        std::cin >> h1 >> h2\
+    \ >> w1 >> w2;\n        int g = A[h1 - 1] + B[w1 - 1];\n        g = std::gcd(g,\
+    \ seg1.prod(h1 - 1, h2 - 1));\n        g = std::gcd(g, seg2.prod(w1 - 1, w2 -\
+    \ 1));\n        std::cout << g << std::endl;\n    }\n}\n"
   code: "#define PROBLEM \"https://atcoder.jp/contests/abc254/tasks/abc254_f\"\n\n\
     #include <iostream>\n\n#include \"../cpp/segtree.hpp\"\n\nint main(void) {\n \
     \   int N, Q;\n    std::cin >> N >> Q;\n    std::vector<int> A(N), B(N), dA, dB;\n\
@@ -198,7 +205,7 @@ data:
   isVerificationFile: true
   path: test/atcoder-abc254-f.test.cpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/atcoder-abc254-f.test.cpp

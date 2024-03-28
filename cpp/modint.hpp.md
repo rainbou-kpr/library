@@ -49,6 +49,9 @@ data:
     path: test/yosupo-point-set-range-composite.2.test.cpp
     title: test/yosupo-point-set-range-composite.2.test.cpp
   - icon: ':heavy_check_mark:'
+    path: test/yosupo-point-set-range-composite.3.test.cpp
+    title: test/yosupo-point-set-range-composite.3.test.cpp
+  - icon: ':heavy_check_mark:'
     path: test/yosupo-polynomial-taylor-shift.test.cpp
     title: test/yosupo-polynomial-taylor-shift.test.cpp
   - icon: ':heavy_check_mark:'
@@ -60,6 +63,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo-range-affine-range-sum.2.test.cpp
     title: test/yosupo-range-affine-range-sum.2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-range-affine-range-sum.3.test.cpp
+    title: test/yosupo-range-affine-range-sum.3.test.cpp
   - icon: ':heavy_check_mark:'
     path: test/yosupo-sharp-p-subset-sum.test.cpp
     title: test/yosupo-sharp-p-subset-sum.test.cpp
@@ -558,6 +564,7 @@ data:
   timestamp: '2023-08-29 23:08:45+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
+  - test/yosupo-point-set-range-composite.3.test.cpp
   - test/yukicoder-search-oji.test.cpp
   - test/yosupo-range-affine-range-sum.2.test.cpp
   - test/yosupo-pow-of-fps.test.cpp
@@ -572,6 +579,7 @@ data:
   - test/yosupo-binomial-coefficient.test.cpp
   - test/yosupo-convolution-mod.test.cpp
   - test/yosupo-convolution-mod-2-64.test.cpp
+  - test/yosupo-range-affine-range-sum.3.test.cpp
   - test/yosupo-exp-of-fps.test.cpp
   - test/yosupo-sharp-p-subset-sum.test.cpp
   - test/atcoder-jsc2021-g.test.cpp

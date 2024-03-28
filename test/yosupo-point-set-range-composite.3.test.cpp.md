@@ -18,7 +18,7 @@ data:
     PROBLEM: https://judge.yosupo.jp/problem/point_set_range_composite
     links:
     - https://judge.yosupo.jp/problem/point_set_range_composite
-  bundledCode: "#line 1 \"test/yosupo-point-set-range-composite.2.test.cpp\"\n#define\
+  bundledCode: "#line 1 \"test/yosupo-point-set-range-composite.3.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\n\n#include\
     \ <iostream>\n\n#line 2 \"cpp/modint.hpp\"\n\n/**\n * @file modint.hpp\n * @brief\
     \ \u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod \u3092\
@@ -417,44 +417,46 @@ data:
     \        TemplateS<T> operator()() const {\n            return T().e();\n    \
     \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
     \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
-    >;\n#line 7 \"test/yosupo-point-set-range-composite.2.test.cpp\"\n\nint main(void)\
-    \ {\n    int n, q; std::cin >> n >> q;\n    using S = std::pair<modint998244353,\
-    \ modint998244353>;\n    std::vector<S> v(n);\n    for(int i = 0; i < n; i++)\
-    \ std::cin >> v[i].first >> v[i].second;\n    SegTree seg(v, [](const S& l, const\
-    \ S& r) {\n            return std::make_pair(r.first * l.first, r.first * l.second\
-    \ + r.second);\n        },\n        std::make_pair(modint998244353(1), modint998244353(0))\n\
-    \    );\n    while(q--) {\n        int op; std::cin >> op;\n        if(op == 0)\
-    \ {\n            int p; modint998244353 c, d; std::cin >> p >> c >> d;\n     \
-    \       seg.set(p, std::make_pair(c, d));\n        } else {\n            int l,\
-    \ r; modint998244353 x; std::cin >> l >> r >> x;\n            S f = seg.prod(l,\
-    \ r);\n            std::cout << f.first * x + f.second << '\\n';\n        }\n\
-    \    }\n}\n"
+    >;\n#line 7 \"test/yosupo-point-set-range-composite.3.test.cpp\"\n\nint main()\
+    \ {\n    int n, q;\n    std::cin >> n >> q;\n    using MI = modint998244353;\n\
+    \    struct RangeComposite {\n        using S = std::pair<MI, MI>;\n        S\
+    \ op(const S& l, const S& r) {\n            return std::make_pair(r.first * l.first,\
+    \ r.first * l.second + r.second);\n        }\n        S e() {\n            return\
+    \ std::make_pair(MI(1), MI(0));\n        }\n    };\n    std::vector<std::pair<MI,\
+    \ MI>> v(n);\n    for (int i = 0; i < n; i++) std::cin >> v[i].first >> v[i].second;\n\
+    \    TemplateSegTree<RangeComposite> seg(v);\n    while (q--) {\n        int op;\n\
+    \        std::cin >> op;\n        if (op == 0) {\n            int p;\n       \
+    \     MI c, d;\n            std::cin >> p >> c >> d;\n            seg.set(p, std::make_pair(c,\
+    \ d));\n        } else {\n            int l, r;\n            MI x;\n         \
+    \   std::cin >> l >> r >> x;\n            auto f = seg.prod(l, r);\n         \
+    \   std::cout << f.first * x + f.second << '\\n';\n        }\n    }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n\n#include <iostream>\n\n#include \"../cpp/modint.hpp\"\n#include \"../cpp/segtree.hpp\"\
-    \n\nint main(void) {\n    int n, q; std::cin >> n >> q;\n    using S = std::pair<modint998244353,\
-    \ modint998244353>;\n    std::vector<S> v(n);\n    for(int i = 0; i < n; i++)\
-    \ std::cin >> v[i].first >> v[i].second;\n    SegTree seg(v, [](const S& l, const\
-    \ S& r) {\n            return std::make_pair(r.first * l.first, r.first * l.second\
-    \ + r.second);\n        },\n        std::make_pair(modint998244353(1), modint998244353(0))\n\
-    \    );\n    while(q--) {\n        int op; std::cin >> op;\n        if(op == 0)\
-    \ {\n            int p; modint998244353 c, d; std::cin >> p >> c >> d;\n     \
-    \       seg.set(p, std::make_pair(c, d));\n        } else {\n            int l,\
-    \ r; modint998244353 x; std::cin >> l >> r >> x;\n            S f = seg.prod(l,\
-    \ r);\n            std::cout << f.first * x + f.second << '\\n';\n        }\n\
-    \    }\n}"
+    \n\nint main() {\n    int n, q;\n    std::cin >> n >> q;\n    using MI = modint998244353;\n\
+    \    struct RangeComposite {\n        using S = std::pair<MI, MI>;\n        S\
+    \ op(const S& l, const S& r) {\n            return std::make_pair(r.first * l.first,\
+    \ r.first * l.second + r.second);\n        }\n        S e() {\n            return\
+    \ std::make_pair(MI(1), MI(0));\n        }\n    };\n    std::vector<std::pair<MI,\
+    \ MI>> v(n);\n    for (int i = 0; i < n; i++) std::cin >> v[i].first >> v[i].second;\n\
+    \    TemplateSegTree<RangeComposite> seg(v);\n    while (q--) {\n        int op;\n\
+    \        std::cin >> op;\n        if (op == 0) {\n            int p;\n       \
+    \     MI c, d;\n            std::cin >> p >> c >> d;\n            seg.set(p, std::make_pair(c,\
+    \ d));\n        } else {\n            int l, r;\n            MI x;\n         \
+    \   std::cin >> l >> r >> x;\n            auto f = seg.prod(l, r);\n         \
+    \   std::cout << f.first * x + f.second << '\\n';\n        }\n    }\n}\n"
   dependsOn:
   - cpp/modint.hpp
   - cpp/segtree.hpp
   isVerificationFile: true
-  path: test/yosupo-point-set-range-composite.2.test.cpp
+  path: test/yosupo-point-set-range-composite.3.test.cpp
   requiredBy: []
   timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
-documentation_of: test/yosupo-point-set-range-composite.2.test.cpp
+documentation_of: test/yosupo-point-set-range-composite.3.test.cpp
 layout: document
 redirect_from:
-- /verify/test/yosupo-point-set-range-composite.2.test.cpp
-- /verify/test/yosupo-point-set-range-composite.2.test.cpp.html
-title: test/yosupo-point-set-range-composite.2.test.cpp
+- /verify/test/yosupo-point-set-range-composite.3.test.cpp
+- /verify/test/yosupo-point-set-range-composite.3.test.cpp.html
+title: test/yosupo-point-set-range-composite.3.test.cpp
 ---

@@ -28,6 +28,9 @@ data:
     - icon: ':question:'
       path: cpp/matrix.hpp
       title: "\u884C\u5217"
+    - icon: ':heavy_check_mark:'
+      path: cpp/merge-sort-tree.hpp
+      title: "\u533A\u9593\u306E\u95BE\u5024\u4EE5\u5185\u306E\u5024\u306E\u7A4D"
     - icon: ':question:'
       path: cpp/modint.hpp
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
@@ -233,6 +236,9 @@ data:
       path: test/yosupo-point-set-range-composite.2.test.cpp
       title: test/yosupo-point-set-range-composite.2.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo-point-set-range-composite.3.test.cpp
+      title: test/yosupo-point-set-range-composite.3.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-point-set-range-composite.test.py
       title: test/yosupo-point-set-range-composite.test.py
     - icon: ':heavy_check_mark:'
@@ -248,11 +254,17 @@ data:
       path: test/yosupo-range-affine-range-sum.2.test.cpp
       title: test/yosupo-range-affine-range-sum.2.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/yosupo-range-affine-range-sum.3.test.cpp
+      title: test/yosupo-range-affine-range-sum.3.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/yosupo-range-chmin-chmax-add-range-sum.1.test.cpp
       title: test/yosupo-range-chmin-chmax-add-range-sum.1.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
       title: test/yosupo-range-chmin-chmax-add-range-sum.2.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-rectangle-sum.test.cpp
+      title: test/yosupo-rectangle-sum.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-segment-add-get-min.test.cpp
       title: test/yosupo-segment-add-get-min.test.cpp

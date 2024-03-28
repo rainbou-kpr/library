@@ -409,20 +409,27 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 7 \"\
-    test/yosupo-point-set-range-composite.1.test.cpp\"\n\nint main(void) {\n    int\
-    \ n, q; std::cin >> n >> q;\n    using S = std::pair<modint998244353, modint998244353>;\n\
-    \    struct Op {\n        S operator()(const S& l, const S& r) {\n           \
-    \ return std::make_pair(r.first * l.first, r.first * l.second + r.second);\n \
-    \       }\n    };\n    struct E {\n        S operator()() {\n            return\
-    \ std::make_pair(modint998244353(1), modint998244353(0));\n        }\n    };\n\
-    \    std::vector<S> v(n);\n    for(int i = 0; i < n; i++) std::cin >> v[i].first\
-    \ >> v[i].second;\n    StaticSegTree<S, Op, E> seg(v);\n    while(q--) {\n   \
-    \     int op; std::cin >> op;\n        if(op == 0) {\n            int p; modint998244353\
-    \ c, d; std::cin >> p >> c >> d;\n            seg.set(p, std::make_pair(c, d));\n\
-    \        } else {\n            int l, r; modint998244353 x; std::cin >> l >> r\
-    \ >> x;\n            S f = seg.prod(l, r);\n            std::cout << f.first *\
-    \ x + f.second << '\\n';\n        }\n    }\n}\n"
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n#line 7 \"test/yosupo-point-set-range-composite.1.test.cpp\"\n\nint main(void)\
+    \ {\n    int n, q; std::cin >> n >> q;\n    using S = std::pair<modint998244353,\
+    \ modint998244353>;\n    struct Op {\n        S operator()(const S& l, const S&\
+    \ r) {\n            return std::make_pair(r.first * l.first, r.first * l.second\
+    \ + r.second);\n        }\n    };\n    struct E {\n        S operator()() {\n\
+    \            return std::make_pair(modint998244353(1), modint998244353(0));\n\
+    \        }\n    };\n    std::vector<S> v(n);\n    for(int i = 0; i < n; i++) std::cin\
+    \ >> v[i].first >> v[i].second;\n    StaticSegTree<S, Op, E> seg(v);\n    while(q--)\
+    \ {\n        int op; std::cin >> op;\n        if(op == 0) {\n            int p;\
+    \ modint998244353 c, d; std::cin >> p >> c >> d;\n            seg.set(p, std::make_pair(c,\
+    \ d));\n        } else {\n            int l, r; modint998244353 x; std::cin >>\
+    \ l >> r >> x;\n            S f = seg.prod(l, r);\n            std::cout << f.first\
+    \ * x + f.second << '\\n';\n        }\n    }\n}\n"
   code: "#define PROBLEM \"https://judge.yosupo.jp/problem/point_set_range_composite\"\
     \n\n#include <iostream>\n\n#include \"../cpp/modint.hpp\"\n#include \"../cpp/segtree.hpp\"\
     \n\nint main(void) {\n    int n, q; std::cin >> n >> q;\n    using S = std::pair<modint998244353,\
@@ -443,7 +450,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-point-set-range-composite.1.test.cpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-point-set-range-composite.1.test.cpp

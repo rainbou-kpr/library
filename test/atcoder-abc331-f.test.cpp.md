@@ -305,10 +305,17 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 7 \"\
-    test/atcoder-abc331-f.test.cpp\"\n\nRollingHash rh;\nstruct E {\n    RHString\
-    \ operator()() const { return RHString(rh); }\n};\n\nint main() {\n    int N,\
-    \ Q;\n    std::string S;\n    std::cin >> N >> Q >> S;\n    std::vector<RHString>\
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n#line 7 \"test/atcoder-abc331-f.test.cpp\"\n\nRollingHash rh;\nstruct E {\n\
+    \    RHString operator()() const { return RHString(rh); }\n};\n\nint main() {\n\
+    \    int N, Q;\n    std::string S;\n    std::cin >> N >> Q >> S;\n    std::vector<RHString>\
     \ init;\n    init.reserve(N);\n    for (char c : S) {\n        init.emplace_back(rh,\
     \ c);\n    }\n    StaticSegTree<RHString, std::plus<RHString>, E> seg(init);\n\
     \    while (Q--) {\n        int q;\n        std::cin >> q;\n        if (q == 1)\
@@ -336,7 +343,7 @@ data:
   isVerificationFile: true
   path: test/atcoder-abc331-f.test.cpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/atcoder-abc331-f.test.cpp

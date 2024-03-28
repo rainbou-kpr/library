@@ -171,18 +171,25 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 4 \"\
-    test/atcoder-past202012-n.test.cpp\"\n#include <iostream>\n\nint main() {\n  \
-    \  int n, q; std::cin >> n >> q;\n    std::vector<std::pair<int, int>> lr(n-1);\n\
-    \    for(int i = 0; i < n-1; i++) {\n        int l, r; std::cin >> l >> r;\n \
-    \       lr[i] = {l, r};\n    }\n    SegTree seg(lr, [](const std::pair<int, int>&\
-    \ a, const std::pair<int, int>& b) {\n            return std::pair<int, int>(std::max(a.first,\
-    \ b.first), std::min(a.second, b.second));\n            }, std::pair<int,int>(0,\
-    \ 1e9));\n    while(q--) {\n        int a, b; std::cin >> a >> b; b--;\n     \
-    \   int r = seg.max_right(b, [&](const std::pair<int, int>& x) { return x.first\
-    \ <= a && a <= x.second; });\n        int l = seg.min_left(b, [&](const std::pair<int,\
-    \ int>& x) { return x.first <= a && a <= x.second; });\n        std::cout << r\
-    \ - l + 1 << std::endl;\n    }\n}\n"
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n#line 4 \"test/atcoder-past202012-n.test.cpp\"\n#include <iostream>\n\nint\
+    \ main() {\n    int n, q; std::cin >> n >> q;\n    std::vector<std::pair<int,\
+    \ int>> lr(n-1);\n    for(int i = 0; i < n-1; i++) {\n        int l, r; std::cin\
+    \ >> l >> r;\n        lr[i] = {l, r};\n    }\n    SegTree seg(lr, [](const std::pair<int,\
+    \ int>& a, const std::pair<int, int>& b) {\n            return std::pair<int,\
+    \ int>(std::max(a.first, b.first), std::min(a.second, b.second));\n          \
+    \  }, std::pair<int,int>(0, 1e9));\n    while(q--) {\n        int a, b; std::cin\
+    \ >> a >> b; b--;\n        int r = seg.max_right(b, [&](const std::pair<int, int>&\
+    \ x) { return x.first <= a && a <= x.second; });\n        int l = seg.min_left(b,\
+    \ [&](const std::pair<int, int>& x) { return x.first <= a && a <= x.second; });\n\
+    \        std::cout << r - l + 1 << std::endl;\n    }\n}\n"
   code: "#define PROBLEM \"https://atcoder.jp/contests/past202012-open/tasks/past202012_n\"\
     \n\n#include \"../cpp/segtree.hpp\"\n#include <iostream>\n\nint main() {\n   \
     \ int n, q; std::cin >> n >> q;\n    std::vector<std::pair<int, int>> lr(n-1);\n\
@@ -200,7 +207,7 @@ data:
   isVerificationFile: true
   path: test/atcoder-past202012-n.test.cpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/atcoder-past202012-n.test.cpp

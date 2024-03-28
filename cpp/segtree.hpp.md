@@ -30,6 +30,9 @@ data:
   - icon: ':heavy_check_mark:'
     path: test/yosupo-point-set-range-composite.2.test.cpp
     title: test/yosupo-point-set-range-composite.2.test.cpp
+  - icon: ':heavy_check_mark:'
+    path: test/yosupo-point-set-range-composite.3.test.cpp
+    title: test/yosupo-point-set-range-composite.3.test.cpp
   _isVerificationFailed: false
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
@@ -192,7 +195,15 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n"
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n"
   code: "#pragma once\n\n/**\n * @file segtree.hpp\n * @brief \u30BB\u30B0\u30E1\u30F3\
     \u30C8\u6728\n */\n\n#include <cassert>\n#include <functional>\n#include <limits>\n\
     #include <numeric>\n#include <ostream>\n#include <vector>\n\n/**\n * @brief \u30BB\
@@ -348,14 +359,23 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n"
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n"
   dependsOn: []
   isVerificationFile: false
   path: cpp/segtree.hpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
+  - test/yosupo-point-set-range-composite.3.test.cpp
   - test/yosupo-lca.2.test.cpp
   - test/atcoder-past202012-n.test.cpp
   - test/yosupo-point-set-range-composite.1.test.cpp

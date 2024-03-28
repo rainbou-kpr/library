@@ -171,11 +171,18 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 6 \"\
-    test/aoj-dsl-2-b.test.cpp\"\n\nint main(void) {\n    int n, q; std::cin >> n >>\
-    \ q;\n    RSumQ<int> seg(n);\n    while(q--) {\n        int com, x, y; std::cin\
-    \ >> com >> x >> y;\n        if(com == 0) seg.apply(x-1, y);\n        else std::cout\
-    \ << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n#line 6 \"test/aoj-dsl-2-b.test.cpp\"\n\nint main(void) {\n    int n, q; std::cin\
+    \ >> n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n        int com, x, y;\
+    \ std::cin >> com >> x >> y;\n        if(com == 0) seg.apply(x-1, y);\n      \
+    \  else std::cout << seg.prod(x-1, y) << '\\n';\n    }\n}\n"
   code: "#define PROBLEM \"https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_B\"\n\n\
     #include <iostream>\n\n#include \"../cpp/segtree.hpp\"\n\nint main(void) {\n \
     \   int n, q; std::cin >> n >> q;\n    RSumQ<int> seg(n);\n    while(q--) {\n\
@@ -186,7 +193,7 @@ data:
   isVerificationFile: true
   path: test/aoj-dsl-2-b.test.cpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj-dsl-2-b.test.cpp

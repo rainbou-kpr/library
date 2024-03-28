@@ -440,8 +440,15 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 7 \"\
-    test/yosupo-lca.2.test.cpp\"\n\nint main(void) {\n    std::cin.tie(nullptr);\n\
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n#line 7 \"test/yosupo-lca.2.test.cpp\"\n\nint main(void) {\n    std::cin.tie(nullptr);\n\
     \    std::ios::sync_with_stdio(0);\n    int n, q; std::cin >> n >> q;\n    std::vector<int>\
     \ par(n-1);\n    for(int i = 0; i < n-1; i++) std::cin >> par[i];\n    RootedTree\
     \ tree(par, 0);\n    RMinQ<long long> et_depth(tree.euler_tour.size());\n    std::vector<int>\
@@ -470,7 +477,7 @@ data:
   isVerificationFile: true
   path: test/yosupo-lca.2.test.cpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-lca.2.test.cpp

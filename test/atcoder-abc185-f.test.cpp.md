@@ -171,13 +171,21 @@ data:
     /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
     \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
     \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n#line 6 \"\
-    test/atcoder-abc185-f.test.cpp\"\n\nint main(void) {\n    int N, Q;\n    std::cin\
-    \ >> N >> Q;\n    std::vector<int> A(N);\n    for (int& a : A) {\n        std::cin\
-    \ >> a;\n    }\n    RXorQ<int> seg(A);\n    while (Q--) {\n        int T, X, Y;\n\
-    \        std::cin >> T >> X >> Y;\n        if (T == 1) {\n            seg.apply(X\
-    \ - 1, Y);\n        } else {\n            int ans;\n            ans = seg.prod(X\
-    \ - 1, Y);\n            std::cout << ans << std::endl;\n        }\n    }\n}\n"
+    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
+    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
+    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
+    \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
+    \        TemplateS<T> operator()() const {\n            return T().e();\n    \
+    \    }\n    };\n}\ntemplate <typename T>\nusing TemplateSegTree = StaticSegTree<\n\
+    \    segtree::TemplateS<T>,\n    segtree::TemplateOp<T>,\n    segtree::TemplateE<T>\n\
+    >;\n#line 6 \"test/atcoder-abc185-f.test.cpp\"\n\nint main(void) {\n    int N,\
+    \ Q;\n    std::cin >> N >> Q;\n    std::vector<int> A(N);\n    for (int& a : A)\
+    \ {\n        std::cin >> a;\n    }\n    RXorQ<int> seg(A);\n    while (Q--) {\n\
+    \        int T, X, Y;\n        std::cin >> T >> X >> Y;\n        if (T == 1) {\n\
+    \            seg.apply(X - 1, Y);\n        } else {\n            int ans;\n  \
+    \          ans = seg.prod(X - 1, Y);\n            std::cout << ans << std::endl;\n\
+    \        }\n    }\n}\n"
   code: "#define PROBLEM \"https://atcoder.jp/contests/abc185/tasks/abc185_f\"\n\n\
     #include <iostream>\n\n#include \"../cpp/segtree.hpp\"\n\nint main(void) {\n \
     \   int N, Q;\n    std::cin >> N >> Q;\n    std::vector<int> A(N);\n    for (int&\
@@ -191,7 +199,7 @@ data:
   isVerificationFile: true
   path: test/atcoder-abc185-f.test.cpp
   requiredBy: []
-  timestamp: '2024-03-11 22:28:50+09:00'
+  timestamp: '2024-03-27 20:35:39+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/atcoder-abc185-f.test.cpp

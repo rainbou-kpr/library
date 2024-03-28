@@ -41,7 +41,7 @@ int main(void) {
             BT.insert(x);   
             break;
         case 1:
-            A.erase(std::remove_if(A.begin(), A.end(), [&](int a) { return a == x; }), A.end());
+            A.erase(std::remove_if(A.begin(), A.end(), [&](unsigned long long a) { return a == x; }), A.end());
             BT.erase(x);
             break;
         case 2:
@@ -65,10 +65,10 @@ int main(void) {
             assert(A[x] == BT.nth_element(x));
             break;
         case 6:
-            assert(std::count(A.begin(), A.end(), x) == BT.count(x));
+            assert((int)std::count(A.begin(), A.end(), x) == BT.count(x));
             break;
         case 7:
-            assert(A.size() == BT.size());
+            assert((int)A.size() == BT.size());
         default:
             break;
         }

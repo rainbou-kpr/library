@@ -82,6 +82,7 @@ public:
      * @return S 値
      */
     S get(int k) {
+        assert(0 <= k && k < n);
         k += sz;
         for(int h = height; h > 0; h--) {
             push(k >> h, h);
@@ -121,6 +122,7 @@ public:
      * @param x 新しい値
      */
     void set(int k, const S& x) {
+        assert(0 <= k && k < n);
         k += sz;
         for(int h = height; h > 0; h--) {
             push(k >> h, h);
@@ -133,10 +135,11 @@ public:
      * @brief [l, r)の区間の総積を返す
      * 
      * @param l 半開区間の開始
-     * @param r 半開区間の終端
+     * @param r 半開区間の終端 0<=l<=r<=n
      * @return S 総積
      */
     S prod(int l, int r) {
+        assert(0 <= l && l <= r && r <= n);
         l += sz; r += sz;
         for(int h = height; h > 0; h--) {
             if(((l >> h) << h) != l) push(l >> h, h);
@@ -175,10 +178,11 @@ public:
      * @brief [l, r)の区間の値にxを作用させる
      * 
      * @param l 半開区間の開始
-     * @param r 半開区間の終端
+     * @param r 半開区間の終端 0<=l<=r<=n
      * @param f 作用素
      */
     void apply(int l, int r, const F& f) {
+        assert(0 <= l && l <= r && r <= n);
         if(l == r) return;
         l += sz; r += sz;
         for(int h = height; h > 0; h--) {
@@ -207,13 +211,14 @@ public:
      * gが単調なら、g(prod([l, r))) = trueとなる最大のr
      * 
      * @tparam G
-     * @param l 半開区間の開始
+     * @param l 半開区間の開始 0<=l<=n
      * @param g 判定関数 g(e) = true
      * @return int
      */
     template <typename G>
     int max_right(int l, G g) {
         assert(g(e()));
+        assert(0 <= l && l <= n);
         if(l == n) return n;
         l += sz;
         for(int h = height; h > 0; h--) {
@@ -251,13 +256,14 @@ public:
      * gが単調なら、g(prod([l, r))) = trueとなる最小のl
      * 
      * @tparam G
-     * @param r 半開区間の終端
+     * @param r 半開区間の終端 0<=r<=n
      * @param g 判定関数 g(e) = true
      * @return int
      */
     template <typename G>
     int min_left(int r, G g) {
         assert(g(e()));
+        assert(0 <= r && r <= n);
         if (r == 0) return 0;
         r += sz;
         for(int h = height; h > 0; h--) {
@@ -584,4 +590,57 @@ using RUpdateSumQ = StaticLazySegTree<
     lazy_segtree::UpdateWithSize<S, lazy_segtree::MaxLimit<S>{}()>,
     lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,
     lazy_segtree::MaxLimit<S>
+>;
+
+namespace lazy_segtree {
+    template <typename T>
+    using TemplateS = typename T::S;
+    template <typename T>
+    struct TemplateOp {
+        TemplateS<T> operator()(const TemplateS<T>& a, const TemplateS<T>& b) const {
+            return T().op(a, b);
+        }
+    };
+    template <typename T>
+    struct TemplateE {
+        TemplateS<T> operator()() const {
+            return T().e();
+        }
+    };
+    template <typename T>
+    using TemplateF = typename T::F;
+    template <typename T>
+    struct TemplateMapping {
+        TemplateS<T> operator()(const TemplateF<T>& f, const TemplateS<T>& x, int l, int r) const {
+            if constexpr (std::is_invocable_v<decltype(&T::mapping), T, TemplateF<T>, TemplateS<T>, int, int>) {
+                return T().mapping(f, x, l, r);
+            } else if constexpr (std::is_invocable_v<decltype(&T::mapping), T, TemplateF<T>, TemplateS<T>, int>) {
+                return T().mapping(f, x, r - l);
+            } else {
+                return T().mapping(f, x);
+            }
+        }
+    };
+    template <typename T>
+    struct TemplateComposition {
+        TemplateF<T> operator()(const TemplateF<T>& f, const TemplateF<T>& g) const {
+            return T().composition(f, g);
+        }
+    };
+    template <typename T>
+    struct TemplateID {
+        TemplateF<T> operator()() const {
+            return T().id();
+        }
+    };
+}
+template <typename T>
+using TemplateLazySegTree = StaticLazySegTree<
+    lazy_segtree::TemplateS<T>,
+    lazy_segtree::TemplateOp<T>,
+    lazy_segtree::TemplateE<T>,
+    lazy_segtree::TemplateF<T>,
+    lazy_segtree::TemplateMapping<T>,
+    lazy_segtree::TemplateComposition<T>,
+    lazy_segtree::TemplateID<T>
 >;

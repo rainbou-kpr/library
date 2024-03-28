@@ -374,3 +374,26 @@ using RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;
  */
 template <typename S>
 using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;
+
+namespace segtree {
+    template <typename T>
+    using TemplateS = typename T::S;
+    template <typename T>
+    struct TemplateOp {
+        TemplateS<T> operator()(const TemplateS<T>& a, const TemplateS<T>& b) const {
+            return T().op(a, b);
+        }
+    };
+    template <typename T>
+    struct TemplateE {
+        TemplateS<T> operator()() const {
+            return T().e();
+        }
+    };
+}
+template <typename T>
+using TemplateSegTree = StaticSegTree<
+    segtree::TemplateS<T>,
+    segtree::TemplateOp<T>,
+    segtree::TemplateE<T>
+>;

@@ -125,10 +125,10 @@ data:
   timestamp: '2023-05-10 17:52:01+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/aoj-cgl-3-b.test.cpp
-  - test/aoj-cgl-3-a.test.cpp
   - test/yosupo-convolution-mod-2-64.test.cpp
   - test/aoj-cgl-3-c.test.cpp
+  - test/aoj-cgl-3-b.test.cpp
+  - test/aoj-cgl-3-a.test.cpp
 documentation_of: cpp/io.hpp
 layout: document
 redirect_from:

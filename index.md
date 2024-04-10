@@ -4,6 +4,10 @@ data:
   - name: cpp
     pages:
     - icon: ':heavy_check_mark:'
+      path: cpp/binary-trie.hpp
+      title: "\u7B26\u53F7\u306A\u3057\u6574\u6570\u306E\u591A\u91CD\u96C6\u5408\u3092\
+        \u7BA1\u7406\u3059\u308B"
+    - icon: ':heavy_check_mark:'
       path: cpp/combinatorics.hpp
       title: "\u7D44\u307F\u5408\u308F\u305B"
     - icon: ':heavy_check_mark:'
@@ -149,6 +153,9 @@ data:
       path: test/aoj-grl-5-b.test.cpp
       title: test/aoj-grl-5-b.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj-itp1-1-a.binary-trie.test.cpp
+      title: test/aoj-itp1-1-a.binary-trie.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/atcoder-abc177-f.1.test.cpp
       title: test/atcoder-abc177-f.1.test.cpp
     - icon: ':heavy_check_mark:'
@@ -268,6 +275,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/yosupo-segment-add-get-min.test.cpp
       title: test/yosupo-segment-add-get-min.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/yosupo-set-xor-min.test.cpp
+      title: test/yosupo-set-xor-min.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/yosupo-sharp-p-subset-sum.test.cpp
       title: test/yosupo-sharp-p-subset-sum.test.cpp

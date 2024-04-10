@@ -46,9 +46,9 @@ int main(void) {
             break;
         case 2:
             if (std::find(A.begin(), A.end(), x) != A.end()) {
-                A.erase(std::find(A.begin(), A.end(), x));
-                BT.erase_one_element(x);
+                A.erase(std::find(A.begin(), A.end(), x));    
             }
+            BT.erase_one_element(x);
             break;
         case 3:
             for (auto& a : A) a ^= x;

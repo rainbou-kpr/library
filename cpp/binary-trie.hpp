@@ -121,8 +121,8 @@ template <unsigned int d> class BinaryTrie {
      * @brief 昇順でn番目の要素を探索 (O(d))
      * @note nがtrie木のサイズ以上な場合、assert
      */
-    unsigned long long nth_element(unsigned int n) const {
-        assert((int)n < size());
+    unsigned long long nth_element(int n) const {
+        assert(0 <= n && n < size());
         unsigned long long ret = 0;
         NodePtr cur_ptr = root_ptr;
         while (!cur_ptr->is_leaf()) {

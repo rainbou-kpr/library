@@ -42,7 +42,7 @@ std::vector<int> monotone_minima(int h, int w, const F& f, const Comp& comp = Co
 }
 
 /**
- * @brief オンライン・オフライン変換による、DAGで辺のコストがmonotoneな場合の最短経路問題
+ * @brief オンライン・オフライン変換による、DAGで辺のコストがmonotoneな場合の最短経路問題を$O(N \log^2 N)$時間で求める
  * @param n ノード数-1 (ノード番号は[0..n])
  * @param f 辺のコスト(i<jのときf(i, j)が辺のコストを返す)
  * @param comp 比較関数

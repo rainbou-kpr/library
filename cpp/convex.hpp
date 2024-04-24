@@ -20,7 +20,7 @@ std::pair<std::vector<std::invoke_result_t<F, int, int>>, std::vector<int>> mono
     using T = std::invoke_result_t<F, int, int>;
     assert(h >= 0);
     assert(w >= 0);
-    std::vector<int> res_value(h);
+    std::vector<T> res_value(h);
     std::vector<int> res_idx(h);
     std::stack<std::tuple<int, int, int, int>> stk; // {i, j, l, r} : [i..j]行目の答えを求める。結果は[l..r]の範囲に収まることが保証されている。
     stk.emplace(0, h-1, 0, w-1);

@@ -36,7 +36,7 @@ class PotentializedUnionFind {
     /**
      * @param n 要素数
      */
-    explicit PotentializedUnionFind(int n) : _n(n), parent_or_size(n, -1), diff_weight(n) {}
+    explicit PotentializedUnionFind(int n) : _n(n), parent_or_size(n, -1), diff_weight(n, e()) {}
 
     /**
      * @brief 頂点aの属する連結成分の代表元
@@ -53,7 +53,7 @@ class PotentializedUnionFind {
         stk.pop();
         stk.pop();
         while (!stk.empty()) {
-            diff_weight[stk.top()] = op(diff_weight[stk.top()], diff_weight[parent_or_size[stk.top()]]);
+            diff_weight[stk.top()] = op(diff_weight[parent_or_size[stk.top()]], diff_weight[stk.top()]);
             parent_or_size[stk.top()] = root;
             stk.pop();
         }
@@ -68,12 +68,13 @@ class PotentializedUnionFind {
     int merge(int a, int b, S w) {
         assert(0 <= a && a < _n);
         assert(0 <= b && b < _n);
-        w = op(w, op(weight(a), inv(weight(b))));
+        w = op(weight(a), w);
+        w = op(w, inv(weight(b)));
         int x = leader(a), y = leader(b);
         if (x == y) return x;
         if (-parent_or_size[x] < -parent_or_size[y]) {
             std::swap(x, y);
-            w = -w;
+            w = inv(w);
         }
         parent_or_size[x] += parent_or_size[y];
         parent_or_size[y] = x;
@@ -96,7 +97,7 @@ class PotentializedUnionFind {
      */
     S diff(int a, int b) {
         assert(same(a, b));
-        return op(weight(b), inv(weight(a)));
+        return op(inv(weight(a)), weight(b));
     }
 
     /**

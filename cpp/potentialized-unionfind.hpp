@@ -9,6 +9,7 @@
 #include <stack>
 #include <utility>
 #include <vector>
+#include "more_functional.hpp"
 
 /**
  * @brief ポテンシャル付きUnionFind
@@ -136,31 +137,13 @@ class PotentializedUnionFind {
     }
 };
 
-namespace potentialized_unionfind {
-template <typename S>
-struct Zero {
-    S operator()() const { return S(0); }
-};
-template <typename S>
-struct One {
-    S operator()() const { return S(1); }
-};
-template <typename S>
-struct None {
-    S operator()() const { return S{}; }
-};
-template <typename S>
-struct Div {
-    S operator()(const S& a) const { return S(1) / a; }
-};
-}  // namespace potentialized_unionfind
 /**
  * @tparam S 群の型
  */
 template <typename S>
-using UnionFindPlus = PotentializedUnionFind<S, std::plus<S>, potentialized_unionfind::None<S>, std::negate<S>>;
+using UnionFindPlus = PotentializedUnionFind<S, std::plus<S>, more_functional::None<S>, std::negate<S>>;
 /**
  * @tparam S 群の型
  */
 template <typename S>
-using UnionFindMul = PotentializedUnionFind<S, std::multiplies<S>, potentialized_unionfind::One<S>, potentialized_unionfind::Div<S>>;
+using UnionFindMul = PotentializedUnionFind<S, std::multiplies<S>, more_functional::One<S>, more_functional::Div<S>>;

@@ -6,9 +6,9 @@
  */
 
 #include <algorithm>
-#include <limits>
 #include <tuple>
 #include <vector>
+#include "more_functional.hpp"
 
 /**
  * @brief 2次元セグメント木のCRTP基底クラス
@@ -286,46 +286,24 @@ public:
     }
 };
 
-namespace segtree2d {
-    template <typename S>
-    struct Max {
-        const S operator() (const S& a, const S& b) const { return std::max(a, b); }
-    };
-    template <typename S>
-    struct Min {
-        const S operator() (const S& a, const S& b) const { return std::min(a, b); }
-    };
-    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-    struct MaxLimit {
-        constexpr S operator() () const { return std::numeric_limits<S>::max(); }
-    };
-    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-    struct MinLimit {
-        constexpr S operator() () const { return std::numeric_limits<S>::lowest(); }
-    };
-    template <typename S>
-    struct Zero {
-        S operator() () const { return S(0); }
-    };
-}
 /**
  * @brief RangeMaxQuery
  *
  * @tparam S 型
  */
 template <typename S>
-using RMaxQ2D = StaticSegTree2D<S, segtree2d::Max<S>, segtree2d::MinLimit<S>>;
+using RMaxQ2D = StaticSegTree2D<S, more_functional::Max<S>, more_functional::MinLimit<S>>;
 /**
  * @brief RangeMinQuery
  *
  * @tparam S 型
  */
 template <typename S>
-using RMinQ2D = StaticSegTree2D<S, segtree2d::Min<S>, segtree2d::MaxLimit<S>>;
+using RMinQ2D = StaticSegTree2D<S, more_functional::Min<S>, more_functional::MaxLimit<S>>;
 /**
  * @brief RangeSumQuery
  *
  * @tparam S 型
  */
 template <typename S>
-using RSumQ2D = StaticSegTree2D<S, std::plus<S>, segtree2d::Zero<S>>;
+using RSumQ2D = StaticSegTree2D<S, std::plus<S>, more_functional::None<S>>;

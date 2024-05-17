@@ -434,10 +434,6 @@ namespace lazy_segtree {
     struct AddWithSize {
         S operator() (const S& f, const S& x, int sz) const { return x + f * sz; }
     };
-    template <typename S>
-    struct Zero {
-        S operator() () const { return S(0); }
-    };
     template <typename S, S ID>
     struct Update {
         S operator() (const S& f, const S& x) const { return f == ID ? x : f; }

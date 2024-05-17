@@ -7,10 +7,9 @@
 
 #include <cassert>
 #include <functional>
-#include <limits>
-#include <numeric>
 #include <ostream>
 #include <vector>
+#include "more_functional.hpp"
 
 /**
  * @brief セグメント木のCRTP基底クラス
@@ -298,82 +297,48 @@ public:
     }
 };
 
-namespace segtree {
-    template <typename S>
-    struct Max {
-        const S operator() (const S& a, const S& b) const { return std::max(a, b); }
-    };
-    template <typename S>
-    struct Min {
-        const S operator() (const S& a, const S& b) const { return std::min(a, b); }
-    };
-    template <typename S, std::enable_if_t<std::is_integral_v<S>>* = nullptr>
-    struct Gcd {
-        constexpr S operator()(const S& a, const S& b) const { return std::gcd(a, b); }
-    };
-    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-    struct MaxLimit {
-        constexpr S operator() () const { return std::numeric_limits<S>::max(); }
-    };
-    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-    struct MinLimit {
-        constexpr S operator() () const { return std::numeric_limits<S>::lowest(); }
-    };
-    template <typename S>
-    struct Zero {
-        S operator() () const { return S(0); }
-    };
-    template <typename S>
-    struct One {
-        S operator()() const { return S(1); }
-    };
-    template <typename S>
-    struct None {
-        S operator()() const { return S{}; }
-    };
-}
 /**
  * @brief RangeMaxQuery
  * 
  * @tparam S 型
  */
 template <typename S>
-using RMaxQ = StaticSegTree<S, segtree::Max<S>, segtree::MinLimit<S>>;
+using RMaxQ = StaticSegTree<S, more_functional::Max<S>, more_functional::MinLimit<S>>;
 /**
  * @brief RangeMinQuery
  * 
  * @tparam S 型
  */
 template <typename S>
-using RMinQ = StaticSegTree<S, segtree::Min<S>, segtree::MaxLimit<S>>;
+using RMinQ = StaticSegTree<S, more_functional::Min<S>, more_functional::MaxLimit<S>>;
 /**
  * @brief RangeSumQuery
  * 
  * @tparam S 型
  */
 template <typename S>
-using RSumQ = StaticSegTree<S, std::plus<S>, segtree::None<S>>;
+using RSumQ = StaticSegTree<S, std::plus<S>, more_functional::None<S>>;
 /**
  * @brief RangeProdQuery
  *
  * @tparam S 型
  */
 template <typename S>
-using RProdQ = StaticSegTree<S, std::multiplies<S>, segtree::One<S>>;
+using RProdQ = StaticSegTree<S, std::multiplies<S>, more_functional::One<S>>;
 /**
  * @brief RangeXorQuery
  *
  * @tparam S 型
  */
 template <typename S>
-using RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;
+using RXorQ = StaticSegTree<S, std::bit_xor<S>, more_functional::Zero<S>>;
 /**
  * @brief RangeGcdQuery
  *
  * @tparam S 型
  */
 template <typename S>
-using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;
+using RGcdQ = StaticSegTree<S, more_functional::Gcd<S>, more_functional::Zero<S>>;
 
 namespace segtree {
     template <typename T>

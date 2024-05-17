@@ -12,6 +12,9 @@ data:
     path: cpp/number-theory.hpp
     title: "a^(-1) mod MOD\u3092\u8FD4\u3059"
   _extendedVerifiedWith:
+  - icon: ':heavy_check_mark:'
+    path: test/aoj-jag-summer-2971.test.cpp
+    title: test/aoj-jag-summer-2971.test.cpp
   - icon: ':x:'
     path: test/atcoder-jsc2021-g.test.cpp
     title: test/atcoder-jsc2021-g.test.cpp
@@ -565,28 +568,29 @@ data:
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
   - test/yosupo-binomial-coefficient.test.cpp
-  - test/yosupo-range-affine-range-sum.1.test.cpp
-  - test/yosupo-inv-of-fps.test.cpp
-  - test/yosupo-convolution-mod-2-64.test.cpp
-  - test/yosupo-point-set-range-composite.1.test.cpp
-  - test/yosupo-partition-function_2.test.cpp
-  - test/yukicoder-187.test.cpp
-  - test/yukicoder-186.test.cpp
-  - test/yosupo-polynomial-taylor-shift.test.cpp
-  - test/yosupo-sharp-p-subset-sum.test.cpp
-  - test/yosupo-partition-function_1.test.cpp
   - test/yukicoder-search-oji.test.cpp
-  - test/yosupo-point-set-range-composite.3.test.cpp
-  - test/yosupo-convolution-mod-1000000007.test.cpp
-  - test/yosupo-log-of-fps.test.cpp
-  - test/yosupo-range-affine-range-sum.3.test.cpp
-  - test/yosupo-range-affine-range-sum.2.test.cpp
+  - test/yosupo-polynomial-taylor-shift.test.cpp
+  - test/yosupo-range-affine-range-sum.1.test.cpp
   - test/yosupo-point-set-range-composite.2.test.cpp
+  - test/yosupo-sharp-p-subset-sum.test.cpp
+  - test/yukicoder-117.test.cpp
+  - test/yosupo-convolution-mod-1000000007.test.cpp
+  - test/yosupo-point-set-range-composite.1.test.cpp
+  - test/yosupo-range-affine-range-sum.3.test.cpp
+  - test/yosupo-pow-of-fps.test.cpp
+  - test/yosupo-partition-function_2.test.cpp
   - test/yosupo-exp-of-fps.test.cpp
   - test/atcoder-jsc2021-g.test.cpp
+  - test/yosupo-inv-of-fps.test.cpp
+  - test/yukicoder-186.test.cpp
+  - test/yosupo-convolution-mod-2-64.test.cpp
   - test/yosupo-convolution-mod.test.cpp
-  - test/yosupo-pow-of-fps.test.cpp
-  - test/yukicoder-117.test.cpp
+  - test/yosupo-log-of-fps.test.cpp
+  - test/yukicoder-187.test.cpp
+  - test/yosupo-point-set-range-composite.3.test.cpp
+  - test/aoj-jag-summer-2971.test.cpp
+  - test/yosupo-range-affine-range-sum.2.test.cpp
+  - test/yosupo-partition-function_1.test.cpp
 documentation_of: cpp/modint.hpp
 layout: document
 redirect_from:

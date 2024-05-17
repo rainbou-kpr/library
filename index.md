@@ -40,8 +40,15 @@ data:
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
         \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
     - icon: ':heavy_check_mark:'
+      path: cpp/more_functional.hpp
+      title: "\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+        \u308B"
+    - icon: ':heavy_check_mark:'
       path: cpp/number-theory.hpp
       title: "a^(-1) mod MOD\u3092\u8FD4\u3059"
+    - icon: ':heavy_check_mark:'
+      path: cpp/potentialized-unionfind.hpp
+      title: "\u30DD\u30C6\u30F3\u30B7\u30E3\u30EB\u4ED8\u304DUnionFind"
     - icon: ':heavy_check_mark:'
       path: cpp/rolling-hash.hpp
       title: "\u30ED\u30FC\u30EA\u30F3\u30B0\u30CF\u30C3\u30B7\u30E5"
@@ -123,6 +130,9 @@ data:
       path: test/aoj-cgl-5-a.test.cpp
       title: test/aoj-cgl-5-a.test.cpp
     - icon: ':heavy_check_mark:'
+      path: test/aoj-dsl-1-b.test.cpp
+      title: test/aoj-dsl-1-b.test.cpp
+    - icon: ':heavy_check_mark:'
       path: test/aoj-dsl-2-a.test.cpp
       title: test/aoj-dsl-2-a.test.cpp
     - icon: ':heavy_check_mark:'
@@ -155,6 +165,9 @@ data:
     - icon: ':heavy_check_mark:'
       path: test/aoj-itp1-1-a.binary-trie.test.cpp
       title: test/aoj-itp1-1-a.binary-trie.test.cpp
+    - icon: ':heavy_check_mark:'
+      path: test/aoj-jag-summer-2971.test.cpp
+      title: test/aoj-jag-summer-2971.test.cpp
     - icon: ':heavy_check_mark:'
       path: test/atcoder-abc177-f.1.test.cpp
       title: test/atcoder-abc177-f.1.test.cpp

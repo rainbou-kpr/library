@@ -196,8 +196,8 @@ data:
   timestamp: '2024-04-10 15:58:54+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
-  - test/yosupo-set-xor-min.test.cpp
   - test/aoj-itp1-1-a.binary-trie.test.cpp
+  - test/yosupo-set-xor-min.test.cpp
 documentation_of: cpp/binary-trie.hpp
 layout: document
 redirect_from:

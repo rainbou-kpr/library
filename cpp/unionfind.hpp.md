@@ -102,8 +102,8 @@ data:
   timestamp: '2023-04-28 12:54:27+09:00'
   verificationStatus: LIBRARY_SOME_WA
   verifiedWith:
-  - test/yosupo-unionfind.test.cpp
   - test/atcoder-jsc2021-g.test.cpp
+  - test/yosupo-unionfind.test.cpp
 documentation_of: cpp/unionfind.hpp
 layout: document
 redirect_from:

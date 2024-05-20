@@ -4,6 +4,10 @@ data:
   - icon: ':heavy_check_mark:'
     path: cpp/lazy-segtree.hpp
     title: "\u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
+  - icon: ':heavy_check_mark:'
+    path: cpp/more_functional.hpp
+    title: "\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+      \u308B"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -17,28 +21,45 @@ data:
   bundledCode: "#line 1 \"test/aoj-dsl-2-f.test.cpp\"\n#define PROBLEM \"http://judge.u-aizu.ac.jp/onlinejudge/description.jsp?id=DSL_2_F\"\
     \n\n#include <iostream>\n\n#line 2 \"cpp/lazy-segtree.hpp\"\n\n/**\n * @file segtree.hpp\n\
     \ * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\
-    \n#include <cassert>\n#include <functional>\n#include <limits>\n#include <ostream>\n\
-    #include <vector>\n\n/**\n * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\
-    \u30F3\u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S\
-    \ \u5024\u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam F \u4F5C\u7528\u7D20\u30E2\
-    \u30CE\u30A4\u30C9\u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\
-    \u30B9\n */\ntemplate <typename S, typename F, typename ActualLazySegTree>\nclass\
-    \ LazySegTreeBase {\n    S op(const S& a, const S& b) const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).op(a, b); }\n    S e() const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).e(); }\n    S mapping(const F& f, const S& x, int\
-    \ l, int r) const { return static_cast<const ActualLazySegTree&>(*this).mapping(f,\
-    \ x, l, r); }\n    F composition(const F& f, const F& g) const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).composition(f, g); }\n    F id() const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).id(); }\n\n    int n, sz, height;\n    std::vector<S>\
-    \ data;\n    std::vector<F> lazy;\n\n    void update(int k) { data[k] = op(data[2\
-    \ * k], data[2 * k + 1]); }\n    void apply_node(int k, int h, const F& f) {\n\
-    \        int l = (k << h) & (sz - 1);\n        int r = l + (1 << h);\n       \
-    \ data[k] = mapping(f, data[k], l, r);\n        if(k < sz) lazy[k] = composition(f,\
-    \ lazy[k]);\n    }\n    void push(int k, int h) {\n        apply_node(2 * k, h-1,\
-    \ lazy[k]);\n        apply_node(2 * k + 1, h-1, lazy[k]);\n        lazy[k] = id();\n\
-    \    }\n\n    class LazySegTreeReference {\n        LazySegTreeBase& segtree;\n\
-    \        int k;\n    public:\n        LazySegTreeReference(LazySegTreeBase& segtree,\
-    \ int k) : segtree(segtree), k(k) {}\n        LazySegTreeReference& operator=(const\
+    \n#include <cassert>\n#include <functional>\n#include <ostream>\n#include <vector>\n\
+    #line 2 \"cpp/more_functional.hpp\"\n\n/**\n * @file more_functional.hpp\n * @brief\
+    \ \u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\u308B\
+    \n */\n\n#include <limits>\n#include <numeric>\n#include <type_traits>\n\nnamespace\
+    \ more_functional {\ntemplate <typename S>\nstruct Max {\n    const S operator()(const\
+    \ S& a, const S& b) const { return std::max(a, b); }\n};\ntemplate <typename S>\n\
+    struct Min {\n    const S operator()(const S& a, const S& b) const { return std::min(a,\
+    \ b); }\n};\ntemplate <typename S, std::enable_if_t<std::is_integral_v<S>>* =\
+    \ nullptr>\nstruct Gcd {\n    constexpr S operator()(const S& a, const S& b) const\
+    \ { return std::gcd(a, b); }\n};\ntemplate <typename S>\nstruct Zero {\n    S\
+    \ operator()() const { return S(0); }\n};\ntemplate <typename S>\nstruct One {\n\
+    \    S operator()() const { return S(1); }\n};\ntemplate <typename S>\nstruct\
+    \ None {\n    S operator()() const { return S{}; }\n};\ntemplate <typename S,\
+    \ std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nstruct MaxLimit {\n    constexpr\
+    \ S operator()() const { return std::numeric_limits<S>::max(); }\n};\ntemplate\
+    \ <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nstruct MinLimit\
+    \ {\n    constexpr S operator()() const { return std::numeric_limits<S>::lowest();\
+    \ }\n};\ntemplate <typename S>\nstruct Div {\n    S operator()(const S& a) const\
+    \ { return S(1) / a; }\n};\n}  // namespace more_functional\n#line 13 \"cpp/lazy-segtree.hpp\"\
+    \n\n/**\n * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\
+    \u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u5024\u30E2\u30CE\
+    \u30A4\u30C9\u306E\u578B\n * @tparam F \u4F5C\u7528\u7D20\u30E2\u30CE\u30A4\u30C9\
+    \u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate\
+    \ <typename S, typename F, typename ActualLazySegTree>\nclass LazySegTreeBase\
+    \ {\n    S op(const S& a, const S& b) const { return static_cast<const ActualLazySegTree&>(*this).op(a,\
+    \ b); }\n    S e() const { return static_cast<const ActualLazySegTree&>(*this).e();\
+    \ }\n    S mapping(const F& f, const S& x, int l, int r) const { return static_cast<const\
+    \ ActualLazySegTree&>(*this).mapping(f, x, l, r); }\n    F composition(const F&\
+    \ f, const F& g) const { return static_cast<const ActualLazySegTree&>(*this).composition(f,\
+    \ g); }\n    F id() const { return static_cast<const ActualLazySegTree&>(*this).id();\
+    \ }\n\n    int n, sz, height;\n    std::vector<S> data;\n    std::vector<F> lazy;\n\
+    \n    void update(int k) { data[k] = op(data[2 * k], data[2 * k + 1]); }\n   \
+    \ void apply_node(int k, int h, const F& f) {\n        int l = (k << h) & (sz\
+    \ - 1);\n        int r = l + (1 << h);\n        data[k] = mapping(f, data[k],\
+    \ l, r);\n        if(k < sz) lazy[k] = composition(f, lazy[k]);\n    }\n    void\
+    \ push(int k, int h) {\n        apply_node(2 * k, h-1, lazy[k]);\n        apply_node(2\
+    \ * k + 1, h-1, lazy[k]);\n        lazy[k] = id();\n    }\n\n    class LazySegTreeReference\
+    \ {\n        LazySegTreeBase& segtree;\n        int k;\n    public:\n        LazySegTreeReference(LazySegTreeBase&\
+    \ segtree, int k) : segtree(segtree), k(k) {}\n        LazySegTreeReference& operator=(const\
     \ S& x) {\n            segtree.set(k, x);\n            return *this;\n       \
     \ }\n        operator S() { return segtree.get(k); }\n    };\n\nprotected:\n \
     \   void construct_data() {\n        sz = 1;\n        height = 0;\n        while\
@@ -222,17 +243,8 @@ data:
     \ Mapping mapping, Composition composition, const F& lazy_identity)\n        :\
     \ LazySegTree(v.size(), std::move(op), identity, std::move(mapping), std::move(composition),\
     \ lazy_identity) {\n        this->initialize(v);\n    }\n};\n\nnamespace lazy_segtree\
-    \ {\n    template <typename S>\n    struct Max {\n        const S operator() (const\
-    \ S& a, const S& b) const { return std::max(a, b); }\n    };\n    template <typename\
-    \ S>\n    struct Min {\n        const S operator() (const S& a, const S& b) const\
-    \ { return std::min(a, b); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MaxLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::max(); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MinLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::lowest(); }\n    };\n    template <typename S>\n\
-    \    struct AddWithSize {\n        S operator() (const S& f, const S& x, int sz)\
-    \ const { return x + f * sz; }\n    };\n    template <typename S>\n    struct\
-    \ Zero {\n        S operator() () const { return S(0); }\n    };\n    template\
+    \ {\n    template <typename S>\n    struct AddWithSize {\n        S operator()\
+    \ (const S& f, const S& x, int sz) const { return x + f * sz; }\n    };\n    template\
     \ <typename S, S ID>\n    struct Update {\n        S operator() (const S& f, const\
     \ S& x) const { return f == ID ? x : f; }\n    };\n    template <typename S, S\
     \ ID>\n    struct UpdateWithSize {\n        S operator() (const S& f, const S&\
@@ -241,51 +253,52 @@ data:
     \ const S& g) const { return f == ID ? g : f; }\n    };\n}\n\n/**\n * @brief \u533A\
     \u9593\u6700\u5C0F\u5024\u66F4\u65B0\u3001\u533A\u9593\u6700\u5C0F\u5024\n * \n\
     \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RChminMinQ = StaticLazySegTree<\n\
-    \    S,\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>,\n    S,\n \
-    \   lazy_segtree::Min<S>,\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>\n\
+    \    S,\n    more_functional::Min<S>,\n    more_functional::MaxLimit<S>,\n   \
+    \ S,\n    more_functional::Min<S>,\n    more_functional::Min<S>,\n    more_functional::MaxLimit<S>\n\
     >;\n/**\n * @brief \u533A\u9593\u6700\u5927\u5024\u66F4\u65B0\u3001\u533A\u9593\
     \u6700\u5927\u5024\n * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing\
-    \ RChmaxMaxQ = StaticLazySegTree<\n    S,\n    lazy_segtree::Max<S>,\n    lazy_segtree::MinLimit<S>,\n\
-    \    S, // F\n    lazy_segtree::Max<S>,\n    lazy_segtree::Max<S>,\n    lazy_segtree::MinLimit<S>\n\
-    >;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\u533A\u9593\u6700\u5C0F\u5024\
-    \n * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing RAddMinQ = StaticLazySegTree<\n\
-    \    S, // S\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>,\n    S,\n\
-    \    std::plus<S>,\n    std::plus<S>,\n    lazy_segtree::Zero<S>\n>;\n/**\n *\
-    \ @brief \u533A\u9593\u52A0\u7B97\u3001\u533A\u9593\u6700\u5927\u5024\n * \n *\
-    \ @tparam S \u578B\n */\ntemplate <typename S>\nusing RAddMaxQ = StaticLazySegTree<\n\
-    \    S,\n    lazy_segtree::Max<S>,\n    lazy_segtree::MinLimit<S>,\n    S,\n \
-    \   std::plus<S>,\n    std::plus<S>,\n    lazy_segtree::Zero<S>\n>;\n/**\n * @brief\
-    \ \u533A\u9593\u52A0\u7B97\u3001\u533A\u9593\u548C\n * \n * @tparam S \u578B\n\
-    \ */\ntemplate <typename S>\nusing RAddSumQ = StaticLazySegTree<\n    S,\n   \
-    \ std::plus<S>,\n    lazy_segtree::Zero<S>,\n    S,\n    lazy_segtree::AddWithSize<S>,\n\
-    \    std::plus<S>,\n    lazy_segtree::Zero<S>\n>;\n/**\n * @brief \u533A\u9593\
-    \u5909\u66F4\u3001\u533A\u9593\u6700\u5C0F\u5024\n * \u6CE8\u610F: numeric_limits<S>::max()\u3067\
+    \ RChmaxMaxQ = StaticLazySegTree<\n    S,\n    more_functional::Max<S>,\n    more_functional::MinLimit<S>,\n\
+    \    S, // F\n    more_functional::Max<S>,\n    more_functional::Max<S>,\n   \
+    \ more_functional::MinLimit<S>\n>;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\
+    \u533A\u9593\u6700\u5C0F\u5024\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RAddMinQ = StaticLazySegTree<\n    S, // S\n    more_functional::Min<S>,\n\
+    \    more_functional::MaxLimit<S>,\n    S,\n    std::plus<S>,\n    std::plus<S>,\n\
+    \    more_functional::None<S>\n>;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\
+    \u533A\u9593\u6700\u5927\u5024\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RAddMaxQ = StaticLazySegTree<\n    S,\n    more_functional::Max<S>,\n\
+    \    more_functional::MinLimit<S>,\n    S,\n    std::plus<S>,\n    std::plus<S>,\n\
+    \    more_functional::None<S>\n>;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\
+    \u533A\u9593\u548C\n * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing\
+    \ RAddSumQ = StaticLazySegTree<\n    S,\n    std::plus<S>,\n    more_functional::None<S>,\n\
+    \    S,\n    lazy_segtree::AddWithSize<S>,\n    std::plus<S>,\n    more_functional::None<S>\n\
+    >;\n/**\n * @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u6700\u5C0F\u5024\
+    \n * \u6CE8\u610F: numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\
+    \u3044\u3053\u3068\u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate\
+    \ <typename S>\nusing RUpdateMinQ = StaticLazySegTree<\n    S,\n    more_functional::Min<S>,\n\
+    \    more_functional::MaxLimit<S>,\n    S,\n    lazy_segtree::Update<S, more_functional::MaxLimit<S>{}()>,\n\
+    \    lazy_segtree::UpdateComposition<S, more_functional::MaxLimit<S>{}()>,\n \
+    \   more_functional::MaxLimit<S>\n>;\n/**\n * @brief \u533A\u9593\u5909\u66F4\u3001\
+    \u533A\u9593\u6700\u5927\u5024\n * \u6CE8\u610F: numeric_limits<S>::max()\u3067\
     \u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\u3068\u3092\u304C\u8981\u4EF6\n * \n\
-    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RUpdateMinQ = StaticLazySegTree<\n\
-    \    S,\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>,\n    S,\n \
-    \   lazy_segtree::Update<S, lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::UpdateComposition<S,\
-    \ lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::MaxLimit<S>\n>;\n/**\n *\
-    \ @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u6700\u5927\u5024\n * \u6CE8\
-    \u610F: numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\
-    \u3068\u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RUpdateMaxQ = StaticLazySegTree<\n    S,\n    lazy_segtree::Max<S>,\n\
-    \    lazy_segtree::MinLimit<S>,\n    S,\n    lazy_segtree::Update<S, lazy_segtree::MaxLimit<S>{}()>,\n\
-    \    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::MaxLimit<S>\n\
-    >;\n/**\n * @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u548C\n * \u6CE8\
-    \u610F: numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\
-    \u3068\u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RUpdateSumQ = StaticLazySegTree<\n    S,\n    std::plus<S>,\n    lazy_segtree::Zero<S>,\n\
-    \    S,\n    lazy_segtree::UpdateWithSize<S, lazy_segtree::MaxLimit<S>{}()>,\n\
-    \    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::MaxLimit<S>\n\
-    >;\n\nnamespace lazy_segtree {\n    template <typename T>\n    using TemplateS\
-    \ = typename T::S;\n    template <typename T>\n    struct TemplateOp {\n     \
-    \   TemplateS<T> operator()(const TemplateS<T>& a, const TemplateS<T>& b) const\
-    \ {\n            return T().op(a, b);\n        }\n    };\n    template <typename\
-    \ T>\n    struct TemplateE {\n        TemplateS<T> operator()() const {\n    \
-    \        return T().e();\n        }\n    };\n    template <typename T>\n    using\
-    \ TemplateF = typename T::F;\n    template <typename T>\n    struct TemplateMapping\
-    \ {\n        TemplateS<T> operator()(const TemplateF<T>& f, const TemplateS<T>&\
-    \ x, int l, int r) const {\n            if constexpr (std::is_invocable_v<decltype(&T::mapping),\
+    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RUpdateMaxQ = StaticLazySegTree<\n\
+    \    S,\n    more_functional::Max<S>,\n    more_functional::MinLimit<S>,\n   \
+    \ S,\n    lazy_segtree::Update<S, more_functional::MaxLimit<S>{}()>,\n    lazy_segtree::UpdateComposition<S,\
+    \ more_functional::MaxLimit<S>{}()>,\n    more_functional::MaxLimit<S>\n>;\n/**\n\
+    \ * @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u548C\n * \u6CE8\u610F:\
+    \ numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\u3068\
+    \u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate <typename S>\n\
+    using RUpdateSumQ = StaticLazySegTree<\n    S,\n    std::plus<S>,\n    more_functional::None<S>,\n\
+    \    S,\n    lazy_segtree::UpdateWithSize<S, more_functional::MaxLimit<S>{}()>,\n\
+    \    lazy_segtree::UpdateComposition<S, more_functional::MaxLimit<S>{}()>,\n \
+    \   more_functional::MaxLimit<S>\n>;\n\nnamespace lazy_segtree {\n    template\
+    \ <typename T>\n    using TemplateS = typename T::S;\n    template <typename T>\n\
+    \    struct TemplateOp {\n        TemplateS<T> operator()(const TemplateS<T>&\
+    \ a, const TemplateS<T>& b) const {\n            return T().op(a, b);\n      \
+    \  }\n    };\n    template <typename T>\n    struct TemplateE {\n        TemplateS<T>\
+    \ operator()() const {\n            return T().e();\n        }\n    };\n    template\
+    \ <typename T>\n    using TemplateF = typename T::F;\n    template <typename T>\n\
+    \    struct TemplateMapping {\n        TemplateS<T> operator()(const TemplateF<T>&\
+    \ f, const TemplateS<T>& x, int l, int r) const {\n            if constexpr (std::is_invocable_v<decltype(&T::mapping),\
     \ T, TemplateF<T>, TemplateS<T>, int, int>) {\n                return T().mapping(f,\
     \ x, l, r);\n            } else if constexpr (std::is_invocable_v<decltype(&T::mapping),\
     \ T, TemplateF<T>, TemplateS<T>, int>) {\n                return T().mapping(f,\
@@ -313,10 +326,11 @@ data:
     \ << seg.prod(s, t) << '\\n';\n        }\n    }\n}"
   dependsOn:
   - cpp/lazy-segtree.hpp
+  - cpp/more_functional.hpp
   isVerificationFile: true
   path: test/aoj-dsl-2-f.test.cpp
   requiredBy: []
-  timestamp: '2024-03-26 22:46:46+09:00'
+  timestamp: '2024-05-17 23:11:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/aoj-dsl-2-f.test.cpp

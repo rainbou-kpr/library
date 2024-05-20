@@ -1,6 +1,10 @@
 ---
 data:
-  _extendedDependsOn: []
+  _extendedDependsOn:
+  - icon: ':heavy_check_mark:'
+    path: cpp/more_functional.hpp
+    title: "\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+      \u308B"
   _extendedRequiredBy: []
   _extendedVerifiedWith:
   - icon: ':heavy_check_mark:'
@@ -10,20 +14,39 @@ data:
   _pathExtension: hpp
   _verificationStatusIcon: ':heavy_check_mark:'
   attributes:
-    document_title: "\u533A\u9593\u306E\u95BE\u5024\u4EE5\u5185\u306E\u5024\u306E\u7A4D"
+    document_title: "\u30DE\u30FC\u30B8\u30BD\u30FC\u30C8\u30C4\u30EA\u30FC"
     links: []
-  bundledCode: "#line 2 \"cpp/merge-sort-tree.hpp\"\n#include <algorithm>\n#include\
-    \ <cassert>\n#include <functional>\n#include <optional>\n#include <utility>\n\
-    #include <vector>\n\n/**\n * @brief \u533A\u9593\u306E\u95BE\u5024\u4EE5\u5185\
-    \u306E\u5024\u306E\u7A4D\n *\n * @tparam S value_type \u53EF\u63DB\u7FA4\u306E\
-    \u578B\n * @tparam K key_type \u30BD\u30FC\u30C8\u306B\u4F7F\u3046\u578B\n * @tparam\
-    \ Op S\u306E\u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam E S\u306E\u5358\
-    \u4F4D\u5143\u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam Inv S\u306E\
-    \u9006\u5143\u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam Comp\
-    \ K\u3092\u6BD4\u8F03\u3059\u308B\u30D5\u30A1\u30F3\u30AF\u30BF\n */\ntemplate\
-    \ <typename S, typename K, class Op, class E, class Inv, class Comp = std::less<K>>\n\
-    class MergeSortTree {\n   public:\n    using value_type = S;\n    using key_type\
-    \ = K;\n\n    inline constexpr static auto op = Op();\n    inline constexpr static\
+  bundledCode: "#line 2 \"cpp/merge-sort-tree.hpp\"\n\n/**\n * @file merge-sort-tree.hpp\n\
+    \ * @brief \u30DE\u30FC\u30B8\u30BD\u30FC\u30C8\u30C4\u30EA\u30FC\n */\n#include\
+    \ <algorithm>\n#include <cassert>\n#include <functional>\n#include <optional>\n\
+    #include <utility>\n#include <vector>\n#line 2 \"cpp/more_functional.hpp\"\n\n\
+    /**\n * @file more_functional.hpp\n * @brief \u95A2\u6570\u30AA\u30D6\u30B8\u30A7\
+    \u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\u308B\n */\n\n#include <limits>\n#include\
+    \ <numeric>\n#include <type_traits>\n\nnamespace more_functional {\ntemplate <typename\
+    \ S>\nstruct Max {\n    const S operator()(const S& a, const S& b) const { return\
+    \ std::max(a, b); }\n};\ntemplate <typename S>\nstruct Min {\n    const S operator()(const\
+    \ S& a, const S& b) const { return std::min(a, b); }\n};\ntemplate <typename S,\
+    \ std::enable_if_t<std::is_integral_v<S>>* = nullptr>\nstruct Gcd {\n    constexpr\
+    \ S operator()(const S& a, const S& b) const { return std::gcd(a, b); }\n};\n\
+    template <typename S>\nstruct Zero {\n    S operator()() const { return S(0);\
+    \ }\n};\ntemplate <typename S>\nstruct One {\n    S operator()() const { return\
+    \ S(1); }\n};\ntemplate <typename S>\nstruct None {\n    S operator()() const\
+    \ { return S{}; }\n};\ntemplate <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
+    \ = nullptr>\nstruct MaxLimit {\n    constexpr S operator()() const { return std::numeric_limits<S>::max();\
+    \ }\n};\ntemplate <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
+    struct MinLimit {\n    constexpr S operator()() const { return std::numeric_limits<S>::lowest();\
+    \ }\n};\ntemplate <typename S>\nstruct Div {\n    S operator()(const S& a) const\
+    \ { return S(1) / a; }\n};\n}  // namespace more_functional\n#line 14 \"cpp/merge-sort-tree.hpp\"\
+    \n\n/**\n * @brief \u533A\u9593\u306E\u95BE\u5024\u4EE5\u5185\u306E\u5024\u306E\
+    \u7A4D\n *\n * @tparam S value_type \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam\
+    \ K key_type \u30BD\u30FC\u30C8\u306B\u4F7F\u3046\u578B\n * @tparam Op S\u306E\
+    \u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam E S\u306E\u5358\u4F4D\u5143\
+    \u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam Inv S\u306E\u9006\
+    \u5143\u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam Comp K\u3092\
+    \u6BD4\u8F03\u3059\u308B\u30D5\u30A1\u30F3\u30AF\u30BF\n */\ntemplate <typename\
+    \ S, typename K, class Op, class E, class Inv, class Comp = std::less<K>>\nclass\
+    \ MergeSortTree {\n   public:\n    using value_type = S;\n    using key_type =\
+    \ K;\n\n    inline constexpr static auto op = Op();\n    inline constexpr static\
     \ auto inv = Inv();\n    inline constexpr static auto e = E();\n    inline constexpr\
     \ static auto comp = Comp();\n\n   private:\n    int n, sz, height;\n    std::vector<key_type>\
     \ key_data;\n    std::vector<value_type> cumulative_value;\n\n    void initialize(const\
@@ -84,32 +107,28 @@ data:
     \ h * sz + l + t, a, b));\n                l += t;\n            }\n          \
     \  if (r & t) {\n                r -= t;\n                ret = op(ret, prod_section(h\
     \ * sz + r, h * sz + r + t, a, b));\n            }\n            h--;\n       \
-    \     t <<= 1;\n        }\n        return ret;\n    }\n};\n\nnamespace merge_sort_tree\
-    \ {\n    template <typename S>\n    struct Zero {\n        S operator()() const\
-    \ { return S(0); }\n    };\n    template <typename S>\n    struct One {\n    \
-    \    S operator()() const { return S(1); }\n    };\n    template <typename S>\n\
-    \    struct None {\n        S operator()() const { return S{}; }\n    };\n   \
-    \ template <typename S>\n    struct Div {\n        S operator()(const S& a) const\
-    \ { return S(1) / a; }\n    };\n}  // namespace merge_sort_tree\n/**\n * @tparam\
-    \ S \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam K \u30BD\u30FC\u30C8\u306B\u4F7F\
-    \u3046\u578B\n */\ntemplate <typename S, typename K>\nusing MSTreeSum = MergeSortTree<S,\
-    \ K, std::plus<S>, merge_sort_tree::None<S>, std::negate<S>, std::less<K>>;\n\
+    \     t <<= 1;\n        }\n        return ret;\n    }\n};\n\n/**\n * @tparam S\
+    \ \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam K \u30BD\u30FC\u30C8\u306B\u4F7F\u3046\
+    \u578B\n */\ntemplate <typename S, typename K>\nusing MSTreeSum = MergeSortTree<S,\
+    \ K, std::plus<S>, more_functional::None<S>, std::negate<S>, std::less<K>>;\n\
     /**\n * @tparam S \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam K \u30BD\u30FC\u30C8\
     \u306B\u4F7F\u3046\u578B\n */\ntemplate <typename S, typename K>\nusing MSTreeProd\
-    \ = MergeSortTree<S, K, std::multiplies<S>, merge_sort_tree::One<S>, merge_sort_tree::Div<S>,\
+    \ = MergeSortTree<S, K, std::multiplies<S>, more_functional::One<S>, more_functional::Div<S>,\
     \ std::less<K>>;\n"
-  code: "#pragma once\n#include <algorithm>\n#include <cassert>\n#include <functional>\n\
-    #include <optional>\n#include <utility>\n#include <vector>\n\n/**\n * @brief \u533A\
-    \u9593\u306E\u95BE\u5024\u4EE5\u5185\u306E\u5024\u306E\u7A4D\n *\n * @tparam S\
-    \ value_type \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam K key_type \u30BD\u30FC\
-    \u30C8\u306B\u4F7F\u3046\u578B\n * @tparam Op S\u306E\u7A4D\u306E\u30D5\u30A1\u30F3\
-    \u30AF\u30BF\n * @tparam E S\u306E\u5358\u4F4D\u5143\u3092\u8FD4\u3059\u30D5\u30A1\
-    \u30F3\u30AF\u30BF\n * @tparam Inv S\u306E\u9006\u5143\u3092\u8FD4\u3059\u30D5\
-    \u30A1\u30F3\u30AF\u30BF\n * @tparam Comp K\u3092\u6BD4\u8F03\u3059\u308B\u30D5\
-    \u30A1\u30F3\u30AF\u30BF\n */\ntemplate <typename S, typename K, class Op, class\
-    \ E, class Inv, class Comp = std::less<K>>\nclass MergeSortTree {\n   public:\n\
-    \    using value_type = S;\n    using key_type = K;\n\n    inline constexpr static\
-    \ auto op = Op();\n    inline constexpr static auto inv = Inv();\n    inline constexpr\
+  code: "#pragma once\n\n/**\n * @file merge-sort-tree.hpp\n * @brief \u30DE\u30FC\
+    \u30B8\u30BD\u30FC\u30C8\u30C4\u30EA\u30FC\n */\n#include <algorithm>\n#include\
+    \ <cassert>\n#include <functional>\n#include <optional>\n#include <utility>\n\
+    #include <vector>\n#include \"more_functional.hpp\"\n\n/**\n * @brief \u533A\u9593\
+    \u306E\u95BE\u5024\u4EE5\u5185\u306E\u5024\u306E\u7A4D\n *\n * @tparam S value_type\
+    \ \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam K key_type \u30BD\u30FC\u30C8\u306B\
+    \u4F7F\u3046\u578B\n * @tparam Op S\u306E\u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\
+    \n * @tparam E S\u306E\u5358\u4F4D\u5143\u3092\u8FD4\u3059\u30D5\u30A1\u30F3\u30AF\
+    \u30BF\n * @tparam Inv S\u306E\u9006\u5143\u3092\u8FD4\u3059\u30D5\u30A1\u30F3\
+    \u30AF\u30BF\n * @tparam Comp K\u3092\u6BD4\u8F03\u3059\u308B\u30D5\u30A1\u30F3\
+    \u30AF\u30BF\n */\ntemplate <typename S, typename K, class Op, class E, class\
+    \ Inv, class Comp = std::less<K>>\nclass MergeSortTree {\n   public:\n    using\
+    \ value_type = S;\n    using key_type = K;\n\n    inline constexpr static auto\
+    \ op = Op();\n    inline constexpr static auto inv = Inv();\n    inline constexpr\
     \ static auto e = E();\n    inline constexpr static auto comp = Comp();\n\n  \
     \ private:\n    int n, sz, height;\n    std::vector<key_type> key_data;\n    std::vector<value_type>\
     \ cumulative_value;\n\n    void initialize(const std::vector<value_type>& value,\
@@ -170,25 +189,19 @@ data:
     \                l += t;\n            }\n            if (r & t) {\n          \
     \      r -= t;\n                ret = op(ret, prod_section(h * sz + r, h * sz\
     \ + r + t, a, b));\n            }\n            h--;\n            t <<= 1;\n  \
-    \      }\n        return ret;\n    }\n};\n\nnamespace merge_sort_tree {\n    template\
-    \ <typename S>\n    struct Zero {\n        S operator()() const { return S(0);\
-    \ }\n    };\n    template <typename S>\n    struct One {\n        S operator()()\
-    \ const { return S(1); }\n    };\n    template <typename S>\n    struct None {\n\
-    \        S operator()() const { return S{}; }\n    };\n    template <typename\
-    \ S>\n    struct Div {\n        S operator()(const S& a) const { return S(1) /\
-    \ a; }\n    };\n}  // namespace merge_sort_tree\n/**\n * @tparam S \u53EF\u63DB\
-    \u7FA4\u306E\u578B\n * @tparam K \u30BD\u30FC\u30C8\u306B\u4F7F\u3046\u578B\n\
-    \ */\ntemplate <typename S, typename K>\nusing MSTreeSum = MergeSortTree<S, K,\
-    \ std::plus<S>, merge_sort_tree::None<S>, std::negate<S>, std::less<K>>;\n/**\n\
-    \ * @tparam S \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam K \u30BD\u30FC\u30C8\u306B\
-    \u4F7F\u3046\u578B\n */\ntemplate <typename S, typename K>\nusing MSTreeProd =\
-    \ MergeSortTree<S, K, std::multiplies<S>, merge_sort_tree::One<S>, merge_sort_tree::Div<S>,\
-    \ std::less<K>>;\n"
-  dependsOn: []
+    \      }\n        return ret;\n    }\n};\n\n/**\n * @tparam S \u53EF\u63DB\u7FA4\
+    \u306E\u578B\n * @tparam K \u30BD\u30FC\u30C8\u306B\u4F7F\u3046\u578B\n */\ntemplate\
+    \ <typename S, typename K>\nusing MSTreeSum = MergeSortTree<S, K, std::plus<S>,\
+    \ more_functional::None<S>, std::negate<S>, std::less<K>>;\n/**\n * @tparam S\
+    \ \u53EF\u63DB\u7FA4\u306E\u578B\n * @tparam K \u30BD\u30FC\u30C8\u306B\u4F7F\u3046\
+    \u578B\n */\ntemplate <typename S, typename K>\nusing MSTreeProd = MergeSortTree<S,\
+    \ K, std::multiplies<S>, more_functional::One<S>, more_functional::Div<S>, std::less<K>>;\n"
+  dependsOn:
+  - cpp/more_functional.hpp
   isVerificationFile: false
   path: cpp/merge-sort-tree.hpp
   requiredBy: []
-  timestamp: '2024-03-14 02:53:32+09:00'
+  timestamp: '2024-05-17 22:45:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/yosupo-rectangle-sum.test.cpp
@@ -197,5 +210,5 @@ layout: document
 redirect_from:
 - /library/cpp/merge-sort-tree.hpp
 - /library/cpp/merge-sort-tree.hpp.html
-title: "\u533A\u9593\u306E\u95BE\u5024\u4EE5\u5185\u306E\u5024\u306E\u7A4D"
+title: "\u30DE\u30FC\u30B8\u30BD\u30FC\u30C8\u30C4\u30EA\u30FC"
 ---

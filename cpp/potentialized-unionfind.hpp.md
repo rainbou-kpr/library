@@ -24,12 +24,22 @@ data:
     \ <cassert>\n#include <functional>\n#include <stack>\n#include <utility>\n#include\
     \ <vector>\n#line 2 \"cpp/more_functional.hpp\"\n\n/**\n * @file more_functional.hpp\n\
     \ * @brief \u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
-    \u308B\n */\n\nnamespace more_functional {\ntemplate <typename S>\nstruct Zero\
-    \ {\n    S operator()() const { return S(0); }\n};\ntemplate <typename S>\nstruct\
+    \u308B\n */\n\n#include <limits>\n#include <numeric>\n#include <type_traits>\n\
+    \nnamespace more_functional {\ntemplate <typename S>\nstruct Max {\n    const\
+    \ S operator()(const S& a, const S& b) const { return std::max(a, b); }\n};\n\
+    template <typename S>\nstruct Min {\n    const S operator()(const S& a, const\
+    \ S& b) const { return std::min(a, b); }\n};\ntemplate <typename S, std::enable_if_t<std::is_integral_v<S>>*\
+    \ = nullptr>\nstruct Gcd {\n    constexpr S operator()(const S& a, const S& b)\
+    \ const { return std::gcd(a, b); }\n};\ntemplate <typename S>\nstruct Zero {\n\
+    \    S operator()() const { return S(0); }\n};\ntemplate <typename S>\nstruct\
     \ One {\n    S operator()() const { return S(1); }\n};\ntemplate <typename S>\n\
     struct None {\n    S operator()() const { return S{}; }\n};\ntemplate <typename\
-    \ S>\nstruct Div {\n    S operator()(const S& a) const { return S(1) / a; }\n\
-    };\n}  // namespace more_functional\n#line 13 \"cpp/potentialized-unionfind.hpp\"\
+    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nstruct MaxLimit {\n  \
+    \  constexpr S operator()() const { return std::numeric_limits<S>::max(); }\n\
+    };\ntemplate <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
+    struct MinLimit {\n    constexpr S operator()() const { return std::numeric_limits<S>::lowest();\
+    \ }\n};\ntemplate <typename S>\nstruct Div {\n    S operator()(const S& a) const\
+    \ { return S(1) / a; }\n};\n}  // namespace more_functional\n#line 13 \"cpp/potentialized-unionfind.hpp\"\
     \n\n/**\n * @brief \u30DD\u30C6\u30F3\u30B7\u30E3\u30EB\u4ED8\u304DUnionFind\n\
     \ * @tparam S \u30DD\u30C6\u30F3\u30B7\u30E3\u30EB\u306E\u578B\n * @tparam Op\
     \ S\u306E\u7A4D\u306E\u30D5\u30A1\u30F3\u30AF\u30BF\n * @tparam E S\u306E\u5358\
@@ -160,7 +170,7 @@ data:
   isVerificationFile: false
   path: cpp/potentialized-unionfind.hpp
   requiredBy: []
-  timestamp: '2024-05-07 01:35:46+09:00'
+  timestamp: '2024-05-17 22:45:13+09:00'
   verificationStatus: LIBRARY_ALL_AC
   verifiedWith:
   - test/aoj-dsl-1-b.test.cpp

@@ -8,6 +8,10 @@ data:
     path: cpp/modint.hpp
     title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
       \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
+  - icon: ':heavy_check_mark:'
+    path: cpp/more_functional.hpp
+    title: "\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+      \u308B"
   _extendedRequiredBy: []
   _extendedVerifiedWith: []
   _isVerificationFailed: false
@@ -22,28 +26,45 @@ data:
     \ PROBLEM \"https://judge.yosupo.jp/problem/range_affine_range_sum\"\n\n#include\
     \ <iostream>\n#include <utility>\n\n#line 2 \"cpp/lazy-segtree.hpp\"\n\n/**\n\
     \ * @file segtree.hpp\n * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\
-    \u30C8\u6728\n */\n\n#include <cassert>\n#include <functional>\n#include <limits>\n\
-    #include <ostream>\n#include <vector>\n\n/**\n * @brief \u9045\u5EF6\u4F1D\u642C\
-    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n\
-    \ * \n * @tparam S \u5024\u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam F \u4F5C\
-    \u7528\u7D20\u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam ActualSegTree \u6D3E\
-    \u751F\u30AF\u30E9\u30B9\n */\ntemplate <typename S, typename F, typename ActualLazySegTree>\n\
-    class LazySegTreeBase {\n    S op(const S& a, const S& b) const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).op(a, b); }\n    S e() const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).e(); }\n    S mapping(const F& f, const S& x, int\
-    \ l, int r) const { return static_cast<const ActualLazySegTree&>(*this).mapping(f,\
-    \ x, l, r); }\n    F composition(const F& f, const F& g) const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).composition(f, g); }\n    F id() const { return static_cast<const\
-    \ ActualLazySegTree&>(*this).id(); }\n\n    int n, sz, height;\n    std::vector<S>\
-    \ data;\n    std::vector<F> lazy;\n\n    void update(int k) { data[k] = op(data[2\
-    \ * k], data[2 * k + 1]); }\n    void apply_node(int k, int h, const F& f) {\n\
-    \        int l = (k << h) & (sz - 1);\n        int r = l + (1 << h);\n       \
-    \ data[k] = mapping(f, data[k], l, r);\n        if(k < sz) lazy[k] = composition(f,\
-    \ lazy[k]);\n    }\n    void push(int k, int h) {\n        apply_node(2 * k, h-1,\
-    \ lazy[k]);\n        apply_node(2 * k + 1, h-1, lazy[k]);\n        lazy[k] = id();\n\
-    \    }\n\n    class LazySegTreeReference {\n        LazySegTreeBase& segtree;\n\
-    \        int k;\n    public:\n        LazySegTreeReference(LazySegTreeBase& segtree,\
-    \ int k) : segtree(segtree), k(k) {}\n        LazySegTreeReference& operator=(const\
+    \u30C8\u6728\n */\n\n#include <cassert>\n#include <functional>\n#include <ostream>\n\
+    #include <vector>\n#line 2 \"cpp/more_functional.hpp\"\n\n/**\n * @file more_functional.hpp\n\
+    \ * @brief \u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+    \u308B\n */\n\n#include <limits>\n#include <numeric>\n#include <type_traits>\n\
+    \nnamespace more_functional {\ntemplate <typename S>\nstruct Max {\n    const\
+    \ S operator()(const S& a, const S& b) const { return std::max(a, b); }\n};\n\
+    template <typename S>\nstruct Min {\n    const S operator()(const S& a, const\
+    \ S& b) const { return std::min(a, b); }\n};\ntemplate <typename S, std::enable_if_t<std::is_integral_v<S>>*\
+    \ = nullptr>\nstruct Gcd {\n    constexpr S operator()(const S& a, const S& b)\
+    \ const { return std::gcd(a, b); }\n};\ntemplate <typename S>\nstruct Zero {\n\
+    \    S operator()() const { return S(0); }\n};\ntemplate <typename S>\nstruct\
+    \ One {\n    S operator()() const { return S(1); }\n};\ntemplate <typename S>\n\
+    struct None {\n    S operator()() const { return S{}; }\n};\ntemplate <typename\
+    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nstruct MaxLimit {\n  \
+    \  constexpr S operator()() const { return std::numeric_limits<S>::max(); }\n\
+    };\ntemplate <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
+    struct MinLimit {\n    constexpr S operator()() const { return std::numeric_limits<S>::lowest();\
+    \ }\n};\ntemplate <typename S>\nstruct Div {\n    S operator()(const S& a) const\
+    \ { return S(1) / a; }\n};\n}  // namespace more_functional\n#line 13 \"cpp/lazy-segtree.hpp\"\
+    \n\n/**\n * @brief \u9045\u5EF6\u4F1D\u642C\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\
+    \u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u5024\u30E2\u30CE\
+    \u30A4\u30C9\u306E\u578B\n * @tparam F \u4F5C\u7528\u7D20\u30E2\u30CE\u30A4\u30C9\
+    \u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate\
+    \ <typename S, typename F, typename ActualLazySegTree>\nclass LazySegTreeBase\
+    \ {\n    S op(const S& a, const S& b) const { return static_cast<const ActualLazySegTree&>(*this).op(a,\
+    \ b); }\n    S e() const { return static_cast<const ActualLazySegTree&>(*this).e();\
+    \ }\n    S mapping(const F& f, const S& x, int l, int r) const { return static_cast<const\
+    \ ActualLazySegTree&>(*this).mapping(f, x, l, r); }\n    F composition(const F&\
+    \ f, const F& g) const { return static_cast<const ActualLazySegTree&>(*this).composition(f,\
+    \ g); }\n    F id() const { return static_cast<const ActualLazySegTree&>(*this).id();\
+    \ }\n\n    int n, sz, height;\n    std::vector<S> data;\n    std::vector<F> lazy;\n\
+    \n    void update(int k) { data[k] = op(data[2 * k], data[2 * k + 1]); }\n   \
+    \ void apply_node(int k, int h, const F& f) {\n        int l = (k << h) & (sz\
+    \ - 1);\n        int r = l + (1 << h);\n        data[k] = mapping(f, data[k],\
+    \ l, r);\n        if(k < sz) lazy[k] = composition(f, lazy[k]);\n    }\n    void\
+    \ push(int k, int h) {\n        apply_node(2 * k, h-1, lazy[k]);\n        apply_node(2\
+    \ * k + 1, h-1, lazy[k]);\n        lazy[k] = id();\n    }\n\n    class LazySegTreeReference\
+    \ {\n        LazySegTreeBase& segtree;\n        int k;\n    public:\n        LazySegTreeReference(LazySegTreeBase&\
+    \ segtree, int k) : segtree(segtree), k(k) {}\n        LazySegTreeReference& operator=(const\
     \ S& x) {\n            segtree.set(k, x);\n            return *this;\n       \
     \ }\n        operator S() { return segtree.get(k); }\n    };\n\nprotected:\n \
     \   void construct_data() {\n        sz = 1;\n        height = 0;\n        while\
@@ -227,17 +248,8 @@ data:
     \ Mapping mapping, Composition composition, const F& lazy_identity)\n        :\
     \ LazySegTree(v.size(), std::move(op), identity, std::move(mapping), std::move(composition),\
     \ lazy_identity) {\n        this->initialize(v);\n    }\n};\n\nnamespace lazy_segtree\
-    \ {\n    template <typename S>\n    struct Max {\n        const S operator() (const\
-    \ S& a, const S& b) const { return std::max(a, b); }\n    };\n    template <typename\
-    \ S>\n    struct Min {\n        const S operator() (const S& a, const S& b) const\
-    \ { return std::min(a, b); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MaxLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::max(); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MinLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::lowest(); }\n    };\n    template <typename S>\n\
-    \    struct AddWithSize {\n        S operator() (const S& f, const S& x, int sz)\
-    \ const { return x + f * sz; }\n    };\n    template <typename S>\n    struct\
-    \ Zero {\n        S operator() () const { return S(0); }\n    };\n    template\
+    \ {\n    template <typename S>\n    struct AddWithSize {\n        S operator()\
+    \ (const S& f, const S& x, int sz) const { return x + f * sz; }\n    };\n    template\
     \ <typename S, S ID>\n    struct Update {\n        S operator() (const S& f, const\
     \ S& x) const { return f == ID ? x : f; }\n    };\n    template <typename S, S\
     \ ID>\n    struct UpdateWithSize {\n        S operator() (const S& f, const S&\
@@ -246,51 +258,52 @@ data:
     \ const S& g) const { return f == ID ? g : f; }\n    };\n}\n\n/**\n * @brief \u533A\
     \u9593\u6700\u5C0F\u5024\u66F4\u65B0\u3001\u533A\u9593\u6700\u5C0F\u5024\n * \n\
     \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RChminMinQ = StaticLazySegTree<\n\
-    \    S,\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>,\n    S,\n \
-    \   lazy_segtree::Min<S>,\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>\n\
+    \    S,\n    more_functional::Min<S>,\n    more_functional::MaxLimit<S>,\n   \
+    \ S,\n    more_functional::Min<S>,\n    more_functional::Min<S>,\n    more_functional::MaxLimit<S>\n\
     >;\n/**\n * @brief \u533A\u9593\u6700\u5927\u5024\u66F4\u65B0\u3001\u533A\u9593\
     \u6700\u5927\u5024\n * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing\
-    \ RChmaxMaxQ = StaticLazySegTree<\n    S,\n    lazy_segtree::Max<S>,\n    lazy_segtree::MinLimit<S>,\n\
-    \    S, // F\n    lazy_segtree::Max<S>,\n    lazy_segtree::Max<S>,\n    lazy_segtree::MinLimit<S>\n\
-    >;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\u533A\u9593\u6700\u5C0F\u5024\
-    \n * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing RAddMinQ = StaticLazySegTree<\n\
-    \    S, // S\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>,\n    S,\n\
-    \    std::plus<S>,\n    std::plus<S>,\n    lazy_segtree::Zero<S>\n>;\n/**\n *\
-    \ @brief \u533A\u9593\u52A0\u7B97\u3001\u533A\u9593\u6700\u5927\u5024\n * \n *\
-    \ @tparam S \u578B\n */\ntemplate <typename S>\nusing RAddMaxQ = StaticLazySegTree<\n\
-    \    S,\n    lazy_segtree::Max<S>,\n    lazy_segtree::MinLimit<S>,\n    S,\n \
-    \   std::plus<S>,\n    std::plus<S>,\n    lazy_segtree::Zero<S>\n>;\n/**\n * @brief\
-    \ \u533A\u9593\u52A0\u7B97\u3001\u533A\u9593\u548C\n * \n * @tparam S \u578B\n\
-    \ */\ntemplate <typename S>\nusing RAddSumQ = StaticLazySegTree<\n    S,\n   \
-    \ std::plus<S>,\n    lazy_segtree::Zero<S>,\n    S,\n    lazy_segtree::AddWithSize<S>,\n\
-    \    std::plus<S>,\n    lazy_segtree::Zero<S>\n>;\n/**\n * @brief \u533A\u9593\
-    \u5909\u66F4\u3001\u533A\u9593\u6700\u5C0F\u5024\n * \u6CE8\u610F: numeric_limits<S>::max()\u3067\
+    \ RChmaxMaxQ = StaticLazySegTree<\n    S,\n    more_functional::Max<S>,\n    more_functional::MinLimit<S>,\n\
+    \    S, // F\n    more_functional::Max<S>,\n    more_functional::Max<S>,\n   \
+    \ more_functional::MinLimit<S>\n>;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\
+    \u533A\u9593\u6700\u5C0F\u5024\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RAddMinQ = StaticLazySegTree<\n    S, // S\n    more_functional::Min<S>,\n\
+    \    more_functional::MaxLimit<S>,\n    S,\n    std::plus<S>,\n    std::plus<S>,\n\
+    \    more_functional::None<S>\n>;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\
+    \u533A\u9593\u6700\u5927\u5024\n * \n * @tparam S \u578B\n */\ntemplate <typename\
+    \ S>\nusing RAddMaxQ = StaticLazySegTree<\n    S,\n    more_functional::Max<S>,\n\
+    \    more_functional::MinLimit<S>,\n    S,\n    std::plus<S>,\n    std::plus<S>,\n\
+    \    more_functional::None<S>\n>;\n/**\n * @brief \u533A\u9593\u52A0\u7B97\u3001\
+    \u533A\u9593\u548C\n * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing\
+    \ RAddSumQ = StaticLazySegTree<\n    S,\n    std::plus<S>,\n    more_functional::None<S>,\n\
+    \    S,\n    lazy_segtree::AddWithSize<S>,\n    std::plus<S>,\n    more_functional::None<S>\n\
+    >;\n/**\n * @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u6700\u5C0F\u5024\
+    \n * \u6CE8\u610F: numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\
+    \u3044\u3053\u3068\u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate\
+    \ <typename S>\nusing RUpdateMinQ = StaticLazySegTree<\n    S,\n    more_functional::Min<S>,\n\
+    \    more_functional::MaxLimit<S>,\n    S,\n    lazy_segtree::Update<S, more_functional::MaxLimit<S>{}()>,\n\
+    \    lazy_segtree::UpdateComposition<S, more_functional::MaxLimit<S>{}()>,\n \
+    \   more_functional::MaxLimit<S>\n>;\n/**\n * @brief \u533A\u9593\u5909\u66F4\u3001\
+    \u533A\u9593\u6700\u5927\u5024\n * \u6CE8\u610F: numeric_limits<S>::max()\u3067\
     \u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\u3068\u3092\u304C\u8981\u4EF6\n * \n\
-    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RUpdateMinQ = StaticLazySegTree<\n\
-    \    S,\n    lazy_segtree::Min<S>,\n    lazy_segtree::MaxLimit<S>,\n    S,\n \
-    \   lazy_segtree::Update<S, lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::UpdateComposition<S,\
-    \ lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::MaxLimit<S>\n>;\n/**\n *\
-    \ @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u6700\u5927\u5024\n * \u6CE8\
-    \u610F: numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\
-    \u3068\u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RUpdateMaxQ = StaticLazySegTree<\n    S,\n    lazy_segtree::Max<S>,\n\
-    \    lazy_segtree::MinLimit<S>,\n    S,\n    lazy_segtree::Update<S, lazy_segtree::MaxLimit<S>{}()>,\n\
-    \    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::MaxLimit<S>\n\
-    >;\n/**\n * @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u548C\n * \u6CE8\
-    \u610F: numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\
-    \u3068\u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RUpdateSumQ = StaticLazySegTree<\n    S,\n    std::plus<S>,\n    lazy_segtree::Zero<S>,\n\
-    \    S,\n    lazy_segtree::UpdateWithSize<S, lazy_segtree::MaxLimit<S>{}()>,\n\
-    \    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,\n    lazy_segtree::MaxLimit<S>\n\
-    >;\n\nnamespace lazy_segtree {\n    template <typename T>\n    using TemplateS\
-    \ = typename T::S;\n    template <typename T>\n    struct TemplateOp {\n     \
-    \   TemplateS<T> operator()(const TemplateS<T>& a, const TemplateS<T>& b) const\
-    \ {\n            return T().op(a, b);\n        }\n    };\n    template <typename\
-    \ T>\n    struct TemplateE {\n        TemplateS<T> operator()() const {\n    \
-    \        return T().e();\n        }\n    };\n    template <typename T>\n    using\
-    \ TemplateF = typename T::F;\n    template <typename T>\n    struct TemplateMapping\
-    \ {\n        TemplateS<T> operator()(const TemplateF<T>& f, const TemplateS<T>&\
-    \ x, int l, int r) const {\n            if constexpr (std::is_invocable_v<decltype(&T::mapping),\
+    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RUpdateMaxQ = StaticLazySegTree<\n\
+    \    S,\n    more_functional::Max<S>,\n    more_functional::MinLimit<S>,\n   \
+    \ S,\n    lazy_segtree::Update<S, more_functional::MaxLimit<S>{}()>,\n    lazy_segtree::UpdateComposition<S,\
+    \ more_functional::MaxLimit<S>{}()>,\n    more_functional::MaxLimit<S>\n>;\n/**\n\
+    \ * @brief \u533A\u9593\u5909\u66F4\u3001\u533A\u9593\u548C\n * \u6CE8\u610F:\
+    \ numeric_limits<S>::max()\u3067\u306E\u66F4\u65B0\u304C\u306A\u3044\u3053\u3068\
+    \u3092\u304C\u8981\u4EF6\n * \n * @tparam S \u578B\n */\ntemplate <typename S>\n\
+    using RUpdateSumQ = StaticLazySegTree<\n    S,\n    std::plus<S>,\n    more_functional::None<S>,\n\
+    \    S,\n    lazy_segtree::UpdateWithSize<S, more_functional::MaxLimit<S>{}()>,\n\
+    \    lazy_segtree::UpdateComposition<S, more_functional::MaxLimit<S>{}()>,\n \
+    \   more_functional::MaxLimit<S>\n>;\n\nnamespace lazy_segtree {\n    template\
+    \ <typename T>\n    using TemplateS = typename T::S;\n    template <typename T>\n\
+    \    struct TemplateOp {\n        TemplateS<T> operator()(const TemplateS<T>&\
+    \ a, const TemplateS<T>& b) const {\n            return T().op(a, b);\n      \
+    \  }\n    };\n    template <typename T>\n    struct TemplateE {\n        TemplateS<T>\
+    \ operator()() const {\n            return T().e();\n        }\n    };\n    template\
+    \ <typename T>\n    using TemplateF = typename T::F;\n    template <typename T>\n\
+    \    struct TemplateMapping {\n        TemplateS<T> operator()(const TemplateF<T>&\
+    \ f, const TemplateS<T>& x, int l, int r) const {\n            if constexpr (std::is_invocable_v<decltype(&T::mapping),\
     \ T, TemplateF<T>, TemplateS<T>, int, int>) {\n                return T().mapping(f,\
     \ x, l, r);\n            } else if constexpr (std::is_invocable_v<decltype(&T::mapping),\
     \ T, TemplateF<T>, TemplateS<T>, int>) {\n                return T().mapping(f,\
@@ -305,63 +318,63 @@ data:
     \    lazy_segtree::TemplateMapping<T>,\n    lazy_segtree::TemplateComposition<T>,\n\
     \    lazy_segtree::TemplateID<T>\n>;\n#line 2 \"cpp/modint.hpp\"\n\n/**\n * @file\
     \ modint.hpp\n * @brief \u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\
-    \u52D5\u3067 mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n */\n\n#line 11 \"cpp/modint.hpp\"\
-    \n#include <type_traits>\n#include <cstdint>\n#line 14 \"cpp/modint.hpp\"\n\n\
-    namespace detail {\n    static constexpr std::uint16_t prime32_bases[] {\n   \
-    \     15591,  2018,  166, 7429,  8064, 16045, 10503,  4399,  1949,  1295, 2776,\
-    \  3620,   560,  3128,  5212,  2657,\n         2300,  2021, 4652, 1471,  9336,\
-    \  4018,  2398, 20462, 10277,  8028, 2213,  6219,   620,  3763,  4852,  5012,\n\
-    \         3185,  1333, 6227, 5298,  1074,  2391,  5113,  7061,   803,  1269, 3875,\
-    \   422,   751,   580,  4729, 10239,\n          746,  2951,  556, 2206,  3778,\
-    \   481,  1522,  3476,   481,  2487, 3266,  5633,   488,  3373,  6441,  3344,\n\
-    \           17, 15105, 1490, 4154,  2036,  1882,  1813,   467,  3307, 14042, 6371,\
-    \   658,  1005,   903,   737,  1887,\n         7447,  1888, 2848, 1784,  7559,\
-    \  3400,   951, 13969,  4304,   177,   41, 19875,  3110, 13221,  8726,   571,\n\
-    \         7043,  6943, 1199,  352,  6435,   165,  1169,  3315,   978,   233, 3003,\
-    \  2562,  2994, 10587, 10030,  2377,\n         1902,  5354, 4447, 1555,   263,\
-    \ 27027,  2283,   305,   669,  1912,  601,  6186,   429,  1930, 14873,  1784,\n\
-    \         1661,   524, 3577,  236,  2360,  6146,  2850, 55637,  1753,  4178, 8466,\
-    \   222,  2579,  2743,  2031,  2226,\n         2276,   374, 2132,  813, 23788,\
-    \  1610,  4422,  5159,  1725,  3597, 3366, 14336,   579,   165,  1375, 10018,\n\
-    \        12616,  9816, 1371,  536,  1867, 10864,   857,  2206,  5788,   434, 8085,\
-    \ 17618,   727,  3639,  1595,  4944,\n         2129,  2029, 8195, 8344,  6232,\
-    \  9183,  8126,  1870,  3296,  7455, 8947, 25017,   541, 19115,   368,   566,\n\
-    \         5674,   411,  522, 1027,  8215,  2050,  6544, 10049,   614,   774, 2333,\
-    \  3007, 35201,  4706,  1152,  1785,\n         1028,  1540, 3743,  493,  4474,\
-    \  2521, 26845,  8354,   864, 18915, 5465,  2447,    42,  4511,  1660,   166,\n\
-    \         1249,  6259, 2553,  304,   272,  7286,    73,  6554,   899,  2816, 5197,\
-    \ 13330,  7054,  2818,  3199,   811,\n          922,   350, 7514, 4452,  3449,\
-    \  2663,  4708,   418,  1621,  1171, 3471,    88, 11345,   412,  1559,   194,\n\
-    \    };\n\n    static constexpr bool is_SPRP(std::uint32_t n, std::uint32_t a)\
-    \ noexcept {\n        std::uint32_t d = n - 1;\n        std::uint32_t s = 0;\n\
-    \        while ((d & 1) == 0) {\n            ++s;\n            d >>= 1;\n    \
-    \    }\n        std::uint64_t cur = 1;\n        std::uint64_t pw = d;\n      \
-    \  while (pw) {\n            if (pw & 1) cur = (cur * a) % n;\n            a =\
-    \ (static_cast<std::uint64_t>(a) * a) % n;\n            pw >>= 1;\n        }\n\
-    \        if (cur == 1) return true;\n        for (std::uint32_t r = 0; r < s;\
-    \ ++r) {\n            if (cur == n - 1) return true;\n            cur = (cur *\
-    \ cur) % n;\n        }\n        return false;\n    }\n\n    // 32\u30D3\u30C3\u30C8\
-    \u7B26\u53F7\u306A\u3057\u6574\u6570\u306E\u7D20\u6570\u5224\u5B9A\n    // \u53C2\
-    \u8003: M. Forisek and J. Jancina, \u201CFast Primality Testing for Integers That\
-    \ Fit into a Machine Word,\u201D presented at the Conference on Current Trends\
-    \ in Theory and Practice of Informatics, 2015.\n    [[nodiscard]]\n    static\
-    \ constexpr bool is_prime32(std::uint32_t x) noexcept {\n        if (x == 2 ||\
-    \ x == 3 || x == 5 || x == 7) return true;\n        if (x % 2 == 0 || x % 3 ==\
-    \ 0 || x % 5 == 0 || x % 7 == 0) return false;\n        if (x < 121) return (x\
-    \ > 1);\n        std::uint64_t h = x;\n        h = ((h >> 16) ^ h) * 0x45d9f3b;\n\
-    \        h = ((h >> 16) ^ h) * 0x45d9f3b;\n        h = ((h >> 16) ^ h) & 0xff;\n\
-    \        return is_SPRP(x, prime32_bases[h]);\n    }\n}\n\n/// @brief static_modint\
-    \ \u3068 dynamic_modint \u306E\u5B9F\u88C5\u3092 CRTP \u306B\u3088\u3063\u3066\
-    \u884C\u3046\u305F\u3081\u306E\u30AF\u30E9\u30B9\u30C6\u30F3\u30D7\u30EC\u30FC\
-    \u30C8\n/// @tparam Modint \u3053\u306E\u30AF\u30E9\u30B9\u30C6\u30F3\u30D7\u30EC\
-    \u30FC\u30C8\u3092\u7D99\u627F\u3059\u308B\u30AF\u30E9\u30B9\ntemplate <class\
-    \ Modint>\nclass modint_base {\npublic:\n    /// @brief \u4FDD\u6301\u3059\u308B\
-    \u5024\u306E\u578B\n    using value_type = std::uint32_t;\n\n    /// @brief 0\
-    \ \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    constexpr modint_base()\
-    \ noexcept\n        : m_value{ 0 } {}\n\n    /// @brief @c value \u306E\u5270\u4F59\
-    \u3067\u521D\u671F\u5316\u3057\u307E\u3059\u3002\n    /// @param value \u521D\u671F\
-    \u5316\u306B\u4F7F\u3046\u5024\n    template <class SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral>\
-    \ && std::is_signed_v<SignedIntegral>>* = nullptr>\n    constexpr modint_base(SignedIntegral\
+    \u52D5\u3067 mod \u3092\u53D6\u308B\u30AF\u30E9\u30B9\n */\n\n#line 12 \"cpp/modint.hpp\"\
+    \n#include <cstdint>\n#line 14 \"cpp/modint.hpp\"\n\nnamespace detail {\n    static\
+    \ constexpr std::uint16_t prime32_bases[] {\n        15591,  2018,  166, 7429,\
+    \  8064, 16045, 10503,  4399,  1949,  1295, 2776,  3620,   560,  3128,  5212,\
+    \  2657,\n         2300,  2021, 4652, 1471,  9336,  4018,  2398, 20462, 10277,\
+    \  8028, 2213,  6219,   620,  3763,  4852,  5012,\n         3185,  1333, 6227,\
+    \ 5298,  1074,  2391,  5113,  7061,   803,  1269, 3875,   422,   751,   580, \
+    \ 4729, 10239,\n          746,  2951,  556, 2206,  3778,   481,  1522,  3476,\
+    \   481,  2487, 3266,  5633,   488,  3373,  6441,  3344,\n           17, 15105,\
+    \ 1490, 4154,  2036,  1882,  1813,   467,  3307, 14042, 6371,   658,  1005,  \
+    \ 903,   737,  1887,\n         7447,  1888, 2848, 1784,  7559,  3400,   951, 13969,\
+    \  4304,   177,   41, 19875,  3110, 13221,  8726,   571,\n         7043,  6943,\
+    \ 1199,  352,  6435,   165,  1169,  3315,   978,   233, 3003,  2562,  2994, 10587,\
+    \ 10030,  2377,\n         1902,  5354, 4447, 1555,   263, 27027,  2283,   305,\
+    \   669,  1912,  601,  6186,   429,  1930, 14873,  1784,\n         1661,   524,\
+    \ 3577,  236,  2360,  6146,  2850, 55637,  1753,  4178, 8466,   222,  2579,  2743,\
+    \  2031,  2226,\n         2276,   374, 2132,  813, 23788,  1610,  4422,  5159,\
+    \  1725,  3597, 3366, 14336,   579,   165,  1375, 10018,\n        12616,  9816,\
+    \ 1371,  536,  1867, 10864,   857,  2206,  5788,   434, 8085, 17618,   727,  3639,\
+    \  1595,  4944,\n         2129,  2029, 8195, 8344,  6232,  9183,  8126,  1870,\
+    \  3296,  7455, 8947, 25017,   541, 19115,   368,   566,\n         5674,   411,\
+    \  522, 1027,  8215,  2050,  6544, 10049,   614,   774, 2333,  3007, 35201,  4706,\
+    \  1152,  1785,\n         1028,  1540, 3743,  493,  4474,  2521, 26845,  8354,\
+    \   864, 18915, 5465,  2447,    42,  4511,  1660,   166,\n         1249,  6259,\
+    \ 2553,  304,   272,  7286,    73,  6554,   899,  2816, 5197, 13330,  7054,  2818,\
+    \  3199,   811,\n          922,   350, 7514, 4452,  3449,  2663,  4708,   418,\
+    \  1621,  1171, 3471,    88, 11345,   412,  1559,   194,\n    };\n\n    static\
+    \ constexpr bool is_SPRP(std::uint32_t n, std::uint32_t a) noexcept {\n      \
+    \  std::uint32_t d = n - 1;\n        std::uint32_t s = 0;\n        while ((d &\
+    \ 1) == 0) {\n            ++s;\n            d >>= 1;\n        }\n        std::uint64_t\
+    \ cur = 1;\n        std::uint64_t pw = d;\n        while (pw) {\n            if\
+    \ (pw & 1) cur = (cur * a) % n;\n            a = (static_cast<std::uint64_t>(a)\
+    \ * a) % n;\n            pw >>= 1;\n        }\n        if (cur == 1) return true;\n\
+    \        for (std::uint32_t r = 0; r < s; ++r) {\n            if (cur == n - 1)\
+    \ return true;\n            cur = (cur * cur) % n;\n        }\n        return\
+    \ false;\n    }\n\n    // 32\u30D3\u30C3\u30C8\u7B26\u53F7\u306A\u3057\u6574\u6570\
+    \u306E\u7D20\u6570\u5224\u5B9A\n    // \u53C2\u8003: M. Forisek and J. Jancina,\
+    \ \u201CFast Primality Testing for Integers That Fit into a Machine Word,\u201D\
+    \ presented at the Conference on Current Trends in Theory and Practice of Informatics,\
+    \ 2015.\n    [[nodiscard]]\n    static constexpr bool is_prime32(std::uint32_t\
+    \ x) noexcept {\n        if (x == 2 || x == 3 || x == 5 || x == 7) return true;\n\
+    \        if (x % 2 == 0 || x % 3 == 0 || x % 5 == 0 || x % 7 == 0) return false;\n\
+    \        if (x < 121) return (x > 1);\n        std::uint64_t h = x;\n        h\
+    \ = ((h >> 16) ^ h) * 0x45d9f3b;\n        h = ((h >> 16) ^ h) * 0x45d9f3b;\n \
+    \       h = ((h >> 16) ^ h) & 0xff;\n        return is_SPRP(x, prime32_bases[h]);\n\
+    \    }\n}\n\n/// @brief static_modint \u3068 dynamic_modint \u306E\u5B9F\u88C5\
+    \u3092 CRTP \u306B\u3088\u3063\u3066\u884C\u3046\u305F\u3081\u306E\u30AF\u30E9\
+    \u30B9\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8\n/// @tparam Modint \u3053\u306E\u30AF\
+    \u30E9\u30B9\u30C6\u30F3\u30D7\u30EC\u30FC\u30C8\u3092\u7D99\u627F\u3059\u308B\
+    \u30AF\u30E9\u30B9\ntemplate <class Modint>\nclass modint_base {\npublic:\n  \
+    \  /// @brief \u4FDD\u6301\u3059\u308B\u5024\u306E\u578B\n    using value_type\
+    \ = std::uint32_t;\n\n    /// @brief 0 \u3067\u521D\u671F\u5316\u3057\u307E\u3059\
+    \u3002\n    constexpr modint_base() noexcept\n        : m_value{ 0 } {}\n\n  \
+    \  /// @brief @c value \u306E\u5270\u4F59\u3067\u521D\u671F\u5316\u3057\u307E\u3059\
+    \u3002\n    /// @param value \u521D\u671F\u5316\u306B\u4F7F\u3046\u5024\n    template\
+    \ <class SignedIntegral, std::enable_if_t<std::is_integral_v<SignedIntegral> &&\
+    \ std::is_signed_v<SignedIntegral>>* = nullptr>\n    constexpr modint_base(SignedIntegral\
     \ value) noexcept\n        : m_value{ static_cast<value_type>((static_cast<long\
     \ long>(value) % Modint::mod() + Modint::mod()) % Modint::mod()) } {}\n\n    ///\
     \ @brief @c value \u306E\u5270\u4F59\u3067\u521D\u671F\u5316\u3057\u307E\u3059\
@@ -572,11 +585,12 @@ data:
     n';\n        }\n    }\n}\n"
   dependsOn:
   - cpp/lazy-segtree.hpp
+  - cpp/more_functional.hpp
   - cpp/modint.hpp
   isVerificationFile: true
   path: test/yosupo-range-affine-range-sum.3.test.cpp
   requiredBy: []
-  timestamp: '2024-03-26 22:46:46+09:00'
+  timestamp: '2024-05-17 23:11:56+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-range-affine-range-sum.3.test.cpp

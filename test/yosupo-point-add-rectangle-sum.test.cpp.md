@@ -2,6 +2,10 @@
 data:
   _extendedDependsOn:
   - icon: ':heavy_check_mark:'
+    path: cpp/more_functional.hpp
+    title: "\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+      \u308B"
+  - icon: ':heavy_check_mark:'
     path: cpp/segtree-2d.hpp
     title: "2\u6B21\u5143\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
   _extendedRequiredBy: []
@@ -17,16 +21,34 @@ data:
   bundledCode: "#line 1 \"test/yosupo-point-add-rectangle-sum.test.cpp\"\n#define\
     \ PROBLEM \"https://judge.yosupo.jp/problem/point_add_rectangle_sum\"\n\n#line\
     \ 2 \"cpp/segtree-2d.hpp\"\n\n/**\n * @file segtree-2d.hpp\n * @brief 2\u6B21\u5143\
-    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#include <algorithm>\n#include <limits>\n\
-    #include <tuple>\n#include <vector>\n\n/**\n * @brief 2\u6B21\u5143\u30BB\u30B0\
-    \u30E1\u30F3\u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\u30E9\u30B9\n *\n * @tparam\
-    \ S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam ActualSegTree \u6D3E\u751F\
-    \u30AF\u30E9\u30B9\n */\ntemplate <typename S, typename ActualSegTree>\nclass\
-    \ SegTree2DBase {\n    S op(S a, S b) const { return static_cast<const ActualSegTree&>(*this).op(a,\
-    \ b); }\n    S e() const { return static_cast<const ActualSegTree&>(*this).e();\
-    \ }\n\n    int h, w, sz_x, sz_y, height_x, height_y;\n    std::vector<std::vector<int>>\
-    \ y_indices;\n    std::vector<std::vector<S>> data_compressed;\n\n    S get_y(int\
-    \ kx, int ky) {\n        ky += sz_y;\n        auto it = std::lower_bound(y_indices[kx].begin(),\
+    \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\n */\n\n#include <algorithm>\n#include <tuple>\n\
+    #include <vector>\n#line 2 \"cpp/more_functional.hpp\"\n\n/**\n * @file more_functional.hpp\n\
+    \ * @brief \u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+    \u308B\n */\n\n#include <limits>\n#include <numeric>\n#include <type_traits>\n\
+    \nnamespace more_functional {\ntemplate <typename S>\nstruct Max {\n    const\
+    \ S operator()(const S& a, const S& b) const { return std::max(a, b); }\n};\n\
+    template <typename S>\nstruct Min {\n    const S operator()(const S& a, const\
+    \ S& b) const { return std::min(a, b); }\n};\ntemplate <typename S, std::enable_if_t<std::is_integral_v<S>>*\
+    \ = nullptr>\nstruct Gcd {\n    constexpr S operator()(const S& a, const S& b)\
+    \ const { return std::gcd(a, b); }\n};\ntemplate <typename S>\nstruct Zero {\n\
+    \    S operator()() const { return S(0); }\n};\ntemplate <typename S>\nstruct\
+    \ One {\n    S operator()() const { return S(1); }\n};\ntemplate <typename S>\n\
+    struct None {\n    S operator()() const { return S{}; }\n};\ntemplate <typename\
+    \ S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nstruct MaxLimit {\n  \
+    \  constexpr S operator()() const { return std::numeric_limits<S>::max(); }\n\
+    };\ntemplate <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
+    struct MinLimit {\n    constexpr S operator()() const { return std::numeric_limits<S>::lowest();\
+    \ }\n};\ntemplate <typename S>\nstruct Div {\n    S operator()(const S& a) const\
+    \ { return S(1) / a; }\n};\n}  // namespace more_functional\n#line 12 \"cpp/segtree-2d.hpp\"\
+    \n\n/**\n * @brief 2\u6B21\u5143\u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306ECRTP\u57FA\
+    \u5E95\u30AF\u30E9\u30B9\n *\n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\
+    \n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate <typename\
+    \ S, typename ActualSegTree>\nclass SegTree2DBase {\n    S op(S a, S b) const\
+    \ { return static_cast<const ActualSegTree&>(*this).op(a, b); }\n    S e() const\
+    \ { return static_cast<const ActualSegTree&>(*this).e(); }\n\n    int h, w, sz_x,\
+    \ sz_y, height_x, height_y;\n    std::vector<std::vector<int>> y_indices;\n  \
+    \  std::vector<std::vector<S>> data_compressed;\n\n    S get_y(int kx, int ky)\
+    \ {\n        ky += sz_y;\n        auto it = std::lower_bound(y_indices[kx].begin(),\
     \ y_indices[kx].end(), ky);\n        if(it == y_indices[kx].end() || *it != ky)\
     \ return e();\n        return data_compressed[kx][it - y_indices[kx].begin()];\n\
     \    }\n\n    S updated_y(int kx, int ky, int child_y_idx, bool child_y_right,\
@@ -160,22 +182,12 @@ data:
     \ std::vector<std::tuple<int, int, int, int>>& prod_query_indices, Op op, const\
     \ S& identity) : BaseType(h, w), operator_object(std::move(op)), identity(identity)\
     \ {\n        this->construct_data(set_query_indices, prod_query_indices);\n  \
-    \  }\n};\n\nnamespace segtree2d {\n    template <typename S>\n    struct Max {\n\
-    \        const S operator() (const S& a, const S& b) const { return std::max(a,\
-    \ b); }\n    };\n    template <typename S>\n    struct Min {\n        const S\
-    \ operator() (const S& a, const S& b) const { return std::min(a, b); }\n    };\n\
-    \    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\n\
-    \    struct MaxLimit {\n        constexpr S operator() () const { return std::numeric_limits<S>::max();\
-    \ }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MinLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::lowest(); }\n    };\n    template <typename S>\n\
-    \    struct Zero {\n        S operator() () const { return S(0); }\n    };\n}\n\
-    /**\n * @brief RangeMaxQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RMaxQ2D = StaticSegTree2D<S, segtree2d::Max<S>, segtree2d::MinLimit<S>>;\n\
+    \  }\n};\n\n/**\n * @brief RangeMaxQuery\n *\n * @tparam S \u578B\n */\ntemplate\
+    \ <typename S>\nusing RMaxQ2D = StaticSegTree2D<S, more_functional::Max<S>, more_functional::MinLimit<S>>;\n\
     /**\n * @brief RangeMinQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RMinQ2D = StaticSegTree2D<S, segtree2d::Min<S>, segtree2d::MaxLimit<S>>;\n\
+    \ S>\nusing RMinQ2D = StaticSegTree2D<S, more_functional::Min<S>, more_functional::MaxLimit<S>>;\n\
     /**\n * @brief RangeSumQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RSumQ2D = StaticSegTree2D<S, std::plus<S>, segtree2d::Zero<S>>;\n\
+    \ S>\nusing RSumQ2D = StaticSegTree2D<S, std::plus<S>, more_functional::None<S>>;\n\
     #line 4 \"test/yosupo-point-add-rectangle-sum.test.cpp\"\n\n#include <iostream>\n\
     \nint main(void) {\n    std::cin.tie(nullptr);\n    std::ios_base::sync_with_stdio(false);\n\
     \n    int n, q; std::cin >> n >> q;\n    std::vector<std::tuple<int, int>> set_queries;\n\
@@ -245,10 +257,11 @@ data:
     \        }\n    }\n}\n"
   dependsOn:
   - cpp/segtree-2d.hpp
+  - cpp/more_functional.hpp
   isVerificationFile: true
   path: test/yosupo-point-add-rectangle-sum.test.cpp
   requiredBy: []
-  timestamp: '2023-06-25 14:14:02+09:00'
+  timestamp: '2024-05-17 23:06:28+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-point-add-rectangle-sum.test.cpp

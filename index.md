@@ -34,7 +34,7 @@ data:
       title: "\u884C\u5217"
     - icon: ':heavy_check_mark:'
       path: cpp/merge-sort-tree.hpp
-      title: "\u533A\u9593\u306E\u95BE\u5024\u4EE5\u5185\u306E\u5024\u306E\u7A4D"
+      title: "\u30DE\u30FC\u30B8\u30BD\u30FC\u30C8\u30C4\u30EA\u30FC"
     - icon: ':question:'
       path: cpp/modint.hpp
       title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\

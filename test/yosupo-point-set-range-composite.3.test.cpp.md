@@ -6,6 +6,10 @@ data:
     title: "\u56DB\u5247\u6F14\u7B97\u306B\u304A\u3044\u3066\u81EA\u52D5\u3067 mod\
       \ \u3092\u53D6\u308B\u30AF\u30E9\u30B9"
   - icon: ':heavy_check_mark:'
+    path: cpp/more_functional.hpp
+    title: "\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\
+      \u308B"
+  - icon: ':heavy_check_mark:'
     path: cpp/segtree.hpp
     title: "\u30BB\u30B0\u30E1\u30F3\u30C8\u6728"
   _extendedRequiredBy: []
@@ -255,19 +259,37 @@ data:
     \ modint1000000007 = static_modint<1000000007>;\nusing modint = dynamic_modint<-1>;\n\
     #line 2 \"cpp/segtree.hpp\"\n\n/**\n * @file segtree.hpp\n * @brief \u30BB\u30B0\
     \u30E1\u30F3\u30C8\u6728\n */\n\n#line 9 \"cpp/segtree.hpp\"\n#include <functional>\n\
-    #line 11 \"cpp/segtree.hpp\"\n#include <numeric>\n#include <ostream>\n#include\
-    \ <vector>\n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306ECRTP\u57FA\
-    \u5E95\u30AF\u30E9\u30B9\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\
-    \n * @tparam ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate <typename\
-    \ S, typename ActualSegTree>\nclass SegTreeBase {\n    S op(const S& a, const\
-    \ S& b) const { return static_cast<const ActualSegTree&>(*this).op(a, b); }\n\
-    \    S e() const { return static_cast<const ActualSegTree&>(*this).e(); }\n\n\
-    \    int n, sz, height;\n    std::vector<S> data;\n    void update(int k) { data[k]\
-    \ = op(data[2 * k], data[2 * k + 1]); }\n\n    class SegTreeReference {\n    \
-    \    SegTreeBase& segtree;\n        int k;\n    public:\n        SegTreeReference(SegTreeBase&\
-    \ segtree, int k) : segtree(segtree), k(k) {}\n        SegTreeReference& operator=(const\
-    \ S& x) {\n            segtree.set(k, x);\n            return *this;\n       \
-    \ }\n        operator S() const { return segtree.get(k); }\n    };\n\nprotected:\n\
+    #include <ostream>\n#include <vector>\n#line 2 \"cpp/more_functional.hpp\"\n\n\
+    /**\n * @file more_functional.hpp\n * @brief \u95A2\u6570\u30AA\u30D6\u30B8\u30A7\
+    \u30AF\u30C8\u3092\u5B9A\u7FA9\u3059\u308B\n */\n\n#line 9 \"cpp/more_functional.hpp\"\
+    \n#include <numeric>\n#line 11 \"cpp/more_functional.hpp\"\n\nnamespace more_functional\
+    \ {\ntemplate <typename S>\nstruct Max {\n    const S operator()(const S& a, const\
+    \ S& b) const { return std::max(a, b); }\n};\ntemplate <typename S>\nstruct Min\
+    \ {\n    const S operator()(const S& a, const S& b) const { return std::min(a,\
+    \ b); }\n};\ntemplate <typename S, std::enable_if_t<std::is_integral_v<S>>* =\
+    \ nullptr>\nstruct Gcd {\n    constexpr S operator()(const S& a, const S& b) const\
+    \ { return std::gcd(a, b); }\n};\ntemplate <typename S>\nstruct Zero {\n    S\
+    \ operator()() const { return S(0); }\n};\ntemplate <typename S>\nstruct One {\n\
+    \    S operator()() const { return S(1); }\n};\ntemplate <typename S>\nstruct\
+    \ None {\n    S operator()() const { return S{}; }\n};\ntemplate <typename S,\
+    \ std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nstruct MaxLimit {\n    constexpr\
+    \ S operator()() const { return std::numeric_limits<S>::max(); }\n};\ntemplate\
+    \ <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>\nstruct MinLimit\
+    \ {\n    constexpr S operator()() const { return std::numeric_limits<S>::lowest();\
+    \ }\n};\ntemplate <typename S>\nstruct Div {\n    S operator()(const S& a) const\
+    \ { return S(1) / a; }\n};\n}  // namespace more_functional\n#line 13 \"cpp/segtree.hpp\"\
+    \n\n/**\n * @brief \u30BB\u30B0\u30E1\u30F3\u30C8\u6728\u306ECRTP\u57FA\u5E95\u30AF\
+    \u30E9\u30B9\n * \n * @tparam S \u30E2\u30CE\u30A4\u30C9\u306E\u578B\n * @tparam\
+    \ ActualSegTree \u6D3E\u751F\u30AF\u30E9\u30B9\n */\ntemplate <typename S, typename\
+    \ ActualSegTree>\nclass SegTreeBase {\n    S op(const S& a, const S& b) const\
+    \ { return static_cast<const ActualSegTree&>(*this).op(a, b); }\n    S e() const\
+    \ { return static_cast<const ActualSegTree&>(*this).e(); }\n\n    int n, sz, height;\n\
+    \    std::vector<S> data;\n    void update(int k) { data[k] = op(data[2 * k],\
+    \ data[2 * k + 1]); }\n\n    class SegTreeReference {\n        SegTreeBase& segtree;\n\
+    \        int k;\n    public:\n        SegTreeReference(SegTreeBase& segtree, int\
+    \ k) : segtree(segtree), k(k) {}\n        SegTreeReference& operator=(const S&\
+    \ x) {\n            segtree.set(k, x);\n            return *this;\n        }\n\
+    \        operator S() const { return segtree.get(k); }\n    };\n\nprotected:\n\
     \    void construct_data() {\n        sz = 1;\n        height = 0;\n        while\
     \ (sz < n) {\n            sz <<= 1;\n            height++;\n        }\n      \
     \  data.assign(sz * 2, e());\n    }\n    void initialize(const std::vector<S>&\
@@ -384,34 +406,21 @@ data:
     \u306E\u95A2\u6570\u30AA\u30D6\u30B8\u30A7\u30AF\u30C8\n     * @param identity\
     \ \u5358\u4F4D\u5143\n     */\n    explicit SegTree(const std::vector<S>& v, Op\
     \ op, const S& identity) : SegTree(v.size(), std::move(op), identity) {\n    \
-    \    this->initialize(v);\n    }\n};\n\nnamespace segtree {\n    template <typename\
-    \ S>\n    struct Max {\n        const S operator() (const S& a, const S& b) const\
-    \ { return std::max(a, b); }\n    };\n    template <typename S>\n    struct Min\
-    \ {\n        const S operator() (const S& a, const S& b) const { return std::min(a,\
-    \ b); }\n    };\n    template <typename S, std::enable_if_t<std::is_integral_v<S>>*\
-    \ = nullptr>\n    struct Gcd {\n        constexpr S operator()(const S& a, const\
-    \ S& b) const { return std::gcd(a, b); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MaxLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::max(); }\n    };\n    template <typename S, std::enable_if_t<std::is_scalar_v<S>>*\
-    \ = nullptr>\n    struct MinLimit {\n        constexpr S operator() () const {\
-    \ return std::numeric_limits<S>::lowest(); }\n    };\n    template <typename S>\n\
-    \    struct Zero {\n        S operator() () const { return S(0); }\n    };\n \
-    \   template <typename S>\n    struct One {\n        S operator()() const { return\
-    \ S(1); }\n    };\n    template <typename S>\n    struct None {\n        S operator()()\
-    \ const { return S{}; }\n    };\n}\n/**\n * @brief RangeMaxQuery\n * \n * @tparam\
-    \ S \u578B\n */\ntemplate <typename S>\nusing RMaxQ = StaticSegTree<S, segtree::Max<S>,\
-    \ segtree::MinLimit<S>>;\n/**\n * @brief RangeMinQuery\n * \n * @tparam S \u578B\
-    \n */\ntemplate <typename S>\nusing RMinQ = StaticSegTree<S, segtree::Min<S>,\
-    \ segtree::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n * \n * @tparam S \u578B\
-    \n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S, std::plus<S>, segtree::None<S>>;\n\
-    /**\n * @brief RangeProdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RProdQ = StaticSegTree<S, std::multiplies<S>, segtree::One<S>>;\n\
-    /**\n * @brief RangeXorQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename\
-    \ S>\nusing RXorQ = StaticSegTree<S, std::bit_xor<S>, segtree::Zero<S>>;\n/**\n\
-    \ * @brief RangeGcdQuery\n *\n * @tparam S \u578B\n */\ntemplate <typename S>\n\
-    using RGcdQ = StaticSegTree<S, segtree::Gcd<S>, segtree::Zero<S>>;\n\nnamespace\
-    \ segtree {\n    template <typename T>\n    using TemplateS = typename T::S;\n\
-    \    template <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
+    \    this->initialize(v);\n    }\n};\n\n/**\n * @brief RangeMaxQuery\n * \n *\
+    \ @tparam S \u578B\n */\ntemplate <typename S>\nusing RMaxQ = StaticSegTree<S,\
+    \ more_functional::Max<S>, more_functional::MinLimit<S>>;\n/**\n * @brief RangeMinQuery\n\
+    \ * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing RMinQ = StaticSegTree<S,\
+    \ more_functional::Min<S>, more_functional::MaxLimit<S>>;\n/**\n * @brief RangeSumQuery\n\
+    \ * \n * @tparam S \u578B\n */\ntemplate <typename S>\nusing RSumQ = StaticSegTree<S,\
+    \ std::plus<S>, more_functional::None<S>>;\n/**\n * @brief RangeProdQuery\n *\n\
+    \ * @tparam S \u578B\n */\ntemplate <typename S>\nusing RProdQ = StaticSegTree<S,\
+    \ std::multiplies<S>, more_functional::One<S>>;\n/**\n * @brief RangeXorQuery\n\
+    \ *\n * @tparam S \u578B\n */\ntemplate <typename S>\nusing RXorQ = StaticSegTree<S,\
+    \ std::bit_xor<S>, more_functional::Zero<S>>;\n/**\n * @brief RangeGcdQuery\n\
+    \ *\n * @tparam S \u578B\n */\ntemplate <typename S>\nusing RGcdQ = StaticSegTree<S,\
+    \ more_functional::Gcd<S>, more_functional::Zero<S>>;\n\nnamespace segtree {\n\
+    \    template <typename T>\n    using TemplateS = typename T::S;\n    template\
+    \ <typename T>\n    struct TemplateOp {\n        TemplateS<T> operator()(const\
     \ TemplateS<T>& a, const TemplateS<T>& b) const {\n            return T().op(a,\
     \ b);\n        }\n    };\n    template <typename T>\n    struct TemplateE {\n\
     \        TemplateS<T> operator()() const {\n            return T().e();\n    \
@@ -447,10 +456,11 @@ data:
   dependsOn:
   - cpp/modint.hpp
   - cpp/segtree.hpp
+  - cpp/more_functional.hpp
   isVerificationFile: true
   path: test/yosupo-point-set-range-composite.3.test.cpp
   requiredBy: []
-  timestamp: '2024-03-27 20:35:39+09:00'
+  timestamp: '2024-05-17 22:45:13+09:00'
   verificationStatus: TEST_ACCEPTED
   verifiedWith: []
 documentation_of: test/yosupo-point-set-range-composite.3.test.cpp

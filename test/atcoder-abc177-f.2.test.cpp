@@ -6,8 +6,8 @@
 
 int main(void) {
     int h, w; std::cin >> h >> w;
-    int id = lazy_segtree::MaxLimit<int>{}();
-    LazySegTree seg(std::vector<int>(w, 0), lazy_segtree::Min<int>{}, id,
+    int id = more_functional::MaxLimit<int>{}();
+    LazySegTree seg(std::vector<int>(w, 0), more_functional::Min<int>{}, id,
         [&](int f, int x, int l, int r) {
             return f == id ? x : f + l;
         },

@@ -8,17 +8,17 @@ int main(void) {
     int h, w; std::cin >> h >> w;
     struct Mapping {
         int operator() (int f, int x, int l, int r) {
-            int id = lazy_segtree::MaxLimit<int>{}();
+            int id = more_functional::MaxLimit<int>{}();
             return f == id ? x : f + l;
         }
     };
     struct Composition {
         int operator() (int f, int g) {
-            int id = lazy_segtree::MaxLimit<int>{}();
+            int id = more_functional::MaxLimit<int>{}();
             return f == id ? g : f;
         }
     };
-    StaticLazySegTree<int, lazy_segtree::Min<int>, lazy_segtree::MaxLimit<int>, int, Mapping, Composition, lazy_segtree::MaxLimit<int>> seg(std::vector<int>(w, 0));
+    StaticLazySegTree<int, more_functional::Min<int>, more_functional::MaxLimit<int>, int, Mapping, Composition, more_functional::MaxLimit<int>> seg(std::vector<int>(w, 0));
     for(int i = 0; i < h; i++) {
         int a, b; std::cin >> a >> b; a--;
         if(a == 0) {

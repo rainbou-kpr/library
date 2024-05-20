@@ -26,7 +26,7 @@ int main(void) {
             return {1, 0};
         }
     };
-    StaticLazySegTree<MI, std::plus<MI>, lazy_segtree::Zero<MI>, Affine, Mapping, Composition, Id> seg(a);
+    StaticLazySegTree<MI, std::plus<MI>, more_functional::None<MI>, Affine, Mapping, Composition, Id> seg(a);
     while(q--) {
         int op; std::cin >> op;
         if(op == 0) {

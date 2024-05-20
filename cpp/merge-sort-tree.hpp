@@ -1,10 +1,16 @@
 #pragma once
+
+/**
+ * @file merge-sort-tree.hpp
+ * @brief マージソートツリー
+ */
 #include <algorithm>
 #include <cassert>
 #include <functional>
 #include <optional>
 #include <utility>
 #include <vector>
+#include "more_functional.hpp"
 
 /**
  * @brief 区間の閾値以内の値の積
@@ -152,33 +158,15 @@ class MergeSortTree {
     }
 };
 
-namespace merge_sort_tree {
-    template <typename S>
-    struct Zero {
-        S operator()() const { return S(0); }
-    };
-    template <typename S>
-    struct One {
-        S operator()() const { return S(1); }
-    };
-    template <typename S>
-    struct None {
-        S operator()() const { return S{}; }
-    };
-    template <typename S>
-    struct Div {
-        S operator()(const S& a) const { return S(1) / a; }
-    };
-}  // namespace merge_sort_tree
 /**
  * @tparam S 可換群の型
  * @tparam K ソートに使う型
  */
 template <typename S, typename K>
-using MSTreeSum = MergeSortTree<S, K, std::plus<S>, merge_sort_tree::None<S>, std::negate<S>, std::less<K>>;
+using MSTreeSum = MergeSortTree<S, K, std::plus<S>, more_functional::None<S>, std::negate<S>, std::less<K>>;
 /**
  * @tparam S 可換群の型
  * @tparam K ソートに使う型
  */
 template <typename S, typename K>
-using MSTreeProd = MergeSortTree<S, K, std::multiplies<S>, merge_sort_tree::One<S>, merge_sort_tree::Div<S>, std::less<K>>;
+using MSTreeProd = MergeSortTree<S, K, std::multiplies<S>, more_functional::One<S>, more_functional::Div<S>, std::less<K>>;

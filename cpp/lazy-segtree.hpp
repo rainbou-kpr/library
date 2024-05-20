@@ -7,9 +7,9 @@
 
 #include <cassert>
 #include <functional>
-#include <limits>
 #include <ostream>
 #include <vector>
+#include "more_functional.hpp"
 
 /**
  * @brief 遅延伝搬セグメント木のCRTP基底クラス
@@ -431,28 +431,8 @@ public:
 
 namespace lazy_segtree {
     template <typename S>
-    struct Max {
-        const S operator() (const S& a, const S& b) const { return std::max(a, b); }
-    };
-    template <typename S>
-    struct Min {
-        const S operator() (const S& a, const S& b) const { return std::min(a, b); }
-    };
-    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-    struct MaxLimit {
-        constexpr S operator() () const { return std::numeric_limits<S>::max(); }
-    };
-    template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
-    struct MinLimit {
-        constexpr S operator() () const { return std::numeric_limits<S>::lowest(); }
-    };
-    template <typename S>
     struct AddWithSize {
         S operator() (const S& f, const S& x, int sz) const { return x + f * sz; }
-    };
-    template <typename S>
-    struct Zero {
-        S operator() () const { return S(0); }
     };
     template <typename S, S ID>
     struct Update {
@@ -476,12 +456,12 @@ namespace lazy_segtree {
 template <typename S>
 using RChminMinQ = StaticLazySegTree<
     S,
-    lazy_segtree::Min<S>,
-    lazy_segtree::MaxLimit<S>,
+    more_functional::Min<S>,
+    more_functional::MaxLimit<S>,
     S,
-    lazy_segtree::Min<S>,
-    lazy_segtree::Min<S>,
-    lazy_segtree::MaxLimit<S>
+    more_functional::Min<S>,
+    more_functional::Min<S>,
+    more_functional::MaxLimit<S>
 >;
 /**
  * @brief 区間最大値更新、区間最大値
@@ -491,12 +471,12 @@ using RChminMinQ = StaticLazySegTree<
 template <typename S>
 using RChmaxMaxQ = StaticLazySegTree<
     S,
-    lazy_segtree::Max<S>,
-    lazy_segtree::MinLimit<S>,
+    more_functional::Max<S>,
+    more_functional::MinLimit<S>,
     S, // F
-    lazy_segtree::Max<S>,
-    lazy_segtree::Max<S>,
-    lazy_segtree::MinLimit<S>
+    more_functional::Max<S>,
+    more_functional::Max<S>,
+    more_functional::MinLimit<S>
 >;
 /**
  * @brief 区間加算、区間最小値
@@ -506,12 +486,12 @@ using RChmaxMaxQ = StaticLazySegTree<
 template <typename S>
 using RAddMinQ = StaticLazySegTree<
     S, // S
-    lazy_segtree::Min<S>,
-    lazy_segtree::MaxLimit<S>,
+    more_functional::Min<S>,
+    more_functional::MaxLimit<S>,
     S,
     std::plus<S>,
     std::plus<S>,
-    lazy_segtree::Zero<S>
+    more_functional::None<S>
 >;
 /**
  * @brief 区間加算、区間最大値
@@ -521,12 +501,12 @@ using RAddMinQ = StaticLazySegTree<
 template <typename S>
 using RAddMaxQ = StaticLazySegTree<
     S,
-    lazy_segtree::Max<S>,
-    lazy_segtree::MinLimit<S>,
+    more_functional::Max<S>,
+    more_functional::MinLimit<S>,
     S,
     std::plus<S>,
     std::plus<S>,
-    lazy_segtree::Zero<S>
+    more_functional::None<S>
 >;
 /**
  * @brief 区間加算、区間和
@@ -537,11 +517,11 @@ template <typename S>
 using RAddSumQ = StaticLazySegTree<
     S,
     std::plus<S>,
-    lazy_segtree::Zero<S>,
+    more_functional::None<S>,
     S,
     lazy_segtree::AddWithSize<S>,
     std::plus<S>,
-    lazy_segtree::Zero<S>
+    more_functional::None<S>
 >;
 /**
  * @brief 区間変更、区間最小値
@@ -552,12 +532,12 @@ using RAddSumQ = StaticLazySegTree<
 template <typename S>
 using RUpdateMinQ = StaticLazySegTree<
     S,
-    lazy_segtree::Min<S>,
-    lazy_segtree::MaxLimit<S>,
+    more_functional::Min<S>,
+    more_functional::MaxLimit<S>,
     S,
-    lazy_segtree::Update<S, lazy_segtree::MaxLimit<S>{}()>,
-    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,
-    lazy_segtree::MaxLimit<S>
+    lazy_segtree::Update<S, more_functional::MaxLimit<S>{}()>,
+    lazy_segtree::UpdateComposition<S, more_functional::MaxLimit<S>{}()>,
+    more_functional::MaxLimit<S>
 >;
 /**
  * @brief 区間変更、区間最大値
@@ -568,12 +548,12 @@ using RUpdateMinQ = StaticLazySegTree<
 template <typename S>
 using RUpdateMaxQ = StaticLazySegTree<
     S,
-    lazy_segtree::Max<S>,
-    lazy_segtree::MinLimit<S>,
+    more_functional::Max<S>,
+    more_functional::MinLimit<S>,
     S,
-    lazy_segtree::Update<S, lazy_segtree::MaxLimit<S>{}()>,
-    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,
-    lazy_segtree::MaxLimit<S>
+    lazy_segtree::Update<S, more_functional::MaxLimit<S>{}()>,
+    lazy_segtree::UpdateComposition<S, more_functional::MaxLimit<S>{}()>,
+    more_functional::MaxLimit<S>
 >;
 /**
  * @brief 区間変更、区間和
@@ -585,11 +565,11 @@ template <typename S>
 using RUpdateSumQ = StaticLazySegTree<
     S,
     std::plus<S>,
-    lazy_segtree::Zero<S>,
+    more_functional::None<S>,
     S,
-    lazy_segtree::UpdateWithSize<S, lazy_segtree::MaxLimit<S>{}()>,
-    lazy_segtree::UpdateComposition<S, lazy_segtree::MaxLimit<S>{}()>,
-    lazy_segtree::MaxLimit<S>
+    lazy_segtree::UpdateWithSize<S, more_functional::MaxLimit<S>{}()>,
+    lazy_segtree::UpdateComposition<S, more_functional::MaxLimit<S>{}()>,
+    more_functional::MaxLimit<S>
 >;
 
 namespace lazy_segtree {

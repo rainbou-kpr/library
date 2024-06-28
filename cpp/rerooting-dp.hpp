@@ -27,7 +27,6 @@ std::vector<V> rerooting_dp(const Tree<Cost>& tree, E e, Merge merge, AddEdge ad
     static_assert(std::is_invocable_r_v<E, Merge, E, E>);
     static_assert(std::is_invocable_r_v<E, AddEdge, V, Cost, int>);
     static_assert(std::is_invocable_r_v<V, AddNode, E, int>);
-    assert(tree.n > 0);
     RootedTree<Cost> rooted(tree, 0);
     std::vector<V> subdp(rooted.n);
     for (int u : rooted.postorder) {

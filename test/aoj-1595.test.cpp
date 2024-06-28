@@ -5,7 +5,7 @@
 #include "../cpp/rerooting-dp.hpp"
 
 int main() {
-    int N, M;
+    int N;
     std::cin >> N;
     Tree<long long> tree(N);
     tree.read();

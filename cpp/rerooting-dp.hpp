@@ -63,8 +63,8 @@ inline std::vector<Cost> farthest_node_dist(const Tree<Cost>& tree) {
         tree,
         Cost{},
         [](Cost a, Cost b) { return std::max<Cost>(a, b); },
-        [](Cost a, Cost c, int i) { return a + c; },
-        [](Cost a, int i) { return a; });
+        [](Cost a, Cost c, int) { return a + c; },
+        [](Cost a, int) { return a; });
 }
 
 /**
@@ -77,8 +77,8 @@ inline std::vector<Cost> distance_sums(const Tree<Cost>& tree) {
         tree,
         P{{}, 0},
         [](P a, P b) { return P{a.first + b.first, a.second + b.second}; },
-        [](P a, Cost c, int i) { return P{a.first + a.second * c, a.second}; },
-        [](P a, int i) { return P{a.first, a.second + 1}; });
+        [](P a, Cost c, int) { return P{a.first + a.second * c, a.second}; },
+        [](P a, int) { return P{a.first, a.second + 1}; });
     std::vector<Cost> res;
     res.reserve(tree.n);
     for (const P& s : tmp) res.push_back(s.first);
@@ -94,6 +94,6 @@ inline std::vector<V> connected_subgraph_count(const Tree<Cost>& tree) {
         tree,
         V(1),
         [](V a, V b) { return a * b; },
-        [](V a, Cost c, int i) { return a + 1; },
-        [](V a, int i) { return a; });
+        [](V a, Cost c, int) { return a + 1; },
+        [](V a, int) { return a; });
 }

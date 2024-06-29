@@ -44,9 +44,9 @@ std::vector<V> rerooting_dp(const Tree<Cost>& tree, E e, Merge merge, AddEdge ad
             ri[i - 1] = merge(ri[i], addedge(subdp[ch[i - 1].dst], ch[i - 1].cost, ch[i - 1].id));
         }
         dp[u] = addnode(merge(pe[u], ri[0]), u);
-        E le = e;
+        E le = pe[u];
         for (size_t i = 0; i < ch.size(); i++) {
-            pe[ch[i].dst] = addedge(addnode(merge(pe[u], merge(le, ri[i + 1])), u), ch[i].cost, ch[i].id);
+            pe[ch[i].dst] = addedge(addnode(merge(le, ri[i + 1]), u), ch[i].cost, ch[i].id);
             le = merge(le, addedge(subdp[ch[i].dst], ch[i].cost, ch[i].id));
         }
     }

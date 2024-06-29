@@ -6,7 +6,6 @@
  */
 #include <algorithm>
 #include <type_traits>
-
 #include "tree.hpp"
 
 /**
@@ -22,7 +21,7 @@
  * @param addnode (E,int)->V
  * @return std::vector<V>
  */
-template <typename E, typename V, class Merge, class AddEdge, class AddNode, typename Cost>
+template <typename E, typename V = E, class Merge, class AddEdge, class AddNode, typename Cost>
 std::vector<V> rerooting_dp(const Tree<Cost>& tree, E e, Merge merge, AddEdge addedge, AddNode addnode) {
     static_assert(std::is_invocable_r_v<E, Merge, E, E>);
     static_assert(std::is_invocable_r_v<E, AddEdge, V, Cost, int>);
@@ -59,7 +58,7 @@ std::vector<V> rerooting_dp(const Tree<Cost>& tree, E e, Merge merge, AddEdge ad
  */
 template <typename Cost>
 inline std::vector<Cost> farthest_node_dist(const Tree<Cost>& tree) {
-    return rerooting_dp<Cost, Cost>(
+    return rerooting_dp(
         tree,
         Cost{},
         [](Cost a, Cost b) { return std::max<Cost>(a, b); },
@@ -73,7 +72,7 @@ inline std::vector<Cost> farthest_node_dist(const Tree<Cost>& tree) {
 template <typename Cost>
 inline std::vector<Cost> distance_sums(const Tree<Cost>& tree) {
     using P = typename std::pair<Cost, int>;
-    auto tmp = rerooting_dp<P, P>(
+    auto tmp = rerooting_dp(
         tree,
         P{{}, 0},
         [](P a, P b) { return P{a.first + b.first, a.second + b.second}; },
@@ -90,7 +89,7 @@ inline std::vector<Cost> distance_sums(const Tree<Cost>& tree) {
  */
 template <typename V, typename Cost>
 inline std::vector<V> connected_subgraph_count(const Tree<Cost>& tree) {
-    return rerooting_dp<V, V>(
+    return rerooting_dp(
         tree,
         V(1),
         [](V a, V b) { return a * b; },

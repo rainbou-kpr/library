@@ -135,7 +135,6 @@ struct RootedTree : private Tree<Cost> {
     using Tree<Cost>::operator[];
     using Tree<Cost>::edges;
     using Tree<Cost>::shortest_path;
-    using Tree<Cost>::Tree;
 
     int root; //!< 根
     std::vector<Edge> par; //!< 親へ向かう辺
@@ -262,7 +261,6 @@ struct DoublingClimbTree : private RootedTree<Cost> {
     using RootedTree<Cost>::operator[];
     using RootedTree<Cost>::edges;
     using RootedTree<Cost>::shortest_path;
-    using RootedTree<Cost>::RootedTree;
     using RootedTree<Cost>::root;
     using RootedTree<Cost>::par;
     using RootedTree<Cost>::child;
@@ -297,6 +295,34 @@ struct DoublingClimbTree : private RootedTree<Cost> {
     }
     
     /**
+     * @brief 親の頂点のリストから根が0のダブリング済み根付き木を構築するコンストラクタ
+     * 
+     * @param par_ 頂点0以外の親の頂点のリスト
+     * @param padding = -1 parの頂点番号をいくつずらすか
+     */
+    DoublingClimbTree(const std::vector<int>& par_, int padding = -1) : RootedTree<Cost>(par_, padding) {
+        build();
+    }
+    /**
+     * @brief Treeからダブリング済み根付き木を構築するコンストラクタ(コピー)
+     *
+     * @param tree Tree
+     * @param root 根
+     */
+    DoublingClimbTree(const Tree<Cost>& tree, int root) : RootedTree<Cost>(tree, root) {
+        build();
+    }
+    /**
+     * @brief Treeからダブリング済み根付き木を構築するコンストラクタ(ムーブ)
+     *
+     * @param tree Tree
+     * @param root 根
+     */
+    DoublingClimbTree(Tree<Cost>&& tree, int root) : RootedTree<Cost>(std::move(tree), root) {
+        build();
+    }
+    
+    /**
      * @brief 頂点uからk回を根の方向に遡った頂点
      * 
      * @param u 元の頂点
@@ -321,7 +347,6 @@ struct DoublingClimbTree : private RootedTree<Cost> {
     int lca(int u, int v) const {
         if(this->unweighted_depth[u] > this->unweighted_depth[v]) std::swap(u, v);
         v = climb(v, this->unweighted_depth[v] - this->unweighted_depth[u]);
-        if(this->unweighted_depth[u] > this->unweighted_depth[v]) u = climb(u, this->unweighted_depth[u] - this->unweighted_depth[v]);
         if(u == v) return u;
         for(int i = h - 1; i >= 0; i--) {
             int nu = doubling_par[i][u];

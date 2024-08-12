@@ -5,6 +5,7 @@
  * @brief 全方位木DP
  */
 #include <algorithm>
+#include <cstddef>
 #include <type_traits>
 #include "tree.hpp"
 
@@ -40,12 +41,12 @@ std::vector<V> rerooting_dp(const Tree<Cost>& tree, E e, Merge merge, AddEdge ad
     for (int u : rooted.preorder) {
         const auto& ch = rooted.child[u];
         std::vector<E> ri(ch.size() + 1, e);
-        for (size_t i = ch.size(); i > 0; i--) {
+        for (std::size_t i = ch.size(); i > 0; i--) {
             ri[i - 1] = merge(ri[i], addedge(subdp[ch[i - 1].dst], ch[i - 1].cost, ch[i - 1].id));
         }
         dp[u] = addnode(merge(pe[u], ri[0]), u);
         E le = pe[u];
-        for (size_t i = 0; i < ch.size(); i++) {
+        for (std::size_t i = 0; i < ch.size(); i++) {
             pe[ch[i].dst] = addedge(addnode(merge(le, ri[i + 1]), u), ch[i].cost, ch[i].id);
             le = merge(le, addedge(subdp[ch[i].dst], ch[i].cost, ch[i].id));
         }

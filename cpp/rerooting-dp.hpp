@@ -10,7 +10,7 @@
 
 /**
  * @brief 全方位木DP
- * dp[u] = addnode(merge(addedge(dp[v1], g_uv1, uv1.id), merge(addedge(dp[v2], g_uv2, uv2.id), ...)), u) v_iはuの子
+ * dp[u] = addnode(merge(addedge(dp[v1], uv1.cost, uv1.id), merge(addedge(dp[v2], uv2.cost, uv2.id), ...)), u) v_iはuの子
  *
  * @tparam E 可換モノイド
  * @tparam V DPの型

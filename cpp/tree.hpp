@@ -374,7 +374,7 @@ struct DoublingClimbTree : private RootedTree<Cost> {
 private:
     void build() {
         int n = this->n;
-        h = 0;
+        h = 1;
         while((1 << h) < n) h++;
         doubling_par.assign(h, std::vector<int>(n, -1));
         for(int i = 0; i < n; i++) doubling_par[0][i] = this->par[i];

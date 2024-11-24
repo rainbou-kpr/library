@@ -53,7 +53,7 @@ struct FunctionalGraph {
                     depth[v[j]] = k - j;
                     connected_list.back().push_back(v[j]);
                 }
-                for (int j = k; j < v.size(); j++) {
+                for (int j = k; j < (int)v.size(); j++) {
                     is_cycle[v[j]] = true;
                     root[v[j]] = v[j];
                     cycle_list.back().push_back(v[j]);
@@ -63,7 +63,7 @@ struct FunctionalGraph {
                     connected_list.back().push_back(v[j]);
                 }
             } else {
-                for (int j = 0; j < v.size(); j++) {
+                for (int j = 0; j < (int)v.size(); j++) {
                     is_cycle[v[j]] = false;
                     root[v[j]] = root[u];
                     root_idx[v[j]] = root_idx[u];
@@ -83,7 +83,7 @@ struct FunctionalGraph {
         for (int k = 0; !tmp.empty(); k++) {
             std::vector<int> next_tmp;
             for (int i : tmp) {
-                if (k < doubling[doubling[i][k]].size()) {
+                if (k < (int)doubling[doubling[i][k]].size()) {
                     doubling[i].push_back(doubling[doubling[i][k]][k]);
                     next_tmp.push_back(i);
                 }
@@ -132,7 +132,7 @@ struct FunctionalGraph {
             x = root[x];
             k %= cycle_list[connected_id[x]].size();
             int y = root_idx[x] + k;
-            if (cycle_list[connected_id[x]].size() <= y) {
+            if ((int)cycle_list[connected_id[x]].size() <= y) {
                 y -= cycle_list[connected_id[x]].size();
             }
             return cycle_list[connected_id[x]][y];
@@ -149,6 +149,6 @@ struct FunctionalGraph {
      * @brief 頂点xから0回以上の移動でたどり着ける頂点の個数
      */
     int hopable(int x) const {
-        return depth[x] + cycle_list[connected_id[x]].size();
+        return depth[x] + (int)cycle_list[connected_id[x]].size();
     }
 };

@@ -75,13 +75,13 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
 
     std::vector<T>& operator [] (int i) {return v[i];}
     const std::vector<T>& operator [] (int i) const {return v[i];}
-    Matrix<T>& operator = (const std::vector<std::vector<T>> &A) noexcept {
+    Matrix& operator = (const std::vector<std::vector<T>> &A) noexcept {
         n = A.size();
         m = (n == 0 ? 0 : A[0].size());
         v = A;
         return *this;
     }
-    bool operator == (const Matrix<T> &A) noexcept {
+    bool operator == (const Matrix &A) noexcept {
         return this->v == A.v;
     }
 
@@ -273,7 +273,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
     */
     Matrix &operator*=(const Matrix &B) {
         int p = B[0].size();
-        Matrix<T> C(n, p);
+        Matrix C(n, p);
         for(int i = 0; i < n; i ++) {
             for(int k = 0; k < m; k ++) {
                 for(int j = 0; j < p; j ++) {
@@ -293,7 +293,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
     */
     [[nodiscard]]
     Matrix pow(long long k) const {
-        Matrix<T> A = *this, B(n, n);
+        Matrix A = *this, B(n, n);
         for(int i = 0; i < n; i ++) B[i][i] = OperatorProperty::one();
         while(k > 0) {
             if(k & 1) B *= A;
@@ -312,7 +312,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
 
     /**
      * @brief 行列Aと列ベクトルBの積
-     * @param A Matrix<T>
+     * @param A Matrix
      * @param B vector<T>
      * @return vector<T> 列ベクトル
     */
@@ -330,7 +330,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
     /**
      * @brief 行ベクトルAと行列Bの積
      * @param A vector<T>
-     * @param B Matrix<T>
+     * @param B Matrix
      * @return vector<T> 行ベクトル
     */
     [[nodiscard]]
@@ -382,7 +382,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
                     A[j] -= A[i] * A[j][i];
                 }
             }
-            Matrix<T> ret(n, n);
+            Matrix ret(n, n);
             for(int i = 0; i < n; i ++) for(int j = 0; j < n; j ++) ret[i][j] = A[i][n+j];
             return ret;
         } else {
@@ -399,7 +399,7 @@ template<class T, class OperatorProperty = matrix::OperatorPropertyDefault<T>> s
                     }
                 }
             }
-            Matrix<T> ret(n, n);
+            Matrix ret(n, n);
             for(int i = 0; i < n; i ++) for(int j = 0; j < n; j ++) ret[i][j] = A[i][n+j];
             return ret;
         }

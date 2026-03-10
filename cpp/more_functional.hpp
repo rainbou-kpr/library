@@ -18,6 +18,10 @@ template <typename S>
 struct Min {
     const S operator()(const S& a, const S& b) const { return std::min(a, b); }
 };
+template <typename S>
+struct MinMax {
+    const std::pair<S, S> operator()(const std::pair<S, S>& a, const std::pair<S, S>& b) const { return {std::min(a.first, b.first), std::max(a.second, b.second)}; }
+};
 template <typename S, std::enable_if_t<std::is_integral_v<S>>* = nullptr>
 struct Gcd {
     constexpr S operator()(const S& a, const S& b) const { return std::gcd(a, b); }
@@ -41,6 +45,10 @@ struct MaxLimit {
 template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
 struct MinLimit {
     constexpr S operator()() const { return std::numeric_limits<S>::lowest(); }
+};
+template <typename S, std::enable_if_t<std::is_scalar_v<S>>* = nullptr>
+struct MaxMinLimit {
+    constexpr std::pair<S, S> operator()() const { return {std::numeric_limits<S>::max(), std::numeric_limits<S>::lowest()}; }
 };
 template <typename S>
 struct Div {

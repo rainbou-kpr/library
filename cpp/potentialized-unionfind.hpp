@@ -4,6 +4,7 @@
  * @file potentialized-unionfind.hpp
  * @brief ポテンシャル付きUnionFind
  */
+#include <algorithm>
 #include <cassert>
 #include <functional>
 #include <stack>
